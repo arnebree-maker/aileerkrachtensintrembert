@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI-Cursus — Scholengroep Sint-Rembert</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#0A1FA8;--blue-d:#081599;--green:#7FE000;--green-d:#6BC400;
+  --white:#fff;--off:#F4F6FF;--gray:#E8ECF8;--text:#0d1a5c;--muted:#6472a8;
+  --red:#E02020;--orange:#f97316;--teal:#0891b2;--radius:18px;--rsm:12px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Nunito',sans-serif;background:var(--off);color:var(--text);min-height:100vh;overflow-x:hidden}
+#app{display:grid;grid-template-columns:290px 1fr;min-height:100vh}
+
+/* SIDEBAR */
+#sidebar{background:var(--blue);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sb-logo{padding:24px 24px 16px;border-bottom:2px solid rgba(255,255,255,.1)}
+.sb-badge{display:inline-flex;align-items:center;gap:6px;background:var(--green);border-radius:6px;padding:4px 10px;margin-bottom:10px}
+.sb-badge span{font-family:'Archivo Black',sans-serif;font-size:11px;color:var(--blue);text-transform:uppercase;letter-spacing:1px}
+.sb-title{font-family:'Archivo Black',sans-serif;font-size:20px;color:white;text-transform:uppercase;line-height:1.2}
+.sb-title em{color:var(--green);font-style:normal}
+.sb-sub{font-size:11px;color:rgba(255,255,255,.4);margin-top:5px}
+.prog-wrap{padding:16px 24px;border-bottom:1px solid rgba(255,255,255,.08)}
+.prog-label{display:flex;justify-content:space-between;font-size:11px;font-weight:800;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:7px}
+.prog-label span{color:var(--green)}
+.prog-track{height:7px;background:rgba(255,255,255,.1);border-radius:4px;overflow:hidden}
+.prog-fill{height:100%;background:var(--green);border-radius:4px;transition:width .5s ease}
+.nav-sec{padding:12px 0}
+.nav-lbl{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,.3);padding:0 24px 7px}
+.ni{display:flex;align-items:center;gap:10px;padding:9px 24px;cursor:pointer;transition:all .2s;border-left:3px solid transparent}
+.ni:hover{background:rgba(255,255,255,.07);border-left-color:rgba(127,224,0,.3)}
+.ni.active{background:rgba(127,224,0,.12);border-left-color:var(--green)}
+.ni-icon{width:32px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.ni.locked .ni-icon{background:rgba(255,255,255,.05);opacity:.45}
+.ni.available .ni-icon,.ni.active .ni-icon{background:rgba(127,224,0,.18)}
+.ni.done .ni-icon{background:rgba(127,224,0,.25)}
+.ni-info{flex:1;min-width:0}
+.ni-title{font-size:12px;font-weight:800;color:white;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ni-sub{font-size:10px;color:rgba(255,255,255,.35);font-weight:600;margin-top:1px}
+.ni.locked .ni-title{color:rgba(255,255,255,.3)}
+.ni-badge{font-size:11px;flex-shrink:0}
+.sb-bot{margin-top:auto;padding:14px 24px;border-top:1px solid rgba(255,255,255,.08)}
+.uc{display:flex;align-items:center;gap:9px}
+.av{width:36px;height:36px;border-radius:9px;background:var(--green);display:flex;align-items:center;justify-content:center;font-family:'Archivo Black',sans-serif;font-size:15px;color:var(--blue);flex-shrink:0}
+.un-inp{background:transparent;border:none;color:white;font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;width:100%;cursor:pointer;outline:none;text-transform:uppercase}
+.un-inp::placeholder{color:rgba(255,255,255,.25);text-transform:none;font-weight:600}
+.eh{font-size:10px;color:rgba(255,255,255,.25)}
+
+/* MAIN */
+#main{overflow-y:auto;min-height:100vh}
+.view{display:none;animation:fi .35s ease}
+.view.active{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* HERO */
+.hero{background:var(--blue);padding:52px 52px 44px;position:relative;overflow:hidden}
+.hero::after{content:'AI-SPELREGELS';position:absolute;right:-20px;top:50%;transform:translateY(-50%) rotate(12deg);font-family:'Archivo Black',sans-serif;font-size:90px;color:rgba(255,255,255,.04);pointer-events:none;white-space:nowrap}
+.hero-ey{display:inline-flex;align-items:center;gap:7px;background:var(--green);border-radius:5px;padding:4px 12px;margin-bottom:18px}
+.hero-ey span{font-family:'Archivo Black',sans-serif;font-size:11px;color:var(--blue);text-transform:uppercase;letter-spacing:1.5px}
+.hero-h1{font-family:'Archivo Black',sans-serif;font-size:42px;color:white;line-height:1.05;text-transform:uppercase;margin-bottom:12px}
+.hero-h1 .g{color:var(--green)}
+.hero-p{color:rgba(255,255,255,.65);font-size:14px;line-height:1.7;max-width:520px;margin-bottom:28px;font-weight:600}
+.hero-stats{display:flex}
+.hs{text-align:center;padding:14px 24px;background:rgba(255,255,255,.08);border-right:1px solid rgba(255,255,255,.1)}
+.hs:first-child{border-radius:10px 0 0 10px}
+.hs:last-child{border-right:none;border-radius:0 10px 10px 0}
+.hs-num{font-family:'Archivo Black',sans-serif;font-size:26px;color:var(--green)}
+.hs-lbl{font-size:10px;color:rgba(255,255,255,.4);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+
+/* SECTION */
+.sw{padding:36px 52px}
+.sw-title{font-family:'Archivo Black',sans-serif;font-size:20px;color:var(--blue);text-transform:uppercase;margin-bottom:5px}
+.sw-title em{color:var(--green);font-style:normal}
+.sw-sub{font-size:13px;color:var(--muted);font-weight:600;margin-bottom:24px}
+
+/* VISION BOX */
+.vision-box{background:var(--blue);border-radius:var(--radius);padding:28px 32px;margin-bottom:20px;position:relative;overflow:hidden}
+.vision-box::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--green),#38bdf8)}
+.vision-title{font-family:'Archivo Black',sans-serif;font-size:16px;color:var(--green);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px}
+.vision-text{font-size:14px;color:rgba(255,255,255,.75);line-height:1.8;font-weight:600}
+.vision-text strong{color:white}
+
+/* SPELREGELS */
+.sr-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
+.sr-box{border-radius:var(--radius);padding:22px}
+.sr-box.wel{background:var(--green)}
+.sr-box.niet{background:white;border:2px solid var(--blue)}
+.sr-box-title{font-family:'Archivo Black',sans-serif;font-size:16px;text-transform:uppercase;margin-bottom:14px;color:var(--blue)}
+.sri{display:flex;align-items:flex-start;gap:9px;margin-bottom:9px;font-size:13px;font-weight:700;line-height:1.4;color:var(--blue)}
+.sr-chk{width:20px;height:20px;border-radius:50%;background:var(--blue);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;font-weight:900}
+.sr-x{width:20px;height:20px;border-radius:50%;background:var(--red);color:white;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;font-weight:900}
+.sr-x-item{color:var(--red)}
+
+/* MODULE CARDS */
+.mods-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.mc{background:white;border:2px solid var(--gray);border-radius:var(--radius);padding:24px;cursor:pointer;transition:all .25s;position:relative;overflow:hidden}
+.mc::before{content:'';position:absolute;top:0;left:0;right:0;height:5px;background:var(--blue);transition:background .25s}
+.mc:hover{border-color:var(--blue);transform:translateY(-3px);box-shadow:0 14px 36px rgba(10,31,168,.13)}
+.mc.locked{opacity:.55;cursor:not-allowed}
+.mc.locked:hover{transform:none;box-shadow:none;border-color:var(--gray)}
+.mc.done::before{background:var(--green)}
+.mc.done{border-color:var(--green)}
+.mc-badge{display:inline-flex;align-items:center;background:var(--blue);color:white;border-radius:5px;padding:3px 9px;font-family:'Archivo Black',sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+.mc.done .mc-badge{background:var(--green);color:var(--blue)}
+.mc-icon{font-size:32px;margin-bottom:10px}
+.mc-title{font-family:'Archivo Black',sans-serif;font-size:14px;color:var(--blue);text-transform:uppercase;line-height:1.3;margin-bottom:8px}
+.mc-desc{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:16px;font-weight:600}
+.mc-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.mc-dur{font-size:11px;color:var(--muted);font-weight:700}
+.mc-stat{font-size:11px;font-weight:800;text-transform:uppercase}
+.mc-stat.ok{color:var(--green)}
+.mc-stat.locked{color:var(--muted)}
+.sr-btn{display:inline-flex;align-items:center;gap:5px;background:var(--blue);color:white;border:none;padding:10px 18px;border-radius:99px;font-family:'Archivo Black',sans-serif;font-size:11px;cursor:pointer;transition:all .2s;text-transform:uppercase;letter-spacing:.5px}
+.sr-btn:hover{background:var(--blue-d);transform:scale(1.03)}
+.sr-btn:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.sr-btn.g{background:var(--green);color:var(--blue)}
+.sr-btn.g:hover{background:var(--green-d)}
+
+/* MODULE HEADER */
+.mh{background:var(--blue);padding:24px 52px;display:flex;align-items:center;gap:18px}
+.bk{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.15);color:white;border-radius:7px;padding:7px 14px;cursor:pointer;font-family:'Archivo Black',sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:.5px;transition:all .2s}
+.bk:hover{background:rgba(255,255,255,.18)}
+.mh-info{flex:1}
+.mh-num{font-size:10px;font-weight:800;color:var(--green);text-transform:uppercase;letter-spacing:2px;margin-bottom:3px}
+.mh-title{font-family:'Archivo Black',sans-serif;font-size:20px;color:white;text-transform:uppercase}
+.dots{display:flex;gap:5px;align-items:center}
+.dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.18);transition:all .3s}
+.dot.done{background:var(--green)}
+.dot.active{background:var(--green);transform:scale(1.4);box-shadow:0 0 0 3px rgba(127,224,0,.25)}
+
+/* CONTENT */
+.mc-content{padding:36px 52px;max-width:820px}
+.s-badge{display:inline-flex;align-items:center;gap:7px;background:var(--blue);color:white;border-radius:5px;padding:4px 12px;font-family:'Archivo Black',sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px}
+.ch2{font-family:'Archivo Black',sans-serif;font-size:26px;color:var(--blue);text-transform:uppercase;line-height:1.2;margin-bottom:10px}
+.ch2 em{color:var(--green);font-style:normal}
+.ch3{font-family:'Archivo Black',sans-serif;font-size:16px;color:var(--blue);text-transform:uppercase;margin-bottom:10px;margin-top:24px}
+.cp{color:#3d4f8a;line-height:1.8;font-size:14px;margin-bottom:10px;font-weight:600}
+.cp strong{color:var(--blue)}
+
+/* VIDEO */
+.vc{background:white;border:2px solid var(--gray);border-radius:var(--radius);overflow:hidden;margin:18px 0;box-shadow:0 4px 14px rgba(10,31,168,.07)}
+.vt{aspect-ratio:16/9;background:linear-gradient(135deg,var(--blue),#1a34c8);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;cursor:pointer;position:relative;transition:opacity .2s}
+.vt:hover{opacity:.9}
+.pr{width:64px;height:64px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:22px;padding-left:4px;transition:transform .2s}
+.vt:hover .pr{transform:scale(1.08)}
+.vl{font-family:'Archivo Black',sans-serif;font-size:12px;color:rgba(255,255,255,.75);text-transform:uppercase;letter-spacing:.5px}
+.vd{font-size:11px;color:rgba(255,255,255,.45);background:rgba(0,0,0,.4);padding:3px 8px;border-radius:4px;position:absolute;bottom:10px;right:10px;font-weight:700}
+.vf{padding:12px 18px;display:flex;justify-content:space-between;align-items:center;border-top:2px solid var(--gray)}
+.vf-t{font-family:'Archivo Black',sans-serif;font-size:12px;color:var(--blue);text-transform:uppercase}
+.vf-h{font-size:11px;color:var(--muted);font-weight:700}
+
+/* YT EMBED */
+.yt-wrap{border-radius:var(--radius);overflow:hidden;margin:18px 0;position:relative;padding-bottom:56.25%;height:0;background:var(--blue)}
+.yt-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
+
+/* INFO BOX */
+.ib{border-radius:var(--rsm);padding:16px 20px;margin:14px 0;border-left:5px solid}
+.ib.tip{background:#EBF9FF;border-color:var(--teal)}
+.ib.warn{background:#FFF7ED;border-color:var(--orange)}
+.ib.ok{background:#F0FDF4;border-color:var(--green)}
+.ib.sr{background:rgba(10,31,168,.06);border-color:var(--blue)}
+.ib.red{background:rgba(224,32,32,.05);border-color:var(--red)}
+.ib-t{font-family:'Archivo Black',sans-serif;font-size:12px;color:var(--blue);text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px}
+.ib-b{font-size:13px;color:#3d4f8a;line-height:1.7;font-weight:600}
+
+/* PROMPT */
+.ps{background:var(--blue);border-radius:var(--rsm);padding:18px 22px;margin:14px 0}
+.ph{font-family:'Archivo Black',sans-serif;font-size:10px;color:var(--green);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px}
+.pb{font-size:13px;line-height:1.8;color:rgba(255,255,255,.88);white-space:pre-wrap;font-family:monospace}
+
+/* AI LABELS */
+.labels-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:16px 0}
+.label-card{border-radius:var(--rsm);padding:14px 10px;text-align:center;font-size:11px;font-weight:800;border:2px solid transparent}
+.label-card .lc-num{font-family:'Archivo Black',sans-serif;font-size:22px;margin-bottom:6px}
+.label-card .lc-name{text-transform:uppercase;letter-spacing:.5px;line-height:1.3}
+.l1{background:#fee2e2;border-color:#fca5a5;color:#991b1b}
+.l2{background:#ffedd5;border-color:#fdba74;color:#9a3412}
+.l3{background:#fef9c3;border-color:#fde047;color:#854d0e}
+.l4{background:#d1fae5;border-color:#6ee7b7;color:#065f46}
+.l5{background:#dcfce7;border-color:#86efac;color:#14532d}
+
+/* TOOLS ZONES */
+.tz{border-radius:var(--rsm);padding:14px 18px;margin-bottom:10px}
+.tz.g{background:rgba(127,224,0,.12);border:2px solid var(--green)}
+.tz.o{background:#FFF7ED;border:2px solid var(--orange)}
+.tz.gr{background:var(--gray);border:2px solid #d1d5db}
+.tz-title{font-family:'Archivo Black',sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.tz.g .tz-title{color:var(--blue)}
+.tz.o .tz-title{color:#c2410c}
+.tz.gr .tz-title{color:#6b7280}
+.tz-tools{display:flex;flex-wrap:wrap;gap:7px}
+.tt{background:white;border-radius:5px;padding:4px 10px;font-size:11px;font-weight:800;color:var(--blue);box-shadow:0 2px 4px rgba(0,0,0,.07)}
+.tz.g .tt{background:var(--green);color:var(--blue)}
+.tz.o .tt{background:#fed7aa;color:#9a3412}
+
+/* BOUWSTENEN */
+.bws{display:flex;flex-direction:column;gap:9px;margin:16px 0}
+.bw{display:flex;align-items:flex-start;gap:12px;background:white;border:2px solid var(--gray);border-radius:var(--rsm);padding:14px;transition:border-color .2s}
+.bw:hover{border-color:var(--blue)}
+.bw-num{width:34px;height:34px;border-radius:7px;background:var(--blue);color:var(--green);display:flex;align-items:center;justify-content:center;font-family:'Archivo Black',sans-serif;font-size:15px;flex-shrink:0}
+.bw-lbl{font-family:'Archivo Black',sans-serif;font-size:12px;color:var(--blue);text-transform:uppercase;margin-bottom:2px}
+.bw-desc{font-size:12px;color:var(--muted);font-weight:600;line-height:1.5}
+
+/* QUIZ */
+.qc{background:white;border:2px solid var(--blue);border-radius:var(--radius);padding:28px;margin:24px 0;box-shadow:0 4px 18px rgba(10,31,168,.09)}
+.qh{display:flex;align-items:center;gap:12px;margin-bottom:24px;padding-bottom:18px;border-bottom:2px solid var(--gray)}
+.qi{width:42px;height:42px;border-radius:9px;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.qt{font-family:'Archivo Black',sans-serif;font-size:15px;color:var(--blue);text-transform:uppercase;margin-bottom:2px}
+.qs{font-size:11px;color:var(--muted);font-weight:700}
+.qb{margin-bottom:24px}
+.qq{font-family:'Archivo Black',sans-serif;font-size:13px;color:var(--blue);text-transform:uppercase;margin-bottom:12px;line-height:1.5}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:center;gap:10px;background:var(--off);border:2px solid var(--gray);border-radius:var(--rsm);padding:12px 16px;cursor:pointer;transition:all .2s;text-align:left;width:100%;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;color:var(--text)}
+.opt:hover{border-color:var(--blue);background:rgba(10,31,168,.04)}
+.opt.sel{border-color:var(--blue);background:rgba(10,31,168,.07)}
+.opt.cor{border-color:var(--green);background:rgba(127,224,0,.1);color:var(--blue)}
+.opt.wr{border-color:var(--red);background:rgba(224,32,32,.07);color:var(--red)}
+.ol{width:26px;height:26px;border-radius:6px;background:white;border:2px solid var(--gray);display:flex;align-items:center;justify-content:center;font-family:'Archivo Black',sans-serif;font-size:11px;flex-shrink:0}
+.opt.sel .ol{background:var(--blue);color:white;border-color:var(--blue)}
+.opt.cor .ol{background:var(--green);color:var(--blue);border-color:var(--green)}
+.opt.wr .ol{background:var(--red);color:white;border-color:var(--red)}
+.fb{padding:10px 14px;border-radius:7px;font-size:12px;font-weight:700;margin-top:7px;display:none;line-height:1.5}
+.fb.show{display:block}
+.fb.ok{background:rgba(127,224,0,.15);border:2px solid var(--green);color:#2d6a00}
+.fb.nok{background:rgba(224,32,32,.07);border:2px solid var(--red);color:var(--red)}
+.q-next{background:var(--blue);color:white;border:none;padding:13px 28px;border-radius:99px;font-family:'Archivo Black',sans-serif;font-size:12px;text-transform:uppercase;letter-spacing:.5px;cursor:pointer;transition:all .2s;margin-top:6px}
+.q-next:hover{background:var(--blue-d);transform:scale(1.02)}
+.q-next:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.q-res{text-align:center;padding:20px 0;display:none}
+.q-res.show{display:block}
+.q-score{font-family:'Archivo Black',sans-serif;font-size:48px;margin-bottom:7px}
+.q-score.pass{color:var(--green)}
+.q-score.fail{color:var(--red)}
+.q-msg{font-size:14px;color:var(--muted);font-weight:700;margin-bottom:16px}
+
+/* SCENARIO */
+.scb{background:white;border:2px solid var(--blue);border-radius:var(--radius);padding:22px;margin:14px 0}
+.sc-title{font-family:'Archivo Black',sans-serif;font-size:11px;color:var(--blue);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px}
+.sc-text{font-size:13px;font-weight:700;color:var(--text);background:var(--off);border-radius:7px;padding:12px;border-left:4px solid var(--blue);margin-bottom:14px;line-height:1.7}
+.sc-choices{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.sc-choice{background:var(--off);border:2px solid var(--gray);border-radius:7px;padding:12px;cursor:pointer;transition:all .2s;font-size:12px;font-weight:700;line-height:1.5;text-align:left;font-family:'Nunito',sans-serif;color:var(--text)}
+.sc-choice:hover{border-color:var(--blue)}
+.sc-choice.sg{border-color:var(--green);background:rgba(127,224,0,.1);color:#2d6a00}
+.sc-choice.sb{border-color:var(--red);background:rgba(224,32,32,.06);color:var(--red)}
+
+/* NEXT */
+.nw{padding:28px 0;display:flex;align-items:center;gap:14px;border-top:2px solid var(--gray);margin-top:28px}
+.nh{font-size:12px;color:var(--muted);font-weight:700}
+
+/* SMARTSCHOOL BOX */
+.ss-box{background:linear-gradient(135deg,#f97316,#dc2626);border-radius:var(--radius);padding:28px 32px;margin:24px 0;position:relative;overflow:hidden}
+.ss-box::before{content:'S';position:absolute;right:-10px;top:50%;transform:translateY(-50%);font-family:'Archivo Black',sans-serif;font-size:120px;color:rgba(255,255,255,.08);pointer-events:none}
+.ss-title{font-family:'Archivo Black',sans-serif;font-size:20px;color:white;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:10px}
+.ss-steps{counter-reset:ss;display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.ss-step{display:flex;align-items:flex-start;gap:12px;background:rgba(255,255,255,.12);border-radius:10px;padding:14px 16px}
+.ss-step-num{width:28px;height:28px;border-radius:50%;background:white;color:#dc2626;font-family:'Archivo Black',sans-serif;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ss-step-text{font-size:13px;font-weight:700;color:white;line-height:1.5}
+
+/* LEERLINGEN BOX */
+.ll-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:16px 0}
+.ll-card{background:white;border:2px solid var(--gray);border-radius:var(--rsm);padding:16px;transition:border-color .2s}
+.ll-card:hover{border-color:var(--blue)}
+.ll-icon{font-size:24px;margin-bottom:8px}
+.ll-title{font-family:'Archivo Black',sans-serif;font-size:12px;color:var(--blue);text-transform:uppercase;margin-bottom:5px}
+.ll-desc{font-size:12px;color:var(--muted);line-height:1.5;font-weight:600}
+
+/* COPILOT OEFENING */
+.cop-oef{background:rgba(10,31,168,.05);border:2px solid var(--blue);border-radius:var(--radius);padding:22px;margin:16px 0}
+.cop-title{font-family:'Archivo Black',sans-serif;font-size:13px;color:var(--blue);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.cop-steps{display:flex;flex-direction:column;gap:9px}
+.cop-step{display:flex;align-items:flex-start;gap:10px;font-size:13px;font-weight:700;color:var(--text);line-height:1.5}
+.cop-step-n{width:24px;height:24px;border-radius:50%;background:var(--blue);color:white;font-family:'Archivo Black',sans-serif;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+
+/* CERT */
+#cert-view{display:none;padding:48px}
+#cert-view.active{display:block;background:var(--off)}
+.cert-wrap{max-width:700px;margin:0 auto;text-align:center}
+.cert-fire{font-size:48px;margin-bottom:16px;animation:bounce .7s ease infinite alternate}
+@keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-12px)}}
+.cert-box{background:white;border:3px solid var(--blue);border-radius:22px;padding:48px;position:relative;overflow:hidden;margin:20px 0;box-shadow:0 8px 36px rgba(10,31,168,.11)}
+.cert-box::before{content:'';position:absolute;top:0;left:0;right:0;height:7px;background:linear-gradient(90deg,var(--blue),var(--green),var(--blue))}
+.cert-wm{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Archivo Black',sans-serif;font-size:90px;color:rgba(10,31,168,.04);white-space:nowrap;text-transform:uppercase;pointer-events:none}
+.cert-school{font-family:'Archivo Black',sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:3px;color:var(--muted);margin-bottom:14px}
+.cert-title{font-family:'Archivo Black',sans-serif;font-size:30px;color:var(--blue);text-transform:uppercase;margin-bottom:20px;line-height:1.2}
+.cert-title em{color:var(--green);font-style:normal}
+.cert-dec{font-size:13px;color:var(--muted);font-weight:700;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+.cert-name{font-family:'Archivo Black',sans-serif;font-size:30px;color:var(--blue);margin-bottom:20px;border-bottom:3px solid var(--green);padding-bottom:14px}
+.cert-desc{font-size:13px;color:#3d4f8a;line-height:1.7;font-weight:600;margin-bottom:24px}
+.cert-comps{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:18px 0;text-align:left}
+.cert-comp{background:var(--off);border:2px solid var(--gray);border-radius:7px;padding:8px 11px;font-size:11px;font-weight:700;display:flex;align-items:center;gap:5px;color:var(--text)}
+.cert-comp .ck{color:var(--green);font-weight:900;font-size:13px}
+.cert-meta{display:flex;justify-content:space-between;border-top:2px solid var(--gray);padding-top:18px;margin-top:16px}
+.cm-i{text-align:center}
+.cm-lbl{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:800;margin-bottom:3px}
+.cm-val{font-size:12px;font-weight:800;color:var(--blue)}
+.cert-sr{display:inline-flex;align-items:center;gap:5px;background:var(--blue);border-radius:6px;padding:5px 12px;margin-top:7px}
+.cert-sr span{font-family:'Archivo Black',sans-serif;font-size:11px;color:white;text-transform:uppercase;letter-spacing:.5px}
+.cert-sr em{color:var(--green);font-style:normal}
+.print-btn{display:inline-flex;align-items:center;gap:7px;background:var(--green);color:var(--blue);border:none;padding:14px 32px;border-radius:99px;font-family:'Archivo Black',sans-serif;font-size:13px;text-transform:uppercase;letter-spacing:.5px;cursor:pointer;transition:all .2s;margin-top:14px}
+.print-btn:hover{background:var(--green-d);transform:scale(1.03)}
+
+/* TEXTAREA */
+.sr-ta{width:100%;background:var(--off);border:2px solid var(--gray);border-radius:var(--rsm);color:var(--text);font-family:'Nunito',sans-serif;font-size:13px;font-weight:600;padding:12px;resize:vertical;min-height:100px;outline:none;transition:border-color .2s}
+.sr-ta:focus{border-color:var(--blue)}
+
+/* DRAG */
+.di{display:flex;align-items:center;gap:10px;background:white;border:2px solid var(--gray);border-radius:var(--rsm);padding:11px 16px;margin-bottom:7px;cursor:grab;font-size:13px;font-weight:700;color:var(--text);transition:all .2s;user-select:none}
+.di:active{cursor:grabbing;box-shadow:0 6px 20px rgba(10,31,168,.18)}
+.di.dragging{opacity:.3;border-style:dashed}
+.di.over{border-color:var(--blue)}
+.dh{color:var(--muted);font-size:16px}
+
+.rv-btn{background:transparent;border:2px solid var(--blue);color:var(--blue);border-radius:7px;padding:7px 14px;cursor:pointer;font-family:'Archivo Black',sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:.5px;transition:all .2s;margin-top:10px}
+.rv-btn:hover{background:var(--blue);color:white}
+
+/* UPLOAD CTA */
+.upload-cta{background:linear-gradient(135deg,#1e3a8a,#1e40af);border-radius:var(--radius);padding:24px 28px;margin:24px 0;display:flex;align-items:center;gap:20px}
+.upload-icon{font-size:36px;flex-shrink:0}
+.upload-text-title{font-family:'Archivo Black',sans-serif;font-size:16px;color:white;text-transform:uppercase;margin-bottom:6px}
+.upload-text-body{font-size:13px;color:rgba(255,255,255,.7);font-weight:600;line-height:1.6}
+</style>
+</head>
+<body>
+<div id="app">
+<aside id="sidebar">
+  <div class="sb-logo">
+    <div class="sb-badge"><span>Sint-Rembert</span></div>
+    <div class="sb-title">AI-<em>Cursus</em><br>Leerkrachten</div>
+    <div class="sb-sub">Scholengroep Sint-Rembert · Copilot M365</div>
+  </div>
+  <div class="prog-wrap">
+    <div class="prog-label">Voortgang <span id="pct">0%</span></div>
+    <div class="prog-track"><div class="prog-fill" id="pb" style="width:0%"></div></div>
+  </div>
+  <div class="nav-sec">
+    <div class="nav-lbl">Menu</div>
+    <div class="ni active" onclick="sv('home')" id="nav-home"><div class="ni-icon">🏠</div><div class="ni-info"><div class="ni-title">Overzicht</div><div class="ni-sub">Startpagina & visie</div></div></div>
+  </div>
+  <div class="nav-sec">
+    <div class="nav-lbl">Modules</div>
+    <div class="ni available" onclick="sm(1)" id="nav-mod1"><div class="ni-icon">🤖</div><div class="ni-info"><div class="ni-title">Wat is AI?</div><div class="ni-sub">± 60 min · Module 1</div></div><span class="ni-badge" id="l1">›</span></div>
+    <div class="ni locked" onclick="tm(2)" id="nav-mod2"><div class="ni-icon">✨</div><div class="ni-info"><div class="ni-title">Copilot in praktijk</div><div class="ni-sub">± 75 min · Module 2</div></div><span class="ni-badge" id="l2">🔒</span></div>
+    <div class="ni locked" onclick="tm(3)" id="nav-mod3"><div class="ni-icon">🛡️</div><div class="ni-info"><div class="ni-title">Beleid & Leerlingen</div><div class="ni-sub">± 45 min · Module 3</div></div><span class="ni-badge" id="l3">🔒</span></div>
+    <div class="ni locked" onclick="tryC()" id="nav-cert"><div class="ni-icon">🏆</div><div class="ni-info"><div class="ni-title">Certificaat</div><div class="ni-sub">Na alle modules</div></div><span class="ni-badge" id="lc">🔒</span></div>
+  </div>
+  <div class="sb-bot">
+    <div class="uc">
+      <div class="av" id="av">?</div>
+      <div style="flex:1"><input class="un-inp" id="un" placeholder="Vul je naam in" onchange="sn()" oninput="ua()"><div class="eh">Voortgang bijgehouden</div></div>
+    </div>
+  </div>
+</aside>
+
+<main id="main">
+
+<!-- HOME -->
+<div class="view active" id="view-home">
+  <div class="hero">
+    <div class="hero-ey"><span>Scholengroep Sint-Rembert × Microsoft Copilot</span></div>
+    <h1 class="hero-h1">Word <span class="g">AI-Geletterd</span><br>in 3 modules</h1>
+    <p class="hero-p">Ontdek AI, Copilot M365 en ons schoolbeleid — verantwoord, praktisch en conform de EU AI Act. Je werkt in eigen tempo en ontvangt een certificaat.</p>
+    <div class="hero-stats">
+      <div class="hs"><div class="hs-num">3</div><div class="hs-lbl">Modules</div></div>
+      <div class="hs"><div class="hs-num">≤3u</div><div class="hs-lbl">Studieduur</div></div>
+      <div class="hs"><div class="hs-num">15</div><div class="hs-lbl">Competenties</div></div>
+      <div class="hs"><div class="hs-num">🏆</div><div class="hs-lbl">Certificaat</div></div>
+    </div>
+  </div>
+
+  <div class="sw">
+    <!-- VISIE -->
+    <div class="sw-title">Onze <em>visie</em> op AI</div>
+    <div class="sw-sub">Waarom investeert Sint-Rembert in AI-geletterdheid voor elk personeelslid?</div>
+    <div class="vision-box">
+      <div class="vision-title">🎯 Wat willen wij bereiken?</div>
+      <div class="vision-text">Sint-Rembert gelooft in <strong>AI als een kans</strong>, niet als een bedreiging. We willen dat elke leerkracht — van SMIK tot VTI, van ASO tot BSO — <strong>zelfzeker en verantwoord</strong> omgaat met AI-tools. Niet om leerkrachten te vervangen, maar om hen te <strong>versterken</strong>: meer tijd voor de leerling, minder administratieve last, betere differentiatie.<br><br>
+      Twee kernprincipes sturen onze aanpak: <strong>alleen meerwaarde bij</strong> — gebruik AI enkel als het écht bijdraagt aan goed onderwijs — en <strong>transparantie</strong> — wie AI gebruikt, blijft altijd verantwoordelijk voor het proces en de output. De leerkracht blijft de expert.</div>
+    </div>
+
+    <!-- SPELREGELS -->
+    <div class="sw-title" style="margin-top:28px">De <em>AI-Spelregels</em></div>
+    <div class="sw-sub">Geldend voor alle leerkrachten en leerlingen van de scholengroep.</div>
+    <div class="sr-row">
+      <div class="sr-box wel">
+        <div class="sr-box-title">✅ Wat mag wel?</div>
+        <div class="sri"><div class="sr-chk">✓</div>Anonieme tekst ingeven in AI-tool</div>
+        <div class="sri"><div class="sr-chk">✓</div>Documenten uploaden naar goedgekeurde tool</div>
+        <div class="sri"><div class="sr-chk">✓</div>Copilot M365 gebruiken met schoolaccount</div>
+        <div class="sri"><div class="sr-chk">✓</div>AI voor lesvoorbereiding en feedback</div>
+      </div>
+      <div class="sr-box niet">
+        <div class="sr-box-title">❌ Wat mag niet?</div>
+        <div class="sri sr-x-item"><div class="sr-x">✕</div>Persoonsgegevens ingeven in AI-tools</div>
+        <div class="sri sr-x-item"><div class="sr-x">✕</div>Schooldocumenten uploaden naar gratis tools</div>
+        <div class="sri sr-x-item"><div class="sr-x">✕</div>AI-output kritiekloos overnemen</div>
+        <div class="sri sr-x-item"><div class="sr-x">✕</div>Rapport met leerlingennamen uploaden</div>
+      </div>
+    </div>
+
+    <!-- MODULES -->
+    <div class="sw-title" style="margin-top:28px">De 3 <em>modules</em></div>
+    <div class="sw-sub">Modules worden vrijgegeven na voltooiing. Vul je naam in om voortgang op te slaan.</div>
+    <div class="mods-grid">
+      <div class="mc" id="cm1" onclick="sm(1)">
+        <div class="mc-badge">Module 1</div>
+        <div class="mc-icon">🤖</div>
+        <div class="mc-title">Wat is AI?</div>
+        <div class="mc-desc">Van machine learning tot deepfakes — je begrijpt hoe AI werkt en herkent het in je omgeving.</div>
+        <div class="mc-meta"><div class="mc-dur">⏱ ± 60 min</div><div class="mc-stat" id="ps1">Beschikbaar</div></div>
+        <button class="sr-btn g" id="bm1">▶ Start</button>
+      </div>
+      <div class="mc locked" id="cm2" onclick="tm(2)">
+        <div class="mc-badge">Module 2</div>
+        <div class="mc-icon">✨</div>
+        <div class="mc-title">Copilot in de praktijk</div>
+        <div class="mc-desc">Prompts schrijven, Teach-module, agents bouwen — werk efficiënter met Copilot M365.</div>
+        <div class="mc-meta"><div class="mc-dur">⏱ ± 75 min</div><div class="mc-stat locked" id="ps2">🔒 Na module 1</div></div>
+        <button class="sr-btn" id="bm2" disabled>🔒 Voltooi module 1</button>
+      </div>
+      <div class="mc locked" id="cm3" onclick="tm(3)">
+        <div class="mc-badge">Module 3</div>
+        <div class="mc-icon">🛡️</div>
+        <div class="mc-title">Beleid & Leerlingen begeleiden</div>
+        <div class="mc-desc">AI-spelregels, EU AI Act, hoe begeleid je leerlingen bij verantwoord AI-gebruik?</div>
+        <div class="mc-meta"><div class="mc-dur">⏱ ± 45 min</div><div class="mc-stat locked" id="ps3">🔒 Na module 2</div></div>
+        <button class="sr-btn" id="bm3" disabled>🔒 Voltooi module 2</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODULE 1 -->
+<div class="view" id="view-mod1">
+  <div class="mh">
+    <button class="bk" onclick="sv('home')">← Terug</button>
+    <div class="mh-info"><div class="mh-num">Module 1 · ± 60 min</div><div class="mh-title">Wat is AI? — Van regels naar generatieve AI</div></div>
+    <div class="dots" id="sd1"></div>
+  </div>
+  <div class="mc-content" id="m1c"></div>
+</div>
+
+<!-- MODULE 2 -->
+<div class="view" id="view-mod2">
+  <div class="mh">
+    <button class="bk" onclick="sv('home')">← Terug</button>
+    <div class="mh-info"><div class="mh-num">Module 2 · ± 75 min</div><div class="mh-title">Copilot in de praktijk — Jouw AI-assistent</div></div>
+    <div class="dots" id="sd2"></div>
+  </div>
+  <div class="mc-content" id="m2c"></div>
+</div>
+
+<!-- MODULE 3 -->
+<div class="view" id="view-mod3">
+  <div class="mh">
+    <button class="bk" onclick="sv('home')">← Terug</button>
+    <div class="mh-info"><div class="mh-num">Module 3 · ± 45 min</div><div class="mh-title">Beleid & Leerlingen begeleiden</div></div>
+    <div class="dots" id="sd3"></div>
+  </div>
+  <div class="mc-content" id="m3c"></div>
+</div>
+
+<!-- CERT -->
+<div id="cert-view">
+  <div class="cert-wrap">
+    <div class="cert-fire">🎉</div>
+    <h2 style="font-family:'Archivo Black',sans-serif;font-size:26px;color:var(--blue);text-transform:uppercase;margin-bottom:7px">Gefeliciteerd!</h2>
+    <p style="color:var(--muted);font-weight:700;margin-bottom:28px">Je hebt alle 3 modules voltooid. Download je certificaat en upload het op Smartschool.</p>
+
+    <div class="ss-box" style="text-align:left;margin-bottom:20px">
+      <div class="ss-title">📤 Upload op Smartschool</div>
+      <div class="ss-steps">
+        <div class="ss-step"><div class="ss-step-num">1</div><div class="ss-step-text">Klik op <strong>"Afdrukken / Opslaan als PDF"</strong> hieronder om je certificaat te downloaden.</div></div>
+        <div class="ss-step"><div class="ss-step-num">2</div><div class="ss-step-text">Ga naar <strong>Smartschool → Mijn portfolio</strong> of het aangewezen vak/platform.</div></div>
+        <div class="ss-step"><div class="ss-step-num">3</div><div class="ss-step-text">Upload het PDF-bestand onder <strong>"AI-Geletterdheid — Certificaat 2026-2027"</strong>.</div></div>
+        <div class="ss-step"><div class="ss-step-num">4</div><div class="ss-step-text">Je pedagogisch ICT-coördinator valideert de upload. <strong>Klaar!</strong></div></div>
+      </div>
+    </div>
+
+    <div class="cert-box">
+      <div class="cert-wm">SINT-REMBERT</div>
+      <div class="cert-school">Scholengroep Sint-Rembert</div>
+      <div class="cert-title">Certificaat <em>AI-Geletterdheid</em></div>
+      <div class="cert-dec">Dit certificaat bevestigt dat</div>
+      <div class="cert-name" id="cert-name">Leerkracht</div>
+      <div class="cert-desc">de cursus <strong>AI-Spelregels & AI-Geletterdheid voor Leerkrachten</strong> succesvol heeft voltooid. Voldoet aan de <strong>EU AI Act (Art. 4)</strong>, het <strong>DigCompEdu-kader (A2–B1)</strong> en de <strong>AI-spelregels van Scholengroep Sint-Rembert</strong>.</div>
+      <div class="cert-comps">
+        <div class="cert-comp"><span class="ck">✓</span>AI begrijpen & herkennen</div>
+        <div class="cert-comp"><span class="ck">✓</span>GenAI & deepfakes kennen</div>
+        <div class="cert-comp"><span class="ck">✓</span>Copilot M365 gebruiken</div>
+        <div class="cert-comp"><span class="ck">✓</span>Effectief prompten</div>
+        <div class="cert-comp"><span class="ck">✓</span>Lesmateriaal genereren</div>
+        <div class="cert-comp"><span class="ck">✓</span>Privacy & spelregels</div>
+        <div class="cert-comp"><span class="ck">✓</span>EU AI Act kennen</div>
+        <div class="cert-comp"><span class="ck">✓</span>Leerlingen begeleiden</div>
+        <div class="cert-comp"><span class="ck">✓</span>AI-labels toepassen</div>
+      </div>
+      <div class="cert-sr"><span>Sint-</span><em style="color:var(--green)">Rembert</em><span>Scholengroep</span></div>
+      <div class="cert-meta">
+        <div class="cm-i"><div class="cm-lbl">Datum</div><div class="cm-val" id="cert-date">—</div></div>
+        <div class="cm-i"><div class="cm-lbl">Platform</div><div class="cm-val">ReLearn × Copilot</div></div>
+        <div class="cm-i"><div class="cm-lbl">Geldigheid</div><div class="cm-val">2 jaar</div></div>
+        <div class="cm-i"><div class="cm-lbl">Kader</div><div class="cm-val">EU AI Act + DigCompEdu</div></div>
+      </div>
+    </div>
+    <button class="print-btn" onclick="window.print()">🖨️ Afdrukken / Opslaan als PDF</button>
+  </div>
+</div>
+
+</main>
+</div>
+
+<script>
+// ── STATE ──
+const K='sr_v4';
+let S={name:'',mod1:{step:0,done:false},mod2:{step:0,done:false},mod3:{step:0,done:false}};
+function ld(){try{const s=localStorage.getItem(K);if(s)S=JSON.parse(s)}catch(e){}}
+function ss(){try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}}
+ld();
+document.getElementById('un').value=S.name||'';
+ua();up();rmc();
+
+function ua(){const n=(document.getElementById('un').value||'').trim();document.getElementById('av').textContent=n?n.charAt(0).toUpperCase():'?'}
+function sn(){S.name=document.getElementById('un').value.trim();ss();ua()}
+
+function up(){
+  const d=[S.mod1.done,S.mod2.done,S.mod3.done].filter(Boolean).length;
+  const p=Math.round(d/3*100);
+  document.getElementById('pb').style.width=p+'%';
+  document.getElementById('pct').textContent=p+'%';
+  ['mod1','mod2','mod3'].forEach((m,i)=>{
+    const el=document.getElementById('nav-'+m);
+    if(S[m].done)el.className='ni done';
+    else if(i===0||(i===1&&S.mod1.done)||(i===2&&S.mod2.done))el.className='ni available';
+    else el.className='ni locked';
+  });
+  const ce=document.getElementById('nav-cert');
+  if(S.mod3.done){ce.className='ni available';document.getElementById('lc').textContent='›'}
+  if(S.mod1.done)document.getElementById('l1').innerHTML='<span style="color:var(--green)">✓</span>';
+  if(S.mod2.done)document.getElementById('l2').innerHTML='<span style="color:var(--green)">✓</span>';
+  else if(S.mod1.done)document.getElementById('l2').textContent='›';
+  if(S.mod3.done)document.getElementById('l3').innerHTML='<span style="color:var(--green)">✓</span>';
+  else if(S.mod2.done)document.getElementById('l3').textContent='›';
+}
+
+function rmc(){
+  if(S.mod1.done){document.getElementById('cm1').classList.add('done');document.getElementById('bm1').textContent='↺ Herhalen';document.getElementById('ps1').className='mc-stat ok';document.getElementById('ps1').textContent='✓ Voltooid'}
+  if(S.mod1.done){document.getElementById('cm2').classList.remove('locked');document.getElementById('bm2').disabled=false;document.getElementById('bm2').textContent='▶ Start';if(!S.mod2.done){document.getElementById('ps2').className='mc-stat';document.getElementById('ps2').textContent='Beschikbaar'}}
+  if(S.mod2.done){document.getElementById('cm2').classList.add('done');document.getElementById('bm2').textContent='↺ Herhalen';document.getElementById('ps2').className='mc-stat ok';document.getElementById('ps2').textContent='✓ Voltooid'}
+  if(S.mod2.done){document.getElementById('cm3').classList.remove('locked');document.getElementById('bm3').disabled=false;document.getElementById('bm3').textContent='▶ Start';if(!S.mod3.done){document.getElementById('ps3').className='mc-stat';document.getElementById('ps3').textContent='Beschikbaar'}}
+  if(S.mod3.done){document.getElementById('cm3').classList.add('done');document.getElementById('bm3').textContent='↺ Herhalen';document.getElementById('ps3').className='mc-stat ok';document.getElementById('ps3').textContent='✓ Voltooid'}
+}
+
+function sv(id){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('cert-view').style.display='none';
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
+  if(id==='cert'){document.getElementById('cert-view').style.display='block';document.getElementById('nav-cert').classList.add('active');rc();return}
+  document.getElementById('view-'+id).classList.add('active');
+  document.getElementById('nav-'+id)&&document.getElementById('nav-'+id).classList.add('active');
+  document.getElementById('main').scrollTo(0,0);
+}
+function sm(n){
+  if(n===1){rm1();sv('mod1')}
+  else if(n===2&&S.mod1.done){rm2();sv('mod2')}
+  else if(n===3&&S.mod2.done){rm3();sv('mod3')}
+  else alert('Voltooi eerst de vorige module.')
+}
+function tm(n){if((n===2&&S.mod1.done)||(n===3&&S.mod2.done))sm(n);else alert('Voltooi eerst module '+(n-1)+'.')}
+function tryC(){S.mod3.done?sv('cert'):alert('Voltooi alle 3 modules.')}
+
+function rDots(m,tot,cur){
+  const c=document.getElementById('sd'+m);if(!c)return;c.innerHTML='';
+  for(let i=0;i<tot;i++){const d=document.createElement('div');d.className='dot '+(i<cur?'done':i===cur?'active':'');c.appendChild(d)}
+}
+
+// ── MODULE 1 ──
+const m1=[m1s0,m1s1,m1s2,m1s3,m1s4];
+function rm1(){const c=document.getElementById('m1c');c.innerHTML='';rDots(1,m1.length,S.mod1.step);m1[S.mod1.step](c)}
+function n1(){S.mod1.step++;ss();S.mod1.step>=m1.length?d1():rm1();document.getElementById('main').scrollTo(0,0)}
+function d1(){S.mod1.done=true;S.mod1.step=0;ss();up();rmc();sv('home');setTimeout(()=>alert('🎉 Module 1 voltooid! Module 2 is nu beschikbaar.'),300)}
+
+function m1s0(c){c.innerHTML=`
+<div class="s-badge">🤖 Stap 1 van 5 · AI overal</div>
+<h2 class="ch2">AI is <em>overal</em> — ook al zie je het niet</h2>
+<p class="cp">Gezichtsherkenning op je telefoon, de spamfilter in je mailbox, aanbevelingen op YouTube, robotmaaiers — <strong>AI zit al jaren in onze dagelijkse tools</strong>. En nu ook steeds meer in het onderwijs.</p>
+<p class="cp">Maar wat is het eigenlijk? En wanneer is iets AI, en wanneer niet?</p>
+
+<h3 class="ch3">🎬 EDUbox: Wat is AI? (start hier)</h3>
+<div class="yt-wrap">
+  <iframe src="https://www.youtube.com/embed/sosmC2h4LLE" allowfullscreen loading="lazy"></iframe>
+</div>
+
+<h3 class="ch3">🧩 Oefening: AI of geen AI?</h3>
+<p class="cp" style="margin-bottom:14px">Klik op elke kaart om te ontdekken of er AI in zit:</p>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px" id="aig"></div>
+
+<div class="ib sr">
+  <div class="ib-t">💡 De 3 bouwstenen van AI</div>
+  <div class="ib-b">Elke AI heeft <strong>data</strong> (trainingsmateriaal), <strong>algoritmes</strong> (wiskundige instructies die patronen leren herkennen) en een <strong>computersysteem</strong> (rekenkracht). Hoe meer kwalitatieve data, hoe beter het systeem.</div>
+</div>
+
+<div class="nw">
+  <button class="sr-btn g" onclick="n1()">Volgende: wat is AI precies? →</button>
+  <span class="nh">Stap 1/5</span>
+</div>`;
+  const items=[
+    {n:'Spamfilter e-mail',ai:true,w:'Leert zelf welke mails spam zijn'},
+    {n:'Rekenmachine',ai:false,w:'Volgt vaste regels, leert niet'},
+    {n:'TikTok aanbevelingen',ai:true,w:'Algoritme leert jouw voorkeuren'},
+    {n:'Kladblok/Notepad',ai:false,w:'Geen leren, gewoon opslaan'},
+    {n:'Kanker detecteren op scan',ai:true,w:'Deep learning herkent patronen'},
+    {n:'Smartschool (basis)',ai:false,w:'Platform, geen AI-learning'},
+    {n:'Copilot M365',ai:true,w:'Generatieve AI op basis van LLM'},
+    {n:'GPS-navigatie',ai:true,w:'Voorspelt route op basis van data'},
+    {n:'Wekker zetten',ai:false,w:'Geen leren, vaste tijdsinstructie'},
+  ];
+  const g=document.getElementById('aig');
+  items.forEach(it=>{
+    const el=document.createElement('div');
+    el.style.cssText='background:white;border:2px solid var(--gray);border-radius:10px;padding:14px;cursor:pointer;text-align:center;transition:all .2s;font-size:12px;font-weight:700;color:var(--text)';
+    el.innerHTML=`<div style="font-size:20px;margin-bottom:7px">❓</div><div>${it.n}</div><div style="color:var(--muted);font-size:10px;margin-top:4px">Klik om te ontdekken</div>`;
+    el.onclick=()=>{
+      el.style.borderColor=it.ai?'var(--green)':'var(--orange)';
+      el.style.background=it.ai?'rgba(127,224,0,.1)':'rgba(249,115,22,.08)';
+      el.innerHTML=`<div style="font-size:20px;margin-bottom:7px">${it.ai?'🤖':'⬜'}</div><div style="color:${it.ai?'var(--blue)':'var(--orange)'};font-weight:800">${it.n}</div><div style="font-size:10px;font-weight:600;margin-top:4px;color:${it.ai?'var(--blue)':'var(--orange)'}">${it.w}</div>`;
+    };
+    g.appendChild(el);
+  });
+}
+
+function m1s1(c){c.innerHTML=`
+<div class="s-badge">📚 Stap 2 van 5 · Wat is AI & Geschiedenis</div>
+<h2 class="ch2">Van schaakcomputers<br>naar <em>Generatieve AI</em></h2>
+<p class="cp">AI bestaat al langer dan je denkt — maar de sprong naar <strong>generatieve AI</strong> (GenAI) die tekst, beelden en code kan <em>maken</em>, verandert alles. Bekijk hoe het geëvolueerd is:</p>
+
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:16px 0">
+  ${[
+    ['1950–1980','Procedurele AI','Regels & logica geprogrammeerd. Schaakcomputers. Leert niet zelf.'],
+    ['1980–2010','Machine Learning','Leert uit data. Patronen ontdekken. Spamfilters, aanbevelingen.'],
+    ['2010–nu','Deep Learning & GenAI','Neurale netwerken. Kan nu ook creëren: tekst, beeld, audio.']
+  ].map(([j,t,d])=>`<div style="background:white;border:2px solid var(--gray);border-radius:12px;padding:16px">
+    <div style="font-family:'Archivo Black',sans-serif;font-size:10px;color:var(--green);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px">${j}</div>
+    <div style="font-family:'Archivo Black',sans-serif;font-size:13px;color:var(--blue);text-transform:uppercase;margin-bottom:7px">${t}</div>
+    <div style="font-size:12px;color:var(--muted);font-weight:600;line-height:1.5">${d}</div>
+  </div>`).join('')}
+</div>
+
+<h3 class="ch3">🎬 EDUbox: Generatieve AI en hallucinaties</h3>
+<div class="yt-wrap">
+  <iframe src="https://www.youtube.com/embed/videoseries?list=PL1zloQd6C9_x_AiCofL-d_t4GuXtcKgBF&index=3" allowfullscreen loading="lazy"></iframe>
+</div>
+
+<div class="ib warn">
+  <div class="ib-t">⚠️ Hallucinaties — wat zijn ze?</div>
+  <div class="ib-b">GenAI werkt met <strong>kansberekening</strong> — het voorspelt continu het meest waarschijnlijke volgende woord. Daardoor klinkt output altijd overtuigend, ook als het fout is. Dit noemen we een <strong>hallucinatie</strong>: verzonnen informatie die correct lijkt. <strong>Altijd controleren!</strong></div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0">
+  <div style="background:rgba(224,32,32,.05);border:2px solid var(--red);border-radius:10px;padding:14px">
+    <div style="font-family:'Archivo Black',sans-serif;font-size:11px;color:var(--red);text-transform:uppercase;margin-bottom:8px">❌ Voorbeeld hallucinatie</div>
+    <div style="font-size:12px;font-weight:600;color:var(--text);font-style:italic">"Het wereldrecord om het Kanaal te voet te steken werd gehaald door Christof Wandratsch in 14 uur 51 minuten op 14 augustus 2020."<br><br><span style="color:var(--red);font-size:11px">→ Volledig verzonnen. Niemand stak het Kanaal ooit te voet.</span></div>
+  </div>
+  <div style="background:rgba(127,224,0,.08);border:2px solid var(--green);border-radius:10px;padding:14px">
+    <div style="font-family:'Archivo Black',sans-serif;font-size:11px;color:var(--blue);text-transform:uppercase;margin-bottom:8px">✅ Wat leert ons dit?</div>
+    <div style="font-size:12px;font-weight:600;color:var(--text);line-height:1.6">Copilot en ChatGPT klinken altijd zeker — ook als ze fout zijn. Als leerkracht ben jij het kritische filter. <strong>Controleer altijd feiten, data en namen via betrouwbare bronnen.</strong></div>
+  </div>
+</div>
+
+<div class="nw">
+  <button class="sr-btn g" onclick="n1()">Volgende: AI & vooroordelen →</button>
+  <span class="nh">Stap 2/5</span>
+</div>`}
+
+function m1s2(c){c.innerHTML=`
+<div class="s-badge">⚠️ Stap 3 van 5 · Gevaren & bias</div>
+<h2 class="ch2">Mogelijkheden én <em>gevaren</em> van GenAI</h2>
+<p class="cp">GenAI biedt enorme kansen — maar ook concrete risico's die je als leerkracht moet kennen om leerlingen goed te begeleiden.</p>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0">
+  <div style="background:rgba(127,224,0,.1);border:2px solid var(--green);border-radius:12px;padding:16px">
+    <div style="font-family:'Archivo Black',sans-serif;font-size:12px;color:var(--blue);text-transform:uppercase;margin-bottom:10px">✅ Mogelijkheden</div>
+    ${['Snellere en betere data-analyse','Differentiatie op maat van elke leerling','Administratieve last verlagen','Creatieve ideeën genereren','Feedback formuleren'].map(t=>`<div style="font-size:12px;font-weight:700;color:var(--text);padding:5px 0;border-bottom:1px solid var(--gray)">→ ${t}</div>`).join('')}
+  </div>
+  <div style="background:rgba(224,32,32,.05);border:2px solid var(--red);border-radius:12px;padding:16px">
+    <div style="font-family:'Archivo Black',sans-serif;font-size:12px;color:var(--red);text-transform:uppercase;margin-bottom:10px">⚠️ Gevaren</div>
+    ${['Hallucinaties (foute info)','Vooroordelen (bias) in output','Deepfakes & misleiding','Auteursrechtproblemen','Energieverbruik & klimaat'].map(t=>`<div style="font-size:12px;font-weight:700;color:var(--red);padding:5px 0;border-bottom:1px solid rgba(224,32,32,.1)">→ ${t}</div>`).join('')}
+  </div>
+</div>
+
+<h3 class="ch3">🎬 EDUbox: Vooroordelen in AI</h3>
+<div class="yt-wrap">
+  <iframe src="https://www.youtube.com/embed/videoseries?list=PL1zloQd6C9_x_AiCofL-d_t4GuXtcKgBF&index=4" allowfullscreen loading="lazy"></iframe>
+</div>
+
+<div class="ib warn">
+  <div class="ib-t">🎲 Bias — een concreet voorbeeld</div>
+  <div class="ib-b">Vraag aan een AI: "I'm a strong dancer" → vertaalt als "sterke danser" (mannelijk). "I'm a tiny businessperson" → "kleine zakenvrouw". De AI reproduceert maatschappelijke stereotypen uit zijn trainingsdata. <strong>Als leerkracht wijs je leerlingen hier expliciet op.</strong></div>
+</div>
+
+<h3 class="ch3">🧩 Oefening: Echt of AI?</h3>
+<p class="cp" style="margin-bottom:14px">Klik op je antwoord voor elk fragment:</p>
+<div id="roa"></div>
+
+<div class="nw">
+  <button class="sr-btn g" onclick="n1()">Volgende: kennischeck →</button>
+  <span class="nh">Stap 3/5</span>
+</div>`;
+  const items=[
+    {t:'"De vliegtuigen vlogen in formatie over de wolken van vergeten steden, hun motoren een zacht gebrom van de moderniteit."',ai:true,e:'Poetisch, vaag, generieke metaforen — typisch LLM-stijl.'},
+    {t:'"Ik schreef dit voor mijn dochter op haar 16e verjaardag. Ze hield van katten en slechte moppen."',ai:false,e:'Specifieke details (dochter, leeftijd, katten) = menselijk kenmerk.'},
+    {t:'"Quantumverstrengeling is een fenomeen waarbij twee deeltjes instantaan gecorreleerd zijn, ongeacht de afstand."',ai:true,e:'Gladde Wikipedia-stijl zonder persoonlijk perspectief — LLM-patroon.'},
+  ];
+  const con=document.getElementById('roa');
+  items.forEach((it,i)=>{
+    const el=document.createElement('div');
+    el.style.cssText='background:white;border:2px solid var(--gray);border-radius:10px;padding:18px;margin-bottom:10px';
+    el.innerHTML=`<div style="font-size:13px;font-style:italic;color:#3d4f8a;margin-bottom:12px;background:var(--off);padding:11px;border-radius:7px;line-height:1.7;border-left:3px solid var(--blue)">${it.t}</div>
+    <div style="display:flex;gap:10px">
+      <button onclick="cRoA(this,true,${it.ai},'${it.e.replace(/'/g,"\\'")}',${i})" style="flex:1;background:rgba(10,31,168,.08);border:2px solid rgba(10,31,168,.2);color:var(--blue);border-radius:7px;padding:10px;cursor:pointer;font-family:'Archivo Black',sans-serif;font-size:11px;text-transform:uppercase">🤖 AI-gegenereerd</button>
+      <button onclick="cRoA(this,false,${it.ai},'${it.e.replace(/'/g,"\\'")}',${i})" style="flex:1;background:rgba(127,224,0,.1);border:2px solid rgba(127,224,0,.3);color:var(--blue);border-radius:7px;padding:10px;cursor:pointer;font-family:'Archivo Black',sans-serif;font-size:11px;text-transform:uppercase">👤 Door mens</button>
+    </div><div id="roa-fb-${i}" style="display:none;margin-top:9px;padding:9px 13px;border-radius:7px;font-size:12px;font-weight:700"></div>`;
+    con.appendChild(el);
+  });
+}
+function cRoA(btn,g,cor,exp,i){
+  const ok=g===cor;const fb=document.getElementById('roa-fb-'+i);fb.style.display='block';fb.style.background=ok?'rgba(127,224,0,.15)':'rgba(224,32,32,.07)';fb.style.color=ok?'#2d6a00':'var(--red)';fb.style.border=`2px solid ${ok?'var(--green)':'var(--red)'}`;fb.textContent=(ok?'✅ Correct! ':'❌ Niet correct. ')+exp;
+  btn.closest('div').querySelectorAll('button').forEach(b=>b.disabled=true);
+}
+
+function m1s3(c){
+  const quiz=[
+    {q:'Wat is een hallucinatie bij GenAI?',o:['De AI slaapt','De AI genereert overtuigende maar foute informatie','De AI werkt traag','De AI weigert te antwoorden'],a:1,f:'Correct! Hallucinaties = plausibel klinkende maar foutieve output. Altijd controleren!'},
+    {q:'Welke AI-tool is volledig dataproof en ondersteund door Sint-Rembert?',o:['ChatGPT (gratis)','Google Gemini','Copilot M365 met schoolaccount','Midjourney'],a:2,f:'Copilot M365 via je schoolaccount is de enige volledig ondersteunde tool — contractueel geregeld.'},
+    {q:'Wat is het verschil tussen zwakke AI en sterke AI?',o:['Zwakke AI is langzamer','Zwakke AI is taakgericht (bestaat), sterke AI is algemene intelligentie (bestaat niet)','Sterke AI heeft meer stroom nodig','Er is geen verschil'],a:1,f:'Alle huidige AI, inclusief Copilot, is zwakke AI — gericht op één specifieke taak.'},
+    {q:'Waarom kan bias in AI een probleem zijn in de klas?',o:['AI is altijd neutraal','AI reproduceert maatschappelijke stereotypen uit trainingsdata','Bias maakt AI sneller','Bias komt alleen voor bij betalende tools'],a:1,f:'AI leert van data die menselijke vooroordelen bevatten. Als leerkracht moet je leerlingen hierop wijzen.'},
+    {q:'Wat is het kenmerk van generatieve AI ten opzichte van traditionele AI?',o:['Het werkt sneller','Het kan nieuwe content creëren (tekst, beeld, audio)','Het verbruikt minder energie','Het is goedkoper'],a:1,f:'GenAI is getraind om te creëren via kansberekening — dat is de grote sprong ten opzichte van eerdere AI-systemen.'},
+  ];
+  rQuiz(c,quiz,1,'mod1',n1);
+}
+
+function m1s4(c){c.innerHTML=`
+<div class="s-badge">✍️ Stap 5 van 5 · Eerste Copilot-oefening</div>
+<h2 class="ch2">Copilot <em>zelf uitproberen</em></h2>
+<p class="cp">Nu ga je Copilot voor het eerst gebruiken. Open <a href="https://copilot.microsoft.com" target="_blank" style="color:var(--blue);font-weight:800">copilot.microsoft.com</a> met je <strong>schoolaccount</strong> en controleer het 🛡️ Protected-icoon.</p>
+
+<div class="cop-oef">
+  <div class="cop-title">⊕ Copilot-oefening — 15 min</div>
+  <div class="cop-steps">
+    <div class="cop-step"><div class="cop-step-n">1</div>Stel Copilot deze vraag: <em>"Geef me een concreet voorbeeld van een AI-hallucinatie in een schoolcontext."</em></div>
+    <div class="cop-step"><div class="cop-step-n">2</div>Stel daarna: <em>"Verklaar aan een leerling van 14 jaar waarom AI soms fouten maakt. Gebruik een analogie."</em></div>
+    <div class="cop-step"><div class="cop-step-n">3</div>Beoordeel beide antwoorden: wat klopt? Wat is onvolledig of misschien een hallucinatie?</div>
+  </div>
+</div>
+
+<p class="cp" style="margin-bottom:10px"><strong>Noteer je bevindingen:</strong></p>
+<textarea class="sr-ta" id="r1" placeholder="Wat gaf Copilot terug? Wat klopte? Wat was misschien fout of overdreven? Hoe zou jij dit uitleggen aan leerlingen?"></textarea>
+<div style="font-size:11px;color:var(--muted);font-weight:600;margin-top:5px">Lokaal opgeslagen — niet gedeeld.</div>
+
+<div class="ib ok">
+  <div class="ib-t">✅ Goed om te weten</div>
+  <div class="ib-b">Er is geen "fout" antwoord bij deze oefening. Het gaat erom dat je zelf ervaart hoe Copilot werkt — en waar de grenzen liggen. Dat inzicht is precies wat je nodig hebt om leerlingen goed te begeleiden.</div>
+</div>
+
+<div class="nw">
+  <button class="sr-btn g" onclick="sR1()">✅ Module 1 afronden →</button>
+  <span class="nh">Module 2 wordt vrijgegeven</span>
+</div>`;
+  const sv=localStorage.getItem('sr_r1')||'';document.getElementById('r1').value=sv;document.getElementById('r1').oninput=()=>localStorage.setItem('sr_r1',document.getElementById('r1').value);
+}
+function sR1(){n1()}
+
+// ── MODULE 2 ──
+const m2=[m2s0,m2s1,m2s2,m2s3];
+function rm2(){const c=document.getElementById('m2c');c.innerHTML='';rDots(2,m2.length,S.mod2.step);m2[S.mod2.step](c)}
+function n2(){S.mod2.step++;ss();S.mod2.step>=m2.length?d2():rm2();document.getElementById('main').scrollTo(0,0)}
+function d2(){S.mod2.done=true;S.mod2.step=0;ss();up();rmc();sv('home');setTimeout(()=>alert('🎉 Module 2 voltooid! Module 3 is nu beschikbaar.'),300)}
+
+function m2s0(c){c.innerHTML=`
+<div class="s-badge">✨ Stap 1 van 4 · Copilot rondleiding</div>
+<h2 class="ch2">Copilot M365 — <em>Jouw AI-assistent</em></h2>
+<p class="cp">Copilot Chat is <strong>gratis inbegrepen in je Microsoft 365-licentie</strong>. Je hebt niets extra nodig — alleen je schoolaccount.</p>
+
+<div class="tz g" style="margin-bottom:6px">
+  <div class="tz-title">🟢 Volledig ondersteund door Sint-Rembert — dataproof</div>
+  <div class="tz-tools"><div class="tt">Copilot M365</div><div class="tt">Copilot Chat</div><div class="tt">Bookwidgets AI</div><div class="tt">Canva AI</div></div>
+</div>
+<div class="tz o" style="margin-bottom:6px">
+  <div class="tz-title">🟠 Toegestaan met aandacht — let op privacy</div>
+  <div class="tz-tools">${['ChatGPT','Google Gemini','NotebookLM','Gamma.app','Claude.ai','Perplexity'].map(t=>`<div class="tt">${t}</div>`).join('')}</div>
+</div>
+<div class="tz gr">
+  <div class="tz-title">⬜ Eigen verantwoordelijkheid — geen schoolondersteuning</div>
+  <div class="tz-tools"><div class="tt" style="background:#e5e7eb;color:#6b7280">Midjourney, Grok, Meta AI en andere...</div></div>
+</div>
+
+<h3 class="ch3">De 4 onderdelen van Copilot</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0">
+  ${[['💬','Chat','AI-sparringpartner voor vragen, ideeën en eerste versies. Veilig via Enterprise Data Protection.'],['🎨','Create (Maakmodule)','Afbeeldingen, infographics, posters en banners genereren — voor visueel lesmateriaal.'],['📚','Teach (Onderwijsmodule)','Lesplannen, rubrics, quizzen, differentiatie — speciaal voor leerkrachten.'],['🤖','Agents','Bouw je eigen mini-Copilot met jouw schoolcontext, eindtermen of rapportstructuur.']].map(([i,n,d])=>`<div style="background:white;border:2px solid var(--gray);border-radius:10px;padding:16px;transition:border-color .2s" onmouseenter="this.style.borderColor='var(--blue)'" onmouseleave="this.style.borderColor='var(--gray)'"><div style="font-size:22px;margin-bottom:8px">${i}</div><div style="font-family:'Archivo Black',sans-serif;font-size:12px;color:var(--blue);text-transform:uppercase;margin-bottom:4px">${n}</div><div style="font-size:12px;color:var(--muted);font-weight:600;line-height:1.5">${d}</div></div>`).join('')}
+</div>
+
+<div class="cop-oef">
+  <div class="cop-title">⊕ Copilot openen — doe het nu</div>
+  <div class="cop-steps">
+    <div class="cop-step"><div class="cop-step-n">1</div>Ga naar <a href="https://copilot.microsoft.com" target="_blank" style="color:var(--blue)">copilot.microsoft.com</a> en log in met je <strong>schoolaccount (@sint-rembert.be)</strong>.</div>
+    <div class="cop-step"><div class="cop-step-n">2</div>Controleer het <strong>🛡️ Protected</strong>-icoon bovenaan — dit bevestigt Enterprise Data Protection.</div>
+    <div class="cop-step"><div class="cop-step-n">3</div>Klik op <strong>"Teach"</strong> in de linkerzijbalk en bekijk welke tools er beschikbaar zijn.</div>
+    <div class="cop-step"><div class="cop-step-n">4</div>Stel Copilot: <em>"Welke tools zijn beschikbaar in de Teach-module?"</em> en lees het antwoord.</div>
+  </div>
+</div>
+
+<div class="nw">
+  <button class="sr-btn g" onclick="n2()">Volgende: prompts schrijven →</button>
+  <span class="nh">Stap 1/4</span>
+</div>`}
+
+function m2s1(c){c.innerHTML=`
+<div class="s-badge">✍️ Stap 2 van 4 · Prompting</div>
+<h2 class="ch2">Het geheim zit in <em>je prompt</em></h2>
+<p class="cp">Een goede prompt is als een goede instructie aan een nieuwe collega: <strong>duidelijk, contextvol en met een verwacht resultaat</strong>. De kwaliteit van je output hangt volledig af van de kwaliteit van je input.</p>
+
+<h3 class="ch3">De 5 bouwstenen (RTF+ framework)</h3>
+<div class="bws">
+  <div class="bw"><div class="bw-num">1</div><div><div class="bw-lbl">🎭 Rol</div><div class="bw-desc">Welke rol neemt Copilot aan? "Je bent een ervaren didacticus voor wiskunde in het secundair onderwijs..."</div></div></div>
+  <div class="bw"><div class="bw-num">2</div><div><div class="bw-lbl">🎯 Taak / Doel</div><div class="bw-desc">Wat moet Copilot doen? "Schrijf een lesplan van 50 minuten over de Tweede Wereldoorlog..."</div></div></div>
+  <div class="bw"><div class="bw-num">3</div><div><div class="bw-lbl">📍 Context</div><div class="bw-desc">Voor wie en in welke situatie? "...voor 4e jaar ASO, voorkennis: Eerste Wereldoorlog, leerjaar 2026-2027"</div></div></div>
+  <div class="bw"><div class="bw-num">4</div><div><div class="bw-lbl">📂 Bron/Info</div><div class="bw-desc">Welke informatie geef je mee? Eindtermen, bestaand materiaal, specifieke thema's</div></div></div>
+  <div class="bw"><div class="bw-num">5</div><div><div class="bw-lbl">📋 Formaat/Verwachting</div><div class="bw-desc">Hoe moet de output eruitzien? "Output als tabel, max 400 woorden, warme toon, differentiatie voorzien"</div></div></div>
+</div>
+
+<h3 class="ch3">❌ Zwakke vs. ✅ Sterke prompt</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0">
+  <div style="background:rgba(224,32,32,.05);border:2px solid var(--red);border-radius:10px;padding:14px"><div style="font-family:'Archivo Black',sans-serif;font-size:10px;color:var(--red);text-transform:uppercase;margin-bottom:8px">❌ Zwakke prompt</div><div style="font-size:13px;font-weight:700;color:#3d4f8a;font-style:italic">"Maak een les over WO2."</div><div style="font-size:11px;color:var(--red);margin-top:6px;font-weight:600">Geen leerjaar, geen doel, geen context, geen formaat.</div></div>
+  <div style="background:rgba(127,224,0,.08);border:2px solid var(--green);border-radius:10px;padding:14px"><div style="font-family:'Archivo Black',sans-serif;font-size:10px;color:var(--blue);text-transform:uppercase;margin-bottom:8px">✅ Sterke prompt</div><div style="font-size:12px;font-weight:700;color:var(--blue);line-height:1.6">"Je bent een ervaren geschiedenisleerkracht. Schrijf een lesplan van 50 min over de oorzaken van WO2 voor 4e jaar ASO. Eindtermen historische geletterdheid. Output: stappenplan per 10 min + differentiatie zorgleerlingen."</div></div>
+</div>
+
+<div class="cop-oef">
+  <div class="cop-title">⊕ Oefening: schrijf 3 prompts voor jouw vak</div>
+  <div class="cop-steps">
+    <div class="cop-step"><div class="cop-step-n">1</div>Open Copilot met schoolaccount. Schrijf een prompt voor <strong>een lesplan</strong> in jouw vak — gebruik alle 5 bouwstenen.</div>
+    <div class="cop-step"><div class="cop-step-n">2</div>Schrijf een tweede prompt voor <strong>een differentiatieopdracht</strong> voor zorgleerlingen in jouw klas.</div>
+    <div class="cop-step"><div class="cop-step-n">3</div>Schrijf een derde prompt voor <strong>een exit ticket</strong> aan het einde van een les naar keuze.</div>
+    <div class="cop-step"><div class="cop-step-n">4</div>Beoordeel elke output: wat is bruikbaar? Wat zou je aanpassen? Welke prompt gaf het beste resultaat?</div>
+  </div>
+</div>
+
+<textarea class="sr-ta" id="poef" placeholder="Schrijf je 3 prompts hier, of noteer je bevindingen na het uitproberen...&#10;Prompt 1 (lesplan):&#10;Prompt 2 (differentiatie):&#10;Prompt 3 (exit ticket):"></textarea>
+
+<button class="rv-btn" onclick="checkP()" style="margin-bottom:14px">📊 Analyseer mijn eerste prompt</button>
+<div id="pscore" style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:14px"></div>
+
+<div class="nw">
+  <button class="sr-btn g" onclick="n2()">Volgende: Teach-module & kennischeck →</button>
+  <span class="nh">Stap 2/4</span>
+</div>`;
+  const sv=localStorage.getItem('sr_p2')||'';document.getElementById('poef').value=sv;document.getElementById('poef').oninput=()=>localStorage.setItem('sr_p2',document.getElementById('poef').value);
+}
+function checkP(){
+  const t=document.getElementById('poef').value;
+  const ch=[{l:'Rol',f:t.toLowerCase().includes('je bent')||t.toLowerCase().includes('leerkracht')},{l:'Doel/Taak',f:t.length>30&&(t.toLowerCase().includes('schrijf')||t.toLowerCase().includes('maak')||t.toLowerCase().includes('ontwerp'))},{l:'Context (leerjaar/vak)',f:/\d/.test(t)||t.toLowerCase().includes('jaar')||t.toLowerCase().includes('vak')},{l:'Formaat',f:t.toLowerCase().includes('output')||t.toLowerCase().includes('tabel')||t.toLowerCase().includes('max')||t.toLowerCase().includes('woorden')}];
+  const ok=ch.filter(c=>c.f).length;const pct=Math.round(ok/ch.length*100);
+  const sc=document.getElementById('pscore');sc.textContent=`Prompt-score: ${pct}% — ${ch.map(c=>(c.f?'✅':'⬜')+' '+c.l).join(' · ')}`;sc.style.color=pct>=75?'#2d6a00':'var(--orange)';
+}
+
+function m2s2(c){
+  const quiz=[
+    {q:'Je wil een rubric maken voor een opdracht. Welke sectie van Copilot gebruik je?',o:['Create (afbeeldingen)','Teach → Homework & assessments → Rubric','Chat (gewone vraag)','Library'],a:1,f:'De Teach-module heeft een specifieke Rubric-tool die criteria genereert op basis van jouw opdracht.'},
+    {q:'Wat mag NOOIT in Copilot, ook niet via het schoolaccount?',o:['Een lesplan genereren','De naam en diagnose van een leerling invoeren','Feedback op een anonieme tekst','Een e-mail opstellen'],a:1,f:'Persoonsgegevens van leerlingen (namen, diagnoses, medische info) mogen NOOIT in AI-tools — ook niet bij EDP.'},
+    {q:'Wat is een Copilot Agent?',o:['Een betaalde robot','Een mini-Copilot getraind op jouw specifieke schoolcontext en taken','Een functie die enkel directie kan gebruiken','Een AI-leerling'],a:1,f:'Een agent = voorgeprogrammeerde Copilot met jouw instructies, eindtermen of rapportstructuur — deelbaar met collega\'s.'},
+    {q:'Welke prompt is het sterkst?',o:['"Maak een les."','"Schrijf een lesplan fotosynthese, 4e jaar, ASO, 50 min, differentiatie voor zorgleerlingen, output als tabel."','"Geef ideeën voor biologie."','"Schrijf iets voor de klas."'],a:1,f:'De tweede prompt bevat alle 5 bouwstenen: rol (implied), doel, context (leerjaar, vak), tijdsduur, formaat én differentiatie.'},
+    {q:'Je agent wordt gebouwd door...',o:['Enkel de PICT','Elke leerkracht zelf via Agents → New Agent in Copilot','Je moet hiervoor programmeren','Microsoft bouwt het voor jou'],a:1,f:'Via Agents → New Agent beschrijf je in gewone taal wat de agent moet doen — Copilot genereert de instructies.'},
+  ];
+  rQuiz(c,quiz,2,'mod2',n2);
+}
+
+function m2s3(c){c.innerHTML=`
+<div class="s-badge">🎯 Stap 4 van 4 · Hands-on & promptbibliotheek</div>
+<h2 class="ch2">Klaar-om-te-gebruiken <em>EDU-prompts</em></h2>
+<p class="cp">Deze prompts zijn gebaseerd op de Copilot Days training en de EDU-Versity prompts. Kopieer, pas aan naar jouw vak en gebruik ze direct in Copilot.</p>
+
+<div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px">
+  ${[
+    ['Misconceptie-scan','Je bent een ervaren didacticus voor [vak]. Ik geef les over [concept] aan [leerjaar].\n1. Som 5 typische misconcepties op (met uitleg "waarom").\n2. Geef per misconceptie 1 diagnosevraag + verwacht foutantwoord.\n3. Ontwerp een micro-remediëring van 10 min voor de top-2.\nOutput: tabel (misconceptie | diagnosevraag | aanpak) + 10-minutenplan.'],
+    ['Leestekst 3 niveaus','Maak een leestekst over [onderwerp] voor [leerjaar] in 3 niveaus: basis, standaard, verdieping.\nElk niveau: tekst (max 180 woorden) + 5 kernwoorden + 3 begripsvragen.\nExtra: 2 tips voor zorgleerlingen + 1 verrijkingstaak.'],
+    ['Snelle feedback','Ik geef je een rubric en een anonieme leerlingtekst.\nSchrijf leerlingvriendelijke feedback: feed up (doel) + feedback (goed/niet goed) + feed forward (volgende stap). Max 120 woorden, warm en motiverend.\nMaak ook leerkrachtnotities: 3 observaties + 2 instructietips.\n(Gebruik geen namen — verwijs naar "de leerling".)'],
+    ['Exit ticket','Ontwerp een exit ticket voor [onderwerp] (les van [duur] min) voor [leerjaar].\nBevat: 2 checkvragen, 1 toepassingsvraag, 1 zelfinschatting.\nGeef ook: correctiesleutel + foutpatronen die ik waarschijnlijk zie + wat ik morgen best herhaal.'],
+  ].map(([titel,prompt])=>`
+  <div style="background:white;border:2px solid var(--gray);border-radius:10px;overflow:hidden">
+    <div style="background:var(--blue);padding:10px 16px;display:flex;justify-content:space-between;align-items:center">
+      <div style="font-family:'Archivo Black',sans-serif;font-size:12px;color:white;text-transform:uppercase">${titel}</div>
+      <button onclick="cpP(this)" data-prompt="${prompt.replace(/"/g,'&quot;')}" style="background:var(--green);border:none;color:var(--blue);border-radius:5px;padding:5px 12px;cursor:pointer;font-family:'Archivo Black',sans-serif;font-size:10px;text-transform:uppercase">📋 Kopieer</button>
+    </div>
+    <div style="padding:12px 16px;font-family:monospace;font-size:12px;color:#3d4f8a;line-height:1.7;white-space:pre-wrap;background:var(--off)">${prompt}</div>
+  </div>`).join('')}
+</div>
+
+<h3 class="ch3">🎯 Jouw eigen hands-on opdracht</h3>
+<p class="cp" style="margin-bottom:12px">Kies één prompt hierboven, pas hem aan voor jouw vak en leerjaar, en gebruik hem in Copilot. Noteer het resultaat:</p>
+<textarea class="sr-ta" id="r2" placeholder="Welke prompt heb je gebruikt? Wat gaf Copilot terug? Wat paste je aan?"></textarea>
+
+<div class="nw">
+  <button class="sr-btn g" onclick="sR2()">✅ Module 2 afronden →</button>
+  <span class="nh">Module 3 wordt vrijgegeven</span>
+</div>`;
+  const sv=localStorage.getItem('sr_r2')||'';if(document.getElementById('r2'))document.getElementById('r2').value=sv;document.getElementById('r2')&&(document.getElementById('r2').oninput=()=>localStorage.setItem('sr_r2',document.getElementById('r2').value));
+}
+function cpP(btn){const p=btn.getAttribute('data-prompt');navigator.clipboard.writeText(p).then(()=>{btn.textContent='✅ Gekopieerd!';setTimeout(()=>btn.textContent='📋 Kopieer',2000)})}
+function sR2(){n2()}
+
+// ── MODULE 3 ──
+const m3=[m3s0,m3s1,m3s2];
+function rm3(){const c=document.getElementById('m3c');c.innerHTML='';rDots(3,m3.length,S.mod3.step);m3[S.mod3.step](c)}
+function n3(){S.mod3.step++;ss();S.mod3.step>=m3.length?d3():rm3();document.getElementById('main').scrollTo(0,0)}
+function d3(){S.mod3.done=true;S.mod3.step=0;ss();up();rmc();sv('cert')}
+
+function m3s0(c){c.innerHTML=`
+<div class="s-badge">🛡️ Stap 1 van 3 · Beleid & AI-labels</div>
+<h2 class="ch2">AI-beleid & <em>AI-Labels</em> voor leerlingen</h2>
+<p class="cp">Als leerkracht ben je verantwoordelijk voor een helder en transparant AI-beleid in je klas. Sint-Rembert werkt met <strong>5 AI-labels</strong> die je aan taken en toetsen koppelt — zo weten leerlingen altijd exact wat toegelaten is.</p>
+
+<h3 class="ch3">De 5 AI-labels van Sint-Rembert</h3>
+<div class="labels-grid">
+  <div class="label-card l1"><div class="lc-num">1</div><div class="lc-name">Geen AI</div><div style="font-size:10px;margin-top:6px;font-weight:600">AI helemaal niet toegelaten</div></div>
+  <div class="label-card l2"><div class="lc-num">2</div><div class="lc-name">Ideeën & Structuur</div><div style="font-size:10px;margin-top:6px;font-weight:600">Enkel voor brainstorm & structuur</div></div>
+  <div class="label-card l3"><div class="lc-num">3</div><div class="lc-name">AI Bewerking</div><div style="font-size:10px;margin-top:6px;font-weight:600">Bewerken, verbeteren & preciseren</div></div>
+  <div class="label-card l4"><div class="lc-num">4</div><div class="lc-name">AI + Menselijke aanvulling</div><div style="font-size:10px;margin-top:6px;font-weight:600">Kritisch verwerken van AI-output</div></div>
+  <div class="label-card l5"><div class="lc-num">5</div><div class="lc-name">AI vrij</div><div style="font-size:10px;margin-top:6px;font-weight:600">Toegelaten zonder beperkingen</div></div>
+</div>
+
+<div class="ib sr">
+  <div class="ib-t">🎯 Twee basisprincipes voor leerlingen</div>
+  <div class="ib-b"><strong>1.</strong> Als leerling blijf je volledig verantwoordelijk voor het ingediende werk.<br><strong>2.</strong> Het werkstuk moet ondubbelzinnig aantonen dat je de competenties hebt verworven.<br>Transparantie is verplicht: leerlingen noteren correct welke AI-middelen ze gebruikten.</div>
+</div>
+
+<h3 class="ch3">🎬 EDUbox: AI-beleid en ethische kwesties</h3>
+<div class="yt-wrap">
+  <iframe src="https://www.youtube.com/embed/videoseries?list=PL1zloQd6C9_x_AiCofL-d_t4GuXtcKgBF&index=5" allowfullscreen loading="lazy"></iframe>
+</div>
+
+<h3 class="ch3">Hoe begeleid je leerlingen bij AI-gebruik?</h3>
+<div class="ll-grid">
+  <div class="ll-card"><div class="ll-icon">🔍</div><div class="ll-title">Transparantie vragen</div><div class="ll-desc">Vraag leerlingen welke AI-tools ze gebruikten en hoe. Maak dit een standaard deel van elke indiening.</div></div>
+  <div class="ll-card"><div class="ll-icon">🤔</div><div class="ll-title">Kritisch denken stimuleren</div><div class="ll-desc">Laat leerlingen AI-output analyseren, verbeteren of bekritiseren — in plaats van gewoon overnemen.</div></div>
+  <div class="ll-card"><div class="ll-icon">⚖️</div><div class="ll-title">Auteursrecht bespreken</div><div class="ll-desc">Wie bezit wat AI schrijft? Bespreek dit in de klas als mediawijsheidsonderwerp.</div></div>
+  <div class="ll-card"><div class="ll-icon">🎭</div><div class="ll-title">Rolmodel zijn</div><div class="ll-desc">Wees transparant over wanneer jij AI gebruikt bij lesvoorbereiding. Dat normaliseert verantwoord gebruik.</div></div>
+  <div class="ll-card"><div class="ll-icon">🛡️</div><div class="ll-title">Privacy bewaken</div><div class="ll-desc">Leer leerlingen NOOIT persoonlijke info van anderen in AI-tools in te voeren.</div></div>
+  <div class="ll-card"><div class="ll-icon">🌱</div><div class="ll-title">Leerkansen creëren</div><div class="ll-desc">AI-gebruik als leerobject: laat leerlingen AI-output vergelijken, controleren en verbeteren.</div></div>
+</div>
+
+<div class="nw">
+  <button class="sr-btn g" onclick="n3()">Volgende: kennischeck →</button>
+  <span class="nh">Stap 1/3</span>
+</div>`}
+
+function m3s1(c){
+  const quiz=[
+    {q:'Een leerling gebruikt AI voor een taak met label 1 "Geen AI". Wat doe je?',o:['Negeren — iedereen doet het','Behandelen als een onregelmatigheid conform het schoolreglement','De taak opnieuw laten maken zonder verdere gevolgen','Copilot M365 aanraden als alternatief'],a:1,f:'Label 1 = volledig verbod. Gebruik van AI is een onregelmatigheid die behandeld wordt conform het schoolreglement.'},
+    {q:'Een leerling vraagt: "Hebt u dit lesplan met AI gemaakt?" Wat is de beste reactie?',o:['Ontkennen om gezag te bewaren','Eerlijk antwoorden en uitleggen hoe je het gebruikte en controleerde','Het lesplan weghalen','Zeggen dat dat geen probleem van de leerling is'],a:1,f:'Transparantie is een kernprincipe. Dit is ook een kans om mediawijsheid te onderwijzen — jij bent het rolmodel.'},
+    {q:'Wat is het minimale dat leerlingen ALTIJD moeten vermelden bij AI-gebruik?',o:['Niets — dat is privé','Welke AI-middelen ze gebruikten en hoe','Alleen de naam van de tool','Alleen als gevraagd door de leerkracht'],a:1,f:'Sint-Rembert verplicht transparantie: leerlingen noteren correct welke AI-middelen ze gebruikten (zie bundel onderzoeksvaardigheden).'},
+    {q:'Wat betekent de EU AI Act (van kracht 2 feb. 2025) voor jou als leerkracht bij Sint-Rembert?',o:['Je moet zelf AI bouwen','Je bent door deze cursus officieel AI-geletterd conform de wet','Je mag geen AI meer gebruiken','Je moet maandelijks een rapport indienen'],a:1,f:'Correct! De EU AI Act verplicht organisaties medewerkers AI-geletterd te maken. Het voltooien van deze cursus voldoet aan die verplichting.'},
+    {q:'Je wil feedback geven op de tekst van leerling "Jonas D." via Copilot. Wat doe je?',o:['Typ zijn naam en tekst integraal in Copilot','Anonimiseer de tekst ("een leerling schreef...") en vraag dan feedback','Gebruik Copilot nooit voor feedback','Gebruik ChatGPT in plaats van Copilot'],a:1,f:'Geanonimiseerde teksten mogen. Namen van leerlingen horen NOOIT in Copilot — ook niet via het schoolaccount met EDP.'},
+  ];
+  rQuiz(c,quiz,3,'mod3',n3);
+}
+
+function m3s2(c){c.innerHTML=`
+<div class="s-badge">🏁 Stap 3 van 3 · Scenarios & Smartschool</div>
+<h2 class="ch2">Wat doe jij? — <em>Praktijkscenario's</em></h2>
+<p class="cp">Test je kennis van de AI-spelregels in realistische situaties.</p>
+
+<div id="sc-con"></div>
+
+<h3 class="ch3" style="margin-top:28px">✍️ Afsluitende reflectie</h3>
+<p class="cp" style="margin-bottom:10px">Formuleer <strong>1 concrete stap</strong> die jij de komende maand zet met AI in jouw lespraktijk:</p>
+<textarea class="sr-ta" id="r3" placeholder="Ik ga Copilot gebruiken voor... in mijn lessen [vak]. Specifiek wil ik proberen..."></textarea>
+
+<div class="ss-box" style="margin-top:28px">
+  <div class="ss-title">📤 Upload certificaat op Smartschool</div>
+  <div class="ss-steps">
+    <div class="ss-step"><div class="ss-step-num">1</div><div class="ss-step-text">Na het afronden van deze module ontvang je je certificaat. Klik op <strong>"Afdrukken / Opslaan als PDF"</strong>.</div></div>
+    <div class="ss-step"><div class="ss-step-num">2</div><div class="ss-step-text">Ga naar <strong>Smartschool → jouw naam → Portfolio of aangewezen map</strong> van de pedagogisch ICT-coördinator.</div></div>
+    <div class="ss-step"><div class="ss-step-num">3</div><div class="ss-step-text">Upload het bestand onder <strong>"AI-Geletterdheid certificaat — schooljaar 2026-2027"</strong>. Naam het bestand: <em>Voornaam_Naam_AI_Certificaat.pdf</em></div></div>
+    <div class="ss-step"><div class="ss-step-num">4</div><div class="ss-step-text">Wacht op validatie door je <strong>pedagogisch ICT-coördinator</strong>. Je ontvangt een bevestiging.</div></div>
+  </div>
+</div>
+
+<div class="ib ok">
+  <div class="ib-t">🎉 Klaar voor je certificaat!</div>
+  <div class="ib-b">Na het klikken op "Module 3 afronden" ontvang je je gepersonaliseerd certificaat. Sla het op als PDF en upload het op Smartschool. Gefeliciteerd met je AI-geletterdheid!</div>
+</div>
+
+<div class="nw">
+  <button class="sr-btn g" onclick="sR3()">🏆 Afronden & Certificaat ontvangen →</button>
+  <span class="nh">Upload daarna op Smartschool</span>
+</div>`;
+  rSc3();
+  const sv=localStorage.getItem('sr_r3')||'';if(document.getElementById('r3'))document.getElementById('r3').value=sv;document.getElementById('r3')&&(document.getElementById('r3').oninput=()=>localStorage.setItem('sr_r3',document.getElementById('r3').value));
+}
+function rSc3(){
+  const sc=[
+    {t:'Een collega wil een schoolrapport met leerlingennamen uploaden naar ChatGPT (gratis) om een samenvatting te maken.',o:['Dat mag — ChatGPT is veilig genoeg','Dat is een overtreding van de AI-spelregels: persoonsgegevens in niet-goedgekeurde tool','Dat mag als je persoonlijk e-mailadres gebruikt','Dat mag als het rapport geanonimiseerd is'],c:1,e:'De AI-spelregels zijn duidelijk: schooldocumenten met persoonsgegevens mogen NOOIT in niet-goedgekeurde tools. Gebruik Copilot M365.'},
+    {t:'Een leerling stuurt je een bericht: "Ik heb AI gebruikt voor mijn taak, maar ik vergat het te vermelden." Wat doe je?',o:['Negeren — het resultaat telt','Behandel het als een overtreding van de transparantieverplichting en geef de nodige gevolgen','Automatisch een 0 geven','Gewoon vragen om het de volgende keer te vermelden zonder gevolgen'],c:1,e:'Transparantie is verplicht (kernprincipe). De ernst van de gevolgen hangt af van het AI-label van de taak en de context.'},
+    {t:'Welk label geef je aan een taak waarbij leerlingen AI mogen gebruiken om hun essay te verbeteren, maar de inhoud zelf moeten schrijven?',o:['Label 1: Geen AI','Label 2: Ideeën & Structuur','Label 3: AI Bewerking','Label 5: AI vrij'],c:2,e:'Label 3 (AI Bewerking): AI is toegelaten voor het bewerken, verbeteren en preciseren van het werk — niet voor het creëren van de inhoud.'},
+  ];
+  const con=document.getElementById('sc-con');
+  sc.forEach((s,i)=>{
+    const el=document.createElement('div');el.className='scb';
+    el.innerHTML=`<div class="sc-title">Scenario ${i+1}</div><div class="sc-text">${s.t}</div><div class="sc-choices">${s.o.map((o,j)=>`<button onclick="cSc(this,${j},${s.c},'${s.e.replace(/'/g,"\\'")}',${i})" class="sc-choice">${o}</button>`).join('')}</div><div id="scfb-${i}" style="display:none;margin-top:9px;padding:9px 13px;border-radius:7px;font-size:12px;font-weight:700;line-height:1.5"></div>`;
+    con.appendChild(el);
+  });
+}
+function cSc(btn,ch,cor,exp,i){const ok=ch===cor;btn.className='sc-choice '+(ok?'sg':'sb');const fb=document.getElementById('scfb-'+i);fb.style.display='block';fb.style.background=ok?'rgba(127,224,0,.15)':'rgba(224,32,32,.06)';fb.style.color=ok?'#2d6a00':'var(--red)';fb.style.border=`2px solid ${ok?'var(--green)':'var(--red)'}`;fb.textContent=(ok?'✅ Correct! ':'❌ Niet het beste antwoord. ')+exp;btn.closest('.sc-choices').querySelectorAll('button').forEach(b=>b.disabled=true)}
+function sR3(){n3()}
+
+// ── QUIZ ENGINE ──
+function rQuiz(con,qs,modN,sk,onComplete){
+  const id='q'+modN+Date.now();
+  const ans=new Array(qs.length).fill(null);
+  const d=document.createElement('div');d.className='qc';
+  d.innerHTML=`<div class="qh"><div class="qi">📝</div><div><div class="qt">Kennischeck — Module ${modN}</div><div class="qs">${qs.length} vragen · Slaagdrempel: ${modN===1?60:70}%</div></div></div>
+  ${qs.map((q,qi)=>`<div class="qb"><div class="qq">${qi+1}. ${q.q}</div><div class="opts">${q.o.map((opt,oi)=>`<button class="opt" onclick="pO('${id}',${qi},${oi},${q.a},'${q.f.replace(/'/g,"\\'")}',${qs.length})" id="${id}-o${qi}-${oi}"><span class="ol">${String.fromCharCode(65+oi)}</span>${opt}</button>`).join('')}</div><div class="fb" id="${id}-f${qi}"></div></div>`).join('')}
+  <div class="q-res" id="${id}-r"></div>
+  <button class="q-next" id="${id}-n" onclick="fQ('${id}',${qs.length},${modN===1?60:70},'${sk}')" disabled>Controleer & ga verder →</button>`;
+  con.appendChild(d);
+  window[id]={ans,onComplete,pass:modN===1?60:70};
+}
+function pO(id,qi,oi,a,fb,tot){
+  const d=window[id];if(d.ans[qi]!==null)return;d.ans[qi]=oi;
+  const ok=oi===a;
+  for(let i=0;i<10;i++){const el=document.getElementById(`${id}-o${qi}-${i}`);if(!el)break;el.disabled=true;if(i===oi)el.classList.add(ok?'cor':'wr');else if(i===a&&!ok)el.classList.add('cor')}
+  const f=document.getElementById(`${id}-f${qi}`);f.className='fb show '+(ok?'ok':'nok');f.textContent=(ok?'✅ ':'❌ ')+fb;
+  if(d.ans.every(a=>a!==null))document.getElementById(`${id}-n`).disabled=false;
+}
+function fQ(id,tot,pass,sk){
+  const d=window[id];
+  const sc=Math.round(d.ans.filter((a,i)=>{const b=document.getElementById(`${id}-o${i}-${a}`);return b&&b.classList.contains('cor')}).length/tot*100);
+  const ok=sc>=pass;
+  const r=document.getElementById(`${id}-r`);r.className='q-res show';
+  r.innerHTML=`<div class="q-score ${ok?'pass':'fail'}">${sc}%</div><div class="q-msg">${ok?'✅ Geslaagd! Ga verder.':'❌ Niet geslaagd. Lees de feedback en probeer opnieuw.'}</div>`;
+  S[sk].quizScore=sc;ss();
+  const nb=document.getElementById(`${id}-n`);
+  if(ok){nb.textContent='Verder →';nb.onclick=()=>d.onComplete()}
+  else{nb.textContent='↺ Herhaal quiz';nb.onclick=()=>{if(sk==='mod1')rm1();else if(sk==='mod2')rm2();else rm3()}}
+}
+
+// ── CERT ──
+function rc(){
+  document.getElementById('cert-name').textContent=S.name||'Leerkracht';
+  document.getElementById('cert-date').textContent=new Date().toLocaleDateString('nl-BE',{day:'numeric',month:'long',year:'numeric'});
+}
+</script>
+</body>
+</html>
