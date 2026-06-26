@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI-Cursus — Scholengroep Sint-Rembert</title>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style-v2.css">
 </head>
 <body>
 <div id="app">
@@ -16,12 +16,13 @@
     <div class="sb-sub">Scholengroep Sint-Rembert · schooljaar 2025-2026</div>
   </div>
   <div class="prog-wrap">
-    <div class="prog-label">Voortgang verplicht <span id="pct">0%</span></div>
+    <div class="prog-label">Startest <span id="st-status">Nog te starten</span></div>
+    <div class="prog-label" style="margin-top:10px">Voortgang verplicht <span id="pct">0%</span></div>
     <div class="prog-track"><div class="prog-fill" id="pb" style="width:0%"></div></div>
   </div>
   <div class="nav-sec">
     <div class="nav-lbl">Menu</div>
-    <div class="ni active" onclick="sv('home')" id="nav-home"><div class="ni-icon">🏠</div><div class="ni-info"><div class="ni-title">Overzicht</div><div class="ni-sub">Startpagina & visie</div></div></div>
+    <div class="ni active" onclick="goHome()" id="nav-home"><div class="ni-icon">🏠</div><div class="ni-info"><div class="ni-title">Overzicht</div><div class="ni-sub">Startpagina & visie</div></div></div>
   </div>
   <div class="nav-sec">
     <div class="nav-lbl">Verplichte modules</div>
@@ -43,13 +44,19 @@
 
 <main id="main">
 
+<!-- ════════ STARTTEST (verplichte poort, 1 kans) ════════ -->
+<div class="view active" id="view-starttest">
+  <div class="mc-content" id="st-content"></div>
+</div>
+
 <!-- ════════ HOME ════════ -->
-<div class="view active" id="view-home">
+<div class="view" id="view-home">
   <div class="hero">
     <div class="hero-ey"><span>Scholengroep Sint-Rembert × EU AI Act × Digisprong</span></div>
     <h1 class="hero-h1">Word <span class="g">AI-Geletterd</span><br>als leerkracht</h1>
     <p class="hero-p">AI verandert het onderwijs fundamenteel — ook bij ons. Deze cursus maakt je wegwijs in wat AI is, hoe je leerlingen begeleidt bij verantwoord gebruik, en wat onze schoolregels zeggen. Twee verplichte modules, één certificaat conform de EU AI Act. Wie verder wil, kan daarna optioneel verdiepen in Copilot.</p>
     <div class="hero-stats">
+      <div class="hs"><div class="hs-num">🧪</div><div class="hs-lbl">Startest · 1 kans</div></div>
       <div class="hs"><div class="hs-num">2</div><div class="hs-lbl">Verplichte modules</div></div>
       <div class="hs"><div class="hs-num">5</div><div class="hs-lbl">AI-labels</div></div>
       <div class="hs"><div class="hs-num">+1</div><div class="hs-lbl">Optionele verdieping</div></div>
@@ -63,9 +70,9 @@
     <div class="sw-sub">Waarom investeert Sint-Rembert in AI-geletterdheid voor elk personeelslid?</div>
     <div class="vision-box">
       <div class="vision-title">🎯 Wat willen wij bereiken?</div>
-      <div class="vision-text">Sint-Rembert gelooft in <strong>AI als een kans</strong>, niet als een bedreiging. We willen dat elke leerkracht — van SMIK tot VTI, van ASO tot BSO — <strong>zelfzeker en verantwoord</strong> omgaat met AI-tools. Niet om leerkrachten te vervangen, maar om hen te <strong>versterken</strong>: meer tijd voor de leerling, minder administratieve last, betere differentiatie.<br><br>
+      <div class="vision-text">Sint-Rembert gelooft in <strong>AI als een kans</strong>, niet als een BEDREIGING. We willen dat elke leerkracht — van SMIK tot VTI, van ASO tot BSO — <strong>zelfzeker en verantwoord</strong> omgaat met AI-tools. Niet om leerkrachten te vervangen, maar om hen te <strong>versterken</strong>: meer tijd voor de leerling, minder administratieve last, betere differentiatie.<br><br>
       Twee kernprincipes sturen onze aanpak: <strong>alleen meerwaarde</strong> — gebruik AI enkel als het écht bijdraagt aan goed onderwijs — en <strong>transparantie</strong> — wie AI gebruikt, blijft altijd verantwoordelijk voor het proces en de output. De leerkracht blijft de expert.<br><br>
-      De <strong>EU AI Act</strong> (artikel 4, van toepassing sinds 2 februari 2025) verwacht van organisaties — ook scholen — dat ze zorgen voor voldoende AI-geletterdheid bij hun personeel. Het voltooien van de twee verplichte modules is onze invulling van die verplichting. Maar dit is méér dan een wettelijke verplichting: <strong>digitale competentie en mediawijsheid zijn een sleutelcompetentie in de leerplannen</strong> die we elke dag realiseren — wie aan AI-geletterdheid werkt, werkt dus letterlijk aan leerplandoelstellingen. We sluiten daarbij aan op het werk van het <strong>Kenniscentrum Digisprong</strong> (Vlaamse overheid), het <strong>Kenniscentrum Data & Maatschappij</strong> en <strong>Kennisnet</strong>.</div>
+      De <strong>EU AI Act</strong> (artikel 4, van toepassing sinds 2 februari 2025) verwacht van organisaties — ook scholen — dat ze zorgen voor voldoende AI-geletterdheid bij hun personeel. Het voltooien van de twee verplichte modules is onze invulling van die verplichting. We sluiten daarbij aan op het werk van het <strong>Kenniscentrum Digisprong</strong> (Vlaamse overheid), het <strong>Kenniscentrum Data & Maatschappij</strong> en <strong>Kennisnet</strong>.</div>
     </div>
 
     <!-- SPELREGELS -->
@@ -128,7 +135,7 @@
         <div class="mc-badge">Module 2 · Verplicht</div>
         <div class="mc-icon">🛡️</div>
         <div class="mc-title">Beleid & Leerlingen begeleiden</div>
-        <div class="mc-desc">De AI-spelregels, de EU AI Act, de 5 AI-labels, leerlingen begeleiden én je eigen opdrachten AI-bestendig maken. Essentieel voor elke leerkracht.</div>
+        <div class="mc-desc">De AI-spelregels, de EU AI Act, the 5 AI-labels, leerlingen begeleiden én je eigen opdrachten AI-bestendig maken. Essentieel voor elke leerkracht.</div>
         <div class="mc-meta"><div class="mc-dur">Eigen tempo</div><div class="mc-stat locked" id="ps2">🔒 Na module 1</div></div>
         <button class="sr-btn" id="bm2" disabled>🔒 Voltooi module 1</button>
       </div>
@@ -180,16 +187,16 @@
     <div class="cert-intro">
       <div class="cert-fire">🎉</div>
       <h2 style="font-family:'Archivo Black',sans-serif;font-size:26px;color:var(--blue);text-transform:uppercase;margin-bottom:7px">Gefeliciteerd!</h2>
-      <p style="color:var(--muted);font-weight:700;margin-bottom:28px">Je hebt de 2 verplichte modules voltooid. Download je certificaat hieronder en upload het op Smartschool.</p>
+      <p style="color:var(--muted);font-weight:700;margin-bottom:28px">Je hebt de 2 verplichte modules voltooid. Sla je reflectieverslag op en download je certificaat hieronder.</p>
     </div>
 
     <div class="ss-box" style="text-align:left;margin-bottom:20px">
-      <div class="ss-title">📤 Upload op Smartschool</div>
+      <div class="ss-title">📤 Voltooiing & Portfolio stappen</div>
       <div class="ss-steps">
         <div class="ss-step"><div class="ss-step-num">1</div><div class="ss-step-text">Controleer eerst dat <strong>je naam correct ingevuld is</strong> (links onderaan in de zijbalk). Die komt op het certificaat.</div></div>
-        <div class="ss-step"><div class="ss-step-num">2</div><div class="ss-step-text">Klik op <strong>"Download certificaat (PDF)"</strong>. ⚠️ Dit kan slechts <strong>één keer</strong> — sla het bestand meteen op.</div></div>
-        <div class="ss-step"><div class="ss-step-num">3</div><div class="ss-step-text">Ga naar <strong>Smartschool → Mijn portfolio</strong> (of de map die je pedagogisch ICT-coördinator aanwees) en upload het bestand als <em>Voornaam_Naam_AI_Certificaat.pdf</em> onder <strong>"AI-Geletterdheid — Certificaat 2025-2026"</strong>.</div></div>
-        <div class="ss-step"><div class="ss-step-num">4</div><div class="ss-step-text">Je pedagogisch ICT-coördinator valideert de upload. Je ontvangt een bevestiging. <strong>Klaar!</strong></div></div>
+        <div class="ss-step"><div class="ss-step-num">2</div><div class="ss-step-text">Klik op <strong>"💾 Download Reflectieverslag (TXT)"</strong> om je ingevulde antwoorden en reflecties op te slaan voor je eigen portfolio.</div></div>
+        <div class="ss-step"><div class="ss-step-num">3</div><div class="ss-step-text">Klik op <strong>"🖨️ Download certificaat (PDF)"</strong>. ⚠️ Dit kan slechts <strong>één keer</strong> — kies "Opslaan als PDF" in je printermenu.</div></div>
+        <div class="ss-step"><div class="ss-step-num">4</div><div class="ss-step-text">Upload je documenten op Smartschool onder <strong>"AI-Geletterdheid — Certificaat 2025-2026"</strong>.</div></div>
       </div>
     </div>
 
@@ -221,13 +228,16 @@
     </div>
 
     <div id="cert-dl-info"></div>
-    <button class="print-btn" id="print-cert-btn" onclick="doCertPrint()">🖨️ Download certificaat (PDF)</button>
-    <div class="cert-warn">⚠️ Je kan je certificaat slechts <strong>één keer</strong> downloaden. Controleer eerst je naam in de zijbalk en kies bij het afdrukken "Opslaan als PDF".</div>
+    <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+      <button class="print-btn" id="print-cert-btn" onclick="doCertPrint()">🖨️ Download certificaat (PDF)</button>
+      <button class="summary-btn" id="download-summary-btn" onclick="downloadSummary()">💾 Download Reflectieverslag (TXT)</button>
+    </div>
+    <div class="cert-warn">⚠️ Je kan je certificaat slechts <strong>één keer</strong> downloaden. Sla ook je reflectaverslag op om al je ingevulde teksten te bewaren!</div>
   </div>
 </div>
 
 </main>
 </div>
-<script src="script.js"></script>
+<script src="script-v2.js"></script>
 </body>
 </html>
