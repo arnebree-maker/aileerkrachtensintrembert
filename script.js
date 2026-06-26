@@ -12,7 +12,7 @@ const INSCHRIJF = 'https://VERVANG-DOOR-JULLIE-INSCHRIJFLINK';
 
 // ── STATE (+ migratie van v7/v6) ──
 const K = 'sr_ai_v8';
-let S = { name:'', starttest:{taken:false, score:0, passed:false}, mod1:{step:0,done:false,skipped:false}, mod2:{step:0,done:false}, mod3:{step:0,done:false}, certPrinted:false };
+let S = { name:'', mod1:{step:0,done:false}, mod2:{step:0,done:false}, mod3:{step:0,done:false}, certPrinted:false };
 function ld(){
   try{
     const s = localStorage.getItem(K);
@@ -41,30 +41,12 @@ function up(){
   const p = Math.round(d/2*100);
   document.getElementById('pb').style.width = p+'%';
   document.getElementById('pct').textContent = p+'%';
-
-  const stEl = document.getElementById('st-status');
-  if(stEl){
-    if(!S.starttest.taken){ stEl.textContent = 'Nog te starten'; stEl.className = ''; }
-    else if(S.starttest.passed){ stEl.textContent = '✓ '+S.starttest.score+'% — M1 overgeslagen'; stEl.className = 'st-pass'; }
-    else { stEl.textContent = S.starttest.score+'% — M1 vereist'; stEl.className = 'st-fail'; }
-  }
-
-  if(!S.starttest.taken){
-    document.getElementById('nav-mod1').className = 'ni locked';
-    document.getElementById('nav-mod2').className = 'ni locked';
-    document.getElementById('l1').textContent = '🔒';
-    document.getElementById('l2').textContent = '🔒';
-    return;
-  }
-
   document.getElementById('nav-mod1').className = S.mod1.done ? 'ni done' : 'ni available';
   document.getElementById('nav-mod2').className = S.mod2.done ? 'ni done' : (S.mod1.done ? 'ni available' : 'ni locked');
   if(S.mod1.done && S.mod2.done){ document.getElementById('nav-cert').className='ni available'; document.getElementById('lc').textContent='›'; }
-  if(S.mod1.done) document.getElementById('l1').innerHTML = S.mod1.skipped ? '<span style="color:var(--green)" title="Overgeslagen via startest">⏩</span>' : '<span style="color:var(--green)">✓</span>';
-  else document.getElementById('l1').textContent = '›';
+  if(S.mod1.done) document.getElementById('l1').innerHTML = '<span style="color:var(--green)">✓</span>';
   if(S.mod2.done) document.getElementById('l2').innerHTML = '<span style="color:var(--green)">✓</span>';
   else if(S.mod1.done) document.getElementById('l2').textContent = '›';
-  else document.getElementById('l2').textContent = '🔒';
   if(S.mod3.done) document.getElementById('l3').innerHTML = '<span style="color:var(--green)">✓</span>';
 }
 function rmc(){
@@ -85,18 +67,12 @@ function sv(id){
   document.getElementById('main').scrollTo({top:0});
 }
 function sm(n){
-  if(!S.starttest.taken){ goStartTest(); return; }
   if(n===1){ rm1(); sv('mod1'); }
   else if(n===2 && S.mod1.done){ rm2(); sv('mod2'); }
   else if(n===2){ alert('Voltooi eerst module 1.'); }
   else if(n===3){ rm3(); sv('mod3'); }
 }
-function tm(n){
-  if(!S.starttest.taken){ goStartTest(); return; }
-  if(n===2 && S.mod1.done) sm(2); else alert('Voltooi eerst module 1.');
-}
-function goHome(){ if(!S.starttest.taken){ goStartTest(); return; } sv('home'); }
-function goStartTest(){ renderStartTest(); sv('starttest'); }
+function tm(n){ if(n===2 && S.mod1.done) sm(2); else alert('Voltooi eerst module 1.'); }
 function tryC(){ (S.mod1.done && S.mod2.done) ? sv('cert') : alert('Voltooi eerst de 2 verplichte modules (1 en 2).'); }
 function rDots(m,tot,cur){
   const c = document.getElementById('sd'+m); if(!c) return; c.innerHTML='';
@@ -145,13 +121,6 @@ function downloadSummary() {
   txt += `==================================================\n\n`;
   txt += `Deelnemer: ${name}\n`;
   txt += `Datum van export: ${new Date().toLocaleDateString('nl-BE')}\n\n`;
-
-  txt += `--------------------------------------------------\n`;
-  txt += `STARTTEST\n`;
-  txt += `--------------------------------------------------\n`;
-  txt += S.starttest.taken
-    ? `Resultaat: ${S.starttest.score}% — ${S.starttest.passed ? 'Geslaagd: Module 1 overgeslagen' : 'Niet geslaagd: Module 1 gevolgd'}\n\n`
-    : `Nog niet afgelegd.\n\n`;
   
   txt += `--------------------------------------------------\n`;
   txt += `MODULE 1: WAT IS AI? — KENNIS EN REFLECTIE\n`;
@@ -186,152 +155,6 @@ function downloadSummary() {
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
-}
-
-/* ════════════════════════════════════════════
-   STARTTEST — verplichte poort vóór Module 1
-   10 vragen · slaagdrempel 80% (8/10) · 1 kans
-   Slagen ⇒ Module 1 wordt overgeslagen, start bij Module 2
-   ════════════════════════════════════════════ */
-const ST_Q = [
-  { q:'Wat is het kernverschil tussen vroegere AI en generatieve AI (GenAI)?',
-    o:['Vroegere AI classificeerde of voorspelde; GenAI creëert volledig nieuwe content zoals tekst, beeld of code.',
-       'GenAI is simpelweg een snellere versie van dezelfde technologie als vroegere AI-systemen.',
-       'Vroegere AI kon enkel beelden verwerken, GenAI uitsluitend tekst.',
-       'Er is geen wezenlijk verschil — beide termen verwijzen naar dezelfde technologie.'],
-    a:0, f:'Vroegere AI (zoals een spamfilter) classificeerde of voorspelde. GenAI gaat een stap verder en creëert nieuwe content.' },
-  { q:'Wat is een hallucinatie bij generatieve AI?',
-    o:['Wanneer een AI-model weigert te antwoorden op een onveilige vraag.',
-       'Wanneer een AI-model met grote stelligheid feitelijk onjuiste of verzonnen informatie genereert.',
-       'Wanneer een AI-model trager werkt door serveroverbelasting.',
-       'Wanneer een AI-model letterlijke tekst overneemt uit beschermde trainingsdata.'],
-    a:1, f:'Hallucinaties zijn plausibel klinkende maar foutieve output — een gevolg van voorspellen op basis van kansberekening.' },
-  { q:'Waarom klinkt foutieve AI-output toch vaak overtuigend?',
-    o:['Omdat AI-bedrijven bewust overtuigende taal inprogrammeren.',
-       'Omdat GenAI op basis van kansberekening telkens het meest waarschijnlijke volgende woord voorspelt, los van of het feitelijk klopt.',
-       'Omdat foutieve informatie altijd een andere schrijfstijl heeft.',
-       'Omdat AI elke uitspraak vooraf dubbel checkt met het internet.'],
-    a:1, f:'GenAI voorspelt het meest waarschijnlijke volgende woord — dat klinkt zelfverzekerd, ook wanneer het fout is.' },
-  { q:'Welke AI-tool is binnen Sint-Rembert volledig ondersteund en dataproof voor schoolgebruik?',
-    o:['De gratis consumentenversie van ChatGPT via een persoonlijk account.',
-       'Google Gemini Advanced met een geverifieerd privé-account.',
-       'Copilot M365, aangemeld met je officiële schoolaccount van de scholengroep.',
-       'Midjourney Commercial Edition, apart aangekocht door een vakgroep.'],
-    a:2, f:'Copilot via je schoolaccount valt onder de overeenkomst met de scholengroep met gegarandeerde gegevensbescherming.' },
-  { q:'Wat is bias in een AI-systeem?',
-    o:['Een technische storing die de output vertraagt.',
-       'Vooroordelen of stereotypen uit de trainingsdata die terugkomen in de gegenereerde output.',
-       'Een instelling die je zelf kan aan- of uitzetten in de tool.',
-       'De term voor wanneer AI weigert te antwoorden op een vraag.'],
-    a:1, f:'AI leert van data vol menselijke vooroordelen — die vertekening sijpelt door in de output.' },
-  { q:'Een AI-tool noemt een wetenschappelijke studie met auteur en jaartal. Wat is de juiste reflex?',
-    o:['De bron blindelings overnemen, want een jaartal en auteur klinken betrouwbaar.',
-       'Zelf controleren via een betrouwbare bron of de studie echt bestaat.',
-       'Enkel checken of het jaartal logisch is binnen de context.',
-       'In dezelfde chat aan de AI vragen of de bron wel echt klopt.'],
-    a:1, f:'Verzonnen bronvermeldingen zijn een klassieke hallucinatie. Zelf controleren is noodzakelijk.' },
-  { q:'Welke van deze toepassingen is NIET aan te raden?',
-    o:['Sneller differentiatiemateriaal opstellen met AI.',
-       'Feedback formuleren op geanonimiseerde leerlingteksten.',
-       'Een volledige toetsbeoordeling overlaten aan AI zonder eigen controle.',
-       'Administratieve lasten verlagen met AI-ondersteuning.'],
-    a:2, f:'De leerkracht blijft altijd eindverantwoordelijk. AI-output ongecontroleerd laten beslissen over een beoordeling is niet toegestaan.' },
-  { q:'Wat is het grootste privacyrisico bij AI-gebruik op school?',
-    o:['Een test maken via Copilot M365 met je schoolaccount.',
-       'Persoonsgegevens van leerlingen invoeren in een niet-goedgekeurde of gratis AI-tool.',
-       'Een anonieme oefentekst intypen in een toegelaten tool.',
-       'Een afbeelding genereren voor een les zonder personen erop.'],
-    a:1, f:'Persoonsgegevens horen nooit in een niet-goedgekeurde of gratis tool — dat is het kernrisico.' },
-  { q:'Wat verwacht artikel 4 van de EU AI Act van scholen zoals Sint-Rembert?',
-    o:['Dat scholen een aparte AI-ambtenaar in dienst nemen.',
-       'Dat personeelsleden die met AI werken over voldoende AI-geletterdheid beschikken.',
-       'Dat elk AI-gebruik vooraf wordt goedgekeurd door de Vlaamse overheid.',
-       'Dat scholen verplicht minstens één betaalde AI-licentie aankopen.'],
-    a:1, f:'Artikel 4 verplicht organisaties — ook scholen — om voldoende AI-geletterdheid te garanderen bij wie met AI werkt.' },
-  { q:'Wat kan generatieve AI, in tegenstelling tot een traditionele zoekmachine?',
-    o:['Sneller laden op een trage internetverbinding.',
-       'Volledig nieuwe tekst, beelden, audio of code genereren op basis van een prompt.',
-       'Automatisch alle bronnen dubbel controleren op juistheid.',
-       'Werken zonder enige vorm van trainingsdata.'],
-    a:1, f:'Een zoekmachine vindt bestaande informatie. GenAI creëert nieuwe content op basis van een prompt.' },
-];
-
-function renderStartTest(){
-  const c = document.getElementById('st-content');
-  if(!c) return;
-  S.starttest.taken ? renderStartTestLocked(c) : renderStartTestQuiz(c);
-}
-
-function renderStartTestLocked(c){
-  const pass = S.starttest.passed;
-  c.innerHTML = `
-<div class="s-badge">🧪 Startest</div>
-<h2 class="ch2">Je hebt de startest al <em>afgelegd</em></h2>
-<div class="tr-box ${pass?'pass':'fail'}">
-  <div class="tr-score ${pass?'pass':'fail'}">${S.starttest.score}%</div>
-  <div class="tr-msg">${pass ? '✅ Geslaagd — Module 1 overgeslagen' : 'Onder de 80% — Module 1 is vereist'}</div>
-  <div class="tr-sub">Deze test kan maar één keer worden afgelegd. ${pass ? 'Je kan meteen verder naar Module 2: Beleid &amp; Leerlingen.' : 'Doorloop Module 1 om de basis op te frissen — daarna ontgrendelt Module 2 automatisch.'}</div>
-  <button class="sr-btn g" onclick="${pass?'sm(2)':'sm(1)'}">${pass?'Naar Module 2 →':'Start Module 1 →'}</button>
-</div>`;
-}
-
-function renderStartTestQuiz(c){
-  const id = 'stq';
-  const stt = { ans: new Array(ST_Q.length).fill(null), correct: new Array(ST_Q.length).fill(false) };
-  let inner = `
-<div class="s-badge">🧪 Startest · Verplicht · 1 kans</div>
-<h2 class="ch2">Test je <em>basiskennis</em> over AI</h2>
-<p class="cp">10 vragen over wat AI is, hoe generatieve AI werkt en welke risico's je moet kennen. Haal je <strong>80% (8/10)</strong>, dan sla je Module 1 over en start je meteen bij Module 2: Beleid &amp; Leerlingen. Let op: je kan deze test maar <strong>één keer</strong> afleggen — kies dus bewust.</p>
-<div class="qc">
-  <div class="qh"><div class="qi">🧪</div><div><div class="qt">Startest — Wat is AI?</div><div class="qs">10 vragen · slaagdrempel 80%</div></div></div>`;
-  ST_Q.forEach((q,qi)=>{
-    inner += `<div class="qb"><div class="qq">${qi+1}. ${q.q}</div><div class="opts">`;
-    q.o.forEach((opt,oi)=>{
-      inner += `<button class="opt" data-qi="${qi}" data-oi="${oi}" id="${id}-o${qi}-${oi}"><span class="ol">${String.fromCharCode(65+oi)}</span>${opt}</button>`;
-    });
-    inner += `</div><div class="fb" id="${id}-f${qi}"></div></div>`;
-  });
-  inner += `<div class="q-res" id="${id}-r"></div>
-    <div style="display:flex;align-items:center;width:100%;justify-content:flex-end;margin-top:12px;">
-      <button class="q-next" id="${id}-n" disabled>Resultaat berekenen →</button>
-    </div>
-  </div>`;
-  c.innerHTML = inner;
-
-  c.querySelectorAll('.opt').forEach(b=>{
-    b.onclick = ()=>{
-      const qi=+b.dataset.qi, oi=+b.dataset.oi, q=ST_Q[qi];
-      if(stt.ans[qi]!==null) return;
-      stt.ans[qi]=oi;
-      const ok = oi===q.a;
-      stt.correct[qi]=ok;
-      q.o.forEach((_,i)=>{
-        const el=document.getElementById(id+'-o'+qi+'-'+i);
-        el.disabled=true;
-        if(i===oi) el.classList.add(ok?'cor':'wr');
-        else if(i===q.a && !ok) el.classList.add('cor');
-      });
-      const f=document.getElementById(id+'-f'+qi);
-      f.className='fb show '+(ok?'ok':'nok');
-      f.textContent=(ok?'✅ ':'❌ ')+q.f;
-      if(stt.ans.every(a=>a!==null)) document.getElementById(id+'-n').disabled=false;
-    };
-  });
-
-  document.getElementById(id+'-n').onclick = ()=>{
-    const sc = Math.round(stt.correct.filter(Boolean).length / ST_Q.length * 100);
-    const passed = sc >= 80;
-    S.starttest = { taken:true, score:sc, passed:passed };
-    if(passed){ S.mod1.done = true; S.mod1.skipped = true; }
-    ss(); up(); rmc();
-    const r=document.getElementById(id+'-r');
-    r.className='q-res show';
-    r.innerHTML = '<div class="q-score '+(passed?'pass':'fail')+'">'+sc+'%</div><div class="q-msg">'+(passed?'✅ Geslaagd! Module 1 wordt overgeslagen.':'Nog niet voldoende — Module 1 is vereist.')+'</div>';
-    const nb=document.getElementById(id+'-n');
-    nb.textContent = passed ? 'Naar Module 2 →' : 'Start Module 1 →';
-    nb.disabled = false;
-    nb.onclick = ()=> passed ? sm(2) : sm(1);
-  };
 }
 
 /* ════════════════════════════════════════════
@@ -841,10 +664,3 @@ function renderAiCards(){
     g.appendChild(el);
   });
 }
-
-/* ════════════════════════════════════════════
-   BOOTSTRAP — uitgesteld tot het einde van het
-   bestand, zodat alle const/function-declaraties
-   (incl. ST_Q en de module-arrays) al bestaan.
-   ════════════════════════════════════════════ */
-if(!S.starttest.taken){ goStartTest(); } else { sv('home'); }
