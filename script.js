@@ -447,9 +447,9 @@ function m1s3(c){
   <circle cx="600" cy="55" r="34" fill="rgba(127,224,0,.18)"/>
   <text x="600" y="65" font-size="32" text-anchor="middle">🔍</text>
 </svg>
-<p class="cp">Leerlingen zien op sociale media de wildste doemscenario's over AI — en evengoed de wildste belofes. Om het gesprek hierover goed te starten (met collega's, of in je eigen klas), gebruiken we twee contrasterende videofragmenten met telkens vijf reflectievragen.</p>
+<p class="cp">Leerlingen zien op sociale media de wildste doemscenario's over AI — en evengoed de wildste belofes. Om het gesprek hierover goed te starten (met collega's, of in je eigen klas), gebruiken we een videofragment met vijf reflectievragen.</p>
 
-<h3 class="ch3">🎬 Video 1 — NOS op 3: "Roeit AI ons uit… of is het hype?"</h3>
+<h3 class="ch3">🎬 NOS op 3: "Roeit AI ons uit… of is het hype?"</h3>
 <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/-WDdSiVjBhg" allowfullscreen loading="lazy" title="NOS op 3 — Roeit AI ons uit of is het hype"></iframe></div>
 <p class="cp">Deze video plaatst de extreme doemscenario's rondom AI in perspectief en verlegt de focus naar de échte, actuele uitdagingen zoals misinformatie en tech-hypes.</p>
 
@@ -472,31 +472,6 @@ function m1s3(c){
 <div class="disc-card">
   <div class="disc-q">5. Als AI straks veel routinewerk overneemt op de arbeidsmarkt, op welke menselijke vaardigheden moeten wij dan nu de nadruk leggen?</div>
   <div class="disc-a">Verschuif de focus naar vaardigheden waar AI moeite mee heeft: empathie, kritisch oordeelsvermogen, complexe fysieke handelingen, out-of-the-box denken en probleemoplossend vermogen.</div>
-</div>
-
-<h3 class="ch3">🎬 Video 2 — Arjen Lubach: "Valt het onderwijs nog te redden van AI?"</h3>
-<div class="yt-wrap"><iframe src="https://www.youtube.com/embed/xpedFIZFmhc" allowfullscreen loading="lazy" title="Arjen Lubach — Valt het onderwijs nog te redden van AI"></iframe></div>
-<p class="cp">Deze video toont op scherpe (en humoristische) wijze hoe AI de dagelijkse lespraktijk en het traditionele huiswerk volledig op zijn kop zet.</p>
-
-<div class="disc-card">
-  <div class="disc-q">1. Lubach laat zien dat traditioneel huiswerk steeds vaker door een chatbot wordt gedaan. Is dit niet het uitgelezen moment om onze manier van lesgeven om te gooien?</div>
-  <div class="disc-a">Absoluut. Het reproduceren van theorie als thuiswerk heeft zijn langste tijd gehad. Dit dwingt de overstap naar flipping the classroom: basiskennis thuis, verwerking en toetsing in de klas waar jij direct kan bijsturen.</div>
-</div>
-<div class="disc-card">
-  <div class="disc-q">2. Als leerlingen de stof thuis door AI kunnen laten uitleggen, hoe maken we de contacttijd in het klaslokaal dan zo waardevol mogelijk?</div>
-  <div class="disc-a">De lestijd wordt de plek voor échte interactie: samen dieper ingaan op de 'waarom'-vraag, fouten analyseren en het leerproces in dialoog zichtbaar maken — in plaats van eenrichtingsverkeer waarbij jij theorie zendt.</div>
-</div>
-<div class="disc-card">
-  <div class="disc-q">3. Leraren zoeken wanhopig naar AI-detectiesoftware. Is het spelen van politieagent de juiste weg, of moeten we onze evaluatie anders inrichten?</div>
-  <div class="disc-a">Spelen voor politieagent is een wapenwedloop die we als onderwijs gaan verliezen. De duurzame oplossing is procesgericht evalueren: toetsen op wat leerlingen ter plekke in de klas, mondeling of op papier kunnen demonstreren.</div>
-</div>
-<div class="disc-card">
-  <div class="disc-q">4. Hoe zorgen we ervoor dat leerlingen minder snel de neiging hebben om denkwerk blind uit te besteden aan AI?</div>
-  <div class="disc-a">Leg de volledige nadruk op het waarom. Begrijpen leerlingen waarom een vaardigheid cruciaal is voor hun ontwikkeling of latere carrière, dan groeit de intrinsieke motivatie en zien ze in dat ze zichzelf tekortdoen door denkwerk over te slaan.</div>
-</div>
-<div class="disc-card">
-  <div class="disc-q">5. Lubach maakt een grap over "hersenfitness". Welke actieve werkvormen kunnen we gebruiken om leerlingen écht zelf te laten nadenken?</div>
-  <div class="disc-a">Keer regelmatig bewust terug naar analoog werken: socratische gesprekken in de kring, fysieke werkvormen of peer-feedbacksessies zonder schermen, zodat het brein gedwongen wordt zelf oplossingen te formuleren.</div>
 </div>
 
 <div class="nw">
@@ -635,6 +610,31 @@ function m2s1(c){
 <div class="ib warn">
   <div class="ib-t">⚠️ Over AI-detectietools: wees voorzichtig</div>
   <div class="ib-b">Tools die beweren AI-tekst te herkennen zijn <strong>onbetrouwbaar</strong>. Ze leveren regelmatig valse beschuldigingen op — vooral bij leerlingen die formeel of gestructureerd schrijven, of bij niet-moedertaalsprekers van het Nederlands. Bovendien schend je de privacy van leerlingen als je hun volledige naam samen met hun tekst in zo'n online tool plaatst. Vertrouw bij een vermoeden van AI-gebruik liever op je kennis van de leerling: ken je zijn of haar normale schrijfstijl, en wijkt deze tekst daar sterk van af?</div>
+</div>
+
+<h3 class="ch3">🎬 Arjen Lubach: "Valt het onderwijs nog te redden van AI?"</h3>
+<div class="yt-wrap"><iframe src="https://www.youtube.com/embed/xpedFIZFmhc" allowfullscreen loading="lazy" title="Arjen Lubach — Valt het onderwijs nog te redden van AI"></iframe></div>
+<p class="cp">Deze video toont op scherpe (en humoristische) wijze hoe AI de dagelijkse lespraktijk en het traditionele huiswerk volledig op zijn kop zet — en raakt rechtstreeks aan de detectie- en evaluatievraag hierboven.</p>
+
+<div class="disc-card">
+  <div class="disc-q">1. Lubach laat zien dat traditioneel huiswerk steeds vaker door een chatbot wordt gedaan. Is dit niet het uitgelezen moment om onze manier van lesgeven om te gooien?</div>
+  <div class="disc-a">Absoluut. Het reproduceren van theorie als thuiswerk heeft zijn langste tijd gehad. Dit dwingt de overstap naar flipping the classroom: basiskennis thuis, verwerking en toetsing in de klas waar jij direct kan bijsturen.</div>
+</div>
+<div class="disc-card">
+  <div class="disc-q">2. Als leerlingen de stof thuis door AI kunnen laten uitleggen, hoe maken we de contacttijd in het klaslokaal dan zo waardevol mogelijk?</div>
+  <div class="disc-a">De lestijd wordt de plek voor échte interactie: samen dieper ingaan op de 'waarom'-vraag, fouten analyseren en het leerproces in dialoog zichtbaar maken — in plaats van eenrichtingsverkeer waarbij jij theorie zendt.</div>
+</div>
+<div class="disc-card">
+  <div class="disc-q">3. Leraren zoeken wanhopig naar AI-detectiesoftware. Is het spelen van politieagent de juiste weg, of moeten we onze evaluatie anders inrichten?</div>
+  <div class="disc-a">Spelen voor politieagent is een wapenwedloop die we als onderwijs gaan verliezen. De duurzame oplossing is procesgericht evalueren: toetsen op wat leerlingen ter plekke in de klas, mondeling of op papier kunnen demonstreren.</div>
+</div>
+<div class="disc-card">
+  <div class="disc-q">4. Hoe zorgen we ervoor dat leerlingen minder snel de neiging hebben om denkwerk blind uit te besteden aan AI?</div>
+  <div class="disc-a">Leg de volledige nadruk op het waarom. Begrijpen leerlingen waarom een vaardigheid cruciaal is voor hun ontwikkeling of latere carrière, dan groeit de intrinsieke motivatie en zien ze in dat ze zichzelf tekortdoen door denkwerk over te slaan.</div>
+</div>
+<div class="disc-card">
+  <div class="disc-q">5. Lubach maakt een grap over "hersenfitness". Welke actieve werkvormen kunnen we gebruiken om leerlingen écht zelf te laten nadenken?</div>
+  <div class="disc-a">Keer regelmatig bewust terug naar analoog werken: socratische gesprekken in de kring, fysieke werkvormen of peer-feedbacksessies zonder schermen, zodat het brein gedwongen wordt zelf oplossingen te formuleren.</div>
 </div>
 
 <h3 class="ch3">💬 Een eerlijk gesprek voeren</h3>
