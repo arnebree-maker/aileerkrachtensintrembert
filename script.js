@@ -103,6 +103,37 @@ function rDots(m,tot,cur){
   for(let i=0;i<tot;i++){ const d=document.createElement('div'); d.className='dot '+(i<cur?'done':i===cur?'active':''); c.appendChild(d); }
 }
 
+/* ════════════════════════════════════════════
+   MINIMALE LEESTIJD — 60s per stap, loopt stil
+   op de achtergrond. Enkel "Volgende"-knoppen
+   (.sr-btn.g / .sr-btn.o binnen .nw) worden
+   tijdelijk geblokkeerd; "Vorige" blijft vrij.
+   ════════════════════════════════════════════ */
+function lockNextButtons(container, seconds){
+  seconds = seconds || 60;
+  const btns = container.querySelectorAll('.nw .sr-btn.g, .nw .sr-btn.o');
+  btns.forEach(b=>{
+    if(b.dataset.timerId){ clearInterval(+b.dataset.timerId); }
+    const original = b.dataset.origText || b.textContent;
+    b.dataset.origText = original;
+    let remaining = seconds;
+    b.disabled = true;
+    b.textContent = original + ' (' + remaining + 's)';
+    const id = setInterval(()=>{
+      remaining--;
+      if(remaining <= 0){
+        clearInterval(id);
+        b.disabled = false;
+        b.textContent = original;
+        delete b.dataset.timerId;
+      } else {
+        b.textContent = original + ' (' + remaining + 's)';
+      }
+    }, 1000);
+    b.dataset.timerId = String(id);
+  });
+}
+
 // ── HERBRUIKBARE PROMO ──
 function promoMini(tekst){
   return '<div class="promo-mini"><div class="promo-mini-icon">🚀</div><div style="flex:1"><div class="promo-mini-title">Professionaliseringsplan Sint-Rembert</div><div class="promo-mini-desc">'+tekst+'</div></div><a class="promo-mini-btn" href="'+INSCHRIJF+'" target="_blank">Schrijf in</a></div>';
@@ -338,7 +369,7 @@ function renderStartTestQuiz(c){
    MODULE 1 — WAT IS AI? (5 stappen)
    ════════════════════════════════════════════ */
 const m1 = [m1s0, m1s1, m1s2, m1s3, m1s4, m1s5, m1s6, m1s7, m1s8, m1s9, m1s10, m1s11, m1s12];
-function rm1(){ const c=document.getElementById('m1c'); c.innerHTML=''; rDots(1,m1.length,S.mod1.step); m1[S.mod1.step](c); }
+function rm1(){ const c=document.getElementById('m1c'); c.innerHTML=''; rDots(1,m1.length,S.mod1.step); m1[S.mod1.step](c); lockNextButtons(c); }
 function n1(){ S.mod1.step++; ss(); S.mod1.step>=m1.length ? d1() : rm1(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); }
 function p1(){ if(S.mod1.step > 0){ S.mod1.step--; ss(); rm1(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); } }
 function d1(){ S.mod1.done=true; S.mod1.step=0; ss(); up(); rmc(); sv('home'); setTimeout(()=>alert('🎉 Module 1 voltooid! Module 2 is nu beschikbaar.'),300); }
@@ -649,7 +680,7 @@ function sR1(){
    MODULE 2 — BELEID & LEERLINGEN (5 stappen)
    ════════════════════════════════════════════ */
 const m2 = [m2s0, m2s1, m2s2, m2s3, m2s4];
-function rm2(){ const c=document.getElementById('m2c'); c.innerHTML=''; rDots(2,m2.length,S.mod2.step); m2[S.mod2.step](c); }
+function rm2(){ const c=document.getElementById('m2c'); c.innerHTML=''; rDots(2,m2.length,S.mod2.step); m2[S.mod2.step](c); lockNextButtons(c); }
 function n2(){ S.mod2.step++; ss(); S.mod2.step>=m2.length ? d2() : rm2(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); }
 function p2(){ if(S.mod2.step > 0){ S.mod2.step--; ss(); rm2(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); } }
 function d2(){ S.mod2.done=true; S.mod2.step=0; ss(); up(); rmc(); sv('cert'); }
@@ -870,7 +901,7 @@ function sR3(){
    MODULE 3 — COPILOT IN DE PRAKTIJK (OPTIONEEL)
    ════════════════════════════════════════════ */
 const m3 = [m3s0, m3s1, m3s2, m3s3, m3s4, m3s5, m3s6, m3s7];
-function rm3(){ const c=document.getElementById('m3c'); c.innerHTML=''; rDots(3,m3.length,S.mod3.step); m3[S.mod3.step](c); }
+function rm3(){ const c=document.getElementById('m3c'); c.innerHTML=''; rDots(3,m3.length,S.mod3.step); m3[S.mod3.step](c); lockNextButtons(c); }
 function n3(){ S.mod3.step++; ss(); S.mod3.step>=m3.length ? d3() : rm3(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); }
 function p3(){ if(S.mod3.step > 0){ S.mod3.step--; ss(); rm3(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); } }
 function d3(){ S.mod3.done=true; S.mod3.step=0; ss(); up(); rmc(); sv('home'); setTimeout(()=>alert('🎉 Praktijkverdieping voltooid!'),300); }
