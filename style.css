@@ -231,6 +231,11 @@ body{font-family:'Nunito',sans-serif;background:var(--off);color:var(--text);min
 
 .ai-card{background:white;border:2px solid var(--gray);border-radius:10px;padding:14px;cursor:pointer;text-align:center;font-size:12px;font-weight:700;margin-bottom:8px}
 
+/* DISCUSSIEKAARTEN — video-reflectievragen (Hype of Realiteit) */
+.disc-card{background:white;border:2px solid var(--gray);border-left:4px solid var(--blue);border-radius:var(--rsm);padding:14px 18px;margin-bottom:10px}
+.disc-q{font-size:13px;font-weight:800;color:var(--blue);margin-bottom:6px;line-height:1.5}
+.disc-a{font-size:13px;color:#3d4f8a;line-height:1.6;font-weight:600}
+
 /* STARTTEST */
 #st-status{color:rgba(255,255,255,.4);font-weight:800}
 #st-status.st-pass{color:var(--green)}
