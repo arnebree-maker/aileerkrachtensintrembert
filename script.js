@@ -337,7 +337,7 @@ function renderStartTestQuiz(c){
 /* ════════════════════════════════════════════
    MODULE 1 — WAT IS AI? (5 stappen)
    ════════════════════════════════════════════ */
-const m1 = [m1s0, m1s1, m1s2, m1s3, m1s4, m1s5];
+const m1 = [m1s0, m1s1, m1s2, m1s3, m1s4, m1s5, m1s6, m1s7, m1s8, m1s9, m1s10, m1s11, m1s12];
 function rm1(){ const c=document.getElementById('m1c'); c.innerHTML=''; rDots(1,m1.length,S.mod1.step); m1[S.mod1.step](c); }
 function n1(){ S.mod1.step++; ss(); S.mod1.step>=m1.length ? d1() : rm1(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); }
 function p1(){ if(S.mod1.step > 0){ S.mod1.step--; ss(); rm1(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); } }
@@ -345,54 +345,101 @@ function d1(){ S.mod1.done=true; S.mod1.step=0; ss(); up(); rmc(); sv('home'); s
 
 function m1s0(c){
   c.innerHTML = `
-<div class="s-badge">🤖 Stap 1 van 6 · AI overal</div>
+<div class="s-badge">🤖 Stap 1 van 13 · AI overal</div>
 <h2 class="ch2">AI is <em>overal</em> — ook al zie je het niet</h2>
 <p class="cp">Gezichtsherkenning op je telefoon, de spamfilter in je mailbox, aanbevelingen op YouTube, de routeplanner die files voorspelt — <strong>AI zit al jaren in onze dagelijkse tools</strong>. En sinds de doorbraak van ChatGPT eind 2022 ook steeds nadrukkelijker in het onderwijs: leerlingen gebruiken chatbots voor taken, uitgeverijen bouwen AI in leerplatformen in, en collega's experimenteren met AI voor lesvoorbereiding.</p>
 <p class="cp">Maar wat is AI eigenlijk? In de kern is het software die patronen leert herkennen uit grote hoeveelheden data, en op basis daarvan voorspellingen of beslissingen maakt — zonder dat een mens voor elke situatie apart een regel heeft geprogrammeerd. Dat onderscheidt AI van klassieke software, die enkel doet wat letterlijk in de code staat.</p>
-<p class="cp">Als leerkracht hoef je geen ingenieur te zijn, maar je moet AI wel kunnen <strong>herkennen, benoemen en er verantwoord mee omgaan</strong>. Dat is ook wat artikel 4 van de EU AI Act van organisaties — en dus van ons als school — verwacht: voldoende AI-geletterdheid bij iedereen die met AI werkt. Het Kenniscentrum Digisprong en Kennisnet wijzen er bovendien op dat die geletterdheid niet enkel technisch is: ze omvat ook kritisch nadenken over wanneer je een tool wél, en wanneer je hem net niet inzet.</p>
+<p class="cp">Als leerkracht hoef je geen ingenieur te zijn, maar je moet AI wel kunnen <strong>herkennen, benoemen en er verantwoord mee omgaan</strong>. Dat is ook wat artikel 4 van de EU AI Act van organisaties — en dus van ons als school — verwacht: voldoende AI-geletterdheid bij iedereen die met AI werkt.</p>
 
 <div class="ib warn">
   <div class="ib-t">💡 Wist je dat?</div>
   <div class="ib-b">Veel digitale schooltools die je al jarenlang gebruikt — spellingcontrole, automatische ondertiteling, een planningstool die voorstelt wanneer je best een toets plant — draaien al langer op AI dan ChatGPT bestaat. Het nieuwe is niet "AI in het onderwijs" op zich, maar specifiek <strong>generatieve AI</strong>, die zelf nieuwe content kan maken. Daarover gaat de volgende stap.</div>
 </div>
 
-<h3 class="ch3">🎬 Video: Intro Artificiële Intelligentie — EDUbox (VRT NWS)</h3>
-<div class="yt-wrap"><iframe src="https://www.youtube.com/embed/yo1g2B5E4W8" allowfullscreen loading="lazy" title="EDUbox AI Intro door Tom Van de Weghe"></iframe></div>
-
-<h3 class="ch3">🧩 Doe-opdracht: AI of geen AI?</h3>
-<p class="cp">Klik op elke kaart en denk eerst zelf na: gebruikt deze toepassing AI, of werkt ze met vaste, vooraf geprogrammeerde regels?</p>
-<div id="aig"></div>
-
 <div class="nw">
-  <button class="sr-btn g" onclick="n1()">Volgende: van regels naar GenAI →</button>
-  <span class="nh">Stap 1/5</span>
+  <button class="sr-btn g" onclick="n1()">Volgende: bekijk de video →</button>
+  <span class="nh">Stap 1/13</span>
 </div>`;
-  renderAiCards();
 }
 
 function m1s1(c){
   c.innerHTML = `
-<div class="s-badge">📚 Stap 2 van 6 · Geschiedenis & GenAI</div>
-<h2 class="ch2">Van vaste regels naar <em>Generatieve AI</em></h2>
-<p class="cp">AI bestaat al sinds de jaren 50, en kende eerder al grote doorbraken — denk aan schaakcomputer Deep Blue die in 1997 wereldkampioen Kasparov verslaat. Maar die vroege AI kon vooral één ding: <strong>classificeren of voorspellen</strong>. Is dit e-mailbericht spam? Welke film zou jij waarderen? Het systeem koos tussen vooraf gedefinieerde opties.</p>
-<p class="cp">De sprong naar <strong>generatieve AI</strong> (GenAI) verandert dat fundamenteel: deze systemen kunnen tekst, beeld, audio en code <em>maken die nog niet bestond</em>. ChatGPT haalde na zijn lancering eind 2022 razendsnel honderd miljoen gebruikers — geen enkele consumententoepassing groeide ooit zo snel. Sindsdien zijn gelijkaardige tools (Copilot, Gemini, Claude...) overal doorgedrongen, ook in scholen.</p>
-<p class="cp">Technisch gezien werkt een taalmodel als GenAI met <strong>kansberekening</strong>: op basis van enorme hoeveelheden tekst leert het systeem welk woord statistisch het meest waarschijnlijk volgt op de woorden die er al staan. Het "begrijpt" dus niet in de menselijke zin van het woord — het voorspelt, woord na woord, wat een plausibel vervolg zou zijn.</p>
-
-<div class="ib warn">
-  <div class="ib-t">⚠️ Hallucinaties — het belangrijkste begrip van deze module</div>
-  <div class="ib-b">Omdat GenAI altijd het meest waarschijnlijke volgende woord voorspelt, klinkt de output <strong>altijd zelfverzekerd</strong> — ook wanneer ze feitelijk fout is. Dat noemen we een <strong>hallucinatie</strong>: verzonnen informatie die er volkomen betrouwbaar uitziet. Een AI-tool kan bijvoorbeeld een wetenschappelijke studie "citeren" met auteur, titel en jaartal — die er gewoonweg niet bestaat. Het systeem "verzint" niet bewust; het stelt enkel een plausibel vervolg samen, zonder enige garantie dat het ook waar is.</div>
-</div>
+<div class="s-badge">🎬 Stap 2 van 13 · Introvideo</div>
+<h2 class="ch2">Bekijk: <em>intro artificiële intelligentie</em></h2>
+<p class="cp">EDUbox (VRT NWS) introduceert in 6 minuten wat AI is en hoe het werkt.</p>
+<div class="yt-wrap"><iframe src="https://www.youtube.com/embed/yo1g2B5E4W8" allowfullscreen loading="lazy" title="EDUbox AI Intro door Tom Van de Weghe"></iframe></div>
 
 <div class="nw">
   <button class="sr-btn b" onclick="p1()">← Vorige</button>
-  <button class="sr-btn g" onclick="n1()">Volgende: kansen & gevaren →</button>
-  <span class="nh">Stap 2/5</span>
+  <button class="sr-btn g" onclick="n1()">Volgende: doe-opdracht →</button>
+  <span class="nh">Stap 2/13</span>
 </div>`;
 }
 
 function m1s2(c){
   c.innerHTML = `
-<div class="s-badge">⚠️ Stap 3 van 6 · Kansen & gevaren</div>
+<div class="s-badge">🧩 Stap 3 van 13 · Doe-opdracht</div>
+<h2 class="ch2">AI of <em>geen AI</em>?</h2>
+<p class="cp">Klik op elke kaart en denk eerst zelf na: gebruikt deze toepassing AI, of werkt ze met vaste, vooraf geprogrammeerde regels?</p>
+<div id="aig"></div>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p1()">← Vorige</button>
+  <button class="sr-btn g" onclick="n1()">Volgende: van regels naar GenAI →</button>
+  <span class="nh">Stap 3/13</span>
+</div>`;
+  renderAiCards();
+}
+
+function m1s3(c){
+  c.innerHTML = `
+<div class="s-badge">📚 Stap 4 van 13 · Geschiedenis & GenAI</div>
+<h2 class="ch2">Van vaste regels naar <em>Generatieve AI</em></h2>
+<p class="cp">AI bestaat al sinds de jaren 50, en kende eerder al grote doorbraken — denk aan schaakcomputer Deep Blue die in 1997 wereldkampioen Kasparov verslaat. Maar die vroege AI kon vooral één ding: <strong>classificeren of voorspellen</strong>. Is dit e-mailbericht spam? Welke film zou jij waarderen? Het systeem koos tussen vooraf gedefinieerde opties.</p>
+<p class="cp">De sprong naar <strong>generatieve AI</strong> (GenAI) verandert dat fundamenteel: deze systemen kunnen tekst, beeld, audio en code <em>maken die nog niet bestond</em>. ChatGPT haalde na zijn lancering eind 2022 razendsnel honderd miljoen gebruikers — geen enkele consumententoepassing groeide ooit zo snel.</p>
+<p class="cp">Technisch gezien werkt een taalmodel als GenAI met <strong>kansberekening</strong>: op basis van enorme hoeveelheden tekst leert het systeem welk woord statistisch het meest waarschijnlijk volgt op de woorden die er al staan. Het "begrijpt" dus niet in de menselijke zin van het woord — het voorspelt, woord na woord, wat een plausibel vervolg zou zijn.</p>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p1()">← Vorige</button>
+  <button class="sr-btn g" onclick="n1()">Volgende: hallucinaties →</button>
+  <span class="nh">Stap 4/13</span>
+</div>`;
+}
+
+function m1s4(c){
+  c.innerHTML = `
+<div class="s-badge">⚠️ Stap 5 van 13 · Hallucinaties</div>
+<h2 class="ch2">Het belangrijkste begrip van <em>deze module</em></h2>
+<div class="ib warn">
+  <div class="ib-t">⚠️ Hallucinaties</div>
+  <div class="ib-b">Omdat GenAI altijd het meest waarschijnlijke volgende woord voorspelt, klinkt de output <strong>altijd zelfverzekerd</strong> — ook wanneer ze feitelijk fout is. Dat noemen we een <strong>hallucinatie</strong>: verzonnen informatie die er volkomen betrouwbaar uitziet. Een AI-tool kan bijvoorbeeld een wetenschappelijke studie "citeren" met auteur, titel en jaartal — die er gewoonweg niet bestaat. Het systeem "verzint" niet bewust; het stelt enkel een plausibel vervolg samen, zonder enige garantie dat het ook waar is.</div>
+</div>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p1()">← Vorige</button>
+  <button class="sr-btn g" onclick="n1()">Volgende: doe-opdracht →</button>
+  <span class="nh">Stap 5/13</span>
+</div>`;
+}
+
+function m1s5(c){
+  c.innerHTML = `
+<div class="s-badge">🧩 Stap 6 van 13 · Doe-opdracht</div>
+<h2 class="ch2">Spot de <em>hallucinatie</em></h2>
+<p class="cp">Hieronder staan 4 uitspraken zoals een AI-chatbot ze zou kunnen formuleren — stuk voor stuk even zelfverzekerd. Klik op elke kaart: welke bevat een hallucinatie (verzonnen feit, bron of cijfer), en welke klopt gewoon?</p>
+<div id="hallu"></div>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p1()">← Vorige</button>
+  <button class="sr-btn g" onclick="n1()">Volgende: kansen & gevaren →</button>
+  <span class="nh">Stap 6/13</span>
+</div>`;
+  renderHalluCards();
+}
+
+function m1s6(c){
+  c.innerHTML = `
+<div class="s-badge">⚖️ Stap 7 van 13 · Kansen & gevaren</div>
 <h2 class="ch2">Mogelijkheden én <em>gevaren</em> van GenAI</h2>
 <p class="cp">GenAI biedt enorme kansen voor je lespraktijk — maar ook concrete risico's die je moet kennen om zelf verantwoord te werken én om leerlingen goed te begeleiden. Geen van beide kanten weegt zwaarder: het gaat om een afgewogen, kritische blik.</p>
 
@@ -417,10 +464,30 @@ function m1s2(c){
   </div>
 </div>
 
-<h3 class="ch3">🎲 Bias — een concreet voorbeeld voor in de klas</h3>
+<div class="nw">
+  <button class="sr-btn b" onclick="p1()">← Vorige</button>
+  <button class="sr-btn g" onclick="n1()">Volgende: bias-voorbeeld →</button>
+  <span class="nh">Stap 7/13</span>
+</div>`;
+}
+
+function m1s7(c){
+  c.innerHTML = `
+<div class="s-badge">🎲 Stap 8 van 13 · Bias</div>
+<h2 class="ch2">Een concreet voorbeeld voor <em>in de klas</em></h2>
 <p class="cp">Vraag een beeldgenerator: <em>"Teken een CEO."</em> De kans is groot dat je een witte man van middelbare leeftijd krijgt. Vraag <em>"Teken een verpleegkundige"</em> en je krijgt hoogstwaarschijnlijk een vrouw. De AI verzint dit niet uit het niets — ze reproduceert maatschappelijke stereotypen die in haar trainingsdata oversterk vertegenwoordigd zijn. Dit soort voorbeeld is een krachtig en heel concreet aanknopingspunt om bias met leerlingen te bespreken: het is meteen zichtbaar, het is herkenbaar, en het opent een gesprek over hoe data onze blik kan vertekenen.</p>
 
-<h3 class="ch3">🎭 Deepfakes — wanneer "zien is geloven" niet meer geldt</h3>
+<div class="nw">
+  <button class="sr-btn b" onclick="p1()">← Vorige</button>
+  <button class="sr-btn g" onclick="n1()">Volgende: deepfakes →</button>
+  <span class="nh">Stap 8/13</span>
+</div>`;
+}
+
+function m1s8(c){
+  c.innerHTML = `
+<div class="s-badge">🎭 Stap 9 van 13 · Deepfakes</div>
+<h2 class="ch2">Wanneer "zien is geloven" <em>niet meer geldt</em></h2>
 <p class="cp">Een deepfake is beeld, video of audio waarin AI het gezicht, de stem of de bewegingen van een bestaand persoon overtuigend nadoet. Voor leerlingen is dit relevant op twee niveaus: enerzijds als bewustmaking ("niet alles wat je ziet is automatisch echt"), anderzijds als concreet risico — gezichten manipuleren of onschuldig lijkende filters toepassen op foto's van klasgenoten valt onder de privacywetgeving (AVG/GDPR) en kan leiden tot pesterijen. Maak dit als leerkracht expliciet duidelijk, en handel kordaat als het toch gebeurt.</p>
 
 ${promoMini('Wil je dieper graven in de ethische kant van AI? Op 18 november verwelkomen we prof. Orhan Agirdag (KU Leuven).')}
@@ -428,13 +495,13 @@ ${promoMini('Wil je dieper graven in de ethische kant van AI? Op 18 november ver
 <div class="nw">
   <button class="sr-btn b" onclick="p1()">← Vorige</button>
   <button class="sr-btn g" onclick="n1()">Volgende: hype of realiteit? →</button>
-  <span class="nh">Stap 3/6</span>
+  <span class="nh">Stap 9/13</span>
 </div>`;
 }
 
-function m1s3(c){
+function m1s9(c){
   c.innerHTML = `
-<div class="s-badge">🎬 Stap 4 van 6 · Hype of realiteit?</div>
+<div class="s-badge">🎬 Stap 10 van 13 · Hype of realiteit?</div>
 <h2 class="ch2">De impact van AI op ons onderwijs: <em>hype of realiteit?</em></h2>
 <svg viewBox="0 0 700 110" style="width:100%;height:auto;display:block;margin-bottom:18px;border-radius:var(--rsm);background:var(--blue)" xmlns="http://www.w3.org/2000/svg">
   <circle cx="80" cy="55" r="34" fill="rgba(127,224,0,.18)"/>
@@ -447,12 +514,23 @@ function m1s3(c){
   <circle cx="600" cy="55" r="34" fill="rgba(127,224,0,.18)"/>
   <text x="600" y="65" font-size="32" text-anchor="middle">🔍</text>
 </svg>
-<p class="cp">Leerlingen zien op sociale media de wildste doemscenario's over AI — en evengoed de wildste belofes. Om het gesprek hierover goed te starten (met collega's, of in je eigen klas), gebruiken we een videofragment met vijf reflectievragen.</p>
+<p class="cp">Leerlingen zien op sociale media de wildste doemscenario's over AI — en evengoed de wildste belofes. Om het gesprek hierover goed te starten (met collega's, of in je eigen klas), bekijk dit videofragment.</p>
 
 <h3 class="ch3">🎬 NOS op 3: "Roeit AI ons uit… of is het hype?"</h3>
 <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/-WDdSiVjBhg" allowfullscreen loading="lazy" title="NOS op 3 — Roeit AI ons uit of is het hype"></iframe></div>
 <p class="cp">Deze video plaatst de extreme doemscenario's rondom AI in perspectief en verlegt de focus naar de échte, actuele uitdagingen zoals misinformatie en tech-hypes.</p>
 
+<div class="nw">
+  <button class="sr-btn b" onclick="p1()">← Vorige</button>
+  <button class="sr-btn g" onclick="n1()">Volgende: reflectievragen →</button>
+  <span class="nh">Stap 10/13</span>
+</div>`;
+}
+
+function m1s10(c){
+  c.innerHTML = `
+<div class="s-badge">💬 Stap 11 van 13 · Reflectievragen</div>
+<h2 class="ch2">Vijf vragen om over <em>na te denken</em></h2>
 <div class="disc-card">
   <div class="disc-q">1. Leerlingen zien op TikTok en YouTube de wildste doemscenario's over AI. Hoe kunnen wij in de klas helpen om die 'hype' te doorprikken?</div>
   <div class="disc-a">Ga in gesprek zonder de zorgen van leerlingen direct weg te lachen. Ontleed samen waar die verhalen vandaan komen (vaak films of clickbait) en leer ze het verschil tussen de huidige AI (patroonherkenning) en toekomstmuziek zoals 'algemene intelligentie' (AGI).</div>
@@ -477,11 +555,11 @@ function m1s3(c){
 <div class="nw">
   <button class="sr-btn b" onclick="p1()">← Vorige</button>
   <button class="sr-btn g" onclick="n1()">Volgende: kennischeck →</button>
-  <span class="nh">Stap 4/6</span>
+  <span class="nh">Stap 11/13</span>
 </div>`;
 }
 
-function m1s4(c){
+function m1s11(c){
   // EQUAL LENGTH AND VARIABLE ANSWERS FOR QUIZ 1
   const quiz = [
     {
@@ -543,9 +621,9 @@ function m1s4(c){
   rQuiz(c, quiz, 1, 'mod1', n1, 60);
 }
 
-function m1s5(c){
+function m1s12(c){
   c.innerHTML = `
-<div class="s-badge">✍️ Stap 6 van 6 · Vertaalslag naar jouw vak</div>
+<div class="s-badge">✍️ Stap 13 van 13 · Vertaalslag naar jouw vak</div>
 <h2 class="ch2">Vertaal naar <em>jouw lespraktijk</em></h2>
 <p class="cp">Je kent nu de basis: hoe AI werkt, wat generatieve AI bijzonder maakt, en welke kansen én gevaren erbij horen (hallucinaties, bias, deepfakes, privacy). Tijd om dit concreet te maken voor jouw eigen vak en klaspraktijk.</p>
 <p class="cp">Noteer hieronder je reflectie (minstens een paar zinnen): bij welke les of taak zou AI écht meerwaarde bieden? En waar zou je het net bewust <strong>niet</strong> inzetten, en waarom niet?</p>
@@ -554,7 +632,7 @@ function m1s5(c){
 <div class="nw">
   <button class="sr-btn b" onclick="p1()">← Vorige</button>
   <button class="sr-btn g" id="r1btn" onclick="sR1()">✅ Module 1 afronden →</button>
-  <span class="nh">Stap 6/6</span>
+  <span class="nh">Stap 13/13</span>
 </div>`;
   const ta = document.getElementById('r1');
   ta.value = localStorage.getItem('sr_r1') || '';
@@ -565,6 +643,7 @@ function sR1(){
   if(v.length < 30){ alert('Vul eerst je reflectie in (minstens een paar zinnen).'); return; }
   n1();
 }
+
 
 /* ════════════════════════════════════════════
    MODULE 2 — BELEID & LEERLINGEN (5 stappen)
@@ -594,10 +673,15 @@ function m2s0(c){
   <div class="ib-b">Vermeld het label gewoon bovenaan de opdracht: "Label 2 — AI mag enkel voor brainstorm/ideeën." Zo weet de leerling perfect waaraan hij zich moet houden, en kan jij achteraf objectief beoordelen of de regels gevolgd zijn.</div>
 </div>
 
+<h3 class="ch3">🧩 Doe-opdracht: Welk label hoort hier?</h3>
+<p class="cp">Bekijk elke opdrachtomschrijving en klik op het label (1 t.e.m. 5) dat er volgens jou het best bij past.</p>
+<div id="lblmatch"></div>
+
 <div class="nw">
   <button class="sr-btn g" onclick="n2()">Volgende: leerlingen begeleiden →</button>
   <span class="nh">Stap 1/5</span>
 </div>`;
+  renderLabelMatch();
 }
 
 function m2s1(c){
@@ -861,10 +945,15 @@ function m3s1(c){
 </div>
 <p class="cp">Krijg je niet meteen wat je zoekt? Verfijn dan in een vervolgvraag binnen hetzelfde gesprek ("maak de vragen iets korter", "voeg een vraag toe over perspectief") in plaats van helemaal opnieuw te beginnen — Copilot houdt rekening met de eerdere context van het gesprek. Controleer steeds de output zelf: ook een goede prompt garandeert geen foutloos resultaat, enkel een veel betere uitgangspositie.</p>
 
+<h3 class="ch3">🧩 Doe-opdracht: Schrijf je eigen prompt</h3>
+<p class="cp">Vul de 5 velden hieronder in voor een prompt die je écht zou gebruiken in jouw vak. Onderaan zie je de volledige prompt samengevoegd — die kan je meteen kopiëren naar Copilot.</p>
+<div id="promptbuilder"></div>
+
 <div class="nw">
   <button class="sr-btn b" onclick="p3()">← Vorige</button>
   <button class="sr-btn g" onclick="n3()">Volgende: Maakmodule →</button>
 </div>`;
+  renderPromptBuilder();
 }
 
 function m3s2(c){
@@ -1070,6 +1159,108 @@ function renderAiCards(){
     };
     g.appendChild(el);
   });
+}
+
+/* ════════════════════════════════════════════
+   DOE-OPDRACHT — Spot de hallucinatie (Module 1)
+   ════════════════════════════════════════════ */
+function renderHalluCards(){
+  const items = [
+    { t:'"Een team van MIT-onderzoekers ontdekte in 2023 dat het brein van leerkrachten gemiddeld 12% sneller informatie verwerkt na een training in AI-tools."',
+      h:true, e:'Hallucinatie: een vage, niet-bestaande studie met een erg specifiek percentage — een klassiek hallucinatiepatroon.' },
+    { t:'"De Eerste Wereldoorlog duurde van 1914 tot 1918."',
+      h:false, e:'Klopt — dit is een algemeen geverifieerd historisch feit.' },
+    { t:'"Albert Einstein ontving in 1921 de Nobelprijs voor de Natuurkunde voor zijn verklaring van het foto-elektrisch effect."',
+      h:false, e:'Klopt — niet elke specifieke uitspraak is een hallucinatie. Kritisch blijven werkt in twee richtingen.' },
+    { t:'"Volgens artikel 12 van het schoolreglement van Sint-Rembert mag je nooit AI gebruiken voor lesvoorbereiding."',
+      h:true, e:'Hallucinatie: een verzonnen artikelnummer dat bovendien niet overeenkomt met het echte AI-beleid van de school (zie Module 2).' }
+  ];
+  const g = document.getElementById('hallu');
+  if(!g) return;
+  items.forEach(it=>{
+    const el = document.createElement('div'); el.className = 'ai-card'; el.style.textAlign='left';
+    el.innerHTML = '🤖 '+it.t;
+    el.onclick = ()=>{
+      el.style.background = it.h ? '#fee2e2' : '#dcfce7';
+      el.innerHTML = (it.h?'🚩 <strong>Hallucinatie</strong> — ':'✅ <strong>Klopt</strong> — ')+it.e;
+    };
+    g.appendChild(el);
+  });
+}
+
+/* ════════════════════════════════════════════
+   DOE-OPDRACHT — Welk label hoort hier? (Module 2)
+   ════════════════════════════════════════════ */
+function renderLabelMatch(){
+  const items = [
+    { d:'Leerlingen schrijven een opstel over hun zomervakantie, volledig met de hand, zonder enige digitale hulp.', a:1 },
+    { d:'Leerlingen mogen AI gebruiken om op ideeën te komen voor een werkstuk, maar moeten zelf de volledige tekst schrijven.', a:2 },
+    { d:'Leerlingen schrijven zelf een eerste versie en mogen AI enkel gebruiken om hun tekst grammaticaal te verbeteren.', a:3 },
+    { d:'Leerlingen maken een infographic en mogen AI gebruiken om een deel van de illustraties of tekstblokken aan te vullen, naast hun eigen werk.', a:4 },
+    { d:'Leerlingen mogen volledig vrij AI gebruiken om een marketingplan te schrijven, zolang ze achteraf kunnen uitleggen welke keuzes ze maakten.', a:5 }
+  ];
+  const g = document.getElementById('lblmatch');
+  if(!g) return;
+  items.forEach((it,idx)=>{
+    const card = document.createElement('div'); card.className='lm-card';
+    let opts = '';
+    for(let i=1;i<=5;i++) opts += '<button class="lm-btn" data-v="'+i+'">'+i+'</button>';
+    card.innerHTML = '<div class="lm-q">'+(idx+1)+'. '+it.d+'</div><div class="lm-opts">'+opts+'</div><div class="lm-fb" id="lmfb'+idx+'"></div>';
+    g.appendChild(card);
+    card.querySelectorAll('.lm-btn').forEach(b=>{
+      b.onclick = ()=>{
+        if(card.dataset.done) return;
+        card.dataset.done='1';
+        const v = +b.dataset.v, ok = v===it.a;
+        card.querySelectorAll('.lm-btn').forEach(bb=>{
+          bb.disabled = true;
+          if(+bb.dataset.v === it.a) bb.classList.add('correct');
+          else if(bb===b && !ok) bb.classList.add('wrong');
+        });
+        const fb = document.getElementById('lmfb'+idx);
+        fb.className = 'lm-fb show';
+        fb.textContent = ok ? '✅ Juist — label '+it.a+'.' : '❌ Niet helemaal — het juiste label is '+it.a+'.';
+      };
+    });
+  });
+}
+
+/* ════════════════════════════════════════════
+   DOE-OPDRACHT — Schrijf je eigen prompt (Module 3)
+   ════════════════════════════════════════════ */
+function renderPromptBuilder(){
+  const g = document.getElementById('promptbuilder');
+  if(!g) return;
+  const fields = [
+    {k:'rol', l:'🎭 Rol', ph:'Je bent een ervaren leerkracht...'},
+    {k:'doel', l:'🎯 Doel', ph:'Maak/herschrijf/vat samen...'},
+    {k:'context', l:'🏫 Context', ph:'Voor leerlingen van...'},
+    {k:'bron', l:'📄 Bron', ph:'Baseer je enkel op...'},
+    {k:'verwachting', l:'✅ Verwachting', ph:'Vorm, lengte, toon...'}
+  ];
+  let saved = {};
+  try{ saved = JSON.parse(localStorage.getItem('sr_promptbuilder')||'{}'); }catch(e){}
+  let html = '';
+  fields.forEach(f=>{
+    html += '<div class="pb-row"><label class="pb-label">'+f.l+'</label><input class="pb-input" id="pb-'+f.k+'" placeholder="'+f.ph+'" value="'+(saved[f.k]||'').replace(/"/g,'&quot;')+'"></div>';
+  });
+  html += '<div class="pb-preview" id="pb-preview"></div>';
+  g.innerHTML = html;
+  function update(){
+    const v = {};
+    fields.forEach(f=>{ v[f.k] = document.getElementById('pb-'+f.k).value.trim(); });
+    localStorage.setItem('sr_promptbuilder', JSON.stringify(v));
+    const parts = [];
+    if(v.rol) parts.push('Rol: '+v.rol);
+    if(v.doel) parts.push('Doel: '+v.doel);
+    if(v.context) parts.push('Context: '+v.context);
+    if(v.bron) parts.push('Bron: '+v.bron);
+    if(v.verwachting) parts.push('Verwachting: '+v.verwachting);
+    const pv = document.getElementById('pb-preview');
+    pv.textContent = parts.length ? parts.join('\n') : 'Vul de velden hierboven in om je prompt samengesteld te zien...';
+  }
+  fields.forEach(f=>{ document.getElementById('pb-'+f.k).oninput = update; });
+  update();
 }
 
 /* ════════════════════════════════════════════
