@@ -337,7 +337,7 @@ function renderStartTestQuiz(c){
 /* ════════════════════════════════════════════
    MODULE 1 — WAT IS AI? (5 stappen)
    ════════════════════════════════════════════ */
-const m1 = [m1s0, m1s1, m1s2, m1s3, m1s4];
+const m1 = [m1s0, m1s1, m1s2, m1s3, m1s4, m1s5];
 function rm1(){ const c=document.getElementById('m1c'); c.innerHTML=''; rDots(1,m1.length,S.mod1.step); m1[S.mod1.step](c); }
 function n1(){ S.mod1.step++; ss(); S.mod1.step>=m1.length ? d1() : rm1(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); }
 function p1(){ if(S.mod1.step > 0){ S.mod1.step--; ss(); rm1(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); } }
@@ -345,7 +345,7 @@ function d1(){ S.mod1.done=true; S.mod1.step=0; ss(); up(); rmc(); sv('home'); s
 
 function m1s0(c){
   c.innerHTML = `
-<div class="s-badge">🤖 Stap 1 van 5 · AI overal</div>
+<div class="s-badge">🤖 Stap 1 van 6 · AI overal</div>
 <h2 class="ch2">AI is <em>overal</em> — ook al zie je het niet</h2>
 <p class="cp">Gezichtsherkenning op je telefoon, de spamfilter in je mailbox, aanbevelingen op YouTube, de routeplanner die files voorspelt — <strong>AI zit al jaren in onze dagelijkse tools</strong>. En sinds de doorbraak van ChatGPT eind 2022 ook steeds nadrukkelijker in het onderwijs: leerlingen gebruiken chatbots voor taken, uitgeverijen bouwen AI in leerplatformen in, en collega's experimenteren met AI voor lesvoorbereiding.</p>
 <p class="cp">Maar wat is AI eigenlijk? In de kern is het software die patronen leert herkennen uit grote hoeveelheden data, en op basis daarvan voorspellingen of beslissingen maakt — zonder dat een mens voor elke situatie apart een regel heeft geprogrammeerd. Dat onderscheidt AI van klassieke software, die enkel doet wat letterlijk in de code staat.</p>
@@ -372,7 +372,7 @@ function m1s0(c){
 
 function m1s1(c){
   c.innerHTML = `
-<div class="s-badge">📚 Stap 2 van 5 · Geschiedenis & GenAI</div>
+<div class="s-badge">📚 Stap 2 van 6 · Geschiedenis & GenAI</div>
 <h2 class="ch2">Van vaste regels naar <em>Generatieve AI</em></h2>
 <p class="cp">AI bestaat al sinds de jaren 50, en kende eerder al grote doorbraken — denk aan schaakcomputer Deep Blue die in 1997 wereldkampioen Kasparov verslaat. Maar die vroege AI kon vooral één ding: <strong>classificeren of voorspellen</strong>. Is dit e-mailbericht spam? Welke film zou jij waarderen? Het systeem koos tussen vooraf gedefinieerde opties.</p>
 <p class="cp">De sprong naar <strong>generatieve AI</strong> (GenAI) verandert dat fundamenteel: deze systemen kunnen tekst, beeld, audio en code <em>maken die nog niet bestond</em>. ChatGPT haalde na zijn lancering eind 2022 razendsnel honderd miljoen gebruikers — geen enkele consumententoepassing groeide ooit zo snel. Sindsdien zijn gelijkaardige tools (Copilot, Gemini, Claude...) overal doorgedrongen, ook in scholen.</p>
@@ -392,7 +392,7 @@ function m1s1(c){
 
 function m1s2(c){
   c.innerHTML = `
-<div class="s-badge">⚠️ Stap 3 van 5 · Kansen & gevaren</div>
+<div class="s-badge">⚠️ Stap 3 van 6 · Kansen & gevaren</div>
 <h2 class="ch2">Mogelijkheden én <em>gevaren</em> van GenAI</h2>
 <p class="cp">GenAI biedt enorme kansen voor je lespraktijk — maar ook concrete risico's die je moet kennen om zelf verantwoord te werken én om leerlingen goed te begeleiden. Geen van beide kanten weegt zwaarder: het gaat om een afgewogen, kritische blik.</p>
 
@@ -427,12 +427,86 @@ ${promoMini('Wil je dieper graven in de ethische kant van AI? Op 18 november ver
 
 <div class="nw">
   <button class="sr-btn b" onclick="p1()">← Vorige</button>
-  <button class="sr-btn g" onclick="n1()">Volgende: kennischeck →</button>
-  <span class="nh">Stap 3/5</span>
+  <button class="sr-btn g" onclick="n1()">Volgende: hype of realiteit? →</button>
+  <span class="nh">Stap 3/6</span>
 </div>`;
 }
 
 function m1s3(c){
+  c.innerHTML = `
+<div class="s-badge">🎬 Stap 4 van 6 · Hype of realiteit?</div>
+<h2 class="ch2">De impact van AI op ons onderwijs: <em>hype of realiteit?</em></h2>
+<svg viewBox="0 0 700 110" style="width:100%;height:auto;display:block;margin-bottom:18px;border-radius:var(--rsm);background:var(--blue)" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="80" cy="55" r="34" fill="rgba(127,224,0,.18)"/>
+  <text x="80" y="65" font-size="32" text-anchor="middle">📣</text>
+  <text x="160" y="48" font-family="Archivo Black, sans-serif" font-size="15" fill="#ffffff">HYPE</text>
+  <text x="160" y="68" font-family="Nunito, sans-serif" font-size="11" fill="rgba(255,255,255,.55)" font-weight="700">Doemscenario's, clickbait, AGI-fantasie</text>
+  <line x1="320" y1="25" x2="320" y2="85" stroke="rgba(255,255,255,.2)" stroke-width="2"/>
+  <text x="380" y="48" font-family="Archivo Black, sans-serif" font-size="15" fill="#7FE000">REALITEIT</text>
+  <text x="380" y="68" font-family="Nunito, sans-serif" font-size="11" fill="rgba(255,255,255,.55)" font-weight="700">Patroonherkenning, concrete klaspraktijk</text>
+  <circle cx="600" cy="55" r="34" fill="rgba(127,224,0,.18)"/>
+  <text x="600" y="65" font-size="32" text-anchor="middle">🔍</text>
+</svg>
+<p class="cp">Leerlingen zien op sociale media de wildste doemscenario's over AI — en evengoed de wildste belofes. Om het gesprek hierover goed te starten (met collega's, of in je eigen klas), gebruiken we twee contrasterende videofragmenten met telkens vijf reflectievragen.</p>
+
+<h3 class="ch3">🎬 Video 1 — NOS op 3: "Roeit AI ons uit… of is het hype?"</h3>
+<div class="yt-wrap"><iframe src="https://www.youtube.com/embed/-WDdSiVjBhg" allowfullscreen loading="lazy" title="NOS op 3 — Roeit AI ons uit of is het hype"></iframe></div>
+<p class="cp">Deze video plaatst de extreme doemscenario's rondom AI in perspectief en verlegt de focus naar de échte, actuele uitdagingen zoals misinformatie en tech-hypes.</p>
+
+<div class="disc-card">
+  <div class="disc-q">1. Leerlingen zien op TikTok en YouTube de wildste doemscenario's over AI. Hoe kunnen wij in de klas helpen om die 'hype' te doorprikken?</div>
+  <div class="disc-a">Ga in gesprek zonder de zorgen van leerlingen direct weg te lachen. Ontleed samen waar die verhalen vandaan komen (vaak films of clickbait) en leer ze het verschil tussen de huidige AI (patroonherkenning) en toekomstmuziek zoals 'algemene intelligentie' (AGI).</div>
+</div>
+<div class="disc-card">
+  <div class="disc-q">2. De video noemt deepfakes en misinformatie als reële problemen. Hoe wapenen we leerlingen tegen een wereld waarin ze niet alles kunnen geloven wat ze op een scherm zien?</div>
+  <div class="disc-a">Digitale geletterdheid moet verschuiven naar scherpe bronkritiek. Leer leerlingen zijdelings lezen (lateral reading): check wie de afzender is, wat het doel van het bericht is, en vergelijk met betrouwbare bronnen in plaats van enkel de video zelf te analyseren.</div>
+</div>
+<div class="disc-card">
+  <div class="disc-q">3. Techbedrijven beloven gouden bergen. Hoe waken we er als school voor dat we AI inzetten vanuit een doordachte visie, in plaats van zomaar mee te rennen met een commerciële trend?</div>
+  <div class="disc-a">De didactiek moet altijd leidend zijn, niet de tool. Draagt een AI-toepassing niet direct bij aan beter of actiever leren? Durf het dan als school te negeren.</div>
+</div>
+<div class="disc-card">
+  <div class="disc-q">4. AI kan razendsnel theorie uitleggen. Biedt dit ons als leraren niet juist de kans om de theorie vaker thuis te laten ontdekken?</div>
+  <div class="disc-a">Ja — dit is het perfecte moment voor flipping the classroom. Door de puur theoretische uitleg naar huis te verplaatsen, krijg je in de les de handen vrij voor het allerbelangrijkste: de 'waarom'-vraag en de actieve toepassing van die theorie.</div>
+</div>
+<div class="disc-card">
+  <div class="disc-q">5. Als AI straks veel routinewerk overneemt op de arbeidsmarkt, op welke menselijke vaardigheden moeten wij dan nu de nadruk leggen?</div>
+  <div class="disc-a">Verschuif de focus naar vaardigheden waar AI moeite mee heeft: empathie, kritisch oordeelsvermogen, complexe fysieke handelingen, out-of-the-box denken en probleemoplossend vermogen.</div>
+</div>
+
+<h3 class="ch3">🎬 Video 2 — Arjen Lubach: "Valt het onderwijs nog te redden van AI?"</h3>
+<div class="yt-wrap"><iframe src="https://www.youtube.com/embed/xpedFIZFmhc" allowfullscreen loading="lazy" title="Arjen Lubach — Valt het onderwijs nog te redden van AI"></iframe></div>
+<p class="cp">Deze video toont op scherpe (en humoristische) wijze hoe AI de dagelijkse lespraktijk en het traditionele huiswerk volledig op zijn kop zet.</p>
+
+<div class="disc-card">
+  <div class="disc-q">1. Lubach laat zien dat traditioneel huiswerk steeds vaker door een chatbot wordt gedaan. Is dit niet het uitgelezen moment om onze manier van lesgeven om te gooien?</div>
+  <div class="disc-a">Absoluut. Het reproduceren van theorie als thuiswerk heeft zijn langste tijd gehad. Dit dwingt de overstap naar flipping the classroom: basiskennis thuis, verwerking en toetsing in de klas waar jij direct kan bijsturen.</div>
+</div>
+<div class="disc-card">
+  <div class="disc-q">2. Als leerlingen de stof thuis door AI kunnen laten uitleggen, hoe maken we de contacttijd in het klaslokaal dan zo waardevol mogelijk?</div>
+  <div class="disc-a">De lestijd wordt de plek voor échte interactie: samen dieper ingaan op de 'waarom'-vraag, fouten analyseren en het leerproces in dialoog zichtbaar maken — in plaats van eenrichtingsverkeer waarbij jij theorie zendt.</div>
+</div>
+<div class="disc-card">
+  <div class="disc-q">3. Leraren zoeken wanhopig naar AI-detectiesoftware. Is het spelen van politieagent de juiste weg, of moeten we onze evaluatie anders inrichten?</div>
+  <div class="disc-a">Spelen voor politieagent is een wapenwedloop die we als onderwijs gaan verliezen. De duurzame oplossing is procesgericht evalueren: toetsen op wat leerlingen ter plekke in de klas, mondeling of op papier kunnen demonstreren.</div>
+</div>
+<div class="disc-card">
+  <div class="disc-q">4. Hoe zorgen we ervoor dat leerlingen minder snel de neiging hebben om denkwerk blind uit te besteden aan AI?</div>
+  <div class="disc-a">Leg de volledige nadruk op het waarom. Begrijpen leerlingen waarom een vaardigheid cruciaal is voor hun ontwikkeling of latere carrière, dan groeit de intrinsieke motivatie en zien ze in dat ze zichzelf tekortdoen door denkwerk over te slaan.</div>
+</div>
+<div class="disc-card">
+  <div class="disc-q">5. Lubach maakt een grap over "hersenfitness". Welke actieve werkvormen kunnen we gebruiken om leerlingen écht zelf te laten nadenken?</div>
+  <div class="disc-a">Keer regelmatig bewust terug naar analoog werken: socratische gesprekken in de kring, fysieke werkvormen of peer-feedbacksessies zonder schermen, zodat het brein gedwongen wordt zelf oplossingen te formuleren.</div>
+</div>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p1()">← Vorige</button>
+  <button class="sr-btn g" onclick="n1()">Volgende: kennischeck →</button>
+  <span class="nh">Stap 4/6</span>
+</div>`;
+}
+
+function m1s4(c){
   // EQUAL LENGTH AND VARIABLE ANSWERS FOR QUIZ 1
   const quiz = [
     {
@@ -494,9 +568,9 @@ function m1s3(c){
   rQuiz(c, quiz, 1, 'mod1', n1, 60);
 }
 
-function m1s4(c){
+function m1s5(c){
   c.innerHTML = `
-<div class="s-badge">✍️ Stap 5 van 5 · Vertaalslag naar jouw vak</div>
+<div class="s-badge">✍️ Stap 6 van 6 · Vertaalslag naar jouw vak</div>
 <h2 class="ch2">Vertaal naar <em>jouw lespraktijk</em></h2>
 <p class="cp">Je kent nu de basis: hoe AI werkt, wat generatieve AI bijzonder maakt, en welke kansen én gevaren erbij horen (hallucinaties, bias, deepfakes, privacy). Tijd om dit concreet te maken voor jouw eigen vak en klaspraktijk.</p>
 <p class="cp">Noteer hieronder je reflectie (minstens een paar zinnen): bij welke les of taak zou AI écht meerwaarde bieden? En waar zou je het net bewust <strong>niet</strong> inzetten, en waarom niet?</p>
@@ -505,7 +579,7 @@ function m1s4(c){
 <div class="nw">
   <button class="sr-btn b" onclick="p1()">← Vorige</button>
   <button class="sr-btn g" id="r1btn" onclick="sR1()">✅ Module 1 afronden →</button>
-  <span class="nh">Stap 5/5</span>
+  <span class="nh">Stap 6/6</span>
 </div>`;
   const ta = document.getElementById('r1');
   ta.value = localStorage.getItem('sr_r1') || '';
@@ -721,12 +795,22 @@ function m3s0(c){
   c.innerHTML = `
 <div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">✨ Stap 1 van 8 · Aan de slag</span></div>
 <h2 class="ch2">Copilot M365 — <em>jouw assistent</em></h2>
+<svg viewBox="0 0 700 100" style="width:100%;height:auto;display:block;margin-bottom:16px;border-radius:var(--rsm);background:var(--blue)" xmlns="http://www.w3.org/2000/svg">
+  <text x="60" y="60" font-size="36" text-anchor="middle">🛡️</text>
+  <text x="140" y="42" font-family="Archivo Black, sans-serif" font-size="14" fill="#7FE000">PROTECTED</text>
+  <text x="140" y="60" font-family="Nunito, sans-serif" font-size="11" fill="rgba(255,255,255,.7)" font-weight="700">Schild-icoon zichtbaar = data blijft binnen</text>
+  <text x="140" y="75" font-family="Nunito, sans-serif" font-size="11" fill="rgba(255,255,255,.7)" font-weight="700">de beveiligde schoolomgeving.</text>
+  <line x1="380" y1="20" x2="380" y2="80" stroke="rgba(255,255,255,.2)" stroke-width="2"/>
+  <text x="600" y="42" font-family="Archivo Black, sans-serif" font-size="14" fill="#fca5a5">GEEN SCHILD?</text>
+  <text x="600" y="60" font-family="Nunito, sans-serif" font-size="11" fill="rgba(255,255,255,.7)" font-weight="700">Opnieuw aanmelden met je</text>
+  <text x="600" y="75" font-family="Nunito, sans-serif" font-size="11" fill="rgba(255,255,255,.7)" font-weight="700">officiële schoolaccount.</text>
+</svg>
 <p class="cp">Copilot M365 is de AI-assistent die geïntegreerd is in je Microsoft-omgeving (Word, Outlook, Teams, en een eigen chatvenster). Je vindt hem via de Microsoft 365-portal (office.com) of als icoon in de werkbalk van je Office-apps. Meld je altijd aan met je <strong>officiële schoolaccount</strong> van de scholengroep — niet met een privéaccount.</p>
-<p class="cp">Bovenaan het Copilot-venster zie je een klein <strong>schild-icoon (Protected)</strong>. Dat schild is je belangrijkste controlepunt: het betekent dat je gesprekken binnen de beveiligde schoolomgeving blijven en niet gebruikt worden om het onderliggende AI-model te trainen. Zonder dat schild ben je niet zeker dat je gegevens beschermd zijn — log dan opnieuw in met je schoolaccount.</p>
+<p class="cp">Bovenaan het Copilot-venster zie je een klein <strong>schild-icoon (Protected)</strong>, zoals in de illustratie hierboven. Dat schild is je belangrijkste controlepunt: het betekent dat je gesprekken binnen de beveiligde schoolomgeving blijven en niet gebruikt worden om het onderliggende AI-model te trainen. Zonder dat schild ben je niet zeker dat je gegevens beschermd zijn.</p>
 
 <div class="ib warn">
   <div class="ib-t">🛡️ Check dit telkens voor je start</div>
-  <div class="ib-b">Geen schild-icoon zichtbaar? Meld je opnieuw aan met je schoolaccount via office.com. Gebruik nooit een privé- of gratis account voor schoolgerelateerd werk, ook niet "voor eens snel iets proberen".</div>
+  <div class="ib-b">Geen schild-icoon zichtbaar? Meld je opnieuw aan met je schoolaccount via office.com. Gebruik nooit een privé- of gratis account voor schoolgerelateerd werk, ook niet "voor eens snel iets proberen" — dat ene snelle gebruik is precies hoe persoonsgegevens per ongeluk in een niet-goedgekeurde tool terechtkomen.</div>
 </div>
 
 <div class="nw">
@@ -738,7 +822,33 @@ function m3s1(c){
   c.innerHTML = `
 <div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">✍️ Stap 2 van 8 · Prompting</span></div>
 <h2 class="ch2">Een goede <em>prompt</em> schrijven</h2>
-<p class="cp">De kwaliteit van wat Copilot teruggeeft, hangt sterk af van hoe specifiek je vraag (prompt) is. Een vaag verzoek als "maak een les over de Eerste Wereldoorlog" levert generieke, oppervlakkige output op. Gebruik daarom de structuur <strong>Rol — Doel — Context — Bron — Verwachting (R-D-C-B-V)</strong>:</p>
+<p class="cp">De kwaliteit van wat Copilot teruggeeft, hangt sterk af van hoe specifiek je vraag (prompt) is. Een vaag verzoek als "maak een les over de Eerste Wereldoorlog" levert generieke, oppervlakkige output op — net zoals een vage vraag aan een collega ook een vaag antwoord oplevert. Gebruik daarom een vaste structuur, zodat je niets vergeet: <strong>Rol — Doel — Context — Bron — Verwachting (R-D-C-B-V)</strong>.</p>
+
+<svg viewBox="0 0 700 170" style="width:100%;height:auto;display:block;margin:18px 0" xmlns="http://www.w3.org/2000/svg">
+  <g font-family="Nunito, sans-serif">
+    <rect x="0"   y="20" width="128" height="80" rx="12" fill="var(--blue)"/>
+    <rect x="143" y="20" width="128" height="80" rx="12" fill="var(--blue)"/>
+    <rect x="286" y="20" width="128" height="80" rx="12" fill="var(--blue)"/>
+    <rect x="429" y="20" width="128" height="80" rx="12" fill="var(--blue)"/>
+    <rect x="572" y="20" width="128" height="80" rx="12" fill="var(--blue)"/>
+    <text x="64"  y="50" text-anchor="middle" font-size="20">🎭</text>
+    <text x="207" y="50" text-anchor="middle" font-size="20">🎯</text>
+    <text x="350" y="50" text-anchor="middle" font-size="20">🏫</text>
+    <text x="493" y="50" text-anchor="middle" font-size="20">📄</text>
+    <text x="636" y="50" text-anchor="middle" font-size="20">✅</text>
+    <text x="64"  y="75" text-anchor="middle" font-family="Archivo Black, sans-serif" font-size="11" fill="#7FE000">ROL</text>
+    <text x="207" y="75" text-anchor="middle" font-family="Archivo Black, sans-serif" font-size="11" fill="#7FE000">DOEL</text>
+    <text x="350" y="75" text-anchor="middle" font-family="Archivo Black, sans-serif" font-size="11" fill="#7FE000">CONTEXT</text>
+    <text x="493" y="75" text-anchor="middle" font-family="Archivo Black, sans-serif" font-size="11" fill="#7FE000">BRON</text>
+    <text x="636" y="75" text-anchor="middle" font-family="Archivo Black, sans-serif" font-size="11" fill="#7FE000">VERWACHTING</text>
+    <text x="64"  y="92" text-anchor="middle" font-size="9" fill="rgba(255,255,255,.6)" font-weight="700">wie is AI?</text>
+    <text x="207" y="92" text-anchor="middle" font-size="9" fill="rgba(255,255,255,.6)" font-weight="700">wat wil je?</text>
+    <text x="350" y="92" text-anchor="middle" font-size="9" fill="rgba(255,255,255,.6)" font-weight="700">voor wie?</text>
+    <text x="493" y="92" text-anchor="middle" font-size="9" fill="rgba(255,255,255,.6)" font-weight="700">baseer op?</text>
+    <text x="636" y="92" text-anchor="middle" font-size="9" fill="rgba(255,255,255,.6)" font-weight="700">vorm/lengte</text>
+  </g>
+</svg>
+
 <div class="ib warn">
   <div class="ib-t">📋 Voorbeeldprompt volgens R-D-C-B-V</div>
   <div class="ib-b">
@@ -749,7 +859,7 @@ function m3s1(c){
     <strong>Verwachting:</strong> "Korte, open vragen die aanzetten tot discussie, geen meerkeuzevragen."
   </div>
 </div>
-<p class="cp">Krijg je niet meteen wat je zoekt? Verfijn dan in een vervolgvraag binnen hetzelfde gesprek ("maak de vragen iets korter", "voeg een vraag toe over perspectief") in plaats van helemaal opnieuw te beginnen. Controleer steeds de output zelf — ook een goede prompt garandeert geen foutloos resultaat.</p>
+<p class="cp">Krijg je niet meteen wat je zoekt? Verfijn dan in een vervolgvraag binnen hetzelfde gesprek ("maak de vragen iets korter", "voeg een vraag toe over perspectief") in plaats van helemaal opnieuw te beginnen — Copilot houdt rekening met de eerdere context van het gesprek. Controleer steeds de output zelf: ook een goede prompt garandeert geen foutloos resultaat, enkel een veel betere uitgangspositie.</p>
 
 <div class="nw">
   <button class="sr-btn b" onclick="p3()">← Vorige</button>
