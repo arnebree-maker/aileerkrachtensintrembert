@@ -27,7 +27,7 @@ body{font-family:'Nunito',sans-serif;background:var(--off);color:var(--text);min
 .ni{display:flex;align-items:center;gap:10px;padding:9px 24px;cursor:pointer;transition:all .2s;border-left:3px solid transparent}
 .ni:hover{background:rgba(255,255,255,.07);border-left-color:rgba(127,224,0,.3)}
 .ni.active{background:rgba(127,224,0,.12);border-left-color:var(--green)}
-.ni-icon{width:32px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.ni-icon{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
 .ni.locked .ni-icon{background:rgba(255,255,255,.05);opacity:.45}
 .ni.available .ni-icon,.ni.active .ni-icon{background:rgba(127,224,0,.18)}
 .ni.done .ni-icon{background:rgba(127,224,0,.25)}
@@ -101,7 +101,7 @@ body{font-family:'Nunito',sans-serif;background:var(--off);color:var(--text);min
 .mc.optional-mod{border-color:rgba(249,115,22,.35)}
 .mc-badge{display:inline-flex;align-items:center;background:var(--blue);color:white;border-radius:5px;padding:3px 9px;font-family:'Archivo Black',sans-serif;font-size:10px;text-transform:uppercase;margin-bottom:12px}
 .mc.optional-mod .mc-badge{background:var(--orange)}
-.mc-icon{font-size:32px;margin-bottom:10px}
+.mc-icon{font-size:44px;margin-bottom:12px}
 .mc-title{font-family:'Archivo Black',sans-serif;font-size:16px;color:var(--blue);text-transform:uppercase;margin-bottom:8px}
 .mc-desc{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:16px;font-weight:600}
 .mc-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
@@ -159,7 +159,7 @@ body{font-family:'Nunito',sans-serif;background:var(--off);color:var(--text);min
 .labels-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:16px 0}
 .label-card{border-radius:var(--rsm);padding:14px 10px;text-align:center;font-size:11px;font-weight:800;background:white;border:2px solid var(--gray);box-shadow:0 3px 12px rgba(10,31,168,.05);transition:transform .15s ease}
 .label-card:hover{transform:translateY(-2px)}
-.label-card .lc-num{font-family:'Archivo Black',sans-serif;font-size:22px;margin-bottom:6px;color:var(--blue)}
+.label-card .lc-num{font-family:'Archivo Black',sans-serif;font-size:28px;margin-bottom:8px;color:var(--blue)}
 .label-card .lc-name{text-transform:uppercase}
 
 .qc{background:white;border:2px solid var(--blue);border-radius:var(--radius);padding:28px;margin:24px 0;box-shadow:0 6px 20px rgba(10,31,168,.08)}
