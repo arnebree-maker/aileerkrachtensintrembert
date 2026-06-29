@@ -42,9 +42,9 @@ body{font-family:'Nunito',sans-serif;background:var(--off);color:var(--text);min
 .un-inp::placeholder{color:rgba(255,255,255,.25);text-transform:none;font-weight:600}
 .eh{font-size:9px;color:rgba(255,255,255,.3);font-weight:600;text-transform:none;margin-top:2px}
 
-#main{overflow-y:auto;min-height:100vh}
+#main{overflow-y:auto;min-height:100vh;display:flex;flex-direction:column}
 .view{display:none;animation:fi .35s ease}
-.view.active{display:block}
+.view.active{display:flex;flex-direction:column;flex:1;min-height:100vh}
 @keyframes fi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
 .hero{background:var(--blue);padding:52px 52px 44px;position:relative;overflow:hidden}
@@ -130,7 +130,7 @@ body{font-family:'Nunito',sans-serif;background:var(--off);color:var(--text);min
 .dot.done{background:var(--green)}
 .dot.active{background:var(--green);transform:scale(1.4)}
 
-.mc-content{padding:36px 52px;max-width:900px;margin:0 auto}
+.mc-content{padding:36px 52px;max-width:900px;margin:0 auto;display:flex;flex-direction:column;flex:1;width:100%}
 .s-badge{display:inline-flex;align-items:center;gap:7px;background:var(--blue);color:white;border-radius:5px;padding:6px 14px;font-family:'Archivo Black',sans-serif;font-size:12px;text-transform:uppercase;margin-bottom:18px}
 .ch2{font-family:'Archivo Black',sans-serif;font-size:36px;color:var(--blue);text-transform:uppercase;margin-bottom:16px;line-height:1.15}
 .ch2 em{color:var(--green);font-style:normal}
@@ -187,7 +187,7 @@ body{font-family:'Nunito',sans-serif;background:var(--off);color:var(--text);min
 .q-score.fail{color:var(--red)}
 .q-msg{font-size:14px;color:var(--muted);font-weight:700}
 
-.nw{padding:28px 0;display:flex;align-items:center;justify-content:space-between;border-top:2px solid var(--gray);margin-top:28px;flex-wrap:wrap;gap:10px}
+.nw{padding:28px 0;display:flex;align-items:center;justify-content:space-between;border-top:2px solid var(--gray);margin-top:auto;flex-wrap:wrap;gap:10px}
 .nh{font-size:12px;color:var(--muted);font-weight:700}
 
 #cert-view{display:none;padding:48px}
