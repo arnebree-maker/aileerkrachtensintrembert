@@ -110,7 +110,7 @@ function rDots(m,tot,cur){
    tijdelijk geblokkeerd; "Vorige" blijft vrij.
    ════════════════════════════════════════════ */
 function lockNextButtons(container, seconds){
-  seconds = seconds || 60;
+  seconds = seconds || 30;
   const btns = container.querySelectorAll('.nw .sr-btn.g, .nw .sr-btn.o');
   btns.forEach(b=>{
     if(b.dataset.timerId){ clearInterval(+b.dataset.timerId); }
