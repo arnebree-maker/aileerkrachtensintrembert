@@ -104,18 +104,39 @@ function rDots(m,tot,cur){
 }
 
 /* ════════════════════════════════════════════
-   MINIMALE LEESTIJD — 60s per stap, loopt stil
-   op de achtergrond. Enkel "Volgende"-knoppen
-   (.sr-btn.g / .sr-btn.o binnen .nw) worden
-   tijdelijk geblokkeerd; "Vorige" blijft vrij.
+   LEESTIJD PER PAGINA — loopt stil op de achtergrond.
+   - Bij "Vorige" (terugkeren): geen teller, knop meteen vrij.
+   - Bij "Volgende"/eerste keer: duur hangt af van de inhoud
+     (video's en quiz/reflectie hebben al hun eigen natuurlijke
+     tijd nodig, dus die worden niet extra geblokkeerd).
    ════════════════════════════════════════════ */
-function lockNextButtons(container, seconds){
-  seconds = seconds || 60;
+let lastNavDirection = 'forward';
+function decideSeconds(container){
+  if(container.querySelector('.yt-wrap')) return 15;       // video staat er al, geen extra wachttijd nodig
+  if(container.querySelector('.qc') || container.querySelector('textarea')) return 0; // quiz/reflectie heeft eigen tempo
+  const textLen = (container.textContent||'').length;
+  if(textLen < 400) return 15;   // korte pagina
+  if(textLen < 900) return 25;   // gemiddelde pagina
+  return 35;                     // lange pagina
+}
+function lockNextButtons(container){
   const btns = container.querySelectorAll('.nw .sr-btn.g, .nw .sr-btn.o');
+  if(lastNavDirection === 'back'){
+    // teruggekeerd: geen teller, knoppen meteen vrij
+    btns.forEach(b=>{
+      if(b.dataset.timerId){ clearInterval(+b.dataset.timerId); delete b.dataset.timerId; }
+      if(b.dataset.origText){ b.textContent = b.dataset.origText; }
+      b.disabled = false;
+    });
+    lastNavDirection = 'forward';
+    return;
+  }
+  const seconds = decideSeconds(container);
   btns.forEach(b=>{
     if(b.dataset.timerId){ clearInterval(+b.dataset.timerId); }
     const original = b.dataset.origText || b.textContent;
     b.dataset.origText = original;
+    if(seconds <= 0){ b.disabled = false; b.textContent = original; return; }
     let remaining = seconds;
     b.disabled = true;
     b.textContent = original + ' (' + remaining + 's)';
@@ -164,11 +185,26 @@ function doCertPrint(){
   window.print();
 }
 
+function fmtStellingen(groupKey, stellingenTekst){
+  let saved = {};
+  try{ saved = JSON.parse(localStorage.getItem('sr_stellingen_'+groupKey)||'{}'); }catch(e){}
+  if(Object.keys(saved).length===0) return 'Nog geen stellingen beantwoord.\n';
+  let out = '';
+  stellingenTekst.forEach((s,i)=>{
+    out += `  ${i+1}. ${s}\n     → ${saved[i] || 'Niet beantwoord'}\n`;
+  });
+  return out;
+}
+
 function downloadSummary() {
   const r1 = localStorage.getItem('sr_r1') || 'Geen reflectie ingevuld.';
   const r3 = localStorage.getItem('sr_r3') || 'Geen reflectie ingevuld.';
   const r2 = localStorage.getItem('sr_r2') || 'Geen reflectie ingevuld.';
   const name = S.name || 'Anonieme Leerkracht';
+
+  const stl_m1 = ['AI zal er binnen 10 jaar voor zorgen dat leerlingen minder goed zelfstandig kunnen schrijven.','Als leerkracht moet ik AI-output altijd controleren, ook als die er overtuigend uitziet.'];
+  const stl_m2 = ['Een adaptieve toets gebruiken om leerlingen te oriënteren naar een studierichting zou toegelaten moeten zijn, zolang een leerkracht de uiteindelijke beslissing neemt.','Onze school heeft nood aan een duidelijker, korter overzicht van wat wel/niet mag volgens de AI Act dan wat er vandaag bestaat.'];
+  const stl_m3 = ['Few-shot prompting (voorbeelden meegeven in je prompt) gaat mij echt tijd besparen bij het opstellen van toetsvragen.','Leerlingen hun prompts laten toevoegen aan hun werk is een haalbare manier van bronvermelding voor mijn vak.'];
 
   let txt = `==================================================\n`;
   txt += `AI-PROFESSIONALISERING SCHOLENGROEP SINT-REMBERT\n`;
@@ -188,6 +224,8 @@ function downloadSummary() {
   txt += `MODULE 1: WAT IS AI? — KENNIS EN REFLECTIE\n`;
   txt += `--------------------------------------------------\n`;
   txt += `Resultaat Kennischeck: ${S.mod1.quizScore || 'Nog niet behaald'}%\n\n`;
+  txt += `Stellingen — jouw mening:\n`;
+  txt += fmtStellingen('m1', stl_m1) + '\n';
   txt += `Jouw inzicht / Vakspecifieke vertaalslag:\n`;
   txt += `${r1}\n\n`;
 
@@ -195,6 +233,8 @@ function downloadSummary() {
   txt += `MODULE 2: BELEID & LEERLINGEN BEGELEIDEN\n`;
   txt += `--------------------------------------------------\n`;
   txt += `Resultaat Kennischeck: ${S.mod2.quizScore || 'Nog niet behaald'}%\n\n`;
+  txt += `Stellingen — jouw mening:\n`;
+  txt += fmtStellingen('m2', stl_m2) + '\n';
   txt += `Jouw concrete actiestap voor de komende maand:\n`;
   txt += `${r3}\n\n`;
 
@@ -202,6 +242,8 @@ function downloadSummary() {
   txt += `MODULE 3: COPILOT IN DE PRAKTIJK (OPTIONEEL)\n`;
   txt += `--------------------------------------------------\n`;
   txt += `Resultaat Kennischeck: ${S.mod3.quizScore || 'Nog niet behaald'}%\n\n`;
+  txt += `Stellingen — jouw mening:\n`;
+  txt += fmtStellingen('m3', stl_m3) + '\n';
   txt += `Jouw evaluatie & bibliotheekreflex:\n`;
   txt += `${r2}\n\n`;
 
@@ -217,6 +259,40 @@ function downloadSummary() {
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
+}
+
+/* ════════════════════════════════════════════
+   STELLINGEN — leerkracht geeft zijn/haar mening,
+   wordt lokaal bewaard en komt in het downloadbare
+   reflectieverslag terecht.
+   ════════════════════════════════════════════ */
+function renderStellingen(containerId, groupKey, stellingen){
+  const g = document.getElementById(containerId);
+  if(!g) return;
+  let saved = {};
+  try{ saved = JSON.parse(localStorage.getItem('sr_stellingen_'+groupKey)||'{}'); }catch(e){}
+  let html = '';
+  stellingen.forEach((s,i)=>{
+    const cur = saved[i] || null;
+    html += '<div class="stl-card">';
+    html += '<div class="stl-q">'+(i+1)+'. '+s+'</div>';
+    html += '<div class="stl-opts">';
+    ['Eens','Twijfel','Oneens'].forEach(opt=>{
+      const active = cur===opt ? ' active' : '';
+      html += '<button class="stl-btn'+active+'" data-i="'+i+'" data-v="'+opt+'">'+opt+'</button>';
+    });
+    html += '</div></div>';
+  });
+  g.innerHTML = html;
+  g.querySelectorAll('.stl-btn').forEach(b=>{
+    b.onclick = ()=>{
+      const i = b.dataset.i, v = b.dataset.v;
+      saved[i] = v;
+      localStorage.setItem('sr_stellingen_'+groupKey, JSON.stringify(saved));
+      g.querySelectorAll('.stl-btn[data-i="'+i+'"]').forEach(bb=>bb.classList.remove('active'));
+      b.classList.add('active');
+    };
+  });
 }
 
 /* ════════════════════════════════════════════
@@ -371,7 +447,7 @@ function renderStartTestQuiz(c){
 const m1 = [m1s0, m1s1, m1s2, m1s3, m1s4, m1s5, m1s6, m1s7, m1s8, m1s9, m1s10, m1s11, m1s12];
 function rm1(){ const c=document.getElementById('m1c'); c.innerHTML=''; rDots(1,m1.length,S.mod1.step); m1[S.mod1.step](c); lockNextButtons(c); }
 function n1(){ S.mod1.step++; ss(); S.mod1.step>=m1.length ? d1() : rm1(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); }
-function p1(){ if(S.mod1.step > 0){ S.mod1.step--; ss(); rm1(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); } }
+function p1(){ if(S.mod1.step > 0){ lastNavDirection='back'; S.mod1.step--; ss(); rm1(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); } }
 function d1(){ S.mod1.done=true; S.mod1.step=0; ss(); up(); rmc(); sv('home'); setTimeout(()=>alert('🎉 Module 1 voltooid! Module 2 is nu beschikbaar.'),300); }
 
 function m1s0(c){
@@ -657,6 +733,19 @@ function m1s12(c){
 <div class="s-badge">✍️ Stap 13 van 13 · Vertaalslag naar jouw vak</div>
 <h2 class="ch2">Vertaal naar <em>jouw lespraktijk</em></h2>
 <p class="cp">Je kent nu de basis: hoe AI werkt, wat generatieve AI bijzonder maakt, en welke kansen én gevaren erbij horen (hallucinaties, bias, deepfakes, privacy). Tijd om dit concreet te maken voor jouw eigen vak en klaspraktijk.</p>
+
+<h3 class="ch3">🎓 Wat zegt de wetenschap?</h3>
+<p class="cp">Rani Van Schoors, postdoctoraal onderzoeker AI in onderwijs aan KU Leuven, nuanceert de vraag of leerlingen door AI nog wel zelf leren schrijven of denken. Volgens haar blijft <strong>jij als leerkracht onmisbaar</strong>: leerlingen kijken vaak te weinig kritisch naar online bronnen, en datzelfde geldt voor AI-output, die altijd nog een check verdient, want taalmodellen kunnen hallucineren. Ze illustreert dit met een treffend voorbeeld: Google Bard (nu Gemini) vertelde ooit onterecht dat de James Webb-ruimtetelescoop als eerste beelden van buiten ons zonnestelsel had kunnen maken.</p>
+<p class="cp">Van Schoors wijst er ook op dat de kwaliteit van een AI-systeem volledig afhangt van de data waarmee het getraind werd: als je een dataset met enkel honden in een mand en katten in het gras gebruikt, zal het systeem een hond in het gras verkeerd als kat herkennen. Dat is precies hoe bias ontstaat — een mooie brug naar wat je eerder in deze module al zag.</p>
+
+<div class="ib warn">
+  <div class="ib-t">📚 Bron</div>
+  <div class="ib-b">Klasse, "AI in het onderwijs: nuttige helper of vervangleraar?" — interview met Rani Van Schoors (KU Leuven). <a href="https://www.klasse.be/722771/ai-in-het-onderwijs-expert-rani-schoors/" target="_blank">klasse.be/722771</a></div>
+</div>
+
+<h3 class="ch3">💭 Wat denk jij?</h3>
+<div id="stl-m1"></div>
+
 <p class="cp">Noteer hieronder je reflectie (minstens een paar zinnen): bij welke les of taak zou AI écht meerwaarde bieden? En waar zou je het net bewust <strong>niet</strong> inzetten, en waarom niet?</p>
 <textarea class="sr-ta" id="r1" placeholder="Ik denk aan mijn les... AI zou meerwaarde hebben bij... AI zou ik uitsluiten bij... omdat..."></textarea>
 
@@ -668,6 +757,10 @@ function m1s12(c){
   const ta = document.getElementById('r1');
   ta.value = localStorage.getItem('sr_r1') || '';
   ta.oninput = ()=>localStorage.setItem('sr_r1', ta.value);
+  renderStellingen('stl-m1', 'm1', [
+    'AI zal er binnen 10 jaar voor zorgen dat leerlingen minder goed zelfstandig kunnen schrijven.',
+    'Als leerkracht moet ik AI-output altijd controleren, ook als die er overtuigend uitziet.'
+  ]);
 }
 function sR1(){
   const v = (document.getElementById('r1').value||'').trim();
@@ -682,7 +775,7 @@ function sR1(){
 const m2 = [m2s0, m2s1, m2s2, m2s3, m2s4];
 function rm2(){ const c=document.getElementById('m2c'); c.innerHTML=''; rDots(2,m2.length,S.mod2.step); m2[S.mod2.step](c); lockNextButtons(c); }
 function n2(){ S.mod2.step++; ss(); S.mod2.step>=m2.length ? d2() : rm2(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); }
-function p2(){ if(S.mod2.step > 0){ S.mod2.step--; ss(); rm2(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); } }
+function p2(){ if(S.mod2.step > 0){ lastNavDirection='back'; S.mod2.step--; ss(); rm2(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); } }
 function d2(){ S.mod2.done=true; S.mod2.step=0; ss(); up(); rmc(); sv('cert'); }
 
 function m2s0(c){
@@ -880,7 +973,21 @@ function m2s4(c){
   c.innerHTML = `
 <div class="s-badge">🏁 Stap 5 van 5 · Praktijkscenario's & afronding</div>
 <h2 class="ch2">Jouw sluitende <em>actiestap</em></h2>
-<p class="cp">Je kent nu de 5 AI-labels, weet hoe je leerlingen op een transparante en pedagogisch zinvolle manier begeleidt, en hoe je een opdracht AI-bestendig ontwerpt door het proces zichtbaar te maken. Maak dit concreet: kies één actiestap die je de komende maand effectief uitvoert.</p>
+<p class="cp">Je kent nu de 5 AI-labels, weet hoe je leerlingen op een transparante en pedagogisch zinvolle manier begeleidt, en hoe je een opdracht AI-bestendig ontwerpt door het proces zichtbaar te maken.</p>
+
+<h3 class="ch3">⚖️ Wat mag (niet) volgens de wet?</h3>
+<p class="cp">Vincent Vanrusselt, onderzoekshoofd PXL Centrum Digitaal Leren, legt uit dat de EU AI Act sinds 1 augustus 2024 ook voor onderwijs geldt, en werkt met <strong>4 risiconiveaus</strong>: onaanvaardbaar risico (verboden, bv. emotieherkenning bij leerlingen), hoog risico (strenge eisen, bv. systemen die leerresultaten evalueren of leerlingen toelaten/uitsluiten van een studierichting), beperkt risico (transparantieplicht, bv. melden dat een gepubliceerde deepfake AI-gegenereerd is) en minimaal risico. Generatieve AI zoals ChatGPT, Copilot of Gemini valt voorlopig onder <strong>laag risico</strong>: je mag dus met een gerust hart tekst of een afbeelding genereren.</p>
+<p class="cp">Een concreet voorbeeld dat hij geeft: een adaptief leermiddel zoals Bingel of Snappet gebruiken is geen probleem. Maar diezelfde adaptieve toets gebruiken om leerlingen automatisch toe te laten of uit te sluiten van een studierichting, dat mag wél niet — dat valt onder hoog risico.</p>
+
+<div class="ib warn">
+  <div class="ib-t">📚 Bron</div>
+  <div class="ib-b">Klasse, "Wat mag (niet) met AI op school?" — interview met Vincent Vanrusselt (PXL). <a href="https://www.klasse.be/742009/wetgeving-ai-in-onderwijs-wat-mag-niet-volgens-ai-act/" target="_blank">klasse.be/742009</a></div>
+</div>
+
+<h3 class="ch3">💭 Wat denk jij?</h3>
+<div id="stl-m2"></div>
+
+<p class="cp">Maak het concreet: kies één actiestap die je de komende maand effectief uitvoert.</p>
 <textarea class="sr-ta" id="r3" placeholder="Ik ga bij mijn lessen het AI-label communiceren door... Of herwerk taak..."></textarea>
 
 <div class="nw">
@@ -890,6 +997,10 @@ function m2s4(c){
   const ta = document.getElementById('r3');
   ta.value = localStorage.getItem('sr_r3') || '';
   ta.oninput = ()=>localStorage.setItem('sr_r3', ta.value);
+  renderStellingen('stl-m2', 'm2', [
+    'Een adaptieve toets gebruiken om leerlingen te oriënteren naar een studierichting zou toegelaten moeten zijn, zolang een leerkracht de uiteindelijke beslissing neemt.',
+    'Onze school heeft nood aan een duidelijker, korter overzicht van wat wel/niet mag volgens de AI Act dan wat er vandaag bestaat.'
+  ]);
 }
 function sR3(){
   const v = (document.getElementById('r3').value||'').trim();
@@ -903,7 +1014,7 @@ function sR3(){
 const m3 = [m3s0, m3s1, m3s2, m3s3, m3s4, m3s5, m3s6, m3s7];
 function rm3(){ const c=document.getElementById('m3c'); c.innerHTML=''; rDots(3,m3.length,S.mod3.step); m3[S.mod3.step](c); lockNextButtons(c); }
 function n3(){ S.mod3.step++; ss(); S.mod3.step>=m3.length ? d3() : rm3(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); }
-function p3(){ if(S.mod3.step > 0){ S.mod3.step--; ss(); rm3(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); } }
+function p3(){ if(S.mod3.step > 0){ lastNavDirection='back'; S.mod3.step--; ss(); rm3(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); } }
 function d3(){ S.mod3.done=true; S.mod3.step=0; ss(); up(); rmc(); sv('home'); setTimeout(()=>alert('🎉 Praktijkverdieping voltooid!'),300); }
 
 function m3s0(c){
@@ -1105,7 +1216,28 @@ function m3s7(c){
   c.innerHTML = `
 <div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">🎯 Stap 8 van 8 · Slotreflectie</span></div>
 <h2 class="ch2">Slotreflectie</h2>
-<p class="cp">Je hebt nu kennisgemaakt met Copilot M365: het schild-icoon en dataveiligheid, gestructureerd prompten (R-D-C-B-V), de Maakmodule voor visueel materiaal, differentiëren op leesniveau, quizzen/rubrics genereren, en het opzetten van een eigen agent. Noteer hieronder wat voor jou het meest waardevol was, en welke stap je als eerste effectief gaat toepassen in je eigen lespraktijk.</p>
+<p class="cp">Je hebt nu kennisgemaakt met Copilot M365: het schild-icoon en dataveiligheid, gestructureerd prompten (R-D-C-B-V), de Maakmodule voor visueel materiaal, differentiëren op leesniveau, quizzen/rubrics genereren, en het opzetten van een eigen agent.</p>
+
+<h3 class="ch3">⏱️ 3x tijd besparen met AI in de klas</h3>
+<p class="cp">Leraar Frans en pedagogisch ICT-coördinator Line Vanhauwere (RHIZO Zorgkrachtschool) deelt drie concrete tijdsbespaarders. Voor differentiatie: maak meerdere versies van eenzelfde leesoefening op maat van elk niveau, en geef in je prompt de gekende niveaus mee zoals de ERK-niveaus (A2, B1...) of AVI-leesniveaus. Voor toetsvragen: gebruik <strong>few-shot prompting</strong> — geef minstens 2 voorbeelden van een goede vraag mee in je prompt, samen met de gewenste criteria of schrijfstijl. Weet je niet zeker hoe je moet prompten? Vraag het AI-model zelf wat een goede prompt zou zijn (reverse prompting), of geef expliciet aan wat het juist <strong>niet</strong> mag doen (negative prompt). Voor rubrics: laad je document met leerdoelen mee in je prompt, zodat de gegenereerde beoordelingscriteria daar automatisch op aansluiten.</p>
+
+<div class="ib warn">
+  <div class="ib-t">📚 Bron</div>
+  <div class="ib-b">Klasse, "3x tijd besparen met AI in de klas" — tips van Line Vanhauwere. <a href="https://www.klasse.be/733723/3x-tijd-besparen-met-ai-in-de-klas/" target="_blank">klasse.be/733723</a></div>
+</div>
+
+<h3 class="ch3">🧭 Nog 2 navigatietips</h3>
+<p class="cp">Directeur Rein Bogaert (Stella Matutina College, Lede) deelt in een reeks van 10 navigatietips er twee die goed aansluiten bij Copilot. Werk met een transparante bronvermelding in plaats van te proberen AI-gebruik op te sporen: laat leerlingen vermelden welke AI-tool ze gebruikten en eventueel hun prompts toevoegen aan hun werk — veel haalbaarder dan zelf als "Sherlock Holmes" plagiaat proberen op te sporen. En verschuif waar mogelijk de focus van het eindproduct naar het leerproces: laat leerlingen de AI-prestatie zelf beoordelen op basis van duidelijke criteria, met argumenten die ze staven met voorbeelden uit de gegenereerde tekst.</p>
+
+<div class="ib warn">
+  <div class="ib-t">📚 Bron</div>
+  <div class="ib-b">Klasse, "Wegwijs met AI op school: 10 navigatietips" — tips van directeur Rein Bogaert. <a href="https://www.klasse.be/722719/ai-op-school-10-navigatietips/" target="_blank">klasse.be/722719</a></div>
+</div>
+
+<h3 class="ch3">💭 Wat denk jij?</h3>
+<div id="stl-m3"></div>
+
+<p class="cp">Noteer hieronder wat voor jou het meest waardevol was, en welke stap je als eerste effectief gaat toepassen in je eigen lespraktijk.</p>
 <textarea class="sr-ta" id="r2" placeholder="Meest opgeleverd... Wat ik als eerste ga uitproberen..."></textarea>
 <div class="nw">
   <button class="sr-btn b" onclick="p3()">← Vorige</button>
@@ -1114,6 +1246,10 @@ function m3s7(c){
   const ta = document.getElementById('r2');
   ta.value = localStorage.getItem('sr_r2') || '';
   ta.oninput = ()=>localStorage.setItem('sr_r2', ta.value);
+  renderStellingen('stl-m3', 'm3', [
+    'Few-shot prompting (voorbeelden meegeven in je prompt) gaat mij echt tijd besparen bij het opstellen van toetsvragen.',
+    'Leerlingen hun prompts laten toevoegen aan hun werk is een haalbare manier van bronvermelding voor mijn vak.'
+  ]);
 }
 function sR2(){ n3(); }
 
