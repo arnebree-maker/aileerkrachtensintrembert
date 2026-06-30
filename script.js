@@ -1442,7 +1442,7 @@ function renderPromptBuilder(){
 }
 
 /* ════════════════════════════════════════════
-   BOOTSTRAP — uitgesteld tot het einde van hetx
+   BOOTSTRAP — uitgesteld tot het einde van het
    bestand, zodat alle const/function-declaraties
    (incl. ST_Q en de module-arrays) al bestaan.
    ════════════════════════════════════════════ */
