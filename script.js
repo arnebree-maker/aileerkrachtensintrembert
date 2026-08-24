@@ -81,7 +81,7 @@ function showRoleSelector() {
   <div class="role-hero">
     <div class="role-badge">🚀 Welkom bij de AI-Cursus</div>
     <h1 class="role-h1">Wat is <em>jouw rol</em> bij Sint-Rembert?</h1>
-    <p class="role-sub">We stemmen de inhoud af op jouw funktie zodat je precies leert wat relevant voor jou is.</p>
+    <p class="role-sub">We stemmen ALLE content af op jouw funktie — inclusief een eigen Copilot-verdieping op jouw maat.</p>
   </div>
 
   <div class="role-grid">
@@ -89,27 +89,54 @@ function showRoleSelector() {
       <div class="role-icon">👨‍🏫</div>
       <div class="role-title">Leerkracht</div>
       <div class="role-desc">Je werkt rechtstreeks met leerlingen en gebruikt AI in je lespraktijk.</div>
-      <div class="role-includes">✓ Alle 3 modules (verplicht + optioneel)<br>✓ AI-labels in de klas<br>✓ Leerlingbegeleiding<br>✓ Copilot-tools</div>
+      <div class="role-includes">
+        <div class="role-inc-title">Je krijgt:</div>
+        ✓ Module 1: Volledige AI-basis<br>
+        ✓ Module 2: Alle spelregels + AI-labels<br>
+        ✓ Leerlingbegeleiding & evaluatie<br>
+        ✓ Praktijkscenario's<br>
+        ✓ <strong>Module 3: Copilot in de klas</strong><br>
+        &nbsp;&nbsp;&nbsp;Hands-on prompting, lesmateriaal,<br>
+        &nbsp;&nbsp;&nbsp;differentiatie & agents
+      </div>
     </div>
 
     <div class="role-card" onclick="setUserRole('admin')">
       <div class="role-icon">📋</div>
       <div class="role-title">Admin / Ondersteunend</div>
-      <div class="role-desc">Je ondersteunt administratieve processen of bent betrokken bij organisatie.</div>
-      <div class="role-includes">✓ Module 1: Wat is AI?<br>✓ Module 2: Beleid (kernpunten)<br>✓ Privacy & GDPR<br>✓ Geen leerling-specifieke content</div>
+      <div class="role-desc">Je ondersteunt processen of bent betrokken bij schoolorganisatie.</div>
+      <div class="role-includes">
+        <div class="role-inc-title">Je krijgt:</div>
+        ✓ Module 1: Wat is AI? (basis)<br>
+        ✓ Module 2: Kernpunten + Privacy<br>
+        ✓ Geen leerling-specifieke content<br>
+        ✓ Geen AI-labels<br>
+        ✓ <strong>Module 3: Copilot voor administratie</strong><br>
+        &nbsp;&nbsp;&nbsp;Mailsjablonen, planning,<br>
+        &nbsp;&nbsp;&nbsp;rapportages & efficiëntie
+      </div>
     </div>
 
     <div class="role-card" onclick="setUserRole('management')">
       <div class="role-icon">🎯</div>
       <div class="role-title">Schoolleiding / Beleid</div>
-      <div class="role-desc">Je bent betrokken bij strategische keuzes rond AI en regelwerk.</div>
-      <div class="role-includes">✓ Module 1: Concepten<br>✓ Module 2: Volledig beleidskader<br>✓ Juridische context (EU AI Act)<br>✓ Risicomanagement</div>
+      <div class="role-desc">Je bent betrokken bij strategische keuzes rond AI & regelwerk.</div>
+      <div class="role-includes">
+        <div class="role-inc-title">Je krijgt:</div>
+        ✓ Module 1: Volledige AI-concepten<br>
+        ✓ Module 2: Volledig beleidskader<br>
+        ✓ Juridische context (EU AI Act)<br>
+        ✓ Risicomanagement & governance<br>
+        ✓ <strong>Module 3: Copilot voor beleid</strong><br>
+        &nbsp;&nbsp;&nbsp;Strategische documenten,<br>
+        &nbsp;&nbsp;&nbsp;risicoanalyse & compliance
+      </div>
     </div>
   </div>
 
   <div class="role-note">
     <div class="role-note-icon">💡</div>
-    <div class="role-note-text">Je kan je keuze later aanpassen. Je huidige voortgang blijft behouden.</div>
+    <div class="role-note-text">Alle rollen krijgen Copilot-verdieping op maat. Je kan je rol altijd aanpassen — je voortgang blijft behouden!</div>
   </div>
 </div>
   `;
@@ -184,6 +211,25 @@ function up(){
   else if(S.mod1.done) document.getElementById('l2').textContent = '›';
   else document.getElementById('l2').textContent = '🔒';
   if(S.mod3.done) document.getElementById('l3').innerHTML = '<span style="color:var(--green)">✓</span>';
+  
+  // Update Module 3 label op basis van rol
+  const mod3NavEl = document.getElementById('nav-mod3');
+  if(mod3NavEl) {
+    const mod3NameEl = mod3NavEl.querySelector('.ni-title');
+    const mod3SubEl = mod3NavEl.querySelector('.ni-sub');
+    if(mod3NameEl) {
+      if(S.userRole === 'teacher') {
+        mod3NameEl.textContent = '📚 Module 3: Copilot klas';
+        if(mod3SubEl) mod3SubEl.textContent = 'Optioneel · 8 stappen';
+      } else if(S.userRole === 'admin') {
+        mod3NameEl.textContent = '📚 Module 3: Copilot admin';
+        if(mod3SubEl) mod3SubEl.textContent = 'Optioneel · 4 stappen';
+      } else if(S.userRole === 'management') {
+        mod3NameEl.textContent = '📚 Module 3: Copilot beleid';
+        if(mod3SubEl) mod3SubEl.textContent = 'Optioneel · 4 stappen';
+      }
+    }
+  }
 }
 
 function rmc(){
@@ -204,7 +250,7 @@ function sv(id){
 }
 
 function sm(n){
-  console.log('📚 Klik op module:', n, '- State:', {starttest: S.starttest.taken, mod1done: S.mod1.done, mod1skipped: S.mod1.skipped});
+  console.log('📚 Klik op module:', n, '- Role:', S.userRole, '- State:', {starttest: S.starttest.taken, mod1done: S.mod1.done, mod1skipped: S.mod1.skipped});
   
   if(!S.starttest.taken){ 
     console.log('⚠️ Startest nog niet gedaan');
@@ -218,7 +264,7 @@ function sm(n){
     sv('mod1'); 
   }
   else if(n===2 && (S.mod1.done || S.mod1.skipped)){ 
-    console.log('✓ Start Module 2');
+    console.log('✓ Start Module 2, rol:', S.userRole);
     rm2(); 
     sv('mod2'); 
   }
@@ -227,7 +273,7 @@ function sm(n){
     alert('Voltooi eerst module 1.'); 
   }
   else if(n===3){ 
-    console.log('✓ Start Module 3');
+    console.log('✓ Start Module 3, rol:', S.userRole);
     rm3(); 
     sv('mod3'); 
   }
@@ -1232,15 +1278,52 @@ function sR3(){
 }
 
 /* ════════════════════════════════════════════
-   MODULE 3 — COPILOT IN DE PRAKTIJK (8 stappen)
+   MODULE 3 — COPILOT VERDIEPING (ROLE-SPECIFIC)
+   Elke rol krijgt eigen Module 3 op maat
    ════════════════════════════════════════════ */
 
-const m3 = [m3s0, m3s1, m3s2, m3s3, m3s4, m3s5, m3s6, m3s7];
+// TEACHER VERSION (huidige)
+const m3_teacher = [m3s0, m3s1, m3s2, m3s3, m3s4, m3s5, m3s6, m3s7];
 
-function rm3(){ const c=document.getElementById('m3c'); c.innerHTML=''; rDots(3,m3.length,S.mod3.step); m3[S.mod3.step](c); lockNextButtons(c); }
-function n3(){ S.mod3.step++; ss(); S.mod3.step>=m3.length ? d3() : rm3(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); }
+// ADMIN VERSION (nieuw)
+const m3_admin = [m3a0, m3a1, m3a2, m3a3];
+
+// MANAGEMENT VERSION (nieuw)
+const m3_mgmt = [m3m0, m3m1, m3m2, m3m3];
+
+let m3 = []; // Zal worden ingesteld op basis van rol
+
+function rm3(){
+  // Set m3 op basis van huidige rol
+  if(S.userRole === 'teacher') m3 = m3_teacher;
+  else if(S.userRole === 'admin') m3 = m3_admin;
+  else if(S.userRole === 'management') m3 = m3_mgmt;
+  
+  const c=document.getElementById('m3c');
+  c.innerHTML='';
+  console.log('🔄 rm3: rol=' + S.userRole + ', stap ' + S.mod3.step + ' van ' + m3.length);
+  
+  // Update title
+  const titleEl = document.getElementById('mod3-title');
+  if(titleEl) {
+    if(S.userRole === 'teacher') titleEl.textContent = 'Copilot in de klas';
+    else if(S.userRole === 'admin') titleEl.textContent = 'Copilot voor administratie';
+    else if(S.userRole === 'management') titleEl.textContent = 'Copilot voor strategisch beleid';
+  }
+  
+  rDots(3, m3.length, S.mod3.step);
+  m3[S.mod3.step](c);
+  lockNextButtons(c);
+}
+
+function n3(){ S.mod3.step++; ss(); S.mod3.step >= m3.length ? d3() : rm3(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); }
 function p3(){ if(S.mod3.step > 0){ lastNavDirection='back'; S.mod3.step--; ss(); rm3(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); } }
-function d3(){ S.mod3.done=true; S.mod3.step=0; ss(); up(); rmc(); sv('home'); setTimeout(()=>alert('🎉 Praktijkverdieping voltooid!'),300); }
+function d3(){ S.mod3.done=true; S.mod3.step=0; ss(); up(); rmc(); sv('home'); setTimeout(()=>alert('🎉 Copilot-verdieping voltooid!'),300); }
+
+/* ════════════════════════════════════════════
+   TEACHER MODULE 3 (Huidige versie)
+   Copilot in de klas — hands-on
+   ════════════════════════════════════════════ */
 
 function m3s0(c){
   c.innerHTML = `
@@ -1411,8 +1494,225 @@ function m3s7(c){
 function sR2(){ n3(); }
 
 /* ════════════════════════════════════════════
-   QUIZ ENGINE
+   ADMIN MODULE 3 — Copilot voor administratie
    ════════════════════════════════════════════ */
+
+function m3a0(c){
+  c.innerHTML = `
+<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">⚡ Stap 1 van 4 · Aan de slag</span></div>
+<h2 class="ch2">Copilot voor <em>Administratie</em></h2>
+<p class="cp">Als administratief medewerker ben je de kracht achter de schermen. Copilot M365 kan je helpen om het dagelijkse papierkraam sneller, slimmer en minder foutgevoelig in te pakken. Geen complexe prompts nodig — gewone Nederlands is genoeg.</p>
+
+<h3 class="ch3">🎯 Top 5 use cases voor administratie</h3>
+<div class="sr-row">
+  <div class="sr-box wel">
+    <div class="sr-box-title">1. 📧 Mailsjablonen</div>
+    <p style="font-size: 13px; color: #3d4f8a; font-weight: 600;">Automatisch professionele e-mails genereren met correct Nederlands</p>
+  </div>
+  <div class="sr-box wel">
+    <div class="sr-box-title">2. 📋 Verslag samenvattingen</div>
+    <p style="font-size: 13px; color: #3d4f8a; font-weight: 600;">Een lang document samenvatten in kernpunten</p>
+  </div>
+</div>
+
+<div class="sr-row">
+  <div class="sr-box wel">
+    <div class="sr-box-title">3. 📅 Agenda-planning</div>
+    <p style="font-size: 13px; color: #3d4f8a; font-weight: 600;">Vergaderingen plannen: datum + deelnemers → kalender</p>
+  </div>
+  <div class="sr-box wel">
+    <div class="sr-box-title">4. ✏️ Spellingcheck</div>
+    <p style="font-size: 13px; color: #3d4f8a; font-weight: 600;">Documenten automatisch controleren op taal</p>
+  </div>
+</div>
+
+<div class="sr-row">
+  <div class="sr-box wel" style="grid-column: span 2;">
+    <div class="sr-box-title">5. 📝 Formulieren invullen</div>
+    <p style="font-size: 13px; color: #3d4f8a; font-weight: 600;">Repetitieve velden automatisch aanvullen uit templates</p>
+  </div>
+</div>
+
+<div class="nw">
+  <button class="sr-btn g" onclick="n3()">Volgende: mailsjablonen →</button>
+</div>`;
+}
+
+function m3a1(c){
+  c.innerHTML = `
+<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">📧 Stap 2 van 4 · Mailsjablonen</span></div>
+<h2 class="ch2">Emailsjablonen <em>genereren</em></h2>
+<p class="cp">Hoeveel keer schrijf je dezelfde e-mail aan ouders, leerlingen of stafleden? Copilot kan je een sjabloon geven die je daarna aanpast.</p>
+
+<div class="ai-card" style="border: 2px solid var(--blue); background: white; padding: 20px; border-radius: var(--rsm); margin: 16px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 12px; color: var(--blue); text-transform: uppercase; margin-bottom: 8px;">Voorbeeld 1: Mail naar ouders (afwezig)</div>
+  <div style="font-size: 12px; font-weight: 700; color: #3d4f8a; margin: 12px 0;"><strong>Jij aan Copilot:</strong><br>"Schrijf een professionele e-mail naar ouders dat hun kind morgen afwezig is wegens tandarts. Kort, vriendelijk, Nederlands."</div>
+  <div style="background: var(--off); padding: 12px; border-radius: 6px; font-size: 12px; color: #3d4f8a; font-weight: 600; line-height: 1.6;">
+    <strong>Copilot geeft:</strong><br><br>
+    <strong>Onderwerp:</strong> Ziekte/afwezigheid — [naam leerling]<br><br>
+    Beste [voornaam ouder],<br><br>
+    We willen u informeren dat [naam leerling] morgen afwezig zal zijn van school wegens een afspraak bij de tandarts. We zullen ervoor zorgen dat [hij/zij] geen belangrijke lessen mist.<br><br>
+    Met vriendelijke groet,<br>[jouw naam]
+  </div>
+  <div style="font-size: 12px; font-weight: 700; color: var(--green); margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--gray);">💾 Kopieëren → opslaan als template in Outlook!</div>
+</div>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p3()">← Vorige</button>
+  <button class="sr-btn g" onclick="n3()">Volgende: rapportages →</button>
+</div>`;
+}
+
+function m3a2(c){
+  c.innerHTML = `
+<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">📊 Stap 3 van 4 · Rapportages</span></div>
+<h2 class="ch2">Rapportages <em>analyseren & samenvatten</em></h2>
+<p class="cp">Een inspectieverslag, evaluatierapport of lange notitie doorspitten? Copilot haalt de kernpunten eruit — je leest niet meer 20 bladzijden.</p>
+
+<div class="ai-card" style="border: 2px solid var(--blue); background: white; padding: 20px; border-radius: var(--rsm); margin: 16px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 12px; color: var(--blue); text-transform: uppercase; margin-bottom: 8px;">Praktijkvoorbeeld</div>
+  <div style="font-size: 12px; font-weight: 700; color: #3d4f8a; margin: 12px 0;"><strong>Jij aan Copilot:</strong><br>"Vat dit [plak rapport] samen in 5 kernpunten. Format: • Punt"</div>
+  <div style="background: var(--off); padding: 12px; border-radius: 6px; font-size: 12px; color: #3d4f8a; font-weight: 600; line-height: 1.8;">
+    <strong>Copilot geeft:</strong><br>
+    • Inschrijvingen 2025-2026 zijn 8% hoger dan vorig jaar<br>
+    • Leerlingenondersteuning blijft onderbestuwd<br>
+    • Taalonderwijs moet versterkt worden<br>
+    • Digitale infrastructuur moet geüpgraded<br>
+    • Vervolgstappen: budget Q1 2026 bespreken
+  </div>
+</div>
+
+<div class="ib warn">
+  <div class="ib-t">🔒 Privacy first</div>
+  <div class="ib-b">Upload NOOIT persoonlijke leerlinggegevens of gevoelige schoolinformatie in een gratis AI-tool. Gebruik altijd Copilot M365 (met het schild).</div>
+</div>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p3()">← Vorige</button>
+  <button class="sr-btn g" onclick="n3()">Volgende: afronden →</button>
+</div>`;
+}
+
+function m3a3(c){
+  c.innerHTML = `
+<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">✅ Stap 4 van 4 · Reflectie</span></div>
+<h2 class="ch2">Jouw eerste stap</h2>
+<p class="cp">Je hebt nu gezien hoe Copilot je dagelijkse administratieve taken kan versnellen: mails, rapportages, planning, spellingcheck, formulieren.</p>
+
+<p class="cp">Wat ga je deze week eerst uitproberen?</p>
+
+<textarea class="sr-ta" id="r2" placeholder="Ik ga eerst uitproberen... omdat..."></textarea>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p3()">← Vorige</button>
+  <button class="sr-btn o" onclick="sR2()">✅ Verdieping voltooid →</button>
+</div>`;
+  const ta = document.getElementById('r2');
+  ta.value = localStorage.getItem('sr_r2_admin') || '';
+  ta.oninput = ()=>localStorage.setItem('sr_r2_admin', ta.value);
+}
+
+/* ════════════════════════════════════════════
+   MANAGEMENT MODULE 3 — Copilot voor beleid
+   ════════════════════════════════════════════ */
+
+function m3m0(c){
+  c.innerHTML = `
+<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">🎯 Stap 1 van 4 · Strategisch</span></div>
+<h2 class="ch2">Copilot voor <em>Strategisch Beleid</em></h2>
+<p class="cp">Als schoolleiding zet je in op lange termijn: beleidsdocumenten, risicobeheer, regelingteksten, stakeholderberichten. Copilot helpt je die snel en deugdelijk op papier te krijgen.</p>
+
+<h3 class="ch3">🎯 Top 4 strategische use cases</h3>
+<div class="sr-row">
+  <div class="sr-box wel">
+    <div class="sr-box-title">1. 📋 Beleidsdocumenten</div>
+    <p style="font-size: 13px; color: #3d4f8a; font-weight: 600;">Eerste versie van een beleidskader (AI, duurzaamheid, inclusie) in een uur opgesteld</p>
+  </div>
+  <div class="sr-box wel">
+    <div class="sr-box-title">2. 🔍 Risicoanalyse</div>
+    <p style="font-size: 13px; color: #3d4f8a; font-weight: 600;">Identificeer risico's en voorstel mitigatie op basis van je schoolcontext</p>
+  </div>
+</div>
+
+<div class="sr-row">
+  <div class="sr-box wel">
+    <div class="sr-box-title">3. 💬 Stakeholder-communicatie</div>
+    <p style="font-size: 13px; color: #3d4f8a; font-weight: 600;">Brieven aan raad van bestuur, ouders en overheid goed formuleren</p>
+  </div>
+  <div class="sr-box wel">
+    <div class="sr-box-title">4. ⚖️ Regelingcompliance</div>
+    <p style="font-size: 13px; color: #3d4f8a; font-weight: 600;">Check of je beleid aansluit bij EU AI Act, GDPR, schoolwetgeving</p>
+  </div>
+</div>
+
+<div class="nw">
+  <button class="sr-btn g" onclick="n3()">Volgende: Beleidsdocumenten →</button>
+</div>`;
+}
+
+function m3m1(c){
+  c.innerHTML = `
+<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">📋 Stap 2 van 4 · Documenten</span></div>
+<h2 class="ch2">Beleidsdocumenten <em>opstellen</em></h2>
+<p class="cp">Een nieuw AI-beleidskader? Een DG-plan? Een code of conduct? Copilot levert je eerste versie in minuten — jij refineert naar schoolse context.</p>
+
+<div class="ai-card" style="border: 2px solid var(--blue); background: white; padding: 20px; border-radius: var(--rsm); margin: 16px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 12px; color: var(--blue); text-transform: uppercase; margin-bottom: 8px;">Voorbeeld: AI-Beleidskader (5 minuten)</div>
+  <div style="font-size: 12px; font-weight: 700; color: #3d4f8a; margin: 12px 0;"><strong>Jij aan Copilot:</strong><br>"Maak een beleidskader voor AI-gebruik in een Nederlandse scholengroep (3 basisscholen + 1 voortgezet). Include: visie, risico's, goedgekeurde tools, ondersteuning, monitoren. Format: kort + puntsgewijs."</div>
+  <div style="background: var(--off); padding: 12px; border-radius: 6px; font-size: 12px; color: #3d4f8a; font-weight: 600; line-height: 1.6;">
+    <strong>Copilot geeft:</strong> Volledige structuur van beleidskader waarmee jij direct kan starten en aanpassen naar schoolcontext.
+  </div>
+</div>
+
+<div class="ib warn">
+  <div class="ib-t">⚠️ Controleer juridisch</div>
+  <div class="ib-b">Laat gegenereerde beleidsteksten altijd controleren door juridisch adviseur of schoolcoach vóór publicatie. AI helpt met vorm, niet met juridische verantwoordelijkheid.</div>
+</div>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p3()">← Vorige</button>
+  <button class="sr-btn g" onclick="n3()">Volgende: Risicoanalyse →</button>
+</div>`;
+}
+
+function m3m2(c){
+  c.innerHTML = `
+<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">🔍 Stap 3 van 4 · Risicoanalyse</span></div>
+<h2 class="ch2">Risico's <em>kaarten & mitigeren</em></h2>
+<p class="cp">Welke risico's brengt AI in jouw school mee? Bias? Privacy? Overdependentie? Copilot helpt een risicoregister op te stellen.</p>
+
+<div class="ai-card" style="border: 2px solid var(--blue); background: white; padding: 20px; border-radius: var(--rsm); margin: 16px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 12px; color: var(--blue); text-transform: uppercase; margin-bottom: 8px;">Voorbeeld: Risicokaarten</div>
+  <div style="font-size: 12px; font-weight: 700; color: #3d4f8a; margin: 12px 0;"><strong>Jij aan Copilot:</strong><br>"Maak een risicoanalyse voor AI-implementatie in middelbare scholen. Include: risico, waarschijnlijkheid (hoog/midden/laag), impact, mitigatie, eigenaar."</div>
+  <div style="background: var(--off); padding: 12px; border-radius: 6px; font-size: 12px; color: #3d4f8a; font-weight: 600; line-height: 1.6;">
+    <strong>Copilot geeft:</strong> Tabel met 8-10 concrete risico's per categorie (technisch, juridisch, pedagogisch, organisatorisch)
+  </div>
+</div>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p3()">← Vorige</button>
+  <button class="sr-btn g" onclick="n3()">Volgende: Afronden →</button>
+</div>`;
+}
+
+function m3m3(c){
+  c.innerHTML = `
+<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">✅ Stap 4 van 4 · Volgende</span></div>
+<h2 class="ch2">Je strategisch volgende stap</h2>
+<p class="cp">Je hebt nu gezien hoe Copilot je kan helpen bij strategische AI-beleidsontwikkeling, risicoanalyse en stakeholder-communicatie.</p>
+
+<p class="cp">Waar ga je mee starten in je schoolleiding?</p>
+
+<textarea class="sr-ta" id="r2" placeholder="Ik zie kans in... voor onze school. Eerst ga ik..."></textarea>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p3()">← Vorige</button>
+  <button class="sr-btn o" onclick="sR2()">✅ Verdieping voltooid →</button>
+</div>`;
+  const ta = document.getElementById('r2');
+  ta.value = localStorage.getItem('sr_r2_mgmt') || '';
+  ta.oninput = ()=>localStorage.setItem('sr_r2_mgmt', ta.value);
+}
 
 function rQuiz(con, qs, modN, sk, onComplete, pass){
   const id = 'q'+modN+'_'+Date.now();
