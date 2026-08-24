@@ -21,7 +21,12 @@ let S = {
 function ld(){
   try{
     const s = localStorage.getItem(K);
-    if(s){ S = Object.assign(S, JSON.parse(s)); return; }
+    console.log('📦 Load state:', s ? 'Gevonden' : 'Nieuw');
+    if(s){ 
+      S = Object.assign(S, JSON.parse(s)); 
+      console.log('✓ State geladen:', S);
+      return; 
+    }
     const oud = localStorage.getItem('sr_ai_v8') || localStorage.getItem('sr_ai_v7') || localStorage.getItem('sr_ai_v6');
     if(oud){
       const o = JSON.parse(oud);
@@ -29,8 +34,27 @@ function ld(){
       S.certPrinted = !!o.certPrinted;
       ['mod1','mod2','mod3'].forEach(m=>{ if(o[m] && o[m].done) S[m].done = true; });
       ss();
+      console.log('✓ Oude state gemigreerd');
     }
-  }catch(e){}
+  }catch(e){
+    console.error('❌ Error bij laden state:', e);
+  }
+}
+
+// Cache-clear functie (typ in console: clearCache())
+function clearCache(){
+  console.log('🗑️ Cache wissen...');
+  localStorage.clear();
+  S = { 
+    name:'', 
+    userRole: null,
+    starttest:{taken:false, score:0, passed:false}, 
+    mod1:{step:0,done:false,skipped:false}, 
+    mod2:{step:0,done:false}, 
+    mod3:{step:0,done:false}, 
+    certPrinted:false 
+  };
+  console.log('✓ Cache gewist, refresh pagina: location.reload()');
 }
 
 function ss(){ try{ localStorage.setItem(K, JSON.stringify(S)); }catch(e){} }
@@ -96,15 +120,22 @@ function showRoleSelector() {
 }
 
 function setUserRole(role) {
+  console.log('🎭 Rol gekozen:', role);
   userRole = role;
   S.userRole = role;
   ss();
   
   const roleView = document.getElementById('role-selector-view');
-  if(roleView) roleView.style.display = 'none';
+  if(roleView) {
+    roleView.style.display = 'none';
+    console.log('✓ Rolkeuze verborgen');
+  }
   
   const appDiv = document.getElementById('app');
-  appDiv.style.display = 'grid';
+  if(appDiv) {
+    appDiv.style.display = 'grid';
+    console.log('✓ App zichtbaar gemaakt');
+  }
   
   // Filter Module 3 nav als niet-leerkracht
   if(role !== 'teacher') {
@@ -112,7 +143,11 @@ function setUserRole(role) {
     const cm3 = document.getElementById('cm3');
     if(navMod3) navMod3.style.display = 'none';
     if(cm3) cm3.style.display = 'none';
+    console.log('✓ Module 3 verborgen (niet-leerkracht)');
   }
+  
+  up();
+  rmc();
 }
 
 /* ════════════════════════════════════════════
@@ -169,11 +204,33 @@ function sv(id){
 }
 
 function sm(n){
-  if(!S.starttest.taken){ goStartTest(); return; }
-  if(n===1){ rm1(); sv('mod1'); }
-  else if(n===2 && S.mod1.done){ rm2(); sv('mod2'); }
-  else if(n===2){ alert('Voltooi eerst module 1.'); }
-  else if(n===3){ rm3(); sv('mod3'); }
+  console.log('📚 Klik op module:', n, '- State:', {starttest: S.starttest.taken, mod1done: S.mod1.done, mod1skipped: S.mod1.skipped});
+  
+  if(!S.starttest.taken){ 
+    console.log('⚠️ Startest nog niet gedaan');
+    goStartTest(); 
+    return; 
+  }
+  
+  if(n===1){ 
+    console.log('✓ Start Module 1');
+    rm1(); 
+    sv('mod1'); 
+  }
+  else if(n===2 && (S.mod1.done || S.mod1.skipped)){ 
+    console.log('✓ Start Module 2');
+    rm2(); 
+    sv('mod2'); 
+  }
+  else if(n===2){ 
+    console.log('❌ Module 1 niet voltooid');
+    alert('Voltooi eerst module 1.'); 
+  }
+  else if(n===3){ 
+    console.log('✓ Start Module 3');
+    rm3(); 
+    sv('mod3'); 
+  }
 }
 
 function tm(n){
@@ -865,9 +922,9 @@ function sR1(){
    Nu 10 stappen (was 9) — Casus tussenvoegd
    ════════════════════════════════════════════ */
 
-const m2 = [m2s0, m2s1, m2s2, m2s3, m2s_casus, m2s4, m2s5, m2s6, m2s7, m2s8];
+const m2 = [m2s0, m2s1, m2s2, m2s_casus, m2s4, m2s5, m2s6, m2s7, m2s8, m2s9];
 
-function rm2(){ const c=document.getElementById('m2c'); c.innerHTML=''; rDots(2,m2.length,S.mod2.step); m2[S.mod2.step](c); lockNextButtons(c); }
+function rm2(){ const c=document.getElementById('m2c'); c.innerHTML=''; console.log('🔄 rm2: stap', S.mod2.step, 'van', m2.length); rDots(2,m2.length,S.mod2.step); m2[S.mod2.step](c); lockNextButtons(c); }
 function n2(){ S.mod2.step++; ss(); S.mod2.step>=m2.length ? d2() : rm2(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); }
 function p2(){ if(S.mod2.step > 0){ lastNavDirection='back'; S.mod2.step--; ss(); rm2(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); } }
 function d2(){ S.mod2.done=true; S.mod2.step=0; ss(); up(); rmc(); sv('cert'); }
@@ -1797,9 +1854,34 @@ function toggleFAQ(id) {
    INITIALISATIE
    ════════════════════════════════════════════ */
 
-// Controleer of gebruiker een rol heeft gekozen
-if(!S.userRole){
-  showRoleSelector();
-} else {
-  if(!S.starttest.taken){ goStartTest(); } else { sv('home'); }
-}
+// Start sequence
+window.addEventListener('DOMContentLoaded', function() {
+  console.log('DOMContentLoaded: Script geladen, state:', S);
+  
+  // Eerst: update UI met huidige state
+  up();
+  rmc();
+  
+  // Dan: check rolkeuze
+  if(!S.userRole){
+    console.log('Geen rol gekozen, toon selector');
+    showRoleSelector();
+  } else {
+    console.log('Rol gekozen:', S.userRole);
+    if(!S.starttest.taken){ 
+      console.log('Startest niet gedaan, start');
+      goStartTest(); 
+    } else { 
+      console.log('Ga naar home');
+      sv('home'); 
+    }
+  }
+});
+
+// Fallback als DOMContentLoaded niet werkt
+setTimeout(function() {
+  if(!document.querySelector('.role-view') && !S.userRole && !S.starttest.taken) {
+    console.log('Fallback: toon rolkeuze');
+    showRoleSelector();
+  }
+}, 500);
