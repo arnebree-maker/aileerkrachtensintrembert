@@ -8,7 +8,7 @@
    ════════════════════════════════════════════ */
 
 // ── INSCHRIJFLINK PROFESSIONALISERING (op 1 plek aanpassen) ──
-const INSCHRIJF = 'https://VERVANG-DOOR-JULLIE-INSCHRIJFLINK';
+const INSCHRIJF = 'https://apps.powerapps.com/play/e/a6565af8-ceef-e6fa-abee-2fc82d974843/a/05835e22-d992-431c-b608-0f9b6756afe6?tenantId=e285dc48-b92b-4e97-9ea5-bdaed06bbb77&hint=67663972-1038-4a71-9d66-1bdbb7f7e205&source=sharebutton&sourcetime=1787594697783#;
 
 // ── STATE (+ migratie van v7/v6) ──
 const K = 'sr_ai_v8';
