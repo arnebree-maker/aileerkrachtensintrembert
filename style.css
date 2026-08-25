@@ -2142,3 +2142,14 @@ button { font-family: inherit; cursor: pointer; border: none; }
   #app { display: block; }
   #main { background: white; }
 }
+
+/* ════════════════════════════════════════════
+   TIMER VERBERGEN
+   ════════════════════════════════════════════ */
+.reading-time-hint,
+.step-timer,
+.timer-display,
+[data-timer],
+.lockNextButtons:disabled::after {
+  display: none !important;
+}
