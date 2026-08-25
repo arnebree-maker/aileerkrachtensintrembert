@@ -1487,6 +1487,7 @@ function m3s2(c){
 }
 
 function m3s_praktijkprompts_teacher(c){
+  c.innerHTML = `
 <div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">💡 Stap 4 van 9 · Praktische Prompts</span></div>
 <h2 class="ch2">5 <em>Prompts</em> voor lesvoorbereiding</h2>
 <p class="cp">Hier zijn 5 gouden prompts die je direct kan copy-pasten naar Copilot. Ze helpen bij lesvoorbereiding, evaluatie en leerlingbegeleiding. Kies hetgeen wat je nodig hebt en vul de [vierkante haakjes] in met jouw gegevens.</p>
