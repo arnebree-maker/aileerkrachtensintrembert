@@ -164,14 +164,12 @@ function setUserRole(role) {
     console.log('✓ App zichtbaar gemaakt');
   }
   
-  // Filter Module 3 nav als niet-leerkracht
-  if(role !== 'teacher') {
-    const navMod3 = document.getElementById('nav-mod3');
-    const cm3 = document.getElementById('cm3');
-    if(navMod3) navMod3.style.display = 'none';
-    if(cm3) cm3.style.display = 'none';
-    console.log('✓ Module 3 verborgen (niet-leerkracht)');
-  }
+  // Module 3 is nu beschikbaar voor ALLE rollen
+  const navMod3 = document.getElementById('nav-mod3');
+  const cm3 = document.getElementById('cm3');
+  if(navMod3) navMod3.style.display = 'block';
+  if(cm3) cm3.style.display = 'block';
+  console.log('✓ Module 3 zichtbaar (rol: ' + role + ')');
   
   up();
   rmc();
@@ -2227,6 +2225,26 @@ function rQuiz(con, qs, modN, sk, onComplete, pass){
   const id = 'q'+modN+'_'+Date.now();
   const st = { ans: new Array(qs.length).fill(null), correct: new Array(qs.length).fill(false) };
   const wrap = document.createElement('div');
+
+  // Shuffle functie
+  const shuffle = (arr) => {
+    const copy = [...arr];
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  };
+
+  // Randomiseer antwoorden per vraag
+  qs.forEach(q => {
+    const origCorrectIndex = q.a;
+    const origCorrectAnswer = q.o[origCorrectIndex];
+    const shuffledOptions = shuffle(q.o);
+    const newCorrectIndex = shuffledOptions.indexOf(origCorrectAnswer);
+    q.o = shuffledOptions;
+    q.a = newCorrectIndex;
+  });
 
   let prevBtnHtml = '';
   if(modN === 1) prevBtnHtml = `<button class="sr-btn b" style="background:#cbd5e1; color:var(--blue); margin-right:auto;" onclick="p1()">← Vorige stap</button>`;
