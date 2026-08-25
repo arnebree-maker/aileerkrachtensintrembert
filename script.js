@@ -1761,26 +1761,46 @@ function m3a0(c){
 
 function m3a1(c){
   c.innerHTML = `
-<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">📧 Stap 2 van 4 · Mailsjablonen</span></div>
-<h2 class="ch2">Emailsjablonen <em>genereren</em></h2>
-<p class="cp">Hoeveel keer schrijf je dezelfde e-mail aan ouders, leerlingen of stafleden? Copilot kan je een sjabloon geven die je daarna aanpast.</p>
+<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">📧 Stap 2 van 5 · Mails & Rapportages</span></div>
+<h2 class="ch2">Emailsjablonen & <em>Rapportages samenvatten</em></h2>
+<p class="cp">Twee snelle wins: professionele mails in seconden, en lange documenten in kernpunten samenvatten.</p>
+
+<h3 class="ch3">📧 Use case 1: Emailsjablonen genereren</h3>
+<p class="cp">Hoeveel keer schrijf je dezelfde e-mail? Copilot helpt je een sjabloon te maken die je daarna aanpast.</p>
 
 <div class="ai-card" style="border: 2px solid var(--blue); background: white; padding: 20px; border-radius: var(--rsm); margin: 16px 0;">
-  <div style="font-family: 'Archivo Black', sans-serif; font-size: 12px; color: var(--blue); text-transform: uppercase; margin-bottom: 8px;">Voorbeeld 1: Mail naar ouders (afwezig)</div>
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 12px; color: var(--blue); text-transform: uppercase; margin-bottom: 8px;">Voorbeeld: Mail naar ouders</div>
   <div style="font-size: 12px; font-weight: 700; color: #3d4f8a; margin: 12px 0;"><strong>Jij aan Copilot:</strong><br>"Schrijf een professionele e-mail naar ouders dat hun kind morgen afwezig is wegens tandarts. Kort, vriendelijk, Nederlands."</div>
   <div style="background: var(--off); padding: 12px; border-radius: 6px; font-size: 12px; color: #3d4f8a; font-weight: 600; line-height: 1.6;">
     <strong>Copilot geeft:</strong><br><br>
-    <strong>Onderwerp:</strong> Ziekte/afwezigheid — [naam leerling]<br><br>
+    <strong>Onderwerp:</strong> Afwezigheid — [naam leerling]<br><br>
     Beste [voornaam ouder],<br><br>
-    We willen u informeren dat [naam leerling] morgen afwezig zal zijn van school wegens een afspraak bij de tandarts. We zullen ervoor zorgen dat [hij/zij] geen belangrijke lessen mist.<br><br>
+    We willen u informeren dat [naam leerling] morgen afwezig zal zijn van school wegens een afspraak bij de tandarts. We zorgen dat [hij/zij] geen belangrijke lessen mist.<br><br>
     Met vriendelijke groet,<br>[jouw naam]
   </div>
   <div style="font-size: 12px; font-weight: 700; color: var(--green); margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--gray);">💾 Kopieëren → opslaan als template in Outlook!</div>
 </div>
 
+<h3 class="ch3">📋 Use case 2: Lange documenten samenvatten</h3>
+<p class="cp">Een inspectieverslag, evaluatierapport of lange notitie doorspitten? Copilot haalt de kernpunten eruit — je leest niet meer 20 bladzijden.</p>
+
+<div class="ai-card" style="border: 2px solid var(--orange); background: white; padding: 20px; border-radius: var(--rsm); margin: 16px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 12px; color: var(--orange); text-transform: uppercase; margin-bottom: 8px;">Voorbeeld: Samenvatten inspectierapport</div>
+  <div style="font-size: 12px; font-weight: 700; color: #3d4f8a; margin: 12px 0;"><strong>Jij aan Copilot:</strong><br>"Vat dit inspectierapport samen in maximaal 5 kernpunten. Zet er ook actie-items bij en vermeld kritieke punten in het rood."</div>
+  <div style="background: var(--off); padding: 12px; border-radius: 6px; font-size: 12px; color: #3d4f8a; font-weight: 600; line-height: 1.6;">
+    <strong>Copilot geeft:</strong><br><br>
+    <strong>Kernpunten:</strong><br>
+    1. Veiligheid — zeer goed<br>
+    2. <span style="color: var(--red);">⚠️ Inclusie — aandachtspunt</span><br>
+    3. Digitale vaardigheden — in uitvoering<br><br>
+    <strong>Acties:</strong> Volg inclusie-trainingen, plan check in januari
+  </div>
+</div>
+
 <div class="nw">
   <button class="sr-btn b" onclick="p3()">← Vorige</button>
-  <button class="sr-btn g" onclick="n3()">Volgende: Rapportages samenvatten →</button>
+  <button class="sr-btn g" onclick="n3()">Volgende: Praktische prompts →</button>
+  <span class="nh">Stap 2/5</span>
 </div>`;
 }
 
@@ -1861,47 +1881,103 @@ function m3a_prompts_admin(c){
 
 function m3a2(c){
   c.innerHTML = `
-<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">📊 Stap 4 van 5 · Rapportages</span></div>
-<h2 class="ch2">Rapportages <em>analyseren & samenvatten</em></h2>
-<p class="cp">Een inspectieverslag, evaluatierapport of lange notitie doorspitten? Copilot haalt de kernpunten eruit — je leest niet meer 20 bladzijden.</p>
+<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">⚡ Stap 4 van 5 · Efficiëncy & Automatisering</span></div>
+<h2 class="ch2">Administratie <em>sneller & slimmer</em></h2>
+<p class="cp">De beste AI-use case voor administratie is niet "dit kunnen machines voor me doen", maar "hoe besteed ik mijn tijd slimmer in?" Hier zijn 3 concrete efficiency-wins:</p>
 
-<div class="ai-card" style="border: 2px solid var(--blue); background: white; padding: 20px; border-radius: var(--rsm); margin: 16px 0;">
-  <div style="font-family: 'Archivo Black', sans-serif; font-size: 12px; color: var(--blue); text-transform: uppercase; margin-bottom: 8px;">Praktijkvoorbeeld</div>
-  <div style="font-size: 12px; font-weight: 700; color: #3d4f8a; margin: 12px 0;"><strong>Jij aan Copilot:</strong><br>"Vat dit [plak rapport] samen in 5 kernpunten. Format: • Punt"</div>
-  <div style="background: var(--off); padding: 12px; border-radius: 6px; font-size: 12px; color: #3d4f8a; font-weight: 600; line-height: 1.8;">
-    <strong>Copilot geeft:</strong><br>
-    • Inschrijvingen 2025-2026 zijn 8% hoger dan vorig jaar<br>
-    • Leerlingenondersteuning blijft onderbestuwd<br>
-    • Taalonderwijs moet versterkt worden<br>
-    • Digitale infrastructuur moet geüpgraded<br>
-    • Vervolgstappen: budget Q1 2026 bespreken
-  </div>
+<div style="background: white; border-left: 4px solid var(--blue); border-radius: 12px; padding: 20px; margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 14px; color: var(--blue); text-transform: uppercase; margin-bottom: 12px;">⚡ Win 1: Automatische formulierinvulling</div>
+  <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.8;">
+    Veel administratie is repetitief: contactgegevens, data, standaardteksten. Geef Copilot je "template" één keer, dan vult hij dezelfde informatie automatisch in de volgende 10 formulieren in. <strong>Besparing: 2-3 uur per week.</strong>
+  </p>
 </div>
 
-<div class="ib warn">
-  <div class="ib-t">🔒 Privacy first</div>
-  <div class="ib-b">Upload NOOIT persoonlijke leerlinggegevens of gevoelige schoolinformatie in een gratis AI-tool. Gebruik altijd Copilot M365 (met het schild).</div>
+<div style="background: white; border-left: 4px solid var(--orange); border-radius: 12px; padding: 20px; margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 14px; color: var(--orange); text-transform: uppercase; margin-bottom: 12px;">⚡ Win 2: Snel data schoonmaken</div>
+  <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.8;">
+    Je hebt een Excel met misgemaakte gegevens: inconsistente naamnotatie ("Jan de Vries" vs "J. de Vries"), foute datumformaten, ontbrekende nummers. Copilot kan dit automatisch herkennen en correct zetten. <strong>Besparing: 3-5 uur per batch.</strong>
+  </p>
+</div>
+
+<div style="background: white; border-left: 4px solid var(--green); border-radius: 12px; padding: 20px; margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 14px; color: var(--green); text-transform: uppercase; margin-bottom: 12px;">⚡ Win 3: Vergaderverslagen in 2 minuten samenvatten</div>
+  <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.8;">
+    Je krijgt een 45-minuten-verslag van de schoolraad. Plak het in Copilot, zeg "Geef actiepunten + verantwoordelijken + deadlines in een tabel." Klaar in 2 minuten. <strong>Besparing: 20-30 minuten per vergadering.</strong>
+  </p>
+</div>
+
+<div class="ib info" style="margin-top: 20px;">
+  <div class="ib-t">💡 Slim gebruiken: kwaliteit checken</div>
+  <div class="ib-b">
+    Copilot werkt snel, maar zeg altijd: "Dit is niet perfect, ik zal het nog controleren." Zaken die Copilot overloopt: nummerlogica, lastige contexten, inconsistenties. Jij blijft de "final check".
+  </div>
 </div>
 
 <div class="nw">
   <button class="sr-btn b" onclick="p3()">← Vorige</button>
-  <button class="sr-btn g" onclick="n3()">Volgende: afronden →</button>
+  <button class="sr-btn g" onclick="n3()">Volgende: GDPR & Afronding →</button>
+  <span class="nh">Stap 4/5</span>
 </div>`;
 }
 
 function m3a3(c){
   c.innerHTML = `
-<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">✅ Stap 5 van 5 · Reflectie</span></div>
-<h2 class="ch2">Jouw eerste stap</h2>
-<p class="cp">Je hebt nu gezien hoe Copilot je dagelijkse administratieve taken kan versnellen: mails, rapportages, planning, spellingcheck, formulieren.</p>
+<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">🔒 Stap 5 van 5 · GDPR & Afronding</span></div>
+<h2 class="ch2"><em>GDPR-check:</em> Wat mag niet</h2>
+<p class="cp">Het meest kritieke voor administratie: weet wat je wél en niet mag doen met AI.</p>
 
-<p class="cp">Wat ga je deze week eerst uitproberen?</p>
+<div style="background: rgba(224,32,32,0.1); border-left: 4px solid var(--red); border-radius: 12px; padding: 20px; margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 14px; color: var(--red); text-transform: uppercase; margin-bottom: 16px;">❌ Dit mag ABSOLUUT niet</div>
+  
+  <div style="margin-bottom: 16px;">
+    <div style="font-weight: 700; color: var(--red); font-size: 13px; text-transform: uppercase; margin-bottom: 8px;">1. Foto's van kinderen bewerken met AI</div>
+    <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7;">
+      Zelfs "onschuldige" aanpassingen (background verwijderen, gezicht blurren) zijn gevoelig. GDPR en portretrecht beschermen kinderen. <strong>Risico: zware boetes.</strong>
+    </p>
+  </div>
 
-<textarea class="sr-ta" id="r2" placeholder="Ik ga eerst uitproberen... omdat..."></textarea>
+  <div style="margin-bottom: 16px;">
+    <div style="font-weight: 700; color: var(--red); font-size: 13px; text-transform: uppercase; margin-bottom: 8px;">2. Bestanden of documenten met leerlinggegevens online zetten</div>
+    <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7;">
+      Een Excel met leerlingnamen/scores/adressen uploaden naar ChatGPT of een gratis AI-tool = GDPR-schending. Alle leerlinggegevens blijven in M365 (met schild-icoon).
+    </p>
+  </div>
+
+  <div style="margin-bottom: 16px;">
+    <div style="font-weight: 700; color: var(--red); font-size: 13px; text-transform: uppercase; margin-bottom: 8px;">3. Persoonsgegevens in openbare prompts</div>
+    <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7;">
+      Nooit: "Schrijf een mail naar Jan de Vries (leerling 3A) omdat hij...". Altijd anonimiseren: "Schrijf een mail naar een leerling omdat hij afwezig was."
+    </p>
+  </div>
+
+  <div>
+    <div style="font-weight: 700; color: var(--red); font-size: 13px; text-transform: uppercase; margin-bottom: 8px;">4. Gevoelige schoolgegevens zonder beveiligde tool</div>
+    <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7;">
+      Leerlinggegevens, beleidsteksten, evaluatierapporten → alleen in Copilot M365 (het schild-icoon zichtbaar). Nooit gratis tools.
+    </p>
+  </div>
+</div>
+
+<div style="background: rgba(10,31,168,0.08); border-left: 4px solid var(--blue); border-radius: 12px; padding: 20px; margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 14px; color: var(--blue); text-transform: uppercase; margin-bottom: 12px;">✅ Dit mag wel</div>
+  <ul style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.8; margin: 0; padding-left: 20px;">
+    <li>Emailsjablonen genereren (zonder echte namen)</li>
+    <li>Rapporten samenvatten (in M365)</li>
+    <li>Efficiëncytips zoeken (proces-verbeteringen)</li>
+    <li>Standaarddocumenten schrijven (beleid, info)</li>
+    <li>Formulieren optimaliseren (structuur, workflow)</li>
+  </ul>
+</div>
+
+<h3 class="ch3">💭 Reflectie</h3>
+<p class="cp">Je hebt nu gezien hoe Copilot je administratie sneller kan maken: mails, samenvatten, automatisering. Wat ga je deze week als eerste uitproberen?</p>
+
+<textarea class="sr-ta" id="r2" placeholder="Ik ga als eerst uitproberen... omdat ik dit veel tijd bespaar bij..." style="height: 100px;"></textarea>
 
 <div class="nw">
   <button class="sr-btn b" onclick="p3()">← Vorige</button>
   <button class="sr-btn o" onclick="sR2()">✅ Verdieping voltooid →</button>
+  <span class="nh">Stap 5/5</span>
 </div>`;
   const ta = document.getElementById('r2');
   ta.value = localStorage.getItem('sr_r2_admin') || '';
@@ -1914,7 +1990,7 @@ function m3a3(c){
 
 function m3m0(c){
   c.innerHTML = `
-<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">🎯 Stap 1 van 4 · Strategisch</span></div>
+<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">🎯 Stap 1 van 5 · Strategisch</span></div>
 <h2 class="ch2">Copilot voor <em>Strategisch Beleid</em></h2>
 <p class="cp">Als schoolleiding zet je in op lange termijn: beleidsdocumenten, risicobeheer, regelingteksten, stakeholderberichten. Copilot helpt je die snel en deugdelijk op papier te krijgen.</p>
 
@@ -1948,7 +2024,7 @@ function m3m0(c){
 
 function m3m1(c){
   c.innerHTML = `
-<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">📋 Stap 2 van 4 · Documenten</span></div>
+<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">📋 Stap 2 van 5 · Beleidsdocumenten</span></div>
 <h2 class="ch2">Beleidsdocumenten <em>opstellen</em></h2>
 <p class="cp">Een nieuw AI-beleidskader? Een DG-plan? Een code of conduct? Copilot levert je eerste versie in minuten — jij refineert naar schoolse context.</p>
 
@@ -2052,37 +2128,95 @@ function m3m_prompts_mgmt(c){
 
 function m3m2(c){
   c.innerHTML = `
-<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">🔍 Stap 4 van 5 · Risicoanalyse</span></div>
-<h2 class="ch2">Risico's <em>kaarten & mitigeren</em></h2>
-<p class="cp">Welke risico's brengt AI in jouw school mee? Bias? Privacy? Overdependentie? Copilot helpt een risicoregister op te stellen.</p>
+<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">⚖️ Stap 4 van 5 · Compliance & Implementatie</span></div>
+<h2 class="ch2">EU AI Act & GDPR <em>compliance-check</em></h2>
+<p class="cp">Je beleid moet voldoen aan regelgeving. Copilot helpt je snel een gap-analyse te maken: wat hebben we al, wat mist nog?</p>
 
-<div class="ai-card" style="border: 2px solid var(--blue); background: white; padding: 20px; border-radius: var(--rsm); margin: 16px 0;">
-  <div style="font-family: 'Archivo Black', sans-serif; font-size: 12px; color: var(--blue); text-transform: uppercase; margin-bottom: 8px;">Voorbeeld: Risicokaarten</div>
-  <div style="font-size: 12px; font-weight: 700; color: #3d4f8a; margin: 12px 0;"><strong>Jij aan Copilot:</strong><br>"Maak een risicoanalyse voor AI-implementatie in middelbare scholen. Include: risico, waarschijnlijkheid (hoog/midden/laag), impact, mitigatie, eigenaar."</div>
-  <div style="background: var(--off); padding: 12px; border-radius: 6px; font-size: 12px; color: #3d4f8a; font-weight: 600; line-height: 1.6;">
-    <strong>Copilot geeft:</strong> Tabel met 8-10 concrete risico's per categorie (technisch, juridisch, pedagogisch, organisatorisch)
+<div style="background: white; border-left: 4px solid var(--blue); border-radius: 12px; padding: 20px; margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 14px; color: var(--blue); text-transform: uppercase; margin-bottom: 12px;">🔍 Use case: Regelgeving checken</div>
+  <div style="font-size: 12px; font-weight: 700; color: #3d4f8a; margin: 12px 0; font-style: italic;">
+    "Gegeven zijn artikel 4 van de EU AI Act en ons huisig AI-beleid [copy-paste beleid]. Maak een gapanalyse: welke elementen ontbreken? Wat moet aangepast? Voeg actiepunten toe."
+  </div>
+  <div style="background: var(--off); padding: 12px; border-radius: 6px; font-size: 12px; color: #3d4f8a; font-weight: 600; line-height: 1.6; margin-top: 12px;">
+    <strong>Copilot geeft:</strong> Tabel met "Vereiste" / "Huisig beleid" / "Ontbreekt?" / "Actiepunt"
+  </div>
+</div>
+
+<div style="background: white; border-left: 4px solid var(--orange); border-radius: 12px; padding: 20px; margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 14px; color: var(--orange); text-transform: uppercase; margin-bottom: 12px;">🚀 Use case: Implementatie-roadmap</div>
+  <div style="font-size: 12px; font-weight: 700; color: #3d4f8a; margin: 12px 0; font-style: italic;">
+    "Maak een implementatie-roadmap voor AI-geletterdheid op onze scholengroep. Include: fase 1 (korte termijn), fase 2 (middellang), fase 3 (lang). Voeg per fase: doelen, acties, teams, deadlines, budget."
+  </div>
+  <div style="background: var(--off); padding: 12px; border-radius: 6px; font-size: 12px; color: #3d4f8a; font-weight: 600; line-height: 1.6; margin-top: 12px;">
+    <strong>Copilot geeft:</strong> Gestructureerde roadmap die je direct met team kan bespreken
   </div>
 </div>
 
 <div class="nw">
   <button class="sr-btn b" onclick="p3()">← Vorige</button>
-  <button class="sr-btn g" onclick="n3()">Volgende: Afronden →</button>
+  <button class="sr-btn g" onclick="n3()">Volgende: GDPR & Afronding →</button>
+  <span class="nh">Stap 4/5</span>
 </div>`;
 }
 
 function m3m3(c){
   c.innerHTML = `
-<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">✅ Stap 5 van 5 · Volgende</span></div>
-<h2 class="ch2">Je strategisch volgende stap</h2>
-<p class="cp">Je hebt nu gezien hoe Copilot je kan helpen bij strategische AI-beleidsontwikkeling, risicoanalyse en stakeholder-communicatie.</p>
+<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">🔒 Stap 5 van 5 · GDPR & Afronding</span></div>
+<h2 class="ch2"><em>GDPR-check:</em> Wat mag niet</h2>
+<p class="cp">Kritisch voor beleid: weet wat je wél en niet mag bij AI-implementatie.</p>
 
-<p class="cp">Waar ga je mee starten in je schoolleiding?</p>
+<div style="background: rgba(224,32,32,0.1); border-left: 4px solid var(--red); border-radius: 12px; padding: 20px; margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 14px; color: var(--red); text-transform: uppercase; margin-bottom: 16px;">❌ Dit mag ABSOLUUT niet</div>
+  
+  <div style="margin-bottom: 16px;">
+    <div style="font-weight: 700; color: var(--red); font-size: 13px; text-transform: uppercase; margin-bottom: 8px;">1. Foto's van kinderen bewerken met AI</div>
+    <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7;">
+      Verboden door portretrecht en GDPR. Zelfs "onschuldige" bewerking. Dit geldt ook voor leerlingenfoto's voor schoolpost of jaarboek. <strong>Risico: boetes tot €20.000.</strong>
+    </p>
+  </div>
 
-<textarea class="sr-ta" id="r2" placeholder="Ik zie kans in... voor onze school. Eerst ga ik..."></textarea>
+  <div style="margin-bottom: 16px;">
+    <div style="font-weight: 700; color: var(--red); font-size: 13px; text-transform: uppercase; margin-bottom: 8px;">2. Leerling- of personeelsgegevens naar gratis tools</div>
+    <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7;">
+      Excel met namen, evaluaties, adressen → ChatGPT/Gemini = GDPR-schending. Data blijft in M365 (met schild-icoon). Geen uitzonderingen.
+    </p>
+  </div>
+
+  <div style="margin-bottom: 16px;">
+    <div style="font-weight: 700; color: var(--red); font-size: 13px; text-transform: uppercase; margin-bottom: 8px;">3. Gevoelige bestanden online plaatsen</div>
+    <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7;">
+      Beleidsteksten met schoolinterne info, evaluatierapporten, personeelsgegevens → nooit naar publieke platforms. Enkel M365 of beveiligde tools met verwerkersovereenkomst.
+    </p>
+  </div>
+
+  <div>
+    <div style="font-weight: 700; color: var(--red); font-size: 13px; text-transform: uppercase; margin-bottom: 8px;">4. Automatische screeningssystemen voor leerlingen</div>
+    <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7;">
+      AI-systemen die emoties, talent of geschiktheid van leerlingen herkennen/beoordelen zonder menselijke tussenkomst zijn voor Sint-Rembert verboden. Altijd mens blijft beslisser.
+    </p>
+  </div>
+</div>
+
+<div style="background: rgba(10,31,168,0.08); border-left: 4px solid var(--blue); border-radius: 12px; padding: 20px; margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 14px; color: var(--blue); text-transform: uppercase; margin-bottom: 12px;">✅ Dit mag wel (verantwoord)</div>
+  <ul style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.8; margin: 0; padding-left: 20px;">
+    <li>Beleidsteksten helpen genereren (aanpassen naar school)</li>
+    <li>Risicoanalyse uitvoeren (conceptueel)</li>
+    <li>Stakeholder-brieven formuleren (voorzichtig generiek)</li>
+    <li>Compliance-checks tegen regelgeving</li>
+    <li>Trainingsmaterialen ontwikkelen (algemeen)</li>
+  </ul>
+</div>
+
+<h3 class="ch3">💭 Jouw strategische afweging</h3>
+<p class="cp">Je hebt nu gezien hoe Copilot kan helpen bij beleidsontwikkeling, compliance-checks en implementatieplannen. Wat ga je als eerste met je team doorvoeren?</p>
+
+<textarea class="sr-ta" id="r2" placeholder="We gaan als eerst... omdat dit onze strategie ondersteunt bij..." style="height: 100px;"></textarea>
 
 <div class="nw">
   <button class="sr-btn b" onclick="p3()">← Vorige</button>
   <button class="sr-btn o" onclick="sR2()">✅ Verdieping voltooid →</button>
+  <span class="nh">Stap 5/5</span>
 </div>`;
   const ta = document.getElementById('r2');
   ta.value = localStorage.getItem('sr_r2_mgmt') || '';
