@@ -1264,6 +1264,13 @@ button { font-family: inherit; cursor: pointer; border: none; }
   border-left: 4px solid var(--blue);
 }
 
+.ss-box.ss-highlight {
+  background: rgba(127, 224, 0, 0.08);
+  border-left-color: var(--green);
+  border: 2px solid rgba(127, 224, 0, 0.3);
+  border-left: 4px solid #7fe000;
+}
+
 .ss-title {
   font-family: 'Archivo Black', sans-serif;
   font-size: 14px;
