@@ -81,7 +81,7 @@ function showRoleSelector() {
   <div class="role-hero">
     <div class="role-badge">🚀 Welkom bij de AI-Cursus</div>
     <h1 class="role-h1">Wat is <em>jouw rol</em> bij Sint-Rembert?</h1>
-    <p class="role-sub">We stemmen ALLE content af op jouw funktie — inclusief een eigen Copilot-verdieping op jouw maat.</p>
+    <p class="role-sub">We stemmen ALLE content af op jouw functie — inclusief een eigen Copilot-verdieping op jouw maat.</p>
   </div>
 
   <div class="role-grid">
@@ -306,12 +306,8 @@ function rDots(m,tot,cur){
 let lastNavDirection = 'forward';
 
 function decideSeconds(container){
-  if(container.querySelector('.yt-wrap')) return 5;
-  if(container.querySelector('.qc') || container.querySelector('textarea')) return 0;
-  const textLen = (container.textContent||'').length;
-  if(textLen < 400) return 4;
-  if(textLen < 900) return 7;
-  return 10;
+  // Timer verborgen: retourneer altijd 0 zodat geen seconden teller zichtbaar
+  return 0;
 }
 
 function lockNextButtons(container){
@@ -366,21 +362,18 @@ function rc(){
   document.getElementById('cert-date').textContent = new Date().toLocaleDateString('nl-BE',{day:'numeric',month:'long',year:'numeric'});
   const btn = document.getElementById('print-cert-btn');
   const info = document.getElementById('cert-dl-info');
-  if(S.certPrinted){
-    btn.disabled = true; btn.textContent = '✓ Certificaat al gedownload';
-    info.textContent = 'Je hebt je certificaat al gedownload. Zoek het opgeslagen PDF-bestand en upload het op Smartschool.';
-    info.style.color = '#2d6a00';
-  } else { btn.disabled=false; btn.textContent='🖨️ Download certificaat (PDF)'; info.textContent=''; }
+  btn.disabled=false;
+  btn.textContent='🖨️ Download certificaat (PDF)';
+  info.textContent = '';
+  // Certificaat kan altijd opnieuw gedownload worden
 }
 
 function doCertPrint(){
-  if(S.certPrinted){ alert('Je hebt je certificaat al gedownload. Zoek het PDF-bestand dat je eerder opsloeg en upload het op Smartschool. Lukt dat niet? Contacteer je pedagogisch ICT-coördinator.'); return; }
   if(!S.name || !S.name.trim()){
-    if(!confirm('Je naam is nog niet ingevuld (links onderaan in de zijbalk). Het certificaat vermeldt dan "Leerkracht".\n\nToch doorgaan? Dit kan maar één keer.')) return;
+    if(!confirm('Je naam is nog niet ingevuld (links onderaan in de zijbalk). Het certificaat vermeldt dan "Leerkracht".\n\nToch doorgaan?')) return;
   } else {
-    if(!confirm('Let op: je kan je certificaat slechts ÉÉN keer downloaden.\n\nNaam op certificaat: ' + S.name + '\n\nKies in het afdrukvenster "Opslaan als PDF" en bewaar het bestand meteen. Doorgaan?')) return;
+    if(!confirm('Certificaat downloaden?\n\nNaam op certificaat: ' + S.name + '\n\nKies in het afdrukvenster "Opslaan als PDF" en bewaar het bestand. Je kan dit altijd opnieuw doen.')) return;
   }
-  S.certPrinted = true; ss();
   rc();
   window.print();
 }
@@ -2355,12 +2348,27 @@ function renderLabelMatch(){
     { d:'Leerlingen maken een infographic en mogen AI gebruiken om een deel van de illustraties of tekstblokken aan te vullen, naast hun eigen werk.', a:4 },
     { d:'Leerlingen mogen volledig vrij AI gebruiken om een marketingplan te schrijven, zolang ze achteraf kunnen uitleggen welke keuzes ze maakten.', a:5 }
   ];
+  
+  // Shuffle functie
+  const shuffle = (arr) => {
+    const copy = [...arr];
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  };
+  
   const g = document.getElementById('lblmatch');
   if(!g) return;
   items.forEach((it,idx)=>{
     const card = document.createElement('div'); card.className='lm-card';
+    
+    // Randomiseer label-knoppen
+    const labels = shuffle([1,2,3,4,5]);
     let opts = '';
-    for(let i=1;i<=5;i++) opts += '<button class="lm-btn" data-v="'+i+'">'+i+'</button>';
+    labels.forEach(i => opts += '<button class="lm-btn" data-v="'+i+'">'+i+'</button>');
+    
     card.innerHTML = '<div class="lm-q">'+(idx+1)+'. '+it.d+'</div><div class="lm-opts">'+opts+'</div><div class="lm-fb" id="lmfb'+idx+'"></div>';
     g.appendChild(card);
     card.querySelectorAll('.lm-btn').forEach(b=>{
@@ -2720,7 +2728,7 @@ function showNameEntry() {
     <div style="background: white; border-radius: 16px; padding: 40px; max-width: 500px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
       <div style="font-size: 48px; margin-bottom: 16px;">👤</div>
       <h2 style="font-family: 'Archivo Black', sans-serif; font-size: 24px; color: var(--blue); margin-bottom: 8px; text-transform: uppercase;">Jouw naam invullen</h2>
-      <p style="color: var(--muted); font-weight: 600; margin-bottom: 24px;">We gebruiken deze naam op je certificaat. Je kan dit altijd aanpassen.</p>
+      <p style="color: var(--muted); font-weight: 600; margin-bottom: 24px;">We gebruiken deze naam op je certificaat. Zorg dat je deze correct invult!</p>
       
       <input type="text" id="name-modal-input" class="un-inp" placeholder="Voornaam Achternaam" style="width: 100%; font-size: 15px; padding: 12px; border: 2px solid var(--gray); border-radius: 8px; margin-bottom: 16px;">
       
