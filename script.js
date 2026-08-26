@@ -650,15 +650,29 @@ function renderStartTestQuiz(c){
     const sc = Math.round(stt.correct.filter(Boolean).length / ST_Q.length * 100);
     const passed = sc >= 80;
     S.starttest = { taken:true, score:sc, passed:passed };
-    if(passed){ S.mod1.done = true; S.mod1.skipped = true; }
+    // GEWIJZIGD: Niet meer automatisch overslaan! Gebruiker MOET Module 1 doen, maar kan skippen
     ss(); up(); rmc();
     const r=document.getElementById(id+'-r');
     r.className='q-res show';
-    r.innerHTML = '<div class="q-score '+(passed?'pass':'fail')+'">'+sc+'%</div><div class="q-msg">'+(passed?'✅ Geslaagd! Module 1 wordt overgeslagen.':'Nog niet voldoende — Module 1 is vereist.')+'</div>';
+    let msg = passed 
+      ? '✅ Geslaagd ('+sc+'%)! Je kan Module 1 overslaan, maar we raden aan dit eerst te doen.'
+      : '❌ Nog niet voldoende ('+sc+'%) — Module 1 is vereist.';
+    r.innerHTML = '<div class="q-score '+(passed?'pass':'fail')+'">'+sc+'%</div><div class="q-msg">'+msg+'</div>';
+    
     const nb=document.getElementById(id+'-n');
-    nb.textContent = passed ? 'Naar Module 2 →' : 'Start Module 1 →';
+    nb.textContent = 'Start Module 1 →';
     nb.disabled = false;
-    nb.onclick = ()=> passed ? sm(2) : sm(1);
+    nb.onclick = ()=> sm(1);
+    
+    // Voeg skip-knop toe als 80%+
+    if(passed){
+      const skipBtn = document.createElement('button');
+      skipBtn.className = 'q-next';
+      skipBtn.textContent = 'Skip → Module 2';
+      skipBtn.style.marginLeft = '8px';
+      skipBtn.onclick = ()=> { S.mod1.skipped = true; ss(); sm(2); };
+      nb.parentElement.appendChild(skipBtn);
+    }
   };
 }
 
@@ -2802,6 +2816,9 @@ function saveName() {
 // Start sequence
 window.addEventListener('DOMContentLoaded', function() {
   console.log('DOMContentLoaded: Script geladen, state:', S);
+  
+  // Zorg dat naamveld ingevuld is
+  document.getElementById('un').value = S.name || '';
   
   // Eerst: update UI met huidige state
   ua();
