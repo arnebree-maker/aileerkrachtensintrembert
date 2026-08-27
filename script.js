@@ -1458,42 +1458,135 @@ function m2s5(c){
 
 function m2s6(c){
   c.innerHTML = `
-<div class="s-badge">🔧 Stap 9 van 12 · AI-bestendig ontwerpen</div>
-<h3 class="ch3">🔧 3 manieren om je opdracht AI-bestendig te maken</h3>
-<p class="cp">Achteraf controleren of een leerling AI gebruikte, is lastig. Veel effectiever: ontwerp je opdracht zo dat ze het leerproces zichtbaar maakt:</p>
+<div class="s-badge">🔧 Stap 9 van 12 · AI-Resistant Assignments</div>
+<h2 class="ch2">Opdrachten ontwerpen waar <em>AI geen voordeel geeft</em></h2>
+<p class="cp">In plaats van achteraf controleren of leerlingen AI gebruikten, beter: ontwerp opdrachten waar AI niet helpt, of waar eigenaarschap zichtbaar is. Hier zijn <strong>concrete vakgebied-voorbeelden</strong> van wat WEL en NIET door AI kan worden opgelost.</p>
 
-<div class="grid2">
-  <div class="pane-ok lijst-ok">
-    <div class="lijst-h-ok">✅ Ontwerp wint van controle</div>
-    <div>→ Koppel de opdracht aan een persoonlijke of lokale context (eigen ervaring, eigen klas, actuele lokale gebeurtenis)</div>
-    <div>→ Vraag tussenstappen mee in te leveren: kladversie, brainstorm, bronnenlijst</div>
-    <div>→ Laat leerlingen hun werk mondeling kort komen toelichten of verdedigen</div>
-  </div>
-  <div class="pane-nok lijst-nok">
-    <div class="lijst-h-nok">⚠️ Minder effectief</div>
-    <div>→ Enkel een eindproduct beoordelen zonder zicht op het proces</div>
-    <div>→ Vertrouwen op AI-detectietools achteraf</div>
-    <div>→ Een algemene, generieke vraag stellen die AI perfect kan beantwoorden</div>
-  </div>
+<h3 class="ch3">📖 Nederlands: Karakteranalyse</h3>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0;">
+<div style="background: rgba(224,32,32,0.1); border-left: 4px solid var(--red); border-radius: 8px; padding: 14px;">
+<strong style="color: var(--red); font-size: 11px; text-transform: uppercase;">❌ AI kan dit NIET goed</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 8px; line-height: 1.6;">
+Vraag: "Vergelijk de persoonlijkheid van karakter A in jouw EIGEN leven met die van een personage uit dit boek. Welke eigenschappen herken je? Waar onderscheiden jullie zich?" 
+<br><br>
+<strong>Waarom:</strong> AI kent jouw leven niet. Alleen jij kan deze verbinding maken.
+</p>
+</div>
+<div style="background: rgba(127,224,0,0.1); border-left: 4px solid var(--green); border-radius: 8px; padding: 14px;">
+<strong style="color: var(--green); font-size: 11px; text-transform: uppercase;">✅ AI HELPT hier wel</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 8px; line-height: 1.6;">
+"Analyseer karakter X op basis van deze 3 citaten uit het boek."
+<br><br>
+<strong>Waarom:</strong> AI kan patronen in tekst zien — maar jij controleert of het klopt.
+</p>
+</div>
 </div>
 
-<p class="cp">Voor elk AI-label kan je het ontwerp aanpassen: bij <strong>label 1 (geen AI)</strong> werk je het best met een klasmoment of een handgeschreven kladversie. Bij <strong>labels 2-3 (ideeën/bewerking)</strong> vraag je de brainstorm of de eerste versie mee in te leveren. Bij <strong>labels 4-5 (aanvulling/vrij)</strong> ligt de focus op kritische reflectie: wat heeft de leerling zelf bijgedragen, en wat heeft hij gecontroleerd of aangepast aan de AI-output?</p>
+<h3 class="ch3">🔬 Wetenschappen: Experimenteel Denken</h3>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0;">
+<div style="background: rgba(224,32,32,0.1); border-left: 4px solid var(--red); border-radius: 8px; padding: 14px;">
+<strong style="color: var(--red); font-size: 11px; text-transform: uppercase;">❌ AI kan dit NIET goed</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 8px; line-height: 1.6;">
+Vraag: "Je hebt dit experiment gedaan. Wat observeerde je? Waarom is dit ANDERS dan je voorspelling?" 
+<br><br>
+<strong>Waarom:</strong> Jouw waarneming, jouw verrassing — AI kan dit niet bedenken.
+</p>
+</div>
+<div style="background: rgba(127,224,0,0.1); border-left: 4px solid var(--green); border-radius: 8px; padding: 14px;">
+<strong style="color: var(--green); font-size: 11px; text-transform: uppercase;">✅ AI HELPT hier wel</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 8px; line-height: 1.6;">
+"Structureer mijn lab-rapport: introductie, hypothese, methode, resultaten, discussie."
+<br><br>
+<strong>Waarom:</strong> AI helpt de structuur, maar jij interpreteert de resultaten.
+</p>
+</div>
+</div>
 
-<div class="ib warn" style="margin: 20px 0;">
-  <div class="ib-t">🔒 GDPR – Foto's zijn gevoelig</div>
-  <div class="ib-b">
-    <strong>Laat leerlingen NOOIT foto's van klasgenoten uploaden naar AI-tools.</strong> Privacyrisico's:<br>
-    • Gezichtsherkenning & retinascanning<br>
-    • Datalekkage bij opslag<br>
-    • Misbruik voor deepfakes<br><br>
-    <strong>Ook niet toegestaan:</strong> Foto's van kinderen bewerken met AI-beeldgeneratoren (bv. voor posters of kunstprojecten). Dit valt onder portretrecht en GDPR.
-  </div>
+<h3 class="ch3">🎨 Kunstgeschiedenis: Persoonlijke Betekenis</h3>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0;">
+<div style="background: rgba(224,32,32,0.1); border-left: 4px solid var(--red); border-radius: 8px; padding: 14px;">
+<strong style="color: var(--red); font-size: 11px; text-transform: uppercase;">❌ AI kan dit NIET goed</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 8px; line-height: 1.6;">
+Vraag: "Kies een kunstwerk dat je JE aanraakt. Wat voelde je toen je het zag? Welk moment in jouw leven brengt het je in herinnering?"
+<br><br>
+<strong>Waarom:</strong> AI kan kunstgeschiedenis uitleggen, maar niet VOELEN.
+</p>
+</div>
+<div style="background: rgba(127,224,0,0.1); border-left: 4px solid var(--green); border-radius: 8px; padding: 14px;">
+<strong style="color: var(--green); font-size: 11px; text-transform: uppercase;">✅ AI HELPT hier wel</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 8px; line-height: 1.6;">
+"Geef me historische context over deze kunstenaar en dit kunstwerk."
+<br><br>
+<strong>Waarom:</strong> AI is goed in informatie; jij toegt betekenis toe.
+</p>
+</div>
+</div>
+
+<h3 class="ch3">💼 Economie: Morele Keuze</h3>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0;">
+<div style="background: rgba(224,32,32,0.1); border-left: 4px solid var(--red); border-radius: 8px; padding: 14px;">
+<strong style="color: var(--red); font-size: 11px; text-transform: uppercase;">❌ AI kan dit NIET goed</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 8px; line-height: 1.6;">
+Vraag: "Bedrijf X maakt winst door kinderarbeid. Jij bent CEO. Wat doe je? Leg je dilemma uit — economie vs. ethiek."
+<br><br>
+<strong>Waarom:</strong> AI zal beide zijden uitleggen, maar JIJ moet kiezen.
+</p>
+</div>
+<div style="background: rgba(127,224,0,0.1); border-left: 4px solid var(--green); border-radius: 8px; padding: 14px;">
+<strong style="color: var(--green); font-size: 11px; text-transform: uppercase;">✅ AI HELPT hier wel</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 8px; line-height: 1.6;">
+"Maak een SWOT-analyse voor beide scenario's."
+<br><br>
+<strong>Waarom:</strong> AI organiseert info, jij weegt af.
+</p>
+</div>
+</div>
+
+<h3 class="ch3">📚 Wiskunde: Probleemoplossen</h3>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0;">
+<div style="background: rgba(224,32,32,0.1); border-left: 4px solid var(--red); border-radius: 8px; padding: 14px;">
+<strong style="color: var(--red); font-size: 11px; text-transform: uppercase;">❌ AI kan dit NIET goed</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 8px; line-height: 1.6;">
+Vraag: "Los deze stelling op. Schrijf OP elke stap WAAROM je die stap doet — wat is je redenering?"
+<br><br>
+<strong>Waarom:</strong> AI geeft het antwoord, niet het DENKEN. Jouw redenering is onzichtbaar voor AI.
+</p>
+</div>
+<div style="background: rgba(127,224,0,0.1); border-left: 4px solid var(--green); border-radius: 8px; padding: 14px;">
+<strong style="color: var(--green); font-size: 11px; text-transform: uppercase;">✅ AI HELPT hier wel</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 8px; line-height: 1.6;">
+"Controleer mijn antwoord op deze drie oefeningen."
+<br><br>
+<strong>Waarom:</strong> AI is nuttig als peer-reviewer, niet als "antwoord-machine".
+</p>
+</div>
+</div>
+
+<h3 class="ch3">⚖️ 4 Gouden Regels voor AI-Resistant Opdrachten</h3>
+<div style="background: rgba(10,31,168,0.08); border-radius: 8px; padding: 16px; margin: 16px 0;">
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.8; margin: 0;">
+<strong>1. Voeg CONTEXT toe</strong><br>
+Zeg niet: "Schrijf een essay over vrijheid"<br>
+Zeg wel: "Jij bent journalist. Schrijf een artikel over vrijheid ÉN wat het betekent in jouw eigen stad"<br><br>
+
+<strong>2. Maak het PERSOONLIJK</strong><br>
+Zeg niet: "Analyseer dit gedicht"<br>
+Zeg wel: "Dit gedicht beschrijft verlies. Welke vorm van verlies herken je in jezelf?"<br><br>
+
+<strong>3. Vraag PROCES in, niet alleen RESULTAAT</strong><br>
+Zeg niet: "Geef je eindproduct in"<br>
+Zeg wel: "Geef IN: brainstorm, eerste versie, eindversie. Beschrijf wat je hebt gewijzigd en waarom"<br><br>
+
+<strong>4. Bouw REFLECTIE in</strong><br>
+Zeg niet: "Beantwoord deze vragen"<br>
+Zeg wel: "Beantwoord deze vragen, en schrijf daarna: wat zou AI hier anders doen dan jij?"
+</p>
 </div>
 
 <div class="nw">
   <button class="sr-btn b" onclick="p2()">← Vorige</button>
   <button class="sr-btn g" onclick="n2()">Volgende: mag het wel/niet? →</button>
-  <span class="nh">Stap 8/11</span>
+  <span class="nh">Stap 9/12</span>
 </div>`;
 }
 
