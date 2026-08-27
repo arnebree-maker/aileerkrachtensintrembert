@@ -680,7 +680,7 @@ function renderStartTestQuiz(c){
    MODULE 1 — WAT IS AI? (13 stappen)
    ════════════════════════════════════════════ */
 
-const m1 = [m1s0, m1s1, m1s2, m1s3, m1s4, m1s5, m1s6, m1s7, m1s8, m1s9, m1s10, m1s11, m1s12];
+const m1 = [m1s0, m1s1, m1s2, m1s3, m1s4, m1s5, m1s6, m1s7, m1s8, m1s9, m1s_hallucinations_bias, m1s10, m1s11, m1s12];
 
 function rm1(){ const c=document.getElementById('m1c'); c.innerHTML=''; rDots(1,m1.length,S.mod1.step); m1[S.mod1.step](c); lockNextButtons(c); }
 function n1(){ S.mod1.step++; ss(); S.mod1.step>=m1.length ? d1() : rm1(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); }
@@ -745,7 +745,46 @@ function m1s3(c){
 <h2 class="ch2">Van vaste regels naar <em>Generatieve AI</em></h2>
 <p class="cp">AI bestaat al sinds de jaren 50, en kende eerder al grote doorbraken — denk aan schaakcomputer Deep Blue die in 1997 wereldkampioen Kasparov verslaat. Maar die vroege AI kon vooral één ding: <strong>classificeren of voorspellen</strong>. Is dit e-mailbericht spam? Welke film zou jij waarderen? Het systeem koos tussen vooraf gedefinieerde opties.</p>
 <p class="cp">De sprong naar <strong>generatieve AI</strong> (GenAI) verandert dat fundamenteel: deze systemen kunnen tekst, beeld, audio en code <em>maken die nog niet bestond</em>. ChatGPT haalde na zijn lancering eind 2022 razendsnel honderd miljoen gebruikers — geen enkele consumententoepassing groeide ooit zo snel.</p>
+
+<h3 class="ch3">🔀 Drie soorten AI in het onderwijs</h3>
+<div style="background: rgba(10,31,168,0.08); border-radius: 8px; padding: 16px; margin: 16px 0;">
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.8; margin: 0;">
+<strong style="display: block; margin-bottom: 8px;">1. Promptgedreven AI (ChatGPT, Copilot)</strong>
+Je stelt vragen, AI antwoordt. Jij bestuurt. Voorbeeld: "Maak een lesplan over fotosynthese"<br><br>
+<strong style="display: block; margin-bottom: 8px;">2. Prompt-versterkende AI (Grammarly, MagicSchool)</strong>
+AI integreert in je workflow: je schrijft, AI helpt verbeteren. Voorbeeld: AI controleert je spelfouten terwijl je typt<br><br>
+<strong>3. Leerproces-gerichte AI (Khan Academy, Synthesis)</strong>
+AI past aan jouw tempo aan en volgt je leerproces. Voorbeeld: AI geeft feedback op oefenvragen en biedt extra hulp waar nodig
+</p>
+</div>
+
 <p class="cp">Technisch gezien werkt een taalmodel als GenAI met <strong>kansberekening</strong>: op basis van enorme hoeveelheden tekst leert het systeem welk woord statistisch het meest waarschijnlijk volgt op de woorden die er al staan. Het "begrijpt" dus niet in de menselijke zin van het woord — het voorspelt, woord na woord, wat een plausibel vervolg zou zijn.</p>
+
+<h3 class="ch3">⚙️ Hoe een taalmodel werkelijk werkt</h3>
+<div style="background: rgba(127,224,0,0.12); border-radius: 8px; padding: 16px; margin: 16px 0;">
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.8; margin: 0;">
+<strong>Stap 1 — Taalmodel (The Brain):</strong> Miljarden zinnen uit boeken, artikelen, websites. Het systeem ziet patronen: na "Goedemorgen" volgt vaak "hoe gaat het?"<br><br>
+<strong>Stap 2 — Grote hoeveelheden data:</strong> Hoe meer voorbeelden, hoe beter de patronen. Daarom zijn OpenAI en Google zo groot — ze hebben meer data.<br><br>
+<strong>Stap 3 — Logica (Feedback):</strong> Via training krijgt het systeem beloning voor goede antwoorden, straf voor foute. Dit fijnslijpen van patronen heet "reinforcement learning".<br><br>
+<strong>Gevolg:</strong> Wanneer je "Hoe zet je zonnebloemen in de klas" invult, rolt het systeem af wat statisch waarschijnlijk volgt — meestal zinvol, maar soms ook hallucinaties (verzonnen feiten) of bias (vooroordelen uit trainingsdata).
+</p>
+</div>
+
+<h3 class="ch3">💡 3x Meerwaarde voor onderwijs</h3>
+<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 16px 0;">
+<div style="background: white; border: 2px solid var(--green); border-radius: 8px; padding: 12px;">
+<div style="font-weight: 700; color: var(--green); font-size: 11px; text-transform: uppercase; margin-bottom: 6px;">👨‍🏫 Voor leerkrachten</div>
+<p style="font-size: 11px; color: #3d4f8a; line-height: 1.6; margin: 0;">Bespaart tijd: lesmateriaal differentiëren, feedback geven, toetsen maken gaat sneller. Meer tijd voor persoonlijke aandacht.</p>
+</div>
+<div style="background: white; border: 2px solid var(--blue); border-radius: 8px; padding: 12px;">
+<div style="font-weight: 700; color: var(--blue); font-size: 11px; text-transform: uppercase; margin-bottom: 6px;">👨‍🎓 Voor leerlingen</div>
+<p style="font-size: 11px; color: #3d4f8a; line-height: 1.6; margin: 0;">Krijgen feedback 24/7, kunnen op eigen tempo oefenen, ontdekken hun eigen stijl van leren.</p>
+</div>
+<div style="background: white; border: 2px solid var(--orange); border-radius: 8px; padding: 12px;">
+<div style="font-weight: 700; color: var(--orange); font-size: 11px; text-transform: uppercase; margin-bottom: 6px;">🏫 Voor school</div>
+<p style="font-size: 11px; color: #3d4f8a; line-height: 1.6; margin: 0;">Kan beter inspelen op diverse leerbehoeften (taalachterstand, hoogbegaafd), vermindert administratieve last.</p>
+</div>
+</div>
 
 <h3 class="ch3">🎬 EDUbox: generatieve AI in de praktijk</h3>
 <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/UD0a-i2EBdE" allowfullscreen loading="lazy" title="EDUbox Artificiële Intelligentie — MNM DJ ImAIne"></iframe></div>
@@ -927,9 +966,49 @@ function m1s9(c){
 </div>`;
 }
 
+function m1s_hallucinations_bias(c){
+  c.innerHTML = `
+<div class="s-badge">⚠️ Stap 10b van 14 · Valkuilen</div>
+<h2 class="ch2">Hallucineringen & <em>Bias</em>: twee kritieke grenzen</h2>
+<p class="cp">AI is krachtig, maar niet perfect. Twee dingen om goed te begrijpen:</p>
+
+<h3 class="ch3">👻 Hallucineringen: AI verzint feiten</h3>
+<div style="background: rgba(255,107,107,0.12); border-radius: 8px; padding: 16px; margin: 16px 0;">
+<p style="font-size: 13px; color: #3d4f8a; line-height: 1.8; margin: 0;">
+<strong>Wat:</strong> AI beweert dingen die niet waar zijn, heel overtuigend.<br>
+<strong>Voorbeeld:</strong> Je vraagt "Welke Nederlandse schrijver won het Nobelprijsonderwijs in 2015?" AI antwoordt: "Johan de Meester (fictief), omdat hij baanbrekend werk deed op het gebied van digitale ethiek" — compleet verzonnen.<br>
+<strong>Waarom:</strong> AI genereert op basis van patronen, niet werkelijkheid. Het "weet" niet wat waar is, het raadt wat waarschijnlijk volgt.<br>
+<strong>Gevolg:</strong> Altijd controleren wat AI zegt, zeker voor factische vragen.
+</p>
+</div>
+
+<h3 class="ch3">⚖️ Bias: AI herhaalt vooroordelen</h3>
+<div style="background: rgba(255,193,7,0.12); border-radius: 8px; padding: 16px; margin: 16px 0;">
+<p style="font-size: 13px; color: #3d4f8a; line-height: 1.8; margin: 0;">
+<strong>Wat:</strong> AI absorbeert vooroordelen uit trainingsdata (internet = vol stereotypes).<br>
+<strong>Voorbeeld:</strong> Je vraagt "Wie is geschikt voor een leidinggevend rol?" AI geeft vaker mannelijke voornamen. Of: "Politieagent in uniform" genereert systematisch blanke gezichten.<br>
+<strong>Waarom:</strong> AI leert van patronen in data. Zoekmachines, Wikipedia, social media bevatten veel bias.<br>
+<strong>Gevolg:</strong> Wees kritisch op output. Vraag: "Zou dit antwoord anders zijn als ik X zou vragen in plaats van Y?"
+</p>
+</div>
+
+<h3 class="ch3">✅ Drie controlestappen</h3>
+<ol style="font-size: 12px; color: #3d4f8a; line-height: 1.8; padding-left: 20px;">
+<li><strong>Controleer feiten:</strong> Vraag naar bronnen. AI zit geregeld fout.</li>
+<li><strong>Herformuleer:</strong> Stel dezelfde vraag op 2-3 manieren. Krijg je hetzelfde antwoord? Dan waarschijnlijker correct.</li>
+<li><strong>Onderzoek bias:</strong> Vraag AI dezelfde vraag met verschillende groepen (mannelijk/vrouwelijk, nationiteit, etc.). Verandert het antwoord? Dan zit er bias in.</li>
+</ol>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p1()">← Vorige</button>
+  <button class="sr-btn g" onclick="n1()">Volgende: reflectievragen →</button>
+  <span class="nh">Stap 10/14</span>
+</div>`;
+}
+
 function m1s10(c){
   c.innerHTML = `
-<div class="s-badge">💬 Stap 11 van 13 · Reflectievragen</div>
+<div class="s-badge">💬 Stap 12 van 14 · Reflectievragen</div>
 <h2 class="ch2">Vijf vragen om over <em>na te denken</em></h2>
 <div class="disc-card">
   <div class="disc-q">1. Leerlingen zien op TikTok en YouTube de wildste doemscenario's over AI. Hoe kunnen wij in de klas helpen om die 'hype' te doorprikken?</div>
@@ -972,7 +1051,7 @@ function m1s11(c){
 
 function m1s12(c){
   c.innerHTML = `
-<div class="s-badge">✍️ Stap 13 van 13 · Vertaalslag naar jouw vak</div>
+<div class="s-badge">✍️ Stap 13 van 14 · Vertaalslag naar jouw vak</div>
 <h2 class="ch2">Vertaal naar <em>jouw lespraktijk</em></h2>
 <p class="cp">Je kent nu de basis: hoe AI werkt, wat generatieve AI bijzonder maakt, en welke kansen én gevaren erbij horen (hallucinaties, bias, deepfakes, privacy). Tijd om dit concreet te maken voor jouw eigen vak en klaspraktijk.</p>
 
@@ -1013,7 +1092,7 @@ function sR1(){
    Nu 10 stappen (was 9) — Casus tussenvoegd
    ════════════════════════════════════════════ */
 
-const m2 = [m2s0, m2s1, m2s2, m2s_casus, m2s4, m2s_leeftijd, m2s5, m2s6, m2s7, m2s8, m2s9];
+const m2 = [m2s0, m2s1, m2s2, m2s_casus, m2s4, m2s_leeftijd, m2s_extra_casussen, m2s5, m2s6, m2s7, m2s8, m2s9];
 
 function rm2(){ const c=document.getElementById('m2c'); c.innerHTML=''; console.log('🔄 rm2: stap', S.mod2.step, 'van', m2.length); rDots(2,m2.length,S.mod2.step); m2[S.mod2.step](c); lockNextButtons(c); }
 function n2(){ S.mod2.step++; ss(); S.mod2.step>=m2.length ? d2() : rm2(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); }
@@ -1180,7 +1259,7 @@ function m2s4(c){
 
 function m2s_leeftijd(c){
   c.innerHTML = `
-<div class="s-badge">📚 Stap 6 van 11 · AI per leeftijdsfase</div>
+<div class="s-badge">📚 Stap 6 van 12 · AI per leeftijdsfase</div>
 <h2 class="ch2">AI-gebruik per <em>leeftijdsgroep</em></h2>
 <p class="cp">AI-gebruik door leerlingen hangt sterk af van hun leeftijd en rijpheid. Sint-Rembert volgt daarom duidelijke richtlijnen per leeftijdsfase. Dit beschermt jongere leerlingen én geeft grotere leerlingen de ruimte om verantwoord te experimenteren.</p>
 
@@ -1240,6 +1319,30 @@ function m2s_leeftijd(c){
   </div>
 </div>
 
+<h3 class="ch3">✅ SNELLE CHECKLIST: "Mag dit AI-gebruik?"</h3>
+<div style="background: rgba(127,224,0,0.12); border-radius: 8px; padding: 16px; margin: 16px 0;">
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.8; font-weight: 600; margin-bottom: 12px;">
+Controleer met deze drie vragen of het AI-gebruik passend is:
+</p>
+<div style="display: grid; grid-template-columns: 1fr; gap: 12px;">
+<div style="background: white; border-left: 4px solid var(--green); padding: 12px; border-radius: 6px;">
+<strong style="color: var(--green); font-size: 11px;">1. LEEFTIJD-CHECK</strong>
+<p style="font-size: 11px; color: #3d4f8a; margin-top: 4px;">Is het AI-gebruik passend voor de leeftijdsgroep van mijn leerlingen?</p>
+</div>
+<div style="background: white; border-left: 4px solid var(--blue); padding: 12px; border-radius: 6px;">
+<strong style="color: var(--blue); font-size: 11px;">2. OPDRACHT-CHECK</strong>
+<p style="font-size: 11px; color: #3d4f8a; margin-top: 4px;">Heb ik duidelijk aangegeven welk AI-label (1-5) voor deze taak geldt?</p>
+</div>
+<div style="background: white; border-left: 4px solid var(--orange); padding: 12px; border-radius: 6px;">
+<strong style="color: var(--orange); font-size: 11px;">3. REFLECTIE-CHECK</strong>
+<p style="font-size: 11px; color: #3d4f8a; margin-top: 4px;">Kunnen leerlingen uitleggen wat ze hebben gedaan EN waarom ze AI hebben (of niet hebben) gebruikt?</p>
+</div>
+</div>
+<p style="font-size: 11px; color: var(--muted); margin-top: 12px; font-style: italic;">
+Alle drie JA? → Goed beleid. Één NEE? → Aanpassing nodig voordat je de opdracht geeft.
+</p>
+</div>
+
 <div class="ib warn" style="margin-top: 28px;">
   <div class="ib-t">🔒 GDPR-Principes bij alle leeftijden</div>
   <div class="ib-b">
@@ -1257,9 +1360,64 @@ function m2s_leeftijd(c){
 </div>`;
 }
 
+function m2s_extra_casussen(c){
+  c.innerHTML = `
+<div class="s-badge">🎯 Stap 7 van 12 · Meer dilemma's</div>
+<h2 class="ch2">6 Praktische <em>dilemma's</em> met oplossing</h2>
+<p class="cp">Hier zijn zes extra scenario's uit het echte lespraktijk. Bij elke vraag staat: welk AI-label zou jij kiezen, en waarom?</p>
+
+<div style="background: white; border-left: 4px solid var(--blue); border-radius: 8px; padding: 16px; margin: 16px 0;">
+<strong style="color: var(--blue); font-size: 12px; text-transform: uppercase;">Dilemma 1: Poster met AI-afbeeldingen</strong>
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6; margin-top: 8px;"><strong>Situatie:</strong> Leerling (2de graad) maakt een poster over "Duurzaamheid". Ze wil AI gebruiken om mooie afbeeldingen te genereren.</p>
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6;"><strong>Juiste label:</strong> Label 4 (Aanvulling) — AI mag helpen bij illustraties, maar de tekst en concepten blijven van de leerling.</p>
+<p style="font-size: 12px; color: var(--muted); margin-top: 8px;"><strong>Waarom:</strong> Visueel ontwerp ondersteunt leren; leerling moet wel kunnen uitleggen waarom deze afbeeldingen bij duurzaamheid horen.</p>
+</div>
+
+<div style="background: white; border-left: 4px solid var(--blue); border-radius: 8px; padding: 16px; margin: 16px 0;">
+<strong style="color: var(--blue); font-size: 12px; text-transform: uppercase;">Dilemma 2: Toetsvraag beantwoorden</strong>
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6; margin-top: 8px;"><strong>Situatie:</strong> Leerling (3de graad) krijgt een toetstekst: "Beschrijf de oorzaken van WO1." Hij vraagt: mag ik ChatGPT gebruiken om punten te brainstormen?</p>
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6;"><strong>Juiste label:</strong> Label 1 (Geen AI) — dit is een toets. AI is niet toegestaan.</p>
+<p style="font-size: 12px; color: var(--muted); margin-top: 8px;"><strong>Waarom:</strong> Toetsen evalueren wat leerlingen WEL ZELF weten. Dit is een vaste regel.</p>
+</div>
+
+<div style="background: white; border-left: 4px solid var(--blue); border-radius: 8px; padding: 16px; margin: 16px 0;">
+<strong style="color: var(--blue); font-size: 12px; text-transform: uppercase;">Dilemma 3: Feedback op huiswerk</strong>
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6; margin-top: 8px;"><strong>Situatie:</strong> Je gebruikt Copilot om automatisch feedback te geven op de huiswerkstukken van leerlingen (grammatica, structuur).</p>
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6;"><strong>Juiste label:</strong> Label 4 (Aanvulling) — AI geeft ondersteunende feedback, jij als leerkracht geeft nog altijd persoonlijke feedback.</p>
+<p style="font-size: 12px; color: var(--muted); margin-top: 8px;"><strong>Waarom:</strong> AI bespaart jou tijd bij repetitieve taken. Persoonlijke feedback van jou blijft cruciaal.</p>
+</div>
+
+<div style="background: white; border-left: 4px solid var(--blue); border-radius: 8px; padding: 16px; margin: 16px 0;">
+<strong style="color: var(--blue); font-size: 12px; text-transform: uppercase;">Dilemma 4: Leerling merkt hallucinatie op</strong>
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6; margin-top: 8px;"><strong>Situatie:</strong> Leerling gebruikte ChatGPT voor onderzoekswerk en merkt dat AI factish incorrecte informatie geeft (bijv. beweert dat Einstein 1930 overleden is — niet waar). Wat te doen?</p>
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6;"><strong>Juiste reactie:</strong> PRIMA TEKEN! Dit is het moment om kritisch denken in te trainen. Oefen samen: hoe controleer je wat AI zegt? (bronnenzoeken, cross-referencing)</p>
+<p style="font-size: 12px; color: var(--muted); margin-top: 8px;"><strong>Waarom:</strong> Dit is EXACT waarom we leerlingen AI-geletterdheid aanleren — niet om blindelings te vertrouwen, maar om kritisch te checken.</p>
+</div>
+
+<div style="background: white; border-left: 4px solid var(--blue); border-radius: 8px; padding: 16px; margin: 16px 0;">
+<strong style="color: var(--blue); font-size: 12px; text-transform: uppercase;">Dilemma 5: "Iedereen doet het"</strong>
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6; margin-top: 8px;"><strong>Situatie:</strong> Leerling zegt: "Alle andere leerlingen gebruiken ChatGPT voor hun verslag. Mag ik ook?" Jij hebt Label 2 aangegeven (alleen ideeën).</p>
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6;"><strong>Juiste reactie:</strong> "Dat mag niet. Wat jij doet, zeg je tegen de klas — geen geheimen. Brainstorm met AI is OK, het verslag schrijven niet."</p>
+<p style="font-size: 12px; color: var(--muted); margin-top: 8px;"><strong>Waarom:</strong> Eerlijkheid en transparantie zijn de kern van vertrouwen op school.</p>
+</div>
+
+<div style="background: white; border-left: 4px solid var(--blue); border-radius: 8px; padding: 16px; margin: 16px 0;">
+<strong style="color: var(--blue); font-size: 12px; text-transform: uppercase;">Dilemma 6: Ouders vragen</strong>
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6; margin-top: 8px;"><strong>Situatie:</strong> Ouders mailen: "Waarom laat de school AI in de klas? Dit is toch onveilig?" Hoe antwoord je?</p>
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6;"><strong>Juiste reactie:</strong> Transparantie. Leg uit wat jullie doen (labels, richtlijnen), waarom (voorbereiding op toekomst), en welke veiligheidsmaatregelen gelden. Sterker: nodig ouders uit op een info-avond.</p>
+<p style="font-size: 12px; color: var(--muted); margin-top: 8px;"><strong>Waarom:</strong> Ouders zijn partners in goed beleid. Communicatie bouwt vertrouwen op.</p>
+</div>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p2()">← Vorige</button>
+  <button class="sr-btn g" onclick="n2()">Volgende: mag het wel/niet? →</button>
+  <span class="nh">Stap 7/12</span>
+</div>`;
+}
+
 function m2s5(c){
   c.innerHTML = `
-<div class="s-badge">🧑‍🏫 Stap 7 van 11 · Leerlingen begeleiden & evalueren</div>
+<div class="s-badge">🧑‍🏫 Stap 8 van 12 · Leerlingen begeleiden & evalueren</div>
 <h2 class="ch2">Zo begeleid je <em>leerlingen</em> bij AI</h2>
 <p class="cp">Leerlingen experimenteren sowieso met AI — met of zonder jouw toestemming. De meest effectieve aanpak is daarom niet verbieden en hopen dat het niet gebeurt, maar <strong>transparant zijn en kritisch denken trainen</strong>.</p>
 <p class="cp">Het beleidskader is hier expliciet: <em>"We kiezen er bewust voor om geen AI-detectietools te gebruiken om het werk van leerlingen te analyseren of te beoordelen."</em> De werking en betrouwbaarheid van zulke tools zijn onvoldoende onderbouwd en leiden tot een grote kans op fout-positieve resultaten. Evaluatie vertrekt bij ons vanuit vertrouwen, professionele oordeelsvorming en het gesprek tussen leerkracht en leerling — niet vanuit een technisch opsporingsprobleem.</p>
@@ -1300,7 +1458,7 @@ function m2s5(c){
 
 function m2s6(c){
   c.innerHTML = `
-<div class="s-badge">🔧 Stap 8 van 11 · AI-bestendig ontwerpen</div>
+<div class="s-badge">🔧 Stap 9 van 12 · AI-bestendig ontwerpen</div>
 <h3 class="ch3">🔧 3 manieren om je opdracht AI-bestendig te maken</h3>
 <p class="cp">Achteraf controleren of een leerling AI gebruikte, is lastig. Veel effectiever: ontwerp je opdracht zo dat ze het leerproces zichtbaar maakt:</p>
 
@@ -1341,7 +1499,7 @@ function m2s6(c){
 
 function m2s7(c){
   c.innerHTML = `
-<div class="s-badge">📋 Stap 9 van 11 · Mag het wel of niet?</div>
+<div class="s-badge">📋 Stap 10 van 12 · Mag het wel of niet?</div>
 <h2 class="ch2">Concrete <em>voorbeelden</em> uit het beleidskader</h2>
 <p class="cp">Het beleidskader geeft een aantal heldere voorbeeldsituaties. Test jezelf: klik op elke situatie en kijk of jouw inschatting klopt.</p>
 <div id="magwel"></div>
@@ -1374,7 +1532,7 @@ function m2s8(c){
 
 function m2s9(c){
   c.innerHTML = `
-<div class="s-badge">🏁 Stap 11 van 11 · Praktijkscenario's & afronding</div>
+<div class="s-badge">🏁 Stap 12 van 12 · Praktijkscenario's & afronding</div>
 <h2 class="ch2">Jouw sluitende <em>actiestap</em></h2>
 <p class="cp">Je kent nu het beleidskader, de 5 AI-labels, weet hoe je leerlingen op een transparante manier begeleidt, en hoe je een opdracht AI-bestendig ontwerpt.</p>
 
@@ -1624,6 +1782,54 @@ function m3s_praktijkprompts_teacher(c){
   </div>
 </div>
 
+<h3 class="ch3">💡 5 Aanvullende prompts per vak</h3>
+<p style="font-size: 13px; color: #3d4f8a; margin: 12px 0; line-height: 1.6;">Hieronder zijn 5 extra prompts voor verschillende vakken. Je kan ze direct copy-pasten en aanpassen naar jouw les.</p>
+
+<div style="background: white; border-left: 4px solid var(--blue); border-radius: 8px; padding: 14px; margin: 14px 0;">
+<strong style="color: var(--blue); font-size: 11px; text-transform: uppercase;">📖 Nederlands: Karakteranalyse</strong>
+<p style="font-size: 12px; color: #3d4f8a; font-style: italic; margin: 8px 0 4px 0;">
+"Analyse het karakter van [hoofdpersoon] uit [boektitel]. Geef: 1) 3 kernkwaliteiten met voorbeelden uit tekst, 2) hoe die karakter verandert doorheen verhaal, 3) 1 sterkte en 1 zwakte als leerling. Schrijf in 150-200 woorden."
+</p>
+<div style="font-size: 11px; color: var(--muted);">→ Label: 3-4 (AI helpt structureren; leerling leest boek en geeft voorbeelden)</div>
+</div>
+
+<div style="background: white; border-left: 4px solid var(--orange); border-radius: 8px; padding: 14px; margin: 14px 0;">
+<strong style="color: var(--orange); font-size: 11px; text-transform: uppercase;">🔬 Wetenschappen: Lab-rapport</strong>
+<p style="font-size: 12px; color: #3d4f8a; font-style: italic; margin: 8px 0 4px 0;">
+"Ik voerde dit experiment uit: [beschrijving]. Resultaten: [getallen/waarnemingen]. Maak een structuur voor mijn lab-rapport met: Inleiding, Hypothese, Methode, Resultaten, Discussie, Conclusie. Geef tips voor ELKE sectie. AI mag structuur en tips geven, mijn woorden blijven van mij."
+</p>
+<div style="font-size: 11px; color: var(--muted);">→ Label: 2-3 (Ideeën + lichte bewerking)</div>
+</div>
+
+<div style="background: white; border-left: 4px solid var(--green); border-radius: 8px; padding: 14px; margin: 14px 0;">
+<strong style="color: var(--green); font-size: 11px; text-transform: uppercase;">🎨 Kunst: Inspiratie</strong>
+<p style="font-size: 12px; color: #3d4f8a; font-style: italic; margin: 8px 0 4px 0;">
+"Genereer 5 afbeeldingen met het thema '[thema, bijv. Steampunk nature]'. Maak ze in stijl van [kunstenaar/stijl]. Ik zal dit gebruiken als inspiratie voor mijn eigen kunstwerk, niet als eindproduct."
+</p>
+<div style="font-size: 11px; color: var(--muted);">→ Label: 2 (Ideeën via visuals)</div>
+</div>
+
+<div style="background: white; border-left: 4px solid #9C27B0; border-radius: 8px; padding: 14px; margin: 14px 0;">
+<strong style="color: #9C27B0; font-size: 11px; text-transform: uppercase;">💼 Economie: Bedrijfscase</strong>
+<p style="font-size: 12px; color: #3d4f8a; font-style: italic; margin: 8px 0 4px 0;">
+"Bedrijf [naam] staat voor een keuze: twee strategieën. Strategie A: [beschrijving], Strategie B: [beschrijving]. Maak een SWOT-analyse voor elke strategie. Welke zou jij kiezen als CEO? Geef 3 redenen. BELANGRIJK: ik bepaal zelf welke strategie beter is, niet AI."
+</p>
+<div style="font-size: 11px; color: var(--muted);">→ Label: 3-4 (Hulp bij analyse; eigen keuze)</div>
+</div>
+
+<div style="background: white; border-left: 4px solid #FF6B6B; border-radius: 8px; padding: 14px; margin: 14px 0;">
+<strong style="color: #FF6B6B; font-size: 11px; text-transform: uppercase;">⚽ Lichamelijke opvoeding: Trainingsplan</strong>
+<p style="font-size: 12px; color: #3d4f8a; font-style: italic; margin: 8px 0 4px 0;">
+"Ik wil sterker worden in [sport]. Ik train [X keer per week]. Maak een 6-week trainingsplan met progressie. Voeg uit welke oefeningen, sets, herhalingen, rustdagen. Ik zal dit testen en zeggen wat werkt."
+</p>
+<div style="font-size: 11px; color: var(--muted);">→ Label: 4 (AI genereert plan; leerling voert uit en reflecteert)</div>
+</div>
+
+<h3 class="ch3">💡 BONUS: Reverse Prompting</h3>
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6; margin: 12px 0;">
+Weet je niet hoe je iets moet vragen? Vraag AI dan gewoon: "Wat zou een goede prompt zijn om [doel] te bereiken?" AI geeft je dan een sterke prompt terug. Dit helpt je zelf beter prompts leren schrijven!
+</p>
+
 <div class="nw">
   <button class="sr-btn b" onclick="p3()">← Vorige</button>
   <button class="sr-btn g" onclick="n3()">Volgende: Maakmodule →</button>
@@ -1688,7 +1894,7 @@ function m3s6(c){
 
 function m3s_nascholingsideen_teacher(c){
   c.innerHTML = `
-<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">🎓 Stap 10 van 11 · Wat volgt?</span></div>
+<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">🎓 Stap 11 van 12 · Wat volgt?</span></div>
 <h2 class="ch2">Volgende stappen: <em>Verdieping</em></h2>
 <p class="cp">Je hebt nu een sterke basis in Copilot. Wat wil je vervolgens dieper uitdiepen? Sint-Rembert en partners bieden nascholingsopties aan.</p>
 
@@ -1756,7 +1962,7 @@ function m3s_nascholingsideen_teacher(c){
 
 function m3s7(c){
   c.innerHTML = `
-<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">🎯 Stap 11 van 11 · Slotreflectie</span></div>
+<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">🎯 Stap 12 van 12 · Slotreflectie</span></div>
 <h2 class="ch2">Slotreflectie</h2>
 <p class="cp">Je hebt nu kennisgemaakt met Copilot M365: het schild-icoon en dataveiligheid, gestructureerd prompten (R-D-C-B-V), de Maakmodule voor visueel materiaal, differentiëren op leesniveau, quizzen/rubrics genereren, en het opzetten van een eigen agent.</p>
 
