@@ -754,6 +754,16 @@ function m1s3(c){
   <div class="ib-b">Aan de hand van "DJ ImAIne" — een AI-gegenereerde dj-act — toont deze video heel concreet wat generatieve AI vandaag al kan in de muziekwereld. Het illustreert hoe ver GenAI ondertussen staat: niet langer enkel tekst, maar ook audio en complete creatieve content die overtuigend "echt" klinkt.</div>
 </div>
 
+<div style="background: rgba(10,31,168,0.08); border-radius: 12px; padding: 20px; border-left: 4px solid var(--blue); margin: 20px 0;">
+  <strong style="color: var(--blue); font-size: 12px; text-transform: uppercase;">⚙️ Hoe werkt een taalmodel technisch?</strong>
+  <p style="font-size: 13px; color: #3d4f8a; margin: 12px 0 0 0; line-height: 1.6;">
+    <strong>1. Trainingsfase:</strong> Het systeem krijgt miljarden woorden voorgezet (artikelen, boeken, websites). Het ontdekt patronen: welke woorden volgen elkaar op?<br>
+    <strong>2. Gewichten:</strong> Gebaseerd op die patronen krijgen verbindingen tussen woorden sterker of zwakker. Dit heet "leren".<br>
+    <strong>3. Generatie:</strong> Als je een prompt ingeeft, "rolt" het systeem af — woord na woord — wat statistisch volgen moet. Het begrijpt niet echt; het voorspelt wat waarschijnlijk is.<br>
+    <strong>4. Beperkingen:</strong> Daarom maakt AI soms fouten (hallucineert), is bias mogelijk, en kan het zich geen recente info herinneren als die niet in trainingsdata zat.
+  </p>
+</div>
+
 <h3 class="ch3">🎬 EDUbox: hoe werken neurale netwerken?</h3>
 <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/-zmnRz81CNQ" allowfullscreen loading="lazy" title="EDUbox Artificiële Intelligentie — Hoe werken neurale netwerken?"></iframe></div>
 <div class="ib warn">
@@ -1376,6 +1386,15 @@ function m2s9(c){
   <div class="ib-b">Klasse, "Wat mag (niet) met AI op school?" — interview met Vincent Vanrusselt (PXL). <a href="https://www.klasse.be/742009/wetgeving-ai-in-onderwijs-wat-mag-niet-volgens-ai-act/" target="_blank">klasse.be/742009</a></div>
 </div>
 
+<div style="background: rgba(10,31,168,0.08); border-radius: 12px; padding: 20px; border-left: 4px solid var(--green); margin: 20px 0;">
+  <strong style="color: var(--green); font-size: 12px; text-transform: uppercase;">✅ 3 Praktische actiestappen voor jouw school</strong>
+  <ol style="font-size: 12px; color: #3d4f8a; margin: 12px 0 0 0; padding-left: 20px; line-height: 1.8;">
+    <li><strong>Inventariseer:</strong> Welke AI-tools gebruikt jouw school/klasteam al? Maak een lijst — dat helpt bij compliancebeheer</li>
+    <li><strong>Communiceer:</strong> Informeer leerlingen & ouders welke AI-tools je inzet en waarom. Transparantie is wettelijk vereist (artikel 4)</li>
+    <li><strong>Bijstellen:</strong> Controleer of je beleid aansluit bij de 4 risiconiveaus — hoog risico-systemen (bv. leerlingvolging) vragen extra voorzorg</li>
+  </ol>
+</div>
+
 <h3 class="ch3">💭 Wat denk jij?</h3>
 <div id="stl-m2"></div>
 
@@ -1527,6 +1546,13 @@ function m3s_praktijkprompts_teacher(c){
 <h2 class="ch2">5 <em>Prompts</em> voor lesvoorbereiding</h2>
 <p class="cp">Hier zijn 5 gouden prompts die je direct kan copy-pasten naar Copilot. Ze helpen bij lesvoorbereiding, evaluatie en leerlingbegeleiding. Kies hetgeen wat je nodig hebt en vul de [vierkante haakjes] in met jouw gegevens.</p>
 
+<div style="background: rgba(127,224,0,0.12); border-radius: 8px; padding: 16px; border-left: 4px solid var(--green); margin: 20px 0;">
+  <strong style="color: var(--green); font-size: 12px; text-transform: uppercase;">💡 PRO TIP: Doel-TRICK</strong>
+  <p style="font-size: 13px; color: #3d4f8a; margin: 8px 0 0 0; line-height: 1.6;">
+    Wil je nog betere prompts? Voeg telkens <strong>Rol</strong> (je bent een…), <strong>Doel</strong> (ik wil…), <strong>Taak</strong> (geef… stappen), <strong>Context</strong> (voor leerlingen van…) en <strong>Kwaliteit</strong> (output moet…) toe. Voorbeeld: "Rol: vakdidacticus aardrijkskunde. Doel: lesmateriaal. Taak: 3 kaartjes over klimaatzones. Context: 2de graad. Kwaliteit: interactief, niet meer dan 1 bladzijde."
+  </p>
+</div>
+
 <div style="background: linear-gradient(135deg, rgba(10,31,168,0.08), rgba(127,224,0,0.08)); border-radius: 12px; padding: 20px; border-left: 4px solid var(--blue); margin: 20px 0;">
   <div style="font-family: 'Archivo Black', sans-serif; font-size: 13px; color: var(--blue); text-transform: uppercase; margin-bottom: 12px;">💡 Prompt 1: Interactieve werkvormen</div>
   <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7; margin-bottom: 12px; font-style: italic;">
@@ -1666,6 +1692,21 @@ function m3s_nascholingsideen_teacher(c){
 <h2 class="ch2">Volgende stappen: <em>Verdieping</em></h2>
 <p class="cp">Je hebt nu een sterke basis in Copilot. Wat wil je vervolgens dieper uitdiepen? Sint-Rembert en partners bieden nascholingsopties aan.</p>
 
+<div style="background: rgba(10,31,168,0.08); border-radius: 12px; padding: 20px; border-left: 4px solid var(--blue); margin: 20px 0;">
+  <strong style="color: var(--blue); font-size: 12px; text-transform: uppercase;">🎯 UNESCO AI-competentieframework voor leerkrachten</strong>
+  <p style="font-size: 13px; color: #3d4f8a; margin: 12px 0 0 0; line-height: 1.6;">
+    UNESCO heeft een internationaal kader opgesteld met <strong>6 kerncompetenties</strong> voor leerkrachten. Terwijl je met Copilot werkt, bouw je deze op:
+  </p>
+  <ul style="font-size: 12px; color: #3d4f8a; margin: 12px 0 0 0; padding-left: 20px; line-height: 1.8;">
+    <li><strong>AI begrijpen:</strong> Hoe werkt AI en wat kan het (niet)? ✓ Dit heb je in Module 1 gedaan</li>
+    <li><strong>Kritisch denken:</strong> Bias, privacy, ethiek herkennen ✓ Module 2 dekt dit af</li>
+    <li><strong>Technisch:</strong> Tools als Copilot praktisch gebruiken ✓ Copilot-stappen hier</li>
+    <li><strong>Pedagogisch:</strong> AI inzetten voor betere lessen (niet vervangen) — wat je nu doet</li>
+    <li><strong>Samenwerking:</strong> Met collega's & leerlingen erover communiceren — communities of practice helpen</li>
+    <li><strong>Voortdurend leren:</strong> AI evolueert snel; je blijft bijleren ✓ Nascholing hier</li>
+  </ul>
+</div>
+
 <h3 class="ch3">🎯 Mogelijke vervolgstappen</h3>
 
 <div style="background: white; border: 2px solid var(--green); border-radius: 12px; padding: 20px; margin: 16px 0;">
@@ -1686,8 +1727,14 @@ function m3s_nascholingsideen_teacher(c){
   <div style="font-size: 12px; color: var(--muted); margin-top: 8px; font-weight: 600;">💡 Tipje: Binnenkort starten we sporenaanboden per vakdomein (Howest)</div>
 </div>
 
+<div style="background: white; border: 2px solid rgba(156,39,176,0.6); border-radius: 12px; padding: 20px; margin: 16px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 14px; color: #9C27B0; text-transform: uppercase; margin-bottom: 8px;">🎯 4. Scenario-gebaseerd leren: leerlingen dieper inzicht</div>
+  <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7;">In plaats van AI als "antwoordmachine" te gebruiken, zet je AI in voor <em>scenario-opdrachten</em>: leerlingen onderzoeken AI-gegenereerde teksten kritisch ("Welke bias zit hierin?"), verbeteren ze AI-output ("Maak dit geschikter voor jonge kinderen"), of gebruiken ze AI als gesprekspartner voor diepe vragen. Dit bouwt critisch denken op en maakt leerlingen echte AI-experts — niet alleen consumenten.</p>
+  <div style="font-size: 12px; color: var(--muted); margin-top: 8px; font-weight: 600;">💡 Tipje: Combineer dit met leerdoelen uit je vakdidactiek; scenario's werken best als ze gebonden zijn aan echte inhoud</div>
+</div>
+
 <div style="background: white; border: 2px solid #9333EA; border-radius: 12px; padding: 20px; margin: 16px 0;">
-  <div style="font-family: 'Archivo Black', sans-serif; font-size: 14px; color: #9333EA; text-transform: uppercase; margin-bottom: 8px;">🤝 4. Leren van collega's: communities of practice</div>
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 14px; color: #9333EA; text-transform: uppercase; margin-bottom: 8px;">🤝 5. Leren van collega's: communities of practice</div>
   <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7;">Velen van je collega's experimenteren nu ook met AI in de klas. Wat doe jij? Wat lukt hen? Regelmatige uitwisselingssessies helpen om van elkaar te leren. Sint-Rembert organiseert dit doorheen het schooljaar.</p>
   <div style="font-size: 12px; color: var(--muted); margin-top: 8px; font-weight: 600;">💡 Tipje: Volgende bijeenkomst: TBA. Meld je interesse!</div>
 </div>
