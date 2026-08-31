@@ -684,13 +684,162 @@ const m1 = [m1s0, m1s1, m1s2, m1s3, m1s4, m1s5, m1s6, m1s7, m1s8, m1s9, m1s_hall
 
 function rm1(){ const c=document.getElementById('m1c'); c.innerHTML=''; rDots(1,m1.length,S.mod1.step); m1[S.mod1.step](c); lockNextButtons(c); }
 function n1(){ S.mod1.step++; ss(); S.mod1.step>=m1.length ? d1() : rm1(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); }
+
+// Podcast players met audio controls
+function playPodcast1(){
+  const overlay = document.createElement('div');
+  overlay.id = 'podcast-overlay-1';
+  overlay.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  `;
+  
+  const card = document.createElement('div');
+  card.style.cssText = `
+    background: linear-gradient(135deg, var(--blue) 0%, #667bc6 100%);
+    border-radius: 12px;
+    padding: 32px;
+    color: white;
+    text-align: center;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  `;
+  
+  card.innerHTML = `
+    <h3 style="color: white; margin-top: 0; margin-bottom: 8px;">🎧 Module 1 Podcast</h3>
+    <p style="font-size: 13px; color: rgba(255,255,255,0.95); margin-bottom: 16px; font-weight: 600;">
+      <strong>Leerkracht als eindredacteur van AI</strong>
+    </p>
+    <audio style="width: 100%; max-width: 400px; margin-bottom: 20px; outline: none;" controls>
+      <source src="Leerkracht_als_eindredacteur_van_AI.m4a" type="audio/mp4">
+      Je browser ondersteunt deze audio niet.
+    </audio>
+    <p style="font-size: 11px; color: rgba(255,255,255,0.9); margin-bottom: 16px; line-height: 1.4;">
+      💡 Luister gerust meerdere keren. Je kan op elk moment stoppen en zelf lezen.
+    </p>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+      <button onclick="closeModal('podcast-overlay-1'); continueModule1();" style="background: rgba(255,255,255,0.9); color: var(--blue); border: none; border-radius: 8px; padding: 12px; font-weight: 700; cursor: pointer;">
+        ✓ Volgende
+      </button>
+      <button onclick="closeModal('podcast-overlay-1');" style="background: rgba(255,255,255,0.2); color: white; border: 2px solid white; border-radius: 8px; padding: 12px; font-weight: 700; cursor: pointer;">
+        ✕ Sluiten
+      </button>
+    </div>
+  `;
+  
+  overlay.appendChild(card);
+  document.body.appendChild(overlay);
+}
+
+function playPodcast2(){
+  const overlay = document.createElement('div');
+  overlay.id = 'podcast-overlay-2';
+  overlay.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  `;
+  
+  const card = document.createElement('div');
+  card.style.cssText = `
+    background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%);
+    border-radius: 12px;
+    padding: 32px;
+    color: white;
+    text-align: center;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  `;
+  
+  card.innerHTML = `
+    <h3 style="color: white; margin-top: 0; margin-bottom: 8px;">🎧 Module 2 Podcast</h3>
+    <p style="font-size: 13px; color: rgba(255,255,255,0.95); margin-bottom: 16px; font-weight: 600;">
+      <strong>De AI-aanpak van Sint-Rembert</strong>
+    </p>
+    <audio style="width: 100%; max-width: 400px; margin-bottom: 20px; outline: none;" controls>
+      <source src="De_AI-aanpak_van_Scholengroep_Sint-Rembert.m4a" type="audio/mp4">
+      Je browser ondersteunt deze audio niet.
+    </audio>
+    <p style="font-size: 11px; color: rgba(255,255,255,0.9); margin-bottom: 16px; line-height: 1.4;">
+      💡 Luister gerust meerdere keren. Je kan op elk moment stoppen en zelf lezen.
+    </p>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+      <button onclick="closeModal('podcast-overlay-2'); continueModule2();" style="background: rgba(255,255,255,0.9); color: #9C27B0; border: none; border-radius: 8px; padding: 12px; font-weight: 700; cursor: pointer;">
+        ✓ Volgende
+      </button>
+      <button onclick="closeModal('podcast-overlay-2');" style="background: rgba(255,255,255,0.2); color: white; border: 2px solid white; border-radius: 8px; padding: 12px; font-weight: 700; cursor: pointer;">
+        ✕ Sluiten
+      </button>
+    </div>
+  `;
+  
+  overlay.appendChild(card);
+  document.body.appendChild(overlay);
+}
+
+function closeModal(id){
+  const modal = document.getElementById(id);
+  if(modal) modal.remove();
+}
+
+function continueModule1(){
+  S.mod1.step++;
+  ss();
+  S.mod1.step >= m1.length ? d1() : rm1();
+  document.getElementById('main').scrollTo({top:0, behavior:'smooth'});
+}
+
+function continueModule2(){
+  S.mod2.step++;
+  ss();
+  S.mod2.step >= m2.length ? d2() : rm2();
+  document.getElementById('main').scrollTo({top:0, behavior:'smooth'});
+}
 function p1(){ if(S.mod1.step > 0){ lastNavDirection='back'; S.mod1.step--; ss(); rm1(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); } }
 function d1(){ S.mod1.done=true; S.mod1.step=0; ss(); up(); rmc(); sv('home'); setTimeout(()=>alert('🎉 Module 1 voltooid! Module 2 is nu beschikbaar.'),300); }
 
 function m1s0(c){
   c.innerHTML = `
-<div class="s-badge">🤖 Stap 1 van 13 · AI overal</div>
+<div class="s-badge">🤖 Stap 1 van 14 · AI overal</div>
 <h2 class="ch2">AI is <em>overal</em> — ook al zie je het niet</h2>
+
+<div style="background: linear-gradient(135deg, var(--blue) 0%, #667bc6 100%); border-radius: 12px; padding: 24px; margin-bottom: 24px; text-align: center; color: white;">
+  <div style="font-size: 28px; margin-bottom: 12px;">🎧 vs 📖</div>
+  <p style="font-size: 14px; color: rgba(255,255,255,0.95); margin-bottom: 16px; font-weight: 600;">
+    Hoe wil jij Module 1 volgen?
+  </p>
+  <p style="font-size: 12px; color: rgba(255,255,255,0.9); margin-bottom: 18px;">
+    Dezelfde inhoud, twee formaten. Kies wat voor jou het beste werkt:
+  </p>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 450px; margin: 0 auto;">
+    <button onclick="playPodcast1()" style="background: rgba(255,255,255,0.95); color: var(--blue); border: none; border-radius: 8px; padding: 14px 12px; font-weight: 700; cursor: pointer; font-size: 13px; transition: all 0.3s; line-height: 1.4;">
+      🎧 PODCAST LUISTEREN<br><span style="font-size: 11px; font-weight: 400; opacity: 0.8;">Leerkracht als eindredacteur</span>
+    </button>
+    <button onclick="continueModule1()" style="background: rgba(255,255,255,0.2); color: white; border: 2px solid white; border-radius: 8px; padding: 14px 12px; font-weight: 700; cursor: pointer; font-size: 13px; line-height: 1.4;">
+      📖 ZELF LEZEN<br><span style="font-size: 11px; font-weight: 400; opacity: 0.9;">Tekst</span>
+    </button>
+  </div>
+</div>
+
 <p class="cp">Gezichtsherkenning op je telefoon, de spamfilter in je mailbox, aanbevelingen op YouTube, de routeplanner die files voorspelt — <strong>AI zit al jaren in onze dagelijkse tools</strong>. En sinds de doorbraak van ChatGPT eind 2022 ook steeds nadrukkelijker in het onderwijs: leerlingen gebruiken chatbots voor taken, uitgeverijen bouwen AI in leerplatformen in, en collega's experimenteren met AI voor lesvoorbereiding.</p>
 <p class="cp">Maar wat is AI eigenlijk? In de kern is het software die patronen leert herkennen uit grote hoeveelheden data, en op basis daarvan voorspellingen of beslissingen maakt — zonder dat een mens voor elke situatie apart een regel heeft geprogrammeerd. Dat onderscheidt AI van klassieke software, die enkel doet wat letterlijk in de code staat.</p>
 <p class="cp">Als leerkracht hoef je geen ingenieur te zijn, maar je moet AI wel kunnen <strong>herkennen, benoemen en er verantwoord mee omgaan</strong>. Dat is ook wat artikel 4 van de EU AI Act van organisaties — en dus van ons als school — verwacht: voldoende AI-geletterdheid bij iedereen die met AI werkt.</p>
@@ -701,14 +850,14 @@ function m1s0(c){
 </div>
 
 <div class="nw">
-  <button class="sr-btn g" onclick="n1()">Volgende: bekijk de video →</button>
-  <span class="nh">Stap 1/13</span>
+  <button class="sr-btn g" onclick="n1()">Volgende: introvideo →</button>
+  <span class="nh">Stap 1/14</span>
 </div>`;
 }
 
 function m1s1(c){
   c.innerHTML = `
-<div class="s-badge">🎬 Stap 2 van 13 · Introvideo</div>
+<div class="s-badge">🎬 Stap 2 van 14 · Introvideo</div>
 <h2 class="ch2">Bekijk: <em>intro artificiële intelligentie</em></h2>
 <p class="cp">EDUbox (VRT NWS) introduceert wat AI is en hoe het werkt.</p>
 <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/sosmC2h4LLE" allowfullscreen loading="lazy" title="EDUbox Artificiële Intelligentie — Introductie"></iframe></div>
@@ -726,7 +875,7 @@ function m1s1(c){
 
 function m1s2(c){
   c.innerHTML = `
-<div class="s-badge">🧩 Stap 3 van 13 · Doe-opdracht</div>
+<div class="s-badge">🧩 Stap 3 van 14 · Doe-opdracht</div>
 <h2 class="ch2">AI of <em>geen AI</em>?</h2>
 <p class="cp">Klik op elke kaart en denk eerst zelf na: gebruikt deze toepassing AI, of werkt ze met vaste, vooraf geprogrammeerde regels?</p>
 <div id="aig"></div>
@@ -741,7 +890,7 @@ function m1s2(c){
 
 function m1s3(c){
   c.innerHTML = `
-<div class="s-badge">📚 Stap 4 van 13 · Geschiedenis & GenAI</div>
+<div class="s-badge">📚 Stap 4 van 14 · Geschiedenis & GenAI</div>
 <h2 class="ch2">Van vaste regels naar <em>Generatieve AI</em></h2>
 <p class="cp">AI bestaat al sinds de jaren 50, en kende eerder al grote doorbraken — denk aan schaakcomputer Deep Blue die in 1997 wereldkampioen Kasparov verslaat. Maar die vroege AI kon vooral één ding: <strong>classificeren of voorspellen</strong>. Is dit e-mailbericht spam? Welke film zou jij waarderen? Het systeem koos tussen vooraf gedefinieerde opties.</p>
 <p class="cp">De sprong naar <strong>generatieve AI</strong> (GenAI) verandert dat fundamenteel: deze systemen kunnen tekst, beeld, audio en code <em>maken die nog niet bestond</em>. ChatGPT haalde na zijn lancering eind 2022 razendsnel honderd miljoen gebruikers — geen enkele consumententoepassing groeide ooit zo snel.</p>
@@ -819,7 +968,7 @@ AI past aan jouw tempo aan en volgt je leerproces. Voorbeeld: AI geeft feedback 
 
 function m1s4(c){
   c.innerHTML = `
-<div class="s-badge">⚠️ Stap 5 van 13 · Hallucinaties</div>
+<div class="s-badge">⚠️ Stap 5 van 14 · Hallucinaties</div>
 <h2 class="ch2">Het belangrijkste begrip van <em>deze module</em></h2>
 <div class="ib warn">
   <div class="ib-t">⚠️ Hallucinaties</div>
@@ -835,7 +984,7 @@ function m1s4(c){
 
 function m1s5(c){
   c.innerHTML = `
-<div class="s-badge">🧩 Stap 6 van 13 · Doe-opdracht</div>
+<div class="s-badge">🧩 Stap 6 van 14 · Doe-opdracht</div>
 <h2 class="ch2">Spot de <em>hallucinatie</em></h2>
 <p class="cp">Hieronder staan 4 uitspraken zoals een AI-chatbot ze zou kunnen formuleren — stuk voor stuk even zelfverzekerd. Klik op elke kaart: welke bevat een hallucinatie (verzonnen feit, bron of cijfer), en welke klopt gewoon?</p>
 <div id="hallu"></div>
@@ -850,7 +999,7 @@ function m1s5(c){
 
 function m1s6(c){
   c.innerHTML = `
-<div class="s-badge">⚖️ Stap 7 van 13 · Kansen & gevaren</div>
+<div class="s-badge">⚖️ Stap 7 van 14 · Kansen & gevaren</div>
 <h2 class="ch2">Mogelijkheden én <em>gevaren</em> van GenAI</h2>
 <p class="cp">GenAI biedt enorme kansen voor je lespraktijk — maar ook concrete risico's die je moet kennen om zelf verantwoord te werken én om leerlingen goed te begeleiden. Geen van beide kanten weegt zwaarder: het gaat om een afgewogen, kritische blik.</p>
 
@@ -891,7 +1040,7 @@ function m1s6(c){
 
 function m1s7(c){
   c.innerHTML = `
-<div class="s-badge">🎲 Stap 8 van 13 · Bias</div>
+<div class="s-badge">🎲 Stap 8 van 14 · Bias</div>
 <h2 class="ch2">Een concreet voorbeeld voor <em>in de klas</em></h2>
 <p class="cp">Vraag een beeldgenerator: <em>"Teken een CEO."</em> De kans is groot dat je een witte man van middelbare leeftijd krijgt. Vraag <em>"Teken een verpleegkundige"</em> en je krijgt hoogstwaarschijnlijk een vrouw. De AI verzint dit niet uit het niets — ze reproduceert maatschappelijke stereotypen die in haar trainingsdata oversterk vertegenwoordigd zijn. Dit soort voorbeeld is een krachtig en heel concreet aanknopingspunt om bias met leerlingen te bespreken: het is meteen zichtbaar, het is herkenbaar, en het opent een gesprek over hoe data onze blik kan vertekenen.</p>
 
@@ -911,7 +1060,7 @@ function m1s7(c){
 
 function m1s8(c){
   c.innerHTML = `
-<div class="s-badge">🎭 Stap 9 van 13 · Deepfakes</div>
+<div class="s-badge">🎭 Stap 9 van 14 · Deepfakes</div>
 <h2 class="ch2">Wanneer "zien is geloven" <em>niet meer geldt</em></h2>
 <p class="cp">Een deepfake is beeld, video of audio waarin AI het gezicht, de stem of de bewegingen van een bestaand persoon overtuigend nadoet. Voor leerlingen is dit relevant op twee niveaus: enerzijds als bewustmaking ("niet alles wat je ziet is automatisch echt"), anderzijds als concreet risico — gezichten manipuleren of onschuldig lijkende filters toepassen op foto's van klasgenoten valt onder de privacywetgeving (AVG/GDPR) en kan leiden tot pesterijen. Maak dit als leerkracht expliciet duidelijk, en handel kordaat als het toch gebeurt.</p>
 
@@ -940,7 +1089,7 @@ ${promoMini('Wil je dieper graven in de ethische kant van AI? Op 18 november ver
 
 function m1s9(c){
   c.innerHTML = `
-<div class="s-badge">🎬 Stap 10 van 13 · Hype of realiteit?</div>
+<div class="s-badge">🎬 Stap 10 van 14 · Hype of realiteit?</div>
 <h2 class="ch2">De impact van AI op ons onderwijs: <em>hype of realiteit?</em></h2>
 <svg viewBox="0 0 700 110" style="width:100%;height:auto;display:block;margin-bottom:18px;border-radius:var(--rsm);background:var(--blue)" xmlns="http://www.w3.org/2000/svg">
   <circle cx="80" cy="55" r="34" fill="rgba(127,224,0,.18)"/>
@@ -1155,8 +1304,27 @@ function d2(){ S.mod2.done=true; S.mod2.step=0; ss(); up(); rmc(); sv('cert'); }
 
 function m2s0(c){
   c.innerHTML = `
-<div class="s-badge">📜 Stap 1 van 11 · Het Beleidskader AI</div>
+<div class="s-badge">📜 Stap 1 van 12 · Het Beleidskader AI</div>
 <h2 class="ch2">Het officiële <em>AI-beleidskader</em> van Sint-Rembert</h2>
+
+<div style="background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%); border-radius: 12px; padding: 24px; margin-bottom: 24px; text-align: center; color: white;">
+  <div style="font-size: 28px; margin-bottom: 12px;">🎧 vs 📖</div>
+  <p style="font-size: 14px; color: rgba(255,255,255,0.95); margin-bottom: 16px; font-weight: 600;">
+    Hoe wil jij Module 2 volgen?
+  </p>
+  <p style="font-size: 12px; color: rgba(255,255,255,0.9); margin-bottom: 18px;">
+    Dezelfde inhoud, twee formaten. Kies wat voor jou het beste werkt:
+  </p>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 450px; margin: 0 auto;">
+    <button onclick="playPodcast2()" style="background: rgba(255,255,255,0.95); color: #9C27B0; border: none; border-radius: 8px; padding: 14px 12px; font-weight: 700; cursor: pointer; font-size: 13px; transition: all 0.3s; line-height: 1.4;">
+      🎧 PODCAST LUISTEREN<br><span style="font-size: 11px; font-weight: 400; opacity: 0.8;">Sint-Rembert AI-aanpak</span>
+    </button>
+    <button onclick="continueModule2()" style="background: rgba(255,255,255,0.2); color: white; border: 2px solid white; border-radius: 8px; padding: 14px 12px; font-weight: 700; cursor: pointer; font-size: 13px; line-height: 1.4;">
+      📖 ZELF LEZEN<br><span style="font-size: 11px; font-weight: 400; opacity: 0.9;">Tekst</span>
+    </button>
+  </div>
+</div>
+
 <p class="cp">Wat je in deze module leert, is geen losse verzameling tips — het is de concrete vertaling van het <strong>Beleidskader Artificiële Intelligentie</strong> van Scholengroep Sint-Rembert (versie 1.0, goedgekeurd door het Bestuursorgaan op 23/06/2026). Dit is het overkoepelend referentiedocument voor AI-gebruik binnen de hele scholengroep, voor zowel leerlingen als medewerkers — en de inhoudelijke basis voor het schoolreglement en het arbeidsreglement.</p>
 <p class="cp">De scholengroep staat positief tegenover AI in onderwijs en ondersteunende processen, op voorwaarde dat het gebruik <strong>zorgvuldig, veilig en transparant</strong> verloopt, met respect voor de wet en aandacht voor ethische aspecten zoals bias en de ecologische impact van AI.</p>
 
