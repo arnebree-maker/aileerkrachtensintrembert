@@ -680,7 +680,7 @@ function renderStartTestQuiz(c){
    MODULE 1 — WAT IS AI? (13 stappen)
    ════════════════════════════════════════════ */
 
-const m1 = [m1s0, m1s1, m1s2, m1s3, m1s4, m1s5, m1s6, m1s7, m1s8, m1s9, m1s_hallucinations_bias, m1s10, m1s11, m1s12];
+const m1 = [m1s0, m1s1, m1s2, m1s3, m1s4, m1s5, m1s6, m1s7, m1s8, m1s9, m1s_hallucinations_bias, m1s_ai_agents, m1s10, m1s11, m1s12];
 
 function rm1(){ const c=document.getElementById('m1c'); c.innerHTML=''; rDots(1,m1.length,S.mod1.step); m1[S.mod1.step](c); lockNextButtons(c); }
 function n1(){ S.mod1.step++; ss(); S.mod1.step>=m1.length ? d1() : rm1(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); }
@@ -1006,9 +1006,63 @@ function m1s_hallucinations_bias(c){
 </div>`;
 }
 
+function m1s_ai_agents(c){
+  c.innerHTML = `
+<div class="s-badge">🤖 Stap 11 van 14 · AI-Agents</div>
+<h2 class="ch2">AI-Agents: AI die <em>zelf denkt</em> in stappen</h2>
+<p class="cp">Tot nu toe heb je ChatGPT/Copilot gebruikt: jij vraag, AI antwoord direct. Maar er komt iets nieuws: <strong>agents</strong> — AI systemen die zelf stappen nemen, fouten checken, en terugkomen als iets niet klopt.</p>
+
+<h3 class="ch3">🔄 Hoe werkt een agent?</h3>
+<div style="background: rgba(10,31,168,0.08); border-radius: 8px; padding: 16px; margin: 16px 0;">
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.8; margin: 0;">
+<strong>Normale AI (ChatGPT):</strong> Jij vraagt → AI antwoordt (klaar)<br><br>
+<strong>Agent AI:</strong> Jij vraagt → Agent <strong>bedenkt plan</strong> → Agent <strong>voert stappen uit</strong> → Agent <strong>checkt resultaat</strong> → Agent <strong>past aan</strong> als nodig → Antwoord<br><br>
+<strong>Voorbeeld:</strong> "Maak een lesplan voor 2de graad Nederlands over Shakespeare."<br>
+• Agent bedenkt: Ik heb leeftijdsgegevens nodig, vakdidactiek nodig, tijd nodig<br>
+• Agent vraagt jou: "Hoeveel lessen? Welke Shakespeare-werken?"<br>
+• Agent zoekt bronnen (als je agent dat kan)<br>
+• Agent maakt lesplan<br>
+• Agent controleert: zitten alle elementen erin?<br>
+• Agent levert op
+</p>
+</div>
+
+<h3 class="ch3">🎓 Wat betekent dit voor leerkrachten?</h3>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0;">
+<div style="background: rgba(127,224,0,0.1); border-left: 4px solid var(--green); border-radius: 8px; padding: 14px;">
+<strong style="color: var(--green); font-size: 11px; text-transform: uppercase;">✅ Agents helpen bij:</strong>
+<ul style="font-size: 12px; color: #3d4f8a; margin-top: 8px; padding-left: 16px; line-height: 1.6;">
+<li>Complexe taken (les-ontwerp, curriculum)</li>
+<li>Stap-voor-stap begeleiding van leerlingen</li>
+<li>Feedback geven (agent checkt werk stap-voor-stap)</li>
+<li>Onderzoekswerk (agent zoekt bronnen)</li>
+</ul>
+</div>
+<div style="background: rgba(255,107,107,0.1); border-left: 4px solid var(--red); border-radius: 8px; padding: 14px;">
+<strong style="color: var(--red); font-size: 11px; text-transform: uppercase;">⚠️ Agents kunnen nog mislukken:</strong>
+<ul style="font-size: 12px; color: #3d4f8a; margin-top: 8px; padding-left: 16px; line-height: 1.6;">
+<li>Oneindige loops (agent blijft hetzelfde proberen)</li>
+<li>Verkeerde stappen kiezen</li>
+<li>Hallucinaties (net als normale AI)</li>
+<li>Kosten (agents gebruiken meer rekenkracht)</li>
+</ul>
+</div>
+</div>
+
+<h3 class="ch3">🚀 Agents in Sint-Rembert?</h3>
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6; margin: 16px 0;">
+Microsoft werkt aan <strong>Copilot Agents</strong> in de M365-suite — dus mogelijk binnenkort in jouw Copilot beschikbaar. Momenteel experimenteel, maar goed om te weten dat dit eraan komt.</p>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p1()">← Vorige</button>
+  <button class="sr-btn g" onclick="n1()">Volgende: reflectievragen →</button>
+  <span class="nh">Stap 11/14</span>
+</div>`;
+}
+
 function m1s10(c){
   c.innerHTML = `
-<div class="s-badge">💬 Stap 12 van 14 · Reflectievragen</div>
+<div class="s-badge">💬 Stap 13 van 14 · Reflectievragen</div>
 <h2 class="ch2">Vijf vragen om over <em>na te denken</em></h2>
 <div class="disc-card">
   <div class="disc-q">1. Leerlingen zien op TikTok en YouTube de wildste doemscenario's over AI. Hoe kunnen wij in de klas helpen om die 'hype' te doorprikken?</div>
@@ -1134,6 +1188,38 @@ function m2s1(c){
 
 <h3 class="ch3">4️⃣ Leeftijds- en ontwikkelingsgeschikt</h3>
 <p class="cp">AI-gebruik moet steeds afgestemd zijn op de leeftijd, maturiteit en ontwikkelingsfase van leerlingen. AI-toepassingen mogen geen afbreuk doen aan basisvaardigheden zoals lezen, schrijven, rekenen en zelfstandig formuleren.</p>
+
+<h3 class="ch3">🌍 BONUS: Microsoft's 6 Verantwoorde AI Principes</h3>
+<p class="cp">Deze internationale principes sluiten aan bij Sint-Rembert's kader. Microsoft benadrukt deze zes aspecten:</p>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0;">
+<div style="background: rgba(10,31,168,0.08); border-left: 4px solid var(--blue); border-radius: 8px; padding: 12px;">
+<strong style="color: var(--blue); font-size: 11px; text-transform: uppercase;">🔴 Redelijkheid</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 6px;">AI behandelt iedereen eerlijk — geen discriminatie, geen stereotypering.</p>
+</div>
+<div style="background: rgba(127,224,0,0.08); border-left: 4px solid var(--green); border-radius: 8px; padding: 12px;">
+<strong style="color: var(--green); font-size: 11px; text-transform: uppercase;">💪 Betrouwbaarheid & Veiligheid</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 6px;">AI werkt voorspelbaar en veilig, geen willekeurige uitval of crash.</p>
+</div>
+<div style="background: rgba(255,193,7,0.08); border-left: 4px solid var(--orange); border-radius: 8px; padding: 12px;">
+<strong style="color: var(--orange); font-size: 11px; text-transform: uppercase;">🔐 Privacy & Beveiliging</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 6px;">Persoonsgegevens zijn beschermd, niet gebruikt voor training.</p>
+</div>
+<div style="background: rgba(156,39,176,0.08); border-left: 4px solid #9C27B0; border-radius: 8px; padding: 12px;">
+<strong style="color: #9C27B0; font-size: 11px; text-transform: uppercase;">🤝 Inclusiviteit</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 6px;">AI is toegankelijk voor iedereen, ongeacht achtergrond.</p>
+</div>
+<div style="background: rgba(255,107,107,0.08); border-left: 4px solid var(--red); border-radius: 8px; padding: 12px;">
+<strong style="color: var(--red); font-size: 11px; text-transform: uppercase;">👁️ Transparantie</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 6px;">Het is duidelijk hoe AI werkt en wat het doet.</p>
+</div>
+<div style="background: rgba(100,200,200,0.08); border-left: 4px solid #64C8C8; border-radius: 8px; padding: 12px;">
+<strong style="color: #64C8C8; font-size: 11px; text-transform: uppercase;">✋ Verantwoordelijkheid</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 6px;">Iemand (een persoon, organisatie) is verantwoordelijk.</p>
+</div>
+</div>
+
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6; margin-top: 16px; font-style: italic;">💡 Sint-Rembert's 4 principes + Microsoft's 6 principes = sterke basis voor verantwoord AI-gebruik!</p>
 
 <div class="nw">
   <button class="sr-btn b" onclick="p2()">← Vorige</button>
@@ -1916,6 +2002,78 @@ function m3s_praktijkprompts_teacher(c){
 "Ik wil sterker worden in [sport]. Ik train [X keer per week]. Maak een 6-week trainingsplan met progressie. Voeg uit welke oefeningen, sets, herhalingen, rustdagen. Ik zal dit testen en zeggen wat werkt."
 </p>
 <div style="font-size: 11px; color: var(--muted);">→ Label: 4 (AI genereert plan; leerling voert uit en reflecteert)</div>
+</div>
+
+<h3 class="ch3">⭐ Microsoft's Best Practices voor Prompts</h3>
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6; margin-top: 12px;">
+Microsoft benadrukt deze 5 kern-strategieën voor betere prompts (aangevuld met jouw Doel-TRICK kader):
+</p>
+
+<div style="background: white; border-left: 4px solid var(--blue); border-radius: 8px; padding: 14px; margin: 14px 0;">
+<strong style="color: var(--blue); font-size: 11px; text-transform: uppercase;">1. Wees specifiek over de rol</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 6px;">
+"Speel een leerkracht Nederlands" werkt beter dan gewoon vragen. Nog beter: "Je bent een vakdidacticus Nederlands die <strong>20 jaar ervaring</strong> heeft met <strong>2de graad SEC</strong>."
+</p>
+</div>
+
+<div style="background: white; border-left: 4px solid var(--green); border-radius: 8px; padding: 14px; margin: 14px 0;">
+<strong style="color: var(--green); font-size: 11px; text-transform: uppercase;">2. Geef context en achtergrond</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 6px;">
+"Maak een quiz over WO1" is vaag. Beter: "Maak een quiz over WO1 voor <strong>3de graad</strong>, focus op <strong>oorzaken en gevolgen</strong>, gebruik <strong>meerkeuzevragen</strong>."
+</p>
+</div>
+
+<div style="background: white; border-left: 4px solid #9C27B0; border-radius: 8px; padding: 14px; margin: 14px 0;">
+<strong style="color: #9C27B0; font-size: 11px; text-transform: uppercase;">3. Definieer het gewenste formaat</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 6px;">
+Zeg NIET: "Geef tips voor differentiatie"
+Zeg WEL: "Geef 5 tips in <strong>bullet points</strong>, elk <strong>max 1 zin</strong>, gericht op <strong>hoogbegaafde leerlingen</strong>."
+</p>
+</div>
+
+<div style="background: white; border-left: 4px solid var(--orange); border-radius: 8px; padding: 14px; margin: 14px 0;">
+<strong style="color: var(--orange); font-size: 11px; text-transform: uppercase;">4. Voeg voorbeelden toe (few-shot prompting)</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 6px;">
+"Hier zijn 2 voorbeelden van goed feedback: [voorbeeld 1] en [voorbeeld 2]. Geef me 3 meer voorbeelden in dezelfde stijl." 
+AI begrijpt het patroon veel beter.
+</p>
+</div>
+
+<div style="background: white; border-left: 4px solid #64C8C8; border-radius: 8px; padding: 14px; margin: 14px 0;">
+<strong style="color: #64C8C8; font-size: 11px; text-transform: uppercase;">5. Stuur de iteratie</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 6px;">
+Na eerste antwoord: "Goed, maar maak het <strong>12-16 jaar oud vriendelijk</strong>," of "Verwijder jargon," of "Voeg een voorbeeld in." AI passen aan gebaseerd op jouw feedback.
+</p>
+</div>
+
+<h3 class="ch3">🖼️ BONUS: Afbeeldingen genereren met AI</h3>
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6; margin-top: 12px;">
+Tekst is niet alles. AI kan ook afbeeldingen maken — handig voor posters, presentaties, lesmateriaal. Hier's hoe je het doet:
+</p>
+
+<div style="background: rgba(127,224,0,0.12); border-radius: 8px; padding: 16px; margin: 14px 0;">
+<strong style="color: var(--green); font-size: 11px; text-transform: uppercase;">📸 Afbeeldingsgeneratoren in Copilot</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 8px; line-height: 1.6;">
+Copilot kan DALL-E 3 gebruiken om afbeeldingen te maken. Vraag: "Maak een illustratie van [concept] in stijl van [kunstenaar/stijl]."<br><br>
+<strong>Voorbeeld:</strong> "Maak een illustratie van fotosynthese in stijl van een wetenschappelijke infographic, geschikt voor 2de graad."<br><br>
+<strong>Output:</strong> Je krijgt een unieke afbeelding die je kan gebruiken in les-slides, werkbladen, posters.
+</p>
+</div>
+
+<div style="background: rgba(255,193,7,0.12); border-radius: 8px; padding: 16px; margin: 14px 0;">
+<strong style="color: var(--orange); font-size: 11px; text-transform: uppercase;">⚠️ Vier dingen om te onthouden</strong>
+<ul style="font-size: 12px; color: #3d4f8a; margin-top: 8px; padding-left: 16px; line-height: 1.6;">
+<li><strong>Geen echte gezichten:</strong> Vraag AI geen afbeeldingen van echte mensen te maken (privacy)</li>
+<li><strong>Label je afbeeldingen:</strong> Zeg tegen leerlingen "Dit is AI-gegenereerd" — transparantie!</li>
+<li><strong>Controleer op raar:</strong> AI maakt soms enge dingen. Check de output voordat je het gebruikt</li>
+<li><strong>NIET voor posters van leerlingen:</strong> Laat leerlingen hun eigen gezicht NIET laten AI-genereren (label 1: geen AI)</li>
+</ul>
+</div>
+
+<div style="background: rgba(10,31,168,0.08); border-radius: 8px; padding: 16px; margin: 14px 0;">
+<strong style="color: var(--blue); font-size: 11px; text-transform: uppercase;">💡 Praktijkidee: AI afbeeldingen als leeringsmoment</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 8px; line-height: 1.6;">
+Toon leerlingen een AI-afbeelding en vraag: "Wat ziet AI verkeerd aan dit plaatje? Hoe zou jij het tekenen?" Dit helpt leerlingen kritisch denken over de grenzen van AI.</p>
 </div>
 
 <h3 class="ch3">💡 BONUS: Reverse Prompting</h3>
