@@ -721,7 +721,7 @@ function playPodcast1(){
       <strong>Leerkracht als eindredacteur van AI</strong>
     </p>
     <audio style="width: 100%; max-width: 400px; margin-bottom: 20px; outline: none;" controls>
-      <source src="Leerkracht_als_eindredacteur_van_AI.m4a" type="audio/mp4">
+      <source src="https://drive.google.com/uc?export=download&id=1FD8iLx6313brXRIo2uQXNgtTMKplO6kq" type="audio/mp4">
       Je browser ondersteunt deze audio niet.
     </audio>
     <p style="font-size: 11px; color: rgba(255,255,255,0.9); margin-bottom: 16px; line-height: 1.4;">
@@ -776,7 +776,7 @@ function playPodcast2(){
       <strong>De AI-aanpak van Sint-Rembert</strong>
     </p>
     <audio style="width: 100%; max-width: 400px; margin-bottom: 20px; outline: none;" controls>
-      <source src="De_AI-aanpak_van_Scholengroep_Sint-Rembert.m4a" type="audio/mp4">
+      <source src="https://drive.google.com/uc?export=download&id=1LaMBbbr6YrdDiFcxOGCY7CPdtc6gSogH" type="audio/mp4">
       Je browser ondersteunt deze audio niet.
     </audio>
     <p style="font-size: 11px; color: rgba(255,255,255,0.9); margin-bottom: 16px; line-height: 1.4;">
