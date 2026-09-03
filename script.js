@@ -721,7 +721,7 @@ function playPodcast1(){
       <strong>Leerkracht als eindredacteur van AI</strong>
     </p>
     <audio style="width: 100%; max-width: 400px; margin-bottom: 20px; outline: none;" controls>
-      <source src="https://drive.google.com/uc?export=download&id=1FD8iLx6313brXRIo2uQXNgtTMKplO6kq" type="audio/mp4">
+      <source src="Leerkracht_als_eindredacteur_van_AI.m4a" type="audio/mp4">
       Je browser ondersteunt deze audio niet.
     </audio>
     <p style="font-size: 11px; color: rgba(255,255,255,0.9); margin-bottom: 16px; line-height: 1.4;">
@@ -776,7 +776,7 @@ function playPodcast2(){
       <strong>De AI-aanpak van Sint-Rembert</strong>
     </p>
     <audio style="width: 100%; max-width: 400px; margin-bottom: 20px; outline: none;" controls>
-      <source src="https://drive.google.com/uc?export=download&id=1LaMBbbr6YrdDiFcxOGCY7CPdtc6gSogH" type="audio/mp4">
+      <source src="De_AI-aanpak_van_Scholengroep_Sint-Rembert.m4a" type="audio/mp4">
       Je browser ondersteunt deze audio niet.
     </audio>
     <p style="font-size: 11px; color: rgba(255,255,255,0.9); margin-bottom: 16px; line-height: 1.4;">
@@ -831,11 +831,11 @@ function m1s0(c){
     Dezelfde inhoud, twee formaten. Kies wat voor jou het beste werkt:
   </p>
   <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 450px; margin: 0 auto;">
-    <button onclick="playPodcast1()" style="background: rgba(255,255,255,0.95); color: var(--blue); border: none; border-radius: 8px; padding: 14px 12px; font-weight: 700; cursor: pointer; font-size: 13px; transition: all 0.3s; line-height: 1.4;">
+    <button onclick="playPodcast1(); return false;" style="background: rgba(255,255,255,0.95); color: var(--blue); border: none; border-radius: 8px; padding: 14px 12px; font-weight: 700; cursor: pointer; font-size: 13px; transition: all 0.3s; line-height: 1.4;">
       🎧 PODCAST LUISTEREN<br><span style="font-size: 11px; font-weight: 400; opacity: 0.8;">Leerkracht als eindredacteur</span>
     </button>
-    <button onclick="continueModule1()" style="background: rgba(255,255,255,0.2); color: white; border: 2px solid white; border-radius: 8px; padding: 14px 12px; font-weight: 700; cursor: pointer; font-size: 13px; line-height: 1.4;">
-      📖 ZELF LEZEN<br><span style="font-size: 11px; font-weight: 400; opacity: 0.9;">Tekst</span>
+    <button onclick="n1(); return false;" style="background: rgba(255,255,255,0.2); color: white; border: 2px solid white; border-radius: 8px; padding: 14px 12px; font-weight: 700; cursor: pointer; font-size: 13px; line-height: 1.4;">
+      📖 ZELF LEZEN<br><span style="font-size: 11px; font-weight: 400; opacity: 0.9;">Volgende →</span>
     </button>
   </div>
 </div>
@@ -847,12 +847,8 @@ function m1s0(c){
 <div class="ib warn">
   <div class="ib-t">💡 Wist je dat?</div>
   <div class="ib-b">Veel digitale schooltools die je al jarenlang gebruikt — spellingcontrole, automatische ondertiteling, een planningstool die voorstelt wanneer je best een toets plant — draaien al langer op AI dan ChatGPT bestaat. Het nieuwe is niet "AI in het onderwijs" op zich, maar specifiek <strong>generatieve AI</strong>, die zelf nieuwe content kan maken. Daarover gaat de volgende stap.</div>
-</div>
-
-<div class="nw">
-  <button class="sr-btn g" onclick="n1()">Volgende: introvideo →</button>
-  <span class="nh">Stap 1/14</span>
 </div>`;
+}
 }
 
 function m1s1(c){
@@ -1712,7 +1708,7 @@ function m2s5(c){
 
 function m2s6(c){
   c.innerHTML = `
-<div class="s-badge">🔧 Stap 9 van 12 · AI-Resistant Assignments</div>
+<div class="s-badge">🔧 Stap 9 van 12 · AI-bestendige Assignments</div>
 <h2 class="ch2">Opdrachten ontwerpen waar <em>AI geen voordeel geeft</em></h2>
 <p class="cp">In plaats van achteraf controleren of leerlingen AI gebruikten, beter: ontwerp opdrachten waar AI niet helpt, of waar eigenaarschap zichtbaar is. Hier zijn <strong>concrete vakgebied-voorbeelden</strong> van wat WEL en NIET door AI kan worden opgelost.</p>
 
@@ -1816,7 +1812,7 @@ Vraag: "Los deze stelling op. Schrijf OP elke stap WAAROM je die stap doet — w
 </div>
 </div>
 
-<h3 class="ch3">⚖️ 4 Gouden Regels voor AI-Resistant Opdrachten</h3>
+<h3 class="ch3">⚖️ 4 Gouden Regels voor AI-bestendige Opdrachten</h3>
 <div style="background: rgba(10,31,168,0.08); border-radius: 8px; padding: 16px; margin: 16px 0;">
 <p style="font-size: 12px; color: #3d4f8a; line-height: 1.8; margin: 0;">
 <strong>1. Voeg CONTEXT toe</strong><br>
