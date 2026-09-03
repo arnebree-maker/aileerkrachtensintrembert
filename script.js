@@ -849,7 +849,6 @@ function m1s0(c){
   <div class="ib-b">Veel digitale schooltools die je al jarenlang gebruikt — spellingcontrole, automatische ondertiteling, een planningstool die voorstelt wanneer je best een toets plant — draaien al langer op AI dan ChatGPT bestaat. Het nieuwe is niet "AI in het onderwijs" op zich, maar specifiek <strong>generatieve AI</strong>, die zelf nieuwe content kan maken. Daarover gaat de volgende stap.</div>
 </div>`;
 }
-}
 
 function m1s1(c){
   c.innerHTML = `
@@ -865,7 +864,7 @@ function m1s1(c){
 <div class="nw">
   <button class="sr-btn b" onclick="p1()">← Vorige</button>
   <button class="sr-btn g" onclick="n1()">Volgende: doe-opdracht →</button>
-  <span class="nh">Stap 2/13</span>
+  <span class="nh">Stap 2/14</span>
 </div>`;
 }
 
@@ -879,7 +878,7 @@ function m1s2(c){
 <div class="nw">
   <button class="sr-btn b" onclick="p1()">← Vorige</button>
   <button class="sr-btn g" onclick="n1()">Volgende: van regels naar GenAI →</button>
-  <span class="nh">Stap 3/13</span>
+  <span class="nh">Stap 3/14</span>
 </div>`;
   renderAiCards();
 }
