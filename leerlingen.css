@@ -604,6 +604,69 @@ body {
   background: #E3F2FD;
 }
 
+/* ===== VIDEO EMBEDS ===== */
+.yt-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  margin: 16px 0;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #000;
+}
+
+.yt-wrap iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* ===== CASUS BOXES ===== */
+.casus-box {
+  background: #f5f5f5;
+  border-left: 4px solid var(--blue);
+  padding: 12px;
+  border-radius: 4px;
+  margin: 12px 0;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+/* ===== EXAMPLE BOXES ===== */
+.example-box {
+  background: #fff9e6;
+  border-left: 4px solid #ff9500;
+  padding: 12px;
+  border-radius: 4px;
+  margin: 12px 0;
+  font-size: 13px;
+}
+
+/* ===== QUESTION BOXES ===== */
+.question-box {
+  background: #f5f5f5;
+  border-left: 4px solid var(--purple);
+  padding: 12px;
+  border-radius: 4px;
+  margin: 12px 0;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+/* ===== LABEL CARDS ===== */
+.label-card {
+  padding: 12px;
+  border-radius: 8px;
+  margin: 8px 0;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
 /* ===== RESPONSIVE ===== */
 @media(max-width: 768px) {
   .app-wrap {
