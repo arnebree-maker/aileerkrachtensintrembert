@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI-Skills voor Leerlingen — Sint-Rembert</title>
+  <link rel="stylesheet" href="leerlingen.css">
+</head>
+<body>
+<div class="app-wrap">
+  <aside class="sidebar">
+    <div class="logo-wrap">
+      <div class="logo">🤖</div>
+      <div class="logo-text">AI-Skills</div>
+      <div class="logo-sub">voor Leerlingen</div>
+    </div>
+    
+    <nav class="nav-main">
+      <button class="nav-btn" id="nav-home" onclick="goHome()">🏠 Home</button>
+      <button class="nav-btn" id="nav-1" onclick="sm(1)">🤔 Module 1</button>
+      <button class="nav-btn" id="nav-2" onclick="sm(2)">💬 Module 2</button>
+      <button class="nav-btn" id="nav-3" onclick="sm(3)">✍️ Module 3</button>
+      <button class="nav-btn" id="nav-4" onclick="sm(4)">⚠️ Module 4</button>
+      <button class="nav-btn" id="nav-5" onclick="sm(5)">📝 Module 5</button>
+      <button class="nav-btn" id="nav-6" onclick="sm(6)">🤝 Module 6</button>
+      <button class="nav-btn" id="nav-cert" onclick="sv('cert')" style="margin-top: 20px; background: linear-gradient(135deg, #7fe000, #5cc000);">🏆 Certificaat</button>
+    </nav>
+    
+    <div class="name-section">
+      <label>Je naam:</label>
+      <input type="text" id="un" placeholder="Vul in..." onchange="sn()" readonly disabled style="opacity: 0.7;">
+    </div>
+    
+    <div class="progress-section">
+      <div class="prog-label">Voortgang</div>
+      <div class="prog-bar">
+        <div class="prog-fill" id="prog-fill"></div>
+      </div>
+      <div class="prog-text" id="prog-text">0%</div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div id="main" class="main-scroller">
+      <!-- HOME VIEW -->
+      <div id="view-home" class="view active">
+        <div class="home-hero">
+          <div class="hero-icon">🤖</div>
+          <h1>AI-Skills voor Leerlingen</h1>
+          <p class="hero-sub">Leer AI echt begrijpen. En gebruiken. En kritisch denken erover.</p>
+          
+          <div class="hero-cards">
+            <div class="hero-card">
+              <div class="hc-icon">⚡</div>
+              <div class="hc-title">Praktisch</div>
+              <p>Je leert niet alleen theorie — je werkt echt met AI tools.</p>
+            </div>
+            <div class="hero-card">
+              <div class="hc-icon">🎯</div>
+              <div class="hc-title">Voor jou</div>
+              <p>Hoe gebruik je AI voor essays, projecten, huiswerk?</p>
+            </div>
+            <div class="hero-card">
+              <div class="hc-icon">🧠</div>
+              <div class="hc-title">Kritisch</div>
+              <p>Wat zijn de valkuilen? Hallucineringen? Bias?</p>
+            </div>
+          </div>
+
+          <div class="home-info">
+            <h2>Wat gaat je leren?</h2>
+            <ul style="font-size: 14px; color: #3d4f8a; line-height: 2; margin-left: 20px;">
+              <li>✅ Wat is AI echt (niet Hollywood-hype)?</li>
+              <li>✅ Hoe ChatGPT/Copilot gebruiken (hands-on)</li>
+              <li>✅ Goeie prompts schrijven (je kunst perfectioneren)</li>
+              <li>✅ Hallucineringen en bias herkennen</li>
+              <li>✅ AI inzetten voor jouw schoolwerk</li>
+              <li>✅ Ethische vragen stellen</li>
+            </ul>
+          </div>
+
+          <div class="home-action">
+            <button class="start-btn" onclick="startCourse()">Start → Welkomtest</button>
+            <p style="font-size: 12px; color: #999; margin-top: 12px;">~3.5 uur totaal | 6 modules | Quiz + certificaat</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODULE VIEWS -->
+      <div id="view-mod1" class="view"></div>
+      <div id="view-mod2" class="view"></div>
+      <div id="view-mod3" class="view"></div>
+      <div id="view-mod4" class="view"></div>
+      <div id="view-mod5" class="view"></div>
+      <div id="view-mod6" class="view"></div>
+
+      <!-- STARTTEST VIEW -->
+      <div id="view-starttest" class="view"></div>
+
+      <!-- CERTIFICATE VIEW -->
+      <div id="cert-view" style="display: none;">
+        <div class="cert-card">
+          <div class="cert-header">
+            <div class="cert-icon">🏆</div>
+            <h2>Certificaat</h2>
+            <p>AI-Skills voor Leerlingen</p>
+          </div>
+          
+          <div class="cert-name">
+            <div class="cn-label">Dit certificaat wordt uitgereikt aan</div>
+            <div class="cn-value" id="cert-name-display">Leerling</div>
+          </div>
+
+          <div class="cert-text">
+            Deze leerling heeft met succes alle 6 modules van de "AI-Skills voor Leerlingen" cursus voltooid en aangetoond dat hij/zij:
+          </div>
+
+          <div class="cert-comps">
+            <div class="cert-comp">✓ AI kan herkennen en begrijpen</div>
+            <div class="cert-comp">✓ ChatGPT/Copilot effectief kan gebruiken</div>
+            <div class="cert-comp">✓ Goeie prompts kan schrijven</div>
+            <div class="cert-comp">✓ Hallucineringen en bias kan herkennen</div>
+            <div class="cert-comp">✓ AI verantwoord in schoolwerk kan inzetten</div>
+            <div class="cert-comp">✓ Kritisch over AI kan nadenken</div>
+          </div>
+
+          <div class="cert-sr"><span>Sint-</span><em>Rembert</em></div>
+          <div class="cert-meta">
+            <div class="cm-i"><div class="cm-lbl">Datum</div><div class="cm-val" id="cert-date">—</div></div>
+            <div class="cm-i"><div class="cm-lbl">Platform</div><div class="cm-val">AI-Skills</div></div>
+            <div class="cm-i"><div class="cm-lbl">Geldigheid</div><div class="cm-val">2 jaar</div></div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 20px;">
+          <button class="print-btn" onclick="doCertPrint()">🖨️ Download certificaat (PDF)</button>
+          <button class="summary-btn" onclick="downloadSummary()">💾 Download Reflectieverslag (TXT)</button>
+        </div>
+        <div class="cert-warn">✅ Goed gedaan! Download je certificaat en toon het aan je ouders/leraren. Je bent nu een AI-skills champion! 🚀</div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="leerlingen.js"></script>
+</body>
+</html>
