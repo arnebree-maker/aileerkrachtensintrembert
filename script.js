@@ -1,41 +1,214 @@
 /* ════════════════════════════════════════════
-   AI-Cursus Sint-Rembert — script.js
-   M1 Wat is AI (verplicht, 5 stappen)
-   M2 Beleid & Leerlingen (verplicht, 5 stappen — incl. AI-bestendig ontwerpen)
-   M3 Copilot in de praktijk (OPTIONEEL, 8 stappen — hands-on)
-   Certificaat: na M1+M2, slechts 1× downloadbaar
-   Features v2: Vorige-navigatie, evenwichtige quizzes, samenvatting downloaden
+   AI-CURSUS SINT-REMBERT — VOLLEDIGE VERSIE
+   Met: Rolkeuze, Casus, Prompt-vergelijker, FAQ
    ════════════════════════════════════════════ */
 
-// ── INSCHRIJFLINK PROFESSIONALISERING (op 1 plek aanpassen) ──
-const INSCHRIJF = 'https://VERVANG-DOOR-JULLIE-INSCHRIJFLINK';
+// ── INSCHRIJFLINK PROFESSIONALISERING ──
+const INSCHRIJF = 'https://apps.powerapps.com/play/e/a6565af8-ceef-e6fa-abee-2fc82d974843/a/05835e22-d992-431c-b608-0f9b6756afe6?tenantId=e285dc48-b92b-4e97-9ea5-bdaed06bbb77&hint=67663972-1038-4a71-9d66-1bdbb7f7e205&source=sharebutton&sourcetime=1787594697783#';
 
-// ── STATE (+ migratie van v7/v6) ──
-const K = 'sr_ai_v8';
-let S = { name:'', starttest:{taken:false, score:0, passed:false}, mod1:{step:0,done:false,skipped:false}, mod2:{step:0,done:false}, mod3:{step:0,done:false}, certPrinted:false };
+// ── STATE ──
+const K = 'sr_ai_v9';
+let localStorageAvailable = false;
+
+// Test of localStorage werkt (incognito check)
+function testLocalStorage(){
+  try {
+    const test = '__sr_test__';
+    localStorage.setItem(test, 'test');
+    localStorage.removeItem(test);
+    localStorageAvailable = true;
+    console.log('✓ localStorage beschikbaar');
+    return true;
+  } catch(e) {
+    localStorageAvailable = false;
+    console.warn('⚠️ localStorage niet beschikbaar (incognito mode?) — gebruik RAM fallback');
+    return false;
+  }
+}
+
+let S = { 
+  name:'', 
+  userRole: null,
+  starttest:{taken:false, score:0, passed:false}, 
+  mod1:{step:0,done:false,skipped:false}, 
+  mod2:{step:0,done:false}, 
+  mod3:{step:0,done:false}, 
+  certPrinted:false 
+};
+
 function ld(){
+  testLocalStorage();
+  
+  if(!localStorageAvailable){
+    console.log('📦 Incognito/private mode — using ephemeral state (RAM only)');
+    return;
+  }
+  
   try{
     const s = localStorage.getItem(K);
-    if(s){ S = Object.assign(S, JSON.parse(s)); return; }
-    const oud = localStorage.getItem('sr_ai_v7') || localStorage.getItem('sr_ai_v6');
+    console.log('📦 Load state:', s ? 'Gevonden' : 'Nieuw');
+    if(s){ 
+      S = Object.assign(S, JSON.parse(s)); 
+      console.log('✓ State geladen:', S);
+      return; 
+    }
+    const oud = localStorage.getItem('sr_ai_v8') || localStorage.getItem('sr_ai_v7') || localStorage.getItem('sr_ai_v6');
     if(oud){
       const o = JSON.parse(oud);
       S.name = o.name || '';
       S.certPrinted = !!o.certPrinted;
       ['mod1','mod2','mod3'].forEach(m=>{ if(o[m] && o[m].done) S[m].done = true; });
       ss();
+      console.log('✓ Oude state gemigreerd');
     }
-  }catch(e){}
+  }catch(e){
+    console.error('❌ Error bij laden state:', e);
+  }
 }
-function ss(){ try{ localStorage.setItem(K, JSON.stringify(S)); }catch(e){} }
+
+// Cache-clear functie (typ in console: clearCache())
+function clearCache(){
+  console.log('🗑️ Cache wissen...');
+  localStorage.clear();
+  S = { 
+    name:'', 
+    userRole: null,
+    starttest:{taken:false, score:0, passed:false}, 
+    mod1:{step:0,done:false,skipped:false}, 
+    mod2:{step:0,done:false}, 
+    mod3:{step:0,done:false}, 
+    certPrinted:false 
+  };
+  console.log('✓ Cache gewist, refresh pagina: location.reload()');
+}
+
+function ss(){ 
+  if(!localStorageAvailable) return; // Stilzwijgend overslaan in incognito
+  try{ 
+    localStorage.setItem(K, JSON.stringify(S)); 
+  }catch(e){} 
+}
+
 ld();
 
 document.getElementById('un').value = S.name || '';
 function ua(){ const n = (document.getElementById('un').value||'').trim(); document.getElementById('av').textContent = n ? n.charAt(0).toUpperCase() : '?'; }
 function sn(){ S.name = document.getElementById('un').value.trim(); ss(); ua(); }
-ua(); up(); rmc();
+// ua(); up(); rmc(); — Worden aangeroepen in DOMContentLoaded
 
-// ── PROGRESS / NAV ──
+/* ════════════════════════════════════════════
+   ROLKEUZE — Welkomscherm (NIEUW)
+   ════════════════════════════════════════════ */
+
+let userRole = null;
+
+function showRoleSelector() {
+  const roleView = document.createElement('div');
+  roleView.id = 'role-selector-view';
+  roleView.className = 'role-view';
+  roleView.innerHTML = `
+<div class="role-wrap">
+  <div class="role-hero">
+    <div class="role-badge">🚀 Welkom bij de AI-Cursus</div>
+    <h1 class="role-h1">Wat is <em>jouw rol</em> bij Sint-Rembert?</h1>
+    <p class="role-sub">We stemmen ALLE content af op jouw functie — inclusief een eigen Copilot-verdieping op jouw maat.</p>
+  </div>
+
+  <div class="role-grid">
+    <div class="role-card" onclick="setUserRole('teacher')">
+      <div class="role-icon">👨‍🏫</div>
+      <div class="role-title">Leerkracht</div>
+      <div class="role-desc">Je werkt rechtstreeks met leerlingen en gebruikt AI in je lespraktijk.</div>
+      <div class="role-includes">
+        <div class="role-inc-title">Je krijgt:</div>
+        ✓ Module 1: Volledige AI-basis<br>
+        ✓ Module 2: Alle spelregels + AI-labels<br>
+        ✓ Leerlingbegeleiding & evaluatie<br>
+        ✓ Praktijkscenario's<br>
+        ✓ <strong>Module 3: Copilot in de klas</strong><br>
+        &nbsp;&nbsp;&nbsp;Hands-on prompting, lesmateriaal,<br>
+        &nbsp;&nbsp;&nbsp;differentiatie & agents
+      </div>
+    </div>
+
+    <div class="role-card" onclick="setUserRole('admin')">
+      <div class="role-icon">📋</div>
+      <div class="role-title">Admin / Ondersteunend</div>
+      <div class="role-desc">Je ondersteunt processen of bent betrokken bij schoolorganisatie.</div>
+      <div class="role-includes">
+        <div class="role-inc-title">Je krijgt:</div>
+        ✓ Module 1: Wat is AI? (basis)<br>
+        ✓ Module 2: Kernpunten + Privacy<br>
+        ✓ Geen leerling-specifieke content<br>
+        ✓ Geen AI-labels<br>
+        ✓ <strong>Module 3: Copilot voor administratie</strong><br>
+        &nbsp;&nbsp;&nbsp;Mailsjablonen, planning,<br>
+        &nbsp;&nbsp;&nbsp;rapportages & efficiëntie
+      </div>
+    </div>
+
+    <div class="role-card" onclick="setUserRole('management')">
+      <div class="role-icon">🎯</div>
+      <div class="role-title">Schoolleiding / Beleid</div>
+      <div class="role-desc">Je bent betrokken bij strategische keuzes rond AI & regelwerk.</div>
+      <div class="role-includes">
+        <div class="role-inc-title">Je krijgt:</div>
+        ✓ Module 1: Volledige AI-concepten<br>
+        ✓ Module 2: Volledig beleidskader<br>
+        ✓ Juridische context (EU AI Act)<br>
+        ✓ Risicomanagement & governance<br>
+        ✓ <strong>Module 3: Copilot voor beleid</strong><br>
+        &nbsp;&nbsp;&nbsp;Strategische documenten,<br>
+        &nbsp;&nbsp;&nbsp;risicoanalyse & compliance
+      </div>
+    </div>
+  </div>
+
+  <div class="role-note">
+    <div class="role-note-icon">💡</div>
+    <div class="role-note-text">Alle rollen krijgen Copilot-verdieping op maat. Je kan je rol altijd aanpassen — je voortgang blijft behouden!</div>
+  </div>
+</div>
+  `;
+  
+  const appDiv = document.getElementById('app');
+  appDiv.parentNode.insertBefore(roleView, appDiv);
+  appDiv.style.display = 'none';
+}
+
+function setUserRole(role) {
+  console.log('🎭 Rol gekozen:', role);
+  userRole = role;
+  S.userRole = role;
+  ss();
+  
+  const roleView = document.getElementById('role-selector-view');
+  if(roleView) {
+    roleView.style.display = 'none';
+    console.log('✓ Rolkeuze verborgen');
+  }
+  
+  const appDiv = document.getElementById('app');
+  if(appDiv) {
+    appDiv.style.display = 'grid';
+    console.log('✓ App zichtbaar gemaakt');
+  }
+  
+  // Module 3 is nu beschikbaar voor ALLE rollen
+  const navMod3 = document.getElementById('nav-mod3');
+  const cm3 = document.getElementById('cm3');
+  if(navMod3) navMod3.style.display = 'block';
+  if(cm3) cm3.style.display = 'block';
+  console.log('✓ Module 3 zichtbaar (rol: ' + role + ')');
+  
+  up();
+  rmc();
+}
+
+/* ════════════════════════════════════════════
+   PROGRESS / NAVIGATION
+   ════════════════════════════════════════════ */
+
 function up(){
   const d = [S.mod1.done, S.mod2.done].filter(Boolean).length;
   const p = Math.round(d/2*100);
@@ -66,7 +239,27 @@ function up(){
   else if(S.mod1.done) document.getElementById('l2').textContent = '›';
   else document.getElementById('l2').textContent = '🔒';
   if(S.mod3.done) document.getElementById('l3').innerHTML = '<span style="color:var(--green)">✓</span>';
+  
+  // Update Module 3 label op basis van rol
+  const mod3NavEl = document.getElementById('nav-mod3');
+  if(mod3NavEl) {
+    const mod3NameEl = mod3NavEl.querySelector('.ni-title');
+    const mod3SubEl = mod3NavEl.querySelector('.ni-sub');
+    if(mod3NameEl) {
+      if(S.userRole === 'teacher') {
+        mod3NameEl.textContent = '📚 Module 3: Copilot klas';
+        if(mod3SubEl) mod3SubEl.textContent = 'Optioneel · 8 stappen';
+      } else if(S.userRole === 'admin') {
+        mod3NameEl.textContent = '📚 Module 3: Copilot admin';
+        if(mod3SubEl) mod3SubEl.textContent = 'Optioneel · 4 stappen';
+      } else if(S.userRole === 'management') {
+        mod3NameEl.textContent = '📚 Module 3: Copilot beleid';
+        if(mod3SubEl) mod3SubEl.textContent = 'Optioneel · 4 stappen';
+      }
+    }
+  }
 }
+
 function rmc(){
   if(S.mod1.done){ document.getElementById('cm1').classList.add('done'); document.getElementById('bm1').textContent='↺ Herhalen'; document.getElementById('ps1').className='mc-stat ok'; document.getElementById('ps1').textContent='✓ Voltooid'; }
   if(S.mod1.done){ document.getElementById('cm2').classList.remove('locked'); document.getElementById('bm2').disabled=false; document.getElementById('bm2').textContent='▶ Start'; if(!S.mod2.done){ document.getElementById('ps2').className='mc-stat'; document.getElementById('ps2').textContent='Beschikbaar'; } }
@@ -74,7 +267,6 @@ function rmc(){
   if(S.mod3.done){ document.getElementById('cm3').classList.add('done'); document.getElementById('bm3').textContent='↺ Herhalen'; document.getElementById('ps3').className='mc-stat ok'; document.getElementById('ps3').textContent='✓ Voltooid'; }
 }
 
-// ── VIEWS ──
 function sv(id){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.getElementById('cert-view').style.display='none';
@@ -84,19 +276,53 @@ function sv(id){
   const ni = document.getElementById('nav-'+id); if(ni) ni.classList.add('active');
   document.getElementById('main').scrollTo({top:0});
 }
+
 function sm(n){
-  if(!S.starttest.taken){ goStartTest(); return; }
-  if(n===1){ rm1(); sv('mod1'); }
-  else if(n===2 && S.mod1.done){ rm2(); sv('mod2'); }
-  else if(n===2){ alert('Voltooi eerst module 1.'); }
-  else if(n===3){ rm3(); sv('mod3'); }
+  console.log('📚 Klik op module:', n, '- Role:', S.userRole, '- State:', {starttest: S.starttest.taken, mod1done: S.mod1.done, mod1skipped: S.mod1.skipped});
+  
+  if(!S.starttest.taken){ 
+    console.log('⚠️ Startest nog niet gedaan');
+    goStartTest(); 
+    return; 
+  }
+  
+  if(n===1){ 
+    console.log('✓ Start Module 1');
+    rm1(); 
+    sv('mod1'); 
+  }
+  else if(n===2 && (S.mod1.done || S.mod1.skipped)){ 
+    console.log('✓ Start Module 2, rol:', S.userRole);
+    rm2(); 
+    sv('mod2'); 
+  }
+  else if(n===2){ 
+    console.log('❌ Module 1 niet voltooid');
+    alert('Voltooi eerst module 1.'); 
+  }
+  else if(n===3){ 
+    console.log('✓ Start Module 3, rol:', S.userRole);
+    rm3(); 
+    sv('mod3'); 
+  }
 }
+
 function tm(n){
   if(!S.starttest.taken){ goStartTest(); return; }
   if(n===2 && S.mod1.done) sm(2); else alert('Voltooi eerst module 1.');
 }
-function goHome(){ if(!S.starttest.taken){ goStartTest(); return; } sv('home'); }
-function goStartTest(){ renderStartTest(); sv('starttest'); }
+
+function goHome(){ 
+  if(!S.starttest.taken){ goStartTest(); return; } 
+  sv('home');
+  // Voeg FAQ toe na kort moment
+  setTimeout(()=>{
+    const existing = document.getElementById('faq-section');
+    if(existing) existing.remove();
+  }, 50);
+}
+
+function goStartTest(){ showNameEntry(); renderStartTest(); sv('starttest'); }
 function tryC(){ (S.mod1.done && S.mod2.done) ? sv('cert') : alert('Voltooi eerst de 2 verplichte modules (1 en 2).'); }
 function rDots(m,tot,cur){
   const c = document.getElementById('sd'+m); if(!c) return; c.innerHTML='';
@@ -104,25 +330,19 @@ function rDots(m,tot,cur){
 }
 
 /* ════════════════════════════════════════════
-   LEESTIJD PER PAGINA — loopt stil op de achtergrond.
-   - Bij "Vorige" (terugkeren): geen teller, knop meteen vrij.
-   - Bij "Volgende"/eerste keer: duur hangt af van de inhoud
-     (video's en quiz/reflectie hebben al hun eigen natuurlijke
-     tijd nodig, dus die worden niet extra geblokkeerd).
+   LEESTIJD PER PAGINA
    ════════════════════════════════════════════ */
+
 let lastNavDirection = 'forward';
+
 function decideSeconds(container){
-  if(container.querySelector('.yt-wrap')) return 5;
-  if(container.querySelector('.qc') || container.querySelector('textarea')) return 0;
-  const textLen = (container.textContent||'').length;
-  if(textLen < 400) return 4;
-  if(textLen < 900) return 7;
-  return 10;
+  // Timer verborgen: retourneer altijd 0 zodat geen seconden teller zichtbaar
+  return 0;
 }
+
 function lockNextButtons(container){
   const btns = container.querySelectorAll('.nw .sr-btn.g, .nw .sr-btn.o');
   if(lastNavDirection === 'back'){
-    // teruggekeerd: geen teller, knoppen meteen vrij
     btns.forEach(b=>{
       if(b.dataset.timerId){ clearInterval(+b.dataset.timerId); delete b.dataset.timerId; }
       if(b.dataset.origText){ b.textContent = b.dataset.origText; }
@@ -155,32 +375,35 @@ function lockNextButtons(container){
   });
 }
 
-// ── HERBRUIKBARE PROMO ──
+/* ════════════════════════════════════════════
+   PROMO MINI
+   ════════════════════════════════════════════ */
+
 function promoMini(tekst){
   return '<div class="promo-mini"><div class="promo-mini-icon">🚀</div><div style="flex:1"><div class="promo-mini-title">Professionaliseringsplan Sint-Rembert</div><div class="promo-mini-desc">'+tekst+'</div></div><a class="promo-mini-btn" href="'+INSCHRIJF+'" target="_blank">Schrijf in</a></div>';
 }
 
-// ── CERTIFICAAT & DE DOWNLOAD SAMENVATTING LOGIC ──
+/* ════════════════════════════════════════════
+   CERTIFICAAT
+   ════════════════════════════════════════════ */
+
 function rc(){
   document.getElementById('cert-name').textContent = S.name || 'Leerkracht';
   document.getElementById('cert-date').textContent = new Date().toLocaleDateString('nl-BE',{day:'numeric',month:'long',year:'numeric'});
   const btn = document.getElementById('print-cert-btn');
   const info = document.getElementById('cert-dl-info');
-  if(S.certPrinted){
-    btn.disabled = true; btn.textContent = '✓ Certificaat al gedownload';
-    info.textContent = 'Je hebt je certificaat al gedownload. Zoek het opgeslagen PDF-bestand en upload het op Smartschool.';
-    info.style.color = '#2d6a00';
-  } else { btn.disabled=false; btn.textContent='🖨️ Download certificaat (PDF)'; info.textContent=''; }
+  btn.disabled=false;
+  btn.textContent='🖨️ Download certificaat (PDF)';
+  info.textContent = '';
+  // Certificaat kan altijd opnieuw gedownload worden
 }
 
 function doCertPrint(){
-  if(S.certPrinted){ alert('Je hebt je certificaat al gedownload. Zoek het PDF-bestand dat je eerder opsloeg en upload het op Smartschool. Lukt dat niet? Contacteer je pedagogisch ICT-coördinator.'); return; }
   if(!S.name || !S.name.trim()){
-    if(!confirm('Je naam is nog niet ingevuld (links onderaan in de zijbalk). Het certificaat vermeldt dan "Leerkracht".\n\nToch doorgaan? Dit kan maar één keer.')) return;
+    if(!confirm('Je naam is nog niet ingevuld (links onderaan in de zijbalk). Het certificaat vermeldt dan "Leerkracht".\n\nToch doorgaan?')) return;
   } else {
-    if(!confirm('Let op: je kan je certificaat slechts ÉÉN keer downloaden.\n\nNaam op certificaat: ' + S.name + '\n\nKies in het afdrukvenster "Opslaan als PDF" en bewaar het bestand meteen. Doorgaan?')) return;
+    if(!confirm('Certificaat downloaden?\n\nNaam op certificaat: ' + S.name + '\n\nKies in het afdrukvenster "Opslaan als PDF" en bewaar het bestand. Je kan dit altijd opnieuw doen.')) return;
   }
-  S.certPrinted = true; ss();
   rc();
   window.print();
 }
@@ -262,10 +485,9 @@ function downloadSummary() {
 }
 
 /* ════════════════════════════════════════════
-   STELLINGEN — leerkracht geeft zijn/haar mening,
-   wordt lokaal bewaard en komt in het downloadbare
-   reflectieverslag terecht.
+   STELLINGEN
    ════════════════════════════════════════════ */
+
 function renderStellingen(containerId, groupKey, stellingen){
   const g = document.getElementById(containerId);
   if(!g) return;
@@ -296,10 +518,9 @@ function renderStellingen(containerId, groupKey, stellingen){
 }
 
 /* ════════════════════════════════════════════
-   STARTTEST — verplichte poort vóór Module 1
-   10 vragen · slaagdrempel 80% (8/10) · 1 kans
-   Slagen ⇒ Module 1 wordt overgeslagen, start bij Module 2
+   STARTTEST
    ════════════════════════════════════════════ */
+
 const ST_Q = [
   { q:'Wat is het kernverschil tussen vroegere AI en generatieve AI (GenAI)?',
     o:['Vroegere AI classificeerde of voorspelde; GenAI creëert volledig nieuwe content zoals tekst, beeld of code.',
@@ -429,31 +650,196 @@ function renderStartTestQuiz(c){
     const sc = Math.round(stt.correct.filter(Boolean).length / ST_Q.length * 100);
     const passed = sc >= 80;
     S.starttest = { taken:true, score:sc, passed:passed };
-    if(passed){ S.mod1.done = true; S.mod1.skipped = true; }
+    // GEWIJZIGD: Niet meer automatisch overslaan! Gebruiker MOET Module 1 doen, maar kan skippen
     ss(); up(); rmc();
     const r=document.getElementById(id+'-r');
     r.className='q-res show';
-    r.innerHTML = '<div class="q-score '+(passed?'pass':'fail')+'">'+sc+'%</div><div class="q-msg">'+(passed?'✅ Geslaagd! Module 1 wordt overgeslagen.':'Nog niet voldoende — Module 1 is vereist.')+'</div>';
+    let msg = passed 
+      ? '✅ Geslaagd ('+sc+'%)! Je kan Module 1 overslaan, maar we raden aan dit eerst te doen.'
+      : '❌ Nog niet voldoende ('+sc+'%) — Module 1 is vereist.';
+    r.innerHTML = '<div class="q-score '+(passed?'pass':'fail')+'">'+sc+'%</div><div class="q-msg">'+msg+'</div>';
+    
     const nb=document.getElementById(id+'-n');
-    nb.textContent = passed ? 'Naar Module 2 →' : 'Start Module 1 →';
+    nb.textContent = 'Start Module 1 →';
     nb.disabled = false;
-    nb.onclick = ()=> passed ? sm(2) : sm(1);
+    nb.onclick = ()=> sm(1);
+    
+    // Voeg skip-knop toe als 80%+
+    if(passed){
+      const skipBtn = document.createElement('button');
+      skipBtn.className = 'q-next';
+      skipBtn.textContent = 'Skip → Module 2';
+      skipBtn.style.marginLeft = '8px';
+      skipBtn.onclick = ()=> { S.mod1.skipped = true; ss(); sm(2); };
+      nb.parentElement.appendChild(skipBtn);
+    }
   };
 }
 
 /* ════════════════════════════════════════════
-   MODULE 1 — WAT IS AI? (5 stappen)
+   MODULE 1 — WAT IS AI? (13 stappen)
    ════════════════════════════════════════════ */
-const m1 = [m1s0, m1s1, m1s2, m1s3, m1s4, m1s5, m1s6, m1s7, m1s8, m1s9, m1s10, m1s11, m1s12];
+
+const m1 = [m1s0, m1s1, m1s2, m1s3, m1s4, m1s5, m1s6, m1s7, m1s8, m1s9, m1s_hallucinations_bias, m1s_ai_agents, m1s10, m1s11, m1s12];
+
 function rm1(){ const c=document.getElementById('m1c'); c.innerHTML=''; rDots(1,m1.length,S.mod1.step); m1[S.mod1.step](c); lockNextButtons(c); }
 function n1(){ S.mod1.step++; ss(); S.mod1.step>=m1.length ? d1() : rm1(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); }
+
+// Podcast players met audio controls
+function playPodcast1(){
+  const overlay = document.createElement('div');
+  overlay.id = 'podcast-overlay-1';
+  overlay.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  `;
+  
+  const card = document.createElement('div');
+  card.style.cssText = `
+    background: linear-gradient(135deg, var(--blue) 0%, #667bc6 100%);
+    border-radius: 12px;
+    padding: 32px;
+    color: white;
+    text-align: center;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  `;
+  
+  card.innerHTML = `
+    <h3 style="color: white; margin-top: 0; margin-bottom: 8px;">🎧 Module 1 Podcast</h3>
+    <p style="font-size: 13px; color: rgba(255,255,255,0.95); margin-bottom: 16px; font-weight: 600;">
+      <strong>Leerkracht als eindredacteur van AI</strong>
+    </p>
+    <audio style="width: 100%; max-width: 400px; margin-bottom: 20px; outline: none;" controls>
+      <source src="Leerkracht_als_eindredacteur_van_AI.m4a" type="audio/mp4">
+      Je browser ondersteunt deze audio niet.
+    </audio>
+    <p style="font-size: 11px; color: rgba(255,255,255,0.9); margin-bottom: 16px; line-height: 1.4;">
+      💡 Luister gerust meerdere keren. Je kan op elk moment stoppen en zelf lezen.
+    </p>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+      <button onclick="closeModal('podcast-overlay-1'); continueModule1();" style="background: rgba(255,255,255,0.9); color: var(--blue); border: none; border-radius: 8px; padding: 12px; font-weight: 700; cursor: pointer;">
+        ✓ Volgende
+      </button>
+      <button onclick="closeModal('podcast-overlay-1');" style="background: rgba(255,255,255,0.2); color: white; border: 2px solid white; border-radius: 8px; padding: 12px; font-weight: 700; cursor: pointer;">
+        ✕ Sluiten
+      </button>
+    </div>
+  `;
+  
+  overlay.appendChild(card);
+  document.body.appendChild(overlay);
+}
+
+function playPodcast2(){
+  const overlay = document.createElement('div');
+  overlay.id = 'podcast-overlay-2';
+  overlay.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  `;
+  
+  const card = document.createElement('div');
+  card.style.cssText = `
+    background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%);
+    border-radius: 12px;
+    padding: 32px;
+    color: white;
+    text-align: center;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  `;
+  
+  card.innerHTML = `
+    <h3 style="color: white; margin-top: 0; margin-bottom: 8px;">🎧 Module 2 Podcast</h3>
+    <p style="font-size: 13px; color: rgba(255,255,255,0.95); margin-bottom: 16px; font-weight: 600;">
+      <strong>De AI-aanpak van Sint-Rembert</strong>
+    </p>
+    <audio style="width: 100%; max-width: 400px; margin-bottom: 20px; outline: none;" controls>
+      <source src="De_AI-aanpak_van_Scholengroep_Sint-Rembert.m4a" type="audio/mp4">
+      Je browser ondersteunt deze audio niet.
+    </audio>
+    <p style="font-size: 11px; color: rgba(255,255,255,0.9); margin-bottom: 16px; line-height: 1.4;">
+      💡 Luister gerust meerdere keren. Je kan op elk moment stoppen en zelf lezen.
+    </p>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+      <button onclick="closeModal('podcast-overlay-2'); continueModule2();" style="background: rgba(255,255,255,0.9); color: #9C27B0; border: none; border-radius: 8px; padding: 12px; font-weight: 700; cursor: pointer;">
+        ✓ Volgende
+      </button>
+      <button onclick="closeModal('podcast-overlay-2');" style="background: rgba(255,255,255,0.2); color: white; border: 2px solid white; border-radius: 8px; padding: 12px; font-weight: 700; cursor: pointer;">
+        ✕ Sluiten
+      </button>
+    </div>
+  `;
+  
+  overlay.appendChild(card);
+  document.body.appendChild(overlay);
+}
+
+function closeModal(id){
+  const modal = document.getElementById(id);
+  if(modal) modal.remove();
+}
+
+function continueModule1(){
+  S.mod1.step++;
+  ss();
+  S.mod1.step >= m1.length ? d1() : rm1();
+  document.getElementById('main').scrollTo({top:0, behavior:'smooth'});
+}
+
+function continueModule2(){
+  S.mod2.step++;
+  ss();
+  S.mod2.step >= m2.length ? d2() : rm2();
+  document.getElementById('main').scrollTo({top:0, behavior:'smooth'});
+}
 function p1(){ if(S.mod1.step > 0){ lastNavDirection='back'; S.mod1.step--; ss(); rm1(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); } }
 function d1(){ S.mod1.done=true; S.mod1.step=0; ss(); up(); rmc(); sv('home'); setTimeout(()=>alert('🎉 Module 1 voltooid! Module 2 is nu beschikbaar.'),300); }
 
 function m1s0(c){
   c.innerHTML = `
-<div class="s-badge">🤖 Stap 1 van 13 · AI overal</div>
+<div class="s-badge">🤖 Stap 1 van 14 · AI overal</div>
 <h2 class="ch2">AI is <em>overal</em> — ook al zie je het niet</h2>
+
+<div style="background: linear-gradient(135deg, var(--blue) 0%, #667bc6 100%); border-radius: 12px; padding: 24px; margin-bottom: 24px; text-align: center; color: white;">
+  <div style="font-size: 28px; margin-bottom: 12px;">🎧 vs 📖</div>
+  <p style="font-size: 14px; color: rgba(255,255,255,0.95); margin-bottom: 16px; font-weight: 600;">
+    Hoe wil jij Module 1 volgen?
+  </p>
+  <p style="font-size: 12px; color: rgba(255,255,255,0.9); margin-bottom: 18px;">
+    Dezelfde inhoud, twee formaten. Kies wat voor jou het beste werkt:
+  </p>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 450px; margin: 0 auto;">
+    <button onclick="playPodcast1(); return false;" style="background: rgba(255,255,255,0.95); color: var(--blue); border: none; border-radius: 8px; padding: 14px 12px; font-weight: 700; cursor: pointer; font-size: 13px; transition: all 0.3s; line-height: 1.4;">
+      🎧 PODCAST LUISTEREN<br><span style="font-size: 11px; font-weight: 400; opacity: 0.8;">Leerkracht als eindredacteur</span>
+    </button>
+    <button onclick="n1(); return false;" style="background: rgba(255,255,255,0.2); color: white; border: 2px solid white; border-radius: 8px; padding: 14px 12px; font-weight: 700; cursor: pointer; font-size: 13px; line-height: 1.4;">
+      📖 ZELF LEZEN<br><span style="font-size: 11px; font-weight: 400; opacity: 0.9;">Volgende →</span>
+    </button>
+  </div>
+</div>
+
 <p class="cp">Gezichtsherkenning op je telefoon, de spamfilter in je mailbox, aanbevelingen op YouTube, de routeplanner die files voorspelt — <strong>AI zit al jaren in onze dagelijkse tools</strong>. En sinds de doorbraak van ChatGPT eind 2022 ook steeds nadrukkelijker in het onderwijs: leerlingen gebruiken chatbots voor taken, uitgeverijen bouwen AI in leerplatformen in, en collega's experimenteren met AI voor lesvoorbereiding.</p>
 <p class="cp">Maar wat is AI eigenlijk? In de kern is het software die patronen leert herkennen uit grote hoeveelheden data, en op basis daarvan voorspellingen of beslissingen maakt — zonder dat een mens voor elke situatie apart een regel heeft geprogrammeerd. Dat onderscheidt AI van klassieke software, die enkel doet wat letterlijk in de code staat.</p>
 <p class="cp">Als leerkracht hoef je geen ingenieur te zijn, maar je moet AI wel kunnen <strong>herkennen, benoemen en er verantwoord mee omgaan</strong>. Dat is ook wat artikel 4 van de EU AI Act van organisaties — en dus van ons als school — verwacht: voldoende AI-geletterdheid bij iedereen die met AI werkt.</p>
@@ -461,17 +847,12 @@ function m1s0(c){
 <div class="ib warn">
   <div class="ib-t">💡 Wist je dat?</div>
   <div class="ib-b">Veel digitale schooltools die je al jarenlang gebruikt — spellingcontrole, automatische ondertiteling, een planningstool die voorstelt wanneer je best een toets plant — draaien al langer op AI dan ChatGPT bestaat. Het nieuwe is niet "AI in het onderwijs" op zich, maar specifiek <strong>generatieve AI</strong>, die zelf nieuwe content kan maken. Daarover gaat de volgende stap.</div>
-</div>
-
-<div class="nw">
-  <button class="sr-btn g" onclick="n1()">Volgende: bekijk de video →</button>
-  <span class="nh">Stap 1/13</span>
 </div>`;
 }
 
 function m1s1(c){
   c.innerHTML = `
-<div class="s-badge">🎬 Stap 2 van 13 · Introvideo</div>
+<div class="s-badge">🎬 Stap 2 van 14 · Introvideo</div>
 <h2 class="ch2">Bekijk: <em>intro artificiële intelligentie</em></h2>
 <p class="cp">EDUbox (VRT NWS) introduceert wat AI is en hoe het werkt.</p>
 <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/sosmC2h4LLE" allowfullscreen loading="lazy" title="EDUbox Artificiële Intelligentie — Introductie"></iframe></div>
@@ -483,63 +864,87 @@ function m1s1(c){
 <div class="nw">
   <button class="sr-btn b" onclick="p1()">← Vorige</button>
   <button class="sr-btn g" onclick="n1()">Volgende: doe-opdracht →</button>
-  <span class="nh">Stap 2/13</span>
+  <span class="nh">Stap 2/14</span>
 </div>`;
 }
 
 function m1s2(c){
   c.innerHTML = `
-<div class="s-badge">🧩 Stap 3 van 13 · Doe-opdracht</div>
+<div class="s-badge">🧩 Stap 3 van 14 · Doe-opdracht</div>
 <h2 class="ch2">AI of <em>geen AI</em>?</h2>
 <p class="cp">Klik op elke kaart en denk eerst zelf na: gebruikt deze toepassing AI, of werkt ze met vaste, vooraf geprogrammeerde regels?</p>
 <div id="aig"></div>
 
-<h3 class="ch3">🚫 Wat is AI NIET?</h3>
-<p class="cp">Een veelgemaakte denkfout is dat elk slim of automatisch systeem AI is. Dat klopt niet. Het cruciale verschil: een <strong>automatisch systeem</strong> volgt vaste, door mensen ingebouwde als-dan-regels — het leert niets bij en past zich niet aan. <strong>AI</strong> leert patronen uit data en past zijn gedrag aan op basis van die ervaring.</p>
-
-<div class="grid2">
-  <div class="pane-ok lijst-ok">
-    <div class="lijst-h-ok">🤖 Wél AI</div>
-    <div>→ Aanbevelingen op Netflix/Spotify — leert van jouw kijkgedrag</div>
-    <div>→ Gezichtsherkenning op je smartphone — herkent patronen in pixels</div>
-    <div>→ Spamfilter — leert welke e-mails spam zijn op basis van miljoenen voorbeelden</div>
-    <div>→ ChatGPT/Copilot — genereert tekst op basis van trainingsdata</div>
-  </div>
-  <div class="pane-nok lijst-nok">
-    <div class="lijst-h-nok">⚙️ Geen AI — automatisch systeem</div>
-    <div>→ Thermostaat — volgt een vaste als-dan-regel: "als T &lt; 18°C, zet verwarming aan"</div>
-    <div>→ Koffiemachine met timer — start op een ingesteld tijdstip, leert niets bij</div>
-    <div>→ Automatisch schuifdeur — reageert op bewegingssensor, vast geprogrammeerd</div>
-    <div>→ Rekenmachine — voert wiskundige regels uit, geen leren</div>
-  </div>
-</div>
-
-<div class="ib warn">
-  <div class="ib-t">🎯 De kernvraag om te stellen</div>
-  <div class="ib-b">Leert het systeem van data en past het zich aan, of volgt het gewoon vaste regels die iemand vooraf heeft ingebouwd? Als het tweede: automatisch systeem. Als het eerste: AI.</div>
-</div>
-
 <div class="nw">
   <button class="sr-btn b" onclick="p1()">← Vorige</button>
   <button class="sr-btn g" onclick="n1()">Volgende: van regels naar GenAI →</button>
-  <span class="nh">Stap 3/13</span>
+  <span class="nh">Stap 3/14</span>
 </div>`;
   renderAiCards();
 }
 
 function m1s3(c){
   c.innerHTML = `
-<div class="s-badge">📚 Stap 4 van 13 · Geschiedenis & GenAI</div>
+<div class="s-badge">📚 Stap 4 van 14 · Geschiedenis & GenAI</div>
 <h2 class="ch2">Van vaste regels naar <em>Generatieve AI</em></h2>
 <p class="cp">AI bestaat al sinds de jaren 50, en kende eerder al grote doorbraken — denk aan schaakcomputer Deep Blue die in 1997 wereldkampioen Kasparov verslaat. Maar die vroege AI kon vooral één ding: <strong>classificeren of voorspellen</strong>. Is dit e-mailbericht spam? Welke film zou jij waarderen? Het systeem koos tussen vooraf gedefinieerde opties.</p>
 <p class="cp">De sprong naar <strong>generatieve AI</strong> (GenAI) verandert dat fundamenteel: deze systemen kunnen tekst, beeld, audio en code <em>maken die nog niet bestond</em>. ChatGPT haalde na zijn lancering eind 2022 razendsnel honderd miljoen gebruikers — geen enkele consumententoepassing groeide ooit zo snel.</p>
+
+<h3 class="ch3">🔀 Drie soorten AI in het onderwijs</h3>
+<div style="background: rgba(10,31,168,0.08); border-radius: 8px; padding: 16px; margin: 16px 0;">
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.8; margin: 0;">
+<strong style="display: block; margin-bottom: 8px;">1. Promptgedreven AI (ChatGPT, Copilot)</strong>
+Je stelt vragen, AI antwoordt. Jij bestuurt. Voorbeeld: "Maak een lesplan over fotosynthese"<br><br>
+<strong style="display: block; margin-bottom: 8px;">2. Prompt-versterkende AI (Grammarly, MagicSchool)</strong>
+AI integreert in je workflow: je schrijft, AI helpt verbeteren. Voorbeeld: AI controleert je spelfouten terwijl je typt<br><br>
+<strong>3. Leerproces-gerichte AI (Khan Academy, Synthesis)</strong>
+AI past aan jouw tempo aan en volgt je leerproces. Voorbeeld: AI geeft feedback op oefenvragen en biedt extra hulp waar nodig
+</p>
+</div>
+
 <p class="cp">Technisch gezien werkt een taalmodel als GenAI met <strong>kansberekening</strong>: op basis van enorme hoeveelheden tekst leert het systeem welk woord statistisch het meest waarschijnlijk volgt op de woorden die er al staan. Het "begrijpt" dus niet in de menselijke zin van het woord — het voorspelt, woord na woord, wat een plausibel vervolg zou zijn.</p>
+
+<h3 class="ch3">⚙️ Hoe een taalmodel werkelijk werkt</h3>
+<div style="background: rgba(127,224,0,0.12); border-radius: 8px; padding: 16px; margin: 16px 0;">
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.8; margin: 0;">
+<strong>Stap 1 — Taalmodel (The Brain):</strong> Miljarden zinnen uit boeken, artikelen, websites. Het systeem ziet patronen: na "Goedemorgen" volgt vaak "hoe gaat het?"<br><br>
+<strong>Stap 2 — Grote hoeveelheden data:</strong> Hoe meer voorbeelden, hoe beter de patronen. Daarom zijn OpenAI en Google zo groot — ze hebben meer data.<br><br>
+<strong>Stap 3 — Logica (Feedback):</strong> Via training krijgt het systeem beloning voor goede antwoorden, straf voor foute. Dit fijnslijpen van patronen heet "reinforcement learning".<br><br>
+<strong>Gevolg:</strong> Wanneer je "Hoe zet je zonnebloemen in de klas" invult, rolt het systeem af wat statisch waarschijnlijk volgt — meestal zinvol, maar soms ook hallucinaties (verzonnen feiten) of bias (vooroordelen uit trainingsdata).
+</p>
+</div>
+
+<h3 class="ch3">💡 3x Meerwaarde voor onderwijs</h3>
+<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 16px 0;">
+<div style="background: white; border: 2px solid var(--green); border-radius: 8px; padding: 12px;">
+<div style="font-weight: 700; color: var(--green); font-size: 11px; text-transform: uppercase; margin-bottom: 6px;">👨‍🏫 Voor leerkrachten</div>
+<p style="font-size: 11px; color: #3d4f8a; line-height: 1.6; margin: 0;">Bespaart tijd: lesmateriaal differentiëren, feedback geven, toetsen maken gaat sneller. Meer tijd voor persoonlijke aandacht.</p>
+</div>
+<div style="background: white; border: 2px solid var(--blue); border-radius: 8px; padding: 12px;">
+<div style="font-weight: 700; color: var(--blue); font-size: 11px; text-transform: uppercase; margin-bottom: 6px;">👨‍🎓 Voor leerlingen</div>
+<p style="font-size: 11px; color: #3d4f8a; line-height: 1.6; margin: 0;">Krijgen feedback 24/7, kunnen op eigen tempo oefenen, ontdekken hun eigen stijl van leren.</p>
+</div>
+<div style="background: white; border: 2px solid var(--orange); border-radius: 8px; padding: 12px;">
+<div style="font-weight: 700; color: var(--orange); font-size: 11px; text-transform: uppercase; margin-bottom: 6px;">🏫 Voor school</div>
+<p style="font-size: 11px; color: #3d4f8a; line-height: 1.6; margin: 0;">Kan beter inspelen op diverse leerbehoeften (taalachterstand, hoogbegaafd), vermindert administratieve last.</p>
+</div>
+</div>
 
 <h3 class="ch3">🎬 EDUbox: generatieve AI in de praktijk</h3>
 <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/UD0a-i2EBdE" allowfullscreen loading="lazy" title="EDUbox Artificiële Intelligentie — MNM DJ ImAIne"></iframe></div>
 <div class="ib warn">
   <div class="ib-t">📝 Samenvatting</div>
   <div class="ib-b">Aan de hand van "DJ ImAIne" — een AI-gegenereerde dj-act — toont deze video heel concreet wat generatieve AI vandaag al kan in de muziekwereld. Het illustreert hoe ver GenAI ondertussen staat: niet langer enkel tekst, maar ook audio en complete creatieve content die overtuigend "echt" klinkt.</div>
+</div>
+
+<div style="background: rgba(10,31,168,0.08); border-radius: 12px; padding: 20px; border-left: 4px solid var(--blue); margin: 20px 0;">
+  <strong style="color: var(--blue); font-size: 12px; text-transform: uppercase;">⚙️ Hoe werkt een taalmodel technisch?</strong>
+  <p style="font-size: 13px; color: #3d4f8a; margin: 12px 0 0 0; line-height: 1.6;">
+    <strong>1. Trainingsfase:</strong> Het systeem krijgt miljarden woorden voorgezet (artikelen, boeken, websites). Het ontdekt patronen: welke woorden volgen elkaar op?<br>
+    <strong>2. Gewichten:</strong> Gebaseerd op die patronen krijgen verbindingen tussen woorden sterker of zwakker. Dit heet "leren".<br>
+    <strong>3. Generatie:</strong> Als je een prompt ingeeft, "rolt" het systeem af — woord na woord — wat statistisch volgen moet. Het begrijpt niet echt; het voorspelt wat waarschijnlijk is.<br>
+    <strong>4. Beperkingen:</strong> Daarom maakt AI soms fouten (hallucineert), is bias mogelijk, en kan het zich geen recente info herinneren als die niet in trainingsdata zat.
+  </p>
 </div>
 
 <h3 class="ch3">🎬 EDUbox: hoe werken neurale netwerken?</h3>
@@ -558,7 +963,7 @@ function m1s3(c){
 
 function m1s4(c){
   c.innerHTML = `
-<div class="s-badge">⚠️ Stap 5 van 13 · Hallucinaties</div>
+<div class="s-badge">⚠️ Stap 5 van 14 · Hallucinaties</div>
 <h2 class="ch2">Het belangrijkste begrip van <em>deze module</em></h2>
 <div class="ib warn">
   <div class="ib-t">⚠️ Hallucinaties</div>
@@ -574,7 +979,7 @@ function m1s4(c){
 
 function m1s5(c){
   c.innerHTML = `
-<div class="s-badge">🧩 Stap 6 van 13 · Doe-opdracht</div>
+<div class="s-badge">🧩 Stap 6 van 14 · Doe-opdracht</div>
 <h2 class="ch2">Spot de <em>hallucinatie</em></h2>
 <p class="cp">Hieronder staan 4 uitspraken zoals een AI-chatbot ze zou kunnen formuleren — stuk voor stuk even zelfverzekerd. Klik op elke kaart: welke bevat een hallucinatie (verzonnen feit, bron of cijfer), en welke klopt gewoon?</p>
 <div id="hallu"></div>
@@ -589,7 +994,7 @@ function m1s5(c){
 
 function m1s6(c){
   c.innerHTML = `
-<div class="s-badge">⚖️ Stap 7 van 13 · Kansen & gevaren</div>
+<div class="s-badge">⚖️ Stap 7 van 14 · Kansen & gevaren</div>
 <h2 class="ch2">Mogelijkheden én <em>gevaren</em> van GenAI</h2>
 <p class="cp">GenAI biedt enorme kansen voor je lespraktijk — maar ook concrete risico's die je moet kennen om zelf verantwoord te werken én om leerlingen goed te begeleiden. Geen van beide kanten weegt zwaarder: het gaat om een afgewogen, kritische blik.</p>
 
@@ -614,26 +1019,6 @@ function m1s6(c){
   </div>
 </div>
 
-<h3 class="ch3">🚧 Wat kan AI (nog) niet?</h3>
-<p class="cp">Een goede leerkracht kent de beperkingen van zijn gereedschap. AI is krachtig, maar heeft ook duidelijke grenzen — en die zijn voor jou als leerkracht net zo belangrijk als de mogelijkheden.</p>
-
-<div class="lm-card">
-  <div class="lm-q">🧠 Geen echt begrip</div>
-  <div style="font-size:15px;color:#3d4f8a;font-weight:600;line-height:1.6">AI voorspelt het meest waarschijnlijke volgende woord — het begrijpt niet wat het zegt. Vandaar hallucinaties: de output klinkt overtuigend, maar kan volledig verzonnen zijn.</div>
-</div>
-<div class="lm-card">
-  <div class="lm-q">🧪 Geen feitencheck in real time</div>
-  <div style="font-size:15px;color:#3d4f8a;font-weight:600;line-height:1.6">Tenzij een tool expliciet internettoegang heeft, werkt AI vanuit zijn trainingsdata — die heeft een afsnijdatum. Recente feiten, lokale info of schoolspecifieke context zijn onbekend.</div>
-</div>
-<div class="lm-card">
-  <div class="lm-q">❤️ Geen echte empathie of moreel oordeel</div>
-  <div style="font-size:15px;color:#3d4f8a;font-weight:600;line-height:1.6">AI kan empathische taal genereren, maar heeft geen gevoelens, waarden of moreel besef. Beslissingen over het welzijn of de toekomst van leerlingen horen altijd bij jou als leerkracht.</div>
-</div>
-<div class="lm-card">
-  <div class="lm-q">🌍 Geen echte context over jouw klas of school</div>
-  <div style="font-size:15px;color:#3d4f8a;font-weight:600;line-height:1.6">AI kent jouw leerlingen niet, de groepsdynamiek niet, de lokale context niet. Wat AI suggereert moet jij altijd vertalen naar jouw specifieke situatie.</div>
-</div>
-
 <h3 class="ch3">🎬 EDUbox: AI-toepassingen in de samenleving</h3>
 <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/fZ_r7LXsMHs" allowfullscreen loading="lazy" title="EDUbox Artificiële Intelligentie — Toepassingen van AI"></iframe></div>
 <div class="ib warn">
@@ -650,7 +1035,7 @@ function m1s6(c){
 
 function m1s7(c){
   c.innerHTML = `
-<div class="s-badge">🎲 Stap 8 van 13 · Bias</div>
+<div class="s-badge">🎲 Stap 8 van 14 · Bias</div>
 <h2 class="ch2">Een concreet voorbeeld voor <em>in de klas</em></h2>
 <p class="cp">Vraag een beeldgenerator: <em>"Teken een CEO."</em> De kans is groot dat je een witte man van middelbare leeftijd krijgt. Vraag <em>"Teken een verpleegkundige"</em> en je krijgt hoogstwaarschijnlijk een vrouw. De AI verzint dit niet uit het niets — ze reproduceert maatschappelijke stereotypen die in haar trainingsdata oversterk vertegenwoordigd zijn. Dit soort voorbeeld is een krachtig en heel concreet aanknopingspunt om bias met leerlingen te bespreken: het is meteen zichtbaar, het is herkenbaar, en het opent een gesprek over hoe data onze blik kan vertekenen.</p>
 
@@ -670,7 +1055,7 @@ function m1s7(c){
 
 function m1s8(c){
   c.innerHTML = `
-<div class="s-badge">🎭 Stap 9 van 13 · Deepfakes</div>
+<div class="s-badge">🎭 Stap 9 van 14 · Deepfakes</div>
 <h2 class="ch2">Wanneer "zien is geloven" <em>niet meer geldt</em></h2>
 <p class="cp">Een deepfake is beeld, video of audio waarin AI het gezicht, de stem of de bewegingen van een bestaand persoon overtuigend nadoet. Voor leerlingen is dit relevant op twee niveaus: enerzijds als bewustmaking ("niet alles wat je ziet is automatisch echt"), anderzijds als concreet risico — gezichten manipuleren of onschuldig lijkende filters toepassen op foto's van klasgenoten valt onder de privacywetgeving (AVG/GDPR) en kan leiden tot pesterijen. Maak dit als leerkracht expliciet duidelijk, en handel kordaat als het toch gebeurt.</p>
 
@@ -699,7 +1084,7 @@ ${promoMini('Wil je dieper graven in de ethische kant van AI? Op 18 november ver
 
 function m1s9(c){
   c.innerHTML = `
-<div class="s-badge">🎬 Stap 10 van 13 · Hype of realiteit?</div>
+<div class="s-badge">🎬 Stap 10 van 14 · Hype of realiteit?</div>
 <h2 class="ch2">De impact van AI op ons onderwijs: <em>hype of realiteit?</em></h2>
 <svg viewBox="0 0 700 110" style="width:100%;height:auto;display:block;margin-bottom:18px;border-radius:var(--rsm);background:var(--blue)" xmlns="http://www.w3.org/2000/svg">
   <circle cx="80" cy="55" r="34" fill="rgba(127,224,0,.18)"/>
@@ -725,9 +1110,103 @@ function m1s9(c){
 </div>`;
 }
 
+function m1s_hallucinations_bias(c){
+  c.innerHTML = `
+<div class="s-badge">⚠️ Stap 10b van 14 · Valkuilen</div>
+<h2 class="ch2">Hallucineringen & <em>Bias</em>: twee kritieke grenzen</h2>
+<p class="cp">AI is krachtig, maar niet perfect. Twee dingen om goed te begrijpen:</p>
+
+<h3 class="ch3">👻 Hallucineringen: AI verzint feiten</h3>
+<div style="background: rgba(255,107,107,0.12); border-radius: 8px; padding: 16px; margin: 16px 0;">
+<p style="font-size: 13px; color: #3d4f8a; line-height: 1.8; margin: 0;">
+<strong>Wat:</strong> AI beweert dingen die niet waar zijn, heel overtuigend.<br>
+<strong>Voorbeeld:</strong> Je vraagt "Welke Nederlandse schrijver won het Nobelprijsonderwijs in 2015?" AI antwoordt: "Johan de Meester (fictief), omdat hij baanbrekend werk deed op het gebied van digitale ethiek" — compleet verzonnen.<br>
+<strong>Waarom:</strong> AI genereert op basis van patronen, niet werkelijkheid. Het "weet" niet wat waar is, het raadt wat waarschijnlijk volgt.<br>
+<strong>Gevolg:</strong> Altijd controleren wat AI zegt, zeker voor factische vragen.
+</p>
+</div>
+
+<h3 class="ch3">⚖️ Bias: AI herhaalt vooroordelen</h3>
+<div style="background: rgba(255,193,7,0.12); border-radius: 8px; padding: 16px; margin: 16px 0;">
+<p style="font-size: 13px; color: #3d4f8a; line-height: 1.8; margin: 0;">
+<strong>Wat:</strong> AI absorbeert vooroordelen uit trainingsdata (internet = vol stereotypes).<br>
+<strong>Voorbeeld:</strong> Je vraagt "Wie is geschikt voor een leidinggevend rol?" AI geeft vaker mannelijke voornamen. Of: "Politieagent in uniform" genereert systematisch blanke gezichten.<br>
+<strong>Waarom:</strong> AI leert van patronen in data. Zoekmachines, Wikipedia, social media bevatten veel bias.<br>
+<strong>Gevolg:</strong> Wees kritisch op output. Vraag: "Zou dit antwoord anders zijn als ik X zou vragen in plaats van Y?"
+</p>
+</div>
+
+<h3 class="ch3">✅ Drie controlestappen</h3>
+<ol style="font-size: 12px; color: #3d4f8a; line-height: 1.8; padding-left: 20px;">
+<li><strong>Controleer feiten:</strong> Vraag naar bronnen. AI zit geregeld fout.</li>
+<li><strong>Herformuleer:</strong> Stel dezelfde vraag op 2-3 manieren. Krijg je hetzelfde antwoord? Dan waarschijnlijker correct.</li>
+<li><strong>Onderzoek bias:</strong> Vraag AI dezelfde vraag met verschillende groepen (mannelijk/vrouwelijk, nationiteit, etc.). Verandert het antwoord? Dan zit er bias in.</li>
+</ol>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p1()">← Vorige</button>
+  <button class="sr-btn g" onclick="n1()">Volgende: reflectievragen →</button>
+  <span class="nh">Stap 10/14</span>
+</div>`;
+}
+
+function m1s_ai_agents(c){
+  c.innerHTML = `
+<div class="s-badge">🤖 Stap 11 van 14 · AI-Agents</div>
+<h2 class="ch2">AI-Agents: AI die <em>zelf denkt</em> in stappen</h2>
+<p class="cp">Tot nu toe heb je ChatGPT/Copilot gebruikt: jij vraag, AI antwoord direct. Maar er komt iets nieuws: <strong>agents</strong> — AI systemen die zelf stappen nemen, fouten checken, en terugkomen als iets niet klopt.</p>
+
+<h3 class="ch3">🔄 Hoe werkt een agent?</h3>
+<div style="background: rgba(10,31,168,0.08); border-radius: 8px; padding: 16px; margin: 16px 0;">
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.8; margin: 0;">
+<strong>Normale AI (ChatGPT):</strong> Jij vraagt → AI antwoordt (klaar)<br><br>
+<strong>Agent AI:</strong> Jij vraagt → Agent <strong>bedenkt plan</strong> → Agent <strong>voert stappen uit</strong> → Agent <strong>checkt resultaat</strong> → Agent <strong>past aan</strong> als nodig → Antwoord<br><br>
+<strong>Voorbeeld:</strong> "Maak een lesplan voor 2de graad Nederlands over Shakespeare."<br>
+• Agent bedenkt: Ik heb leeftijdsgegevens nodig, vakdidactiek nodig, tijd nodig<br>
+• Agent vraagt jou: "Hoeveel lessen? Welke Shakespeare-werken?"<br>
+• Agent zoekt bronnen (als je agent dat kan)<br>
+• Agent maakt lesplan<br>
+• Agent controleert: zitten alle elementen erin?<br>
+• Agent levert op
+</p>
+</div>
+
+<h3 class="ch3">🎓 Wat betekent dit voor leerkrachten?</h3>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0;">
+<div style="background: rgba(127,224,0,0.1); border-left: 4px solid var(--green); border-radius: 8px; padding: 14px;">
+<strong style="color: var(--green); font-size: 11px; text-transform: uppercase;">✅ Agents helpen bij:</strong>
+<ul style="font-size: 12px; color: #3d4f8a; margin-top: 8px; padding-left: 16px; line-height: 1.6;">
+<li>Complexe taken (les-ontwerp, curriculum)</li>
+<li>Stap-voor-stap begeleiding van leerlingen</li>
+<li>Feedback geven (agent checkt werk stap-voor-stap)</li>
+<li>Onderzoekswerk (agent zoekt bronnen)</li>
+</ul>
+</div>
+<div style="background: rgba(255,107,107,0.1); border-left: 4px solid var(--red); border-radius: 8px; padding: 14px;">
+<strong style="color: var(--red); font-size: 11px; text-transform: uppercase;">⚠️ Agents kunnen nog mislukken:</strong>
+<ul style="font-size: 12px; color: #3d4f8a; margin-top: 8px; padding-left: 16px; line-height: 1.6;">
+<li>Oneindige loops (agent blijft hetzelfde proberen)</li>
+<li>Verkeerde stappen kiezen</li>
+<li>Hallucinaties (net als normale AI)</li>
+<li>Kosten (agents gebruiken meer rekenkracht)</li>
+</ul>
+</div>
+</div>
+
+<h3 class="ch3">🚀 Agents in Sint-Rembert?</h3>
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6; margin: 16px 0;">
+Microsoft werkt aan <strong>Copilot Agents</strong> in de M365-suite — dus mogelijk binnenkort in jouw Copilot beschikbaar. Momenteel experimenteel, maar goed om te weten dat dit eraan komt.</p>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p1()">← Vorige</button>
+  <button class="sr-btn g" onclick="n1()">Volgende: reflectievragen →</button>
+  <span class="nh">Stap 11/14</span>
+</div>`;
+}
+
 function m1s10(c){
   c.innerHTML = `
-<div class="s-badge">💬 Stap 11 van 13 · Reflectievragen</div>
+<div class="s-badge">💬 Stap 13 van 14 · Reflectievragen</div>
 <h2 class="ch2">Vijf vragen om over <em>na te denken</em></h2>
 <div class="disc-card">
   <div class="disc-q">1. Leerlingen zien op TikTok en YouTube de wildste doemscenario's over AI. Hoe kunnen wij in de klas helpen om die 'hype' te doorprikken?</div>
@@ -758,70 +1237,19 @@ function m1s10(c){
 }
 
 function m1s11(c){
-  // EQUAL LENGTH AND VARIABLE ANSWERS FOR QUIZ 1
   const quiz = [
-    {
-      q: 'Wat is een hallucinatie bij generatieve AI?',
-      o: [
-        'Wanneer een AI-model weigert antwoord te geven op een ongepaste of onveilige vraag van een gebruiker.',
-        'Wanneer een AI-model met grote stelligheid feitelijk onjuiste of verzonnen informatie genereert.',
-        'Wanneer een AI-model tijdelijk trager werkt door een overbelasting van de servers of slechte internetverbinding.',
-        'Wanneer een AI-model letterlijke tekstblokken overneemt uit de auteursrechtelijk beschermde trainingsdata.'
-      ],
-      a: 1,
-      f: 'Hallucinaties zijn plausibel klinkende maar foutieve output — een direct gevolg van voorspellen op kansberekening.'
-    },
-    {
-      q: 'Welke AI-tool is binnen Sint-Rembert volledig ondersteund en dataproof?',
-      o: [
-        'De gratis consumentenversie van ChatGPT via een persoonlijk Google- of e-mailaccount.',
-        'Google Gemini Advanced mits er ingelogd wordt met een geverifieerd privé-account.',
-        'Copilot M365 wanneer je bent aangemeld met je officiële schoolaccount van de scholengroep.',
-        'Midjourney Commercial Edition die door de vakgroep esthetica apart wordt aangekocht.'
-      ],
-      a: 2,
-      f: 'Copilot via je schoolaccount valt onder de schoolovereenkomst met gegarandeerde gegevensbescherming.'
-    },
-    {
-      q: 'Wat is de grote sprong van generatieve AI t.o.v. eerdere AI-vormen?',
-      o: [
-        'Generatieve AI kan volledig nieuwe content creëren zoals vloeiende teksten, afbeeldingen, audio en programmeercode.',
-        'Generatieve AI werkt aanzienlijk sneller en vereist veel minder rekenkracht en servercapaciteit om te draaien.',
-        'Generatieve AI maakt dankzij de nieuwste taalmodellen nooit meer inhoudelijke fouten of logische misvattingen.',
-        'Generatieve AI is uitsluitend geprogrammeerd op basis van door mensen handmatig ingevoerde als-dan-regels.'
-      ],
-      a: 0,
-      f: 'Vroegere AI classificeerde en voorspelde; GenAI creëert nieuwe content.'
-    },
-    {
-      q: 'Waarom is bias in AI relevant voor jouw dagelijkse lespraktijk?',
-      o: [
-        'Omdat AI-modellen hiermee trager worden in het verwerken van complexe opdrachten van leerlingen.',
-        'Omdat AI hiermee stereotypen uit trainingsdata reproduceert, wat een belangrijk mediawijsheidsthema is.',
-        'Omdat bias er onbedoeld voor zorgt dat gratis tools minder functies hebben dan betaalde licenties.',
-        'Omdat AI hierdoor automatisch een voorkeur ontwikkelt voor Engelstalige bronnen boven Nederlandstalige.'
-      ],
-      a: 1,
-      f: 'AI leert van data vol menselijke vooroordelen. Dit bespreken met leerlingen trainen hun mediawijsheid.'
-    },
-    {
-      q: 'Een AI-tekst vermeldt een wetenschappelijke studie met auteur en jaartal. Wat is de juiste reflex?',
-      o: [
-        'De bron blindelings overnemen in je lesmateriaal, want een vermelding met jaartal en auteur is betrouwbaar.',
-        'De genoemde bron zelfstandig opzoeken via betrouwbare kanalen om te controleren of deze daadwerkelijk bestaat.',
-        'Enkel controleren of het jaartal logisch is binnen de historische context van de rest van de tekst.',
-        'In dezelfde chat aan de AI-tool vragen of de zojuist gegenereerde bronvermelding wel echt helemaal klopt.'
-      ],
-      a: 1,
-      f: 'Verzonnen bronvermeldingen zijn een klassieke hallucinatie. Zelf controleren is noodzakelijk.'
-    }
+    {q: 'Wat is een hallucinatie bij generatieve AI?', o: ['Wanneer een AI-model weigert antwoord te geven op een ongepaste of onveilige vraag van een gebruiker.','Wanneer een AI-model met grote stelligheid feitelijk onjuiste of verzonnen informatie genereert.','Wanneer een AI-model tijdelijk trager werkt door een overbelasting van de servers of slechte internetverbinding.','Wanneer een AI-model letterlijke tekstblokken overneemt uit de auteursrechtelijk beschermde trainingsdata.'], a: 1, f: 'Hallucinaties zijn plausibel klinkende maar foutieve output — een direct gevolg van voorspellen op kansberekening.' },
+    {q: 'Welke AI-tool is binnen Sint-Rembert volledig ondersteund en dataproof?', o: ['De gratis consumentenversie van ChatGPT via een persoonlijk Google- of e-mailaccount.','Google Gemini Advanced mits er ingelogd wordt met een geverifieerd privé-account.','Copilot M365 wanneer je bent aangemeld met je officiële schoolaccount van de scholengroep.','Midjourney Commercial Edition die door de vakgroep esthetica apart wordt aangekocht.'], a: 2, f: 'Copilot via je schoolaccount valt onder de schoolovereenkomst met gegarandeerde gegevensbescherming.' },
+    {q: 'Wat is de grote sprong van generatieve AI t.o.v. eerdere AI-vormen?', o: ['Generatieve AI kan volledig nieuwe content creëren zoals vloeiende teksten, afbeeldingen, audio en programmeercode.','Generatieve AI werkt aanzienlijk sneller en vereist veel minder rekenkracht en servercapaciteit om te draaien.','Generatieve AI maakt dankzij de nieuwste taalmodellen nooit meer inhoudelijke fouten of logische misvattingen.','Generatieve AI is uitsluitend geprogrammeerd op basis van door mensen handmatig ingevoerde als-dan-regels.'], a: 0, f: 'Vroegere AI classificeerde en voorspelde; GenAI creëert nieuwe content.' },
+    {q: 'Waarom is bias in AI relevant voor jouw dagelijkse lespraktijk?', o: ['Omdat AI-modellen hiermee trager worden in het verwerken van complexe opdrachten van leerlingen.','Omdat AI hiermee stereotypen uit trainingsdata reproduceert, wat een belangrijk mediawijsheidsthema is.','Omdat bias er onbedoeld voor zorgt dat gratis tools minder functies hebben dan betaalde licenties.','Omdat AI hierdoor automatisch een voorkeur ontwikkelt voor Engelstalige bronnen boven Nederlandstalige.'], a: 1, f: 'AI leert van data vol menselijke vooroordelen. Dit bespreken met leerlingen trainen hun mediawijsheid.' },
+    {q: 'Een AI-tekst vermeldt een wetenschappelijke studie met auteur en jaartal. Wat is de juiste reflex?', o: ['De bron blindelings overnemen in je lesmateriaal, want een vermelding met jaartal en auteur is betrouwbaar.','De genoemde bron zelfstandig opzoeken via betrouwbare kanalen om te controleren of deze daadwerkelijk bestaat.','Enkel controleren of het jaartal logisch is binnen de historische context van de rest van de tekst.','In dezelfde chat aan de AI-tool vragen of de zojuist gegenereerde bronvermelding wel echt helemaal klopt.'], a: 1, f: 'Verzonnen bronvermeldingen zijn een klassieke hallucinatie. Zelf controleren is noodzakelijk.' }
   ];
   rQuiz(c, quiz, 1, 'mod1', n1, 60);
 }
 
 function m1s12(c){
   c.innerHTML = `
-<div class="s-badge">✍️ Stap 13 van 13 · Vertaalslag naar jouw vak</div>
+<div class="s-badge">✍️ Stap 13 van 14 · Vertaalslag naar jouw vak</div>
 <h2 class="ch2">Vertaal naar <em>jouw lespraktijk</em></h2>
 <p class="cp">Je kent nu de basis: hoe AI werkt, wat generatieve AI bijzonder maakt, en welke kansen én gevaren erbij horen (hallucinaties, bias, deepfakes, privacy). Tijd om dit concreet te maken voor jouw eigen vak en klaspraktijk.</p>
 
@@ -848,33 +1276,50 @@ function m1s12(c){
   const ta = document.getElementById('r1');
   ta.value = localStorage.getItem('sr_r1') || '';
   ta.oninput = ()=>localStorage.setItem('sr_r1', ta.value);
-  renderStellingen('stl-m1', 'm1', [
-    'AI zal er binnen 10 jaar voor zorgen dat leerlingen minder goed zelfstandig kunnen schrijven.',
-    'Als leerkracht moet ik AI-output altijd controleren, ook als die er overtuigend uitziet.'
-  ]);
+  renderStellingen('stl-m1', 'm1', ['AI zal er binnen 10 jaar voor zorgen dat leerlingen minder goed zelfstandig kunnen schrijven.','Als leerkracht moet ik AI-output altijd controleren, ook als die er overtuigend uitziet.']);
 }
+
 function sR1(){
   const v = (document.getElementById('r1').value||'').trim();
   if(v.length < 30){ alert('Vul eerst je reflectie in (minstens een paar zinnen).'); return; }
   n1();
 }
 
-
 /* ════════════════════════════════════════════
-   MODULE 2 — BELEID & LEERLINGEN (10 stappen)
-   Gebaseerd op het Beleidskader Artificiële
-   Intelligentie van Scholengroep Sint-Rembert (v1.0)
+   MODULE 2 — BELEID & LEERLINGEN (met Casus!)
+   Nu 10 stappen (was 9) — Casus tussenvoegd
    ════════════════════════════════════════════ */
-const m2 = [m2s0, m2s1, m2s2, m2s3, m2s4, m2s5, m2s6, m2s7, m2s8];
-function rm2(){ const c=document.getElementById('m2c'); c.innerHTML=''; rDots(2,m2.length,S.mod2.step); m2[S.mod2.step](c); lockNextButtons(c); }
+
+const m2 = [m2s0, m2s1, m2s2, m2s_casus, m2s4, m2s_leeftijd, m2s_extra_casussen, m2s5, m2s6, m2s7, m2s8, m2s9];
+
+function rm2(){ const c=document.getElementById('m2c'); c.innerHTML=''; console.log('🔄 rm2: stap', S.mod2.step, 'van', m2.length); rDots(2,m2.length,S.mod2.step); m2[S.mod2.step](c); lockNextButtons(c); }
 function n2(){ S.mod2.step++; ss(); S.mod2.step>=m2.length ? d2() : rm2(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); }
 function p2(){ if(S.mod2.step > 0){ lastNavDirection='back'; S.mod2.step--; ss(); rm2(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); } }
 function d2(){ S.mod2.done=true; S.mod2.step=0; ss(); up(); rmc(); sv('cert'); }
 
 function m2s0(c){
   c.innerHTML = `
-<div class="s-badge">📜 Stap 1 van 10 · Het Beleidskader AI</div>
+<div class="s-badge">📜 Stap 1 van 12 · Het Beleidskader AI</div>
 <h2 class="ch2">Het officiële <em>AI-beleidskader</em> van Sint-Rembert</h2>
+
+<div style="background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%); border-radius: 12px; padding: 24px; margin-bottom: 24px; text-align: center; color: white;">
+  <div style="font-size: 28px; margin-bottom: 12px;">🎧 vs 📖</div>
+  <p style="font-size: 14px; color: rgba(255,255,255,0.95); margin-bottom: 16px; font-weight: 600;">
+    Hoe wil jij Module 2 volgen?
+  </p>
+  <p style="font-size: 12px; color: rgba(255,255,255,0.9); margin-bottom: 18px;">
+    Dezelfde inhoud, twee formaten. Kies wat voor jou het beste werkt:
+  </p>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 450px; margin: 0 auto;">
+    <button onclick="playPodcast2()" style="background: rgba(255,255,255,0.95); color: #9C27B0; border: none; border-radius: 8px; padding: 14px 12px; font-weight: 700; cursor: pointer; font-size: 13px; transition: all 0.3s; line-height: 1.4;">
+      🎧 PODCAST LUISTEREN<br><span style="font-size: 11px; font-weight: 400; opacity: 0.8;">Sint-Rembert AI-aanpak</span>
+    </button>
+    <button onclick="continueModule2()" style="background: rgba(255,255,255,0.2); color: white; border: 2px solid white; border-radius: 8px; padding: 14px 12px; font-weight: 700; cursor: pointer; font-size: 13px; line-height: 1.4;">
+      📖 ZELF LEZEN<br><span style="font-size: 11px; font-weight: 400; opacity: 0.9;">Tekst</span>
+    </button>
+  </div>
+</div>
+
 <p class="cp">Wat je in deze module leert, is geen losse verzameling tips — het is de concrete vertaling van het <strong>Beleidskader Artificiële Intelligentie</strong> van Scholengroep Sint-Rembert (versie 1.0, goedgekeurd door het Bestuursorgaan op 23/06/2026). Dit is het overkoepelend referentiedocument voor AI-gebruik binnen de hele scholengroep, voor zowel leerlingen als medewerkers — en de inhoudelijke basis voor het schoolreglement en het arbeidsreglement.</p>
 <p class="cp">De scholengroep staat positief tegenover AI in onderwijs en ondersteunende processen, op voorwaarde dat het gebruik <strong>zorgvuldig, veilig en transparant</strong> verloopt, met respect voor de wet en aandacht voor ethische aspecten zoals bias en de ecologische impact van AI.</p>
 
@@ -885,13 +1330,13 @@ function m2s0(c){
 
 <div class="nw">
   <button class="sr-btn g" onclick="n2()">Volgende: de 4 principes →</button>
-  <span class="nh">Stap 1/10</span>
+  <span class="nh">Stap 1/11</span>
 </div>`;
 }
 
 function m2s1(c){
   c.innerHTML = `
-<div class="s-badge">🧭 Stap 2 van 10 · 4 niet-onderhandelbare principes</div>
+<div class="s-badge">🧭 Stap 2 van 11 · 4 niet-onderhandelbare principes</div>
 <h2 class="ch2">De <em>4 principes</em> achter elke AI-toepassing</h2>
 <p class="cp">AI komt zowel gevraagd als ongevraagd de scholen binnen. Daarom gelden voor élke AI-toepassing binnen Sint-Rembert vier niet-onderhandelbare principes.</p>
 
@@ -907,16 +1352,48 @@ function m2s1(c){
 <h3 class="ch3">4️⃣ Leeftijds- en ontwikkelingsgeschikt</h3>
 <p class="cp">AI-gebruik moet steeds afgestemd zijn op de leeftijd, maturiteit en ontwikkelingsfase van leerlingen. AI-toepassingen mogen geen afbreuk doen aan basisvaardigheden zoals lezen, schrijven, rekenen en zelfstandig formuleren.</p>
 
+<h3 class="ch3">🌍 BONUS: Microsoft's 6 Verantwoorde AI Principes</h3>
+<p class="cp">Deze internationale principes sluiten aan bij Sint-Rembert's kader. Microsoft benadrukt deze zes aspecten:</p>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0;">
+<div style="background: rgba(10,31,168,0.08); border-left: 4px solid var(--blue); border-radius: 8px; padding: 12px;">
+<strong style="color: var(--blue); font-size: 11px; text-transform: uppercase;">🔴 Redelijkheid</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 6px;">AI behandelt iedereen eerlijk — geen discriminatie, geen stereotypering.</p>
+</div>
+<div style="background: rgba(127,224,0,0.08); border-left: 4px solid var(--green); border-radius: 8px; padding: 12px;">
+<strong style="color: var(--green); font-size: 11px; text-transform: uppercase;">💪 Betrouwbaarheid & Veiligheid</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 6px;">AI werkt voorspelbaar en veilig, geen willekeurige uitval of crash.</p>
+</div>
+<div style="background: rgba(255,193,7,0.08); border-left: 4px solid var(--orange); border-radius: 8px; padding: 12px;">
+<strong style="color: var(--orange); font-size: 11px; text-transform: uppercase;">🔐 Privacy & Beveiliging</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 6px;">Persoonsgegevens zijn beschermd, niet gebruikt voor training.</p>
+</div>
+<div style="background: rgba(156,39,176,0.08); border-left: 4px solid #9C27B0; border-radius: 8px; padding: 12px;">
+<strong style="color: #9C27B0; font-size: 11px; text-transform: uppercase;">🤝 Inclusiviteit</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 6px;">AI is toegankelijk voor iedereen, ongeacht achtergrond.</p>
+</div>
+<div style="background: rgba(255,107,107,0.08); border-left: 4px solid var(--red); border-radius: 8px; padding: 12px;">
+<strong style="color: var(--red); font-size: 11px; text-transform: uppercase;">👁️ Transparantie</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 6px;">Het is duidelijk hoe AI werkt en wat het doet.</p>
+</div>
+<div style="background: rgba(100,200,200,0.08); border-left: 4px solid #64C8C8; border-radius: 8px; padding: 12px;">
+<strong style="color: #64C8C8; font-size: 11px; text-transform: uppercase;">✋ Verantwoordelijkheid</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 6px;">Iemand (een persoon, organisatie) is verantwoordelijk.</p>
+</div>
+</div>
+
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6; margin-top: 16px; font-style: italic;">💡 Sint-Rembert's 4 principes + Microsoft's 6 principes = sterke basis voor verantwoord AI-gebruik!</p>
+
 <div class="nw">
   <button class="sr-btn b" onclick="p2()">← Vorige</button>
   <button class="sr-btn g" onclick="n2()">Volgende: goedgekeurde tools →</button>
-  <span class="nh">Stap 2/10</span>
+  <span class="nh">Stap 2/11</span>
 </div>`;
 }
 
 function m2s2(c){
   c.innerHTML = `
-<div class="s-badge">🛠️ Stap 3 van 10 · Goedgekeurde AI-tools</div>
+<div class="s-badge">🛠️ Stap 3 van 11 · Goedgekeurde AI-tools</div>
 <h2 class="ch2">Welke tools mag je <em>gebruiken</em>?</h2>
 <p class="cp">Sint-Rembert kiest bewust voor <strong>Microsoft Copilot</strong> als primaire generatieve AI-tool. Copilot is geïntegreerd in de bestaande Microsoft 365-omgeving en wordt gebruikt met je persoonlijke Sint-Rembert-account, waardoor het gebruik volledig binnen de beveiligde schoolomgeving blijft. Ingevoerde gegevens, prompts en gegenereerde output worden <strong>niet</strong> gebruikt om de onderliggende AI-modellen te trainen.</p>
 <p class="cp">Daarnaast staat de scholengroep ook deze toepassingen toe, mits je je houdt aan de principes en schoolafspraken:</p>
@@ -942,75 +1419,40 @@ function m2s2(c){
 
 <p class="cp">Waarom geen vrije keuze? Bij externe, gratis platformen is vaak onduidelijk wat er met de data gebeurt en of die gebruikt wordt om AI-modellen te trainen. Door te kiezen voor Copilot vermijdt de scholengroep dat school- of persoonsgegevens ongecontroleerd bij dergelijke platformen terechtkomen.</p>
 
-<h3 class="ch3">🔍 Vergelijking van de 4 bekendste tools</h3>
-<p class="cp">Op de goedgekeurde lijst staan ook andere tools. Hieronder een overzicht van de 4 bekendste, zodat je weet wat het verschil is.</p>
-
-<div style="overflow-x:auto;margin:14px 0">
-<table style="width:100%;border-collapse:collapse;font-size:14px;font-weight:600;color:var(--text)">
-  <thead>
-    <tr style="background:var(--blue);color:white">
-      <th style="padding:10px 12px;text-align:left;border-radius:8px 0 0 0">Eigenschap</th>
-      <th style="padding:10px 12px;text-align:center">ChatGPT</th>
-      <th style="padding:10px 12px;text-align:center">Claude.ai</th>
-      <th style="padding:10px 12px;text-align:center;background:#1a56db">✅ Copilot M365</th>
-      <th style="padding:10px 12px;text-align:center;border-radius:0 8px 0 0">Gemini</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr style="background:white">
-      <td style="padding:9px 12px;border-bottom:1px solid var(--gray);font-weight:700">Maker</td>
-      <td style="padding:9px 12px;border-bottom:1px solid var(--gray);text-align:center">OpenAI</td>
-      <td style="padding:9px 12px;border-bottom:1px solid var(--gray);text-align:center">Anthropic</td>
-      <td style="padding:9px 12px;border-bottom:1px solid var(--gray);text-align:center;background:rgba(127,224,0,.07)">Microsoft</td>
-      <td style="padding:9px 12px;border-bottom:1px solid var(--gray);text-align:center">Google</td>
-    </tr>
-    <tr style="background:var(--off)">
-      <td style="padding:9px 12px;border-bottom:1px solid var(--gray);font-weight:700">Gratis versie</td>
-      <td style="padding:9px 12px;border-bottom:1px solid var(--gray);text-align:center">✅ Beperkt</td>
-      <td style="padding:9px 12px;border-bottom:1px solid var(--gray);text-align:center">✅ Beperkt</td>
-      <td style="padding:9px 12px;border-bottom:1px solid var(--gray);text-align:center;background:rgba(127,224,0,.07)">✅ Via schoolaccount</td>
-      <td style="padding:9px 12px;border-bottom:1px solid var(--gray);text-align:center">✅ Beperkt</td>
-    </tr>
-    <tr style="background:white">
-      <td style="padding:9px 12px;border-bottom:1px solid var(--gray);font-weight:700">Data beschermd?</td>
-      <td style="padding:9px 12px;border-bottom:1px solid var(--gray);text-align:center">⚠️ Gratis: nee</td>
-      <td style="padding:9px 12px;border-bottom:1px solid var(--gray);text-align:center">⚠️ Gratis: nee</td>
-      <td style="padding:9px 12px;border-bottom:1px solid var(--gray);text-align:center;background:rgba(127,224,0,.07)">✅ Ja (schoolaccount)</td>
-      <td style="padding:9px 12px;border-bottom:1px solid var(--gray);text-align:center">⚠️ Gratis: nee</td>
-    </tr>
-    <tr style="background:var(--off)">
-      <td style="padding:9px 12px;border-bottom:1px solid var(--gray);font-weight:700">Sterk in</td>
-      <td style="padding:9px 12px;border-bottom:1px solid var(--gray);text-align:center">Tekst, code, brede kennis</td>
-      <td style="padding:9px 12px;border-bottom:1px solid var(--gray);text-align:center">Lange teksten, nuance</td>
-      <td style="padding:9px 12px;border-bottom:1px solid var(--gray);text-align:center;background:rgba(127,224,0,.07)">Word, Excel, Teams, Outlook integratie</td>
-      <td style="padding:9px 12px;border-bottom:1px solid var(--gray);text-align:center">Google Workspace integratie</td>
-    </tr>
-    <tr style="background:white">
-      <td style="padding:9px 12px;font-weight:700;border-radius:0 0 0 8px">Aanbevolen voor school?</td>
-      <td style="padding:9px 12px;text-align:center">⚠️ Enkel anoniem</td>
-      <td style="padding:9px 12px;text-align:center">⚠️ Enkel anoniem</td>
-      <td style="padding:9px 12px;text-align:center;background:rgba(127,224,0,.07)">✅ Eerste keuze</td>
-      <td style="padding:9px 12px;text-align:center;border-radius:0 0 8px 0">⚠️ Enkel anoniem</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-<div class="ib warn">
-  <div class="ib-t">💡 Praktische tip</div>
-  <div class="ib-b">ChatGPT, Claude.ai en Gemini zijn in hun gratis versie prima om met anonieme tekst te experimenteren of inspiratie op te doen — maar zet er nooit schooldocumenten of leerlingengegevens in. Voor professioneel gebruik in de klas: altijd Copilot M365 met je schoolaccount.</div>
-</div>
-
 <div class="nw">
   <button class="sr-btn b" onclick="p2()">← Vorige</button>
   <button class="sr-btn g" onclick="n2()">Volgende: AI-labels →</button>
-  <span class="nh">Stap 3/10</span>
+  <span class="nh">Stap 3/11</span>
 </div>`;
 }
 
-function m2s3(c){
+/* ════════════════════════════════════════════
+   NIEUW: m2s_casus — Kies-je-eigen-avontuur
+   Tussenvoegd als stap 4 van 10
+   ════════════════════════════════════════════ */
+
+function m2s_casus(c){
   c.innerHTML = `
-<div class="s-badge">🛡️ Stap 4 van 9 · Spelregels & AI-labels</div>
+<div class="s-badge">🎯 Stap 4 van 11 · Praktijkscenario's</div>
+<h2 class="ch2">Praktijkscenario's: <em>wat doe jij?</em></h2>
+<p class="cp">Hier volgen drie herkenbare situaties uit de klas. Voor elke situatie kies je hoe je zou reageren — en krijg je direct feedback waarom die aanpak wel of niet werkt.</p>
+<div id="casus-container"></div>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p2()">← Vorige</button>
+  <button class="sr-btn g" onclick="n2()">Volgende: mag het wel/niet? →</button>
+  <span class="nh">Stap 4/11</span>
+</div>`;
+  renderCasusScenario('casus-container');
+}
+
+/* ════════════════════════════════════════════
+   ORIGINEEL m2s3 → NU m2s4 (Labels + Doe-opdracht)
+   ════════════════════════════════════════════ */
+
+function m2s4(c){
+  c.innerHTML = `
+<div class="s-badge">🛡️ Stap 5 van 11 · Spelregels & AI-labels</div>
 <h2 class="ch2">Het AI-beleid van <em>Sint-Rembert</em></h2>
 <p class="cp">Niet elke opdracht leent zich tot AI-gebruik, en niet elke leerling zal vanzelf aanvoelen waar de grens ligt. Daarom werkt Sint-Rembert met <strong>5 duidelijke AI-labels</strong> die je aan een taak of opdracht koppelt, zodat voor leerlingen meteen helder is wat wel en niet mag.</p>
 <div class="labels-grid">
@@ -1022,9 +1464,34 @@ function m2s3(c){
 </div>
 <p class="cp">De labels lopen op van strikt verbod (label 1) tot volledig vrij AI-gebruik (label 5), met daartussen geleidelijk meer ruimte. Deze schaal is gebaseerd op de AI-gebruiksschaal die Schoolmakers ontwikkelde naar het model van onderzoeker Leon Furze (Universiteit van Melbourne), en sluit aan bij het beleidskader: <em>"als uitgangspunt geldt dat AI-gebruik niet is toegestaan, tenzij de leerkracht expliciet aangeeft dat AI geheel of gedeeltelijk gebruikt mag worden."</em></p>
 
-<div class="ib warn">
-  <div class="ib-t">🎯 Hoe pas je dit toe?</div>
-  <div class="ib-b">Vermeld het label gewoon bovenaan de opdracht: "Label 2 — AI mag enkel voor brainstorm/ideeën." Zo weet de leerling perfect waaraan hij zich moet houden, en kan jij achteraf objectief beoordelen of de regels gevolgd zijn.</div>
+<h3 class="ch3">📋 De labels uitgelegd</h3>
+<div class="grid2">
+  <div class="pane-ok lijst-ok">
+    <div class="lijst-h-ok">Label 1: Geen AI</div>
+    <div style="font-size:13px; margin-top:8px;">AI is niet toegestaan. Handschrift, eigen denken, geen digitale hulp.</div>
+  </div>
+  <div class="pane-ok lijst-ok">
+    <div class="lijst-h-ok">Label 2: Ideeën</div>
+    <div style="font-size:13px; margin-top:8px;">AI mag voor brainstorm en ideeëngeneratie. Het werk zelf is van de leerling.</div>
+  </div>
+</div>
+
+<div class="grid2">
+  <div class="pane-ok lijst-ok">
+    <div class="lijst-h-ok">Label 3: Bewerking</div>
+    <div style="font-size:13px; margin-top:8px;">AI mag helpen met schrijfstijl en grammatica. Inhoud blijft van de leerling.</div>
+  </div>
+  <div class="pane-ok lijst-ok">
+    <div class="lijst-h-ok">Label 4: Aanvulling</div>
+    <div style="font-size:13px; margin-top:8px;">AI mag delen van het werk aanvullen/genereren. Leerling integreert en werkt kritisch.</div>
+  </div>
+</div>
+
+<div class="grid2">
+  <div class="pane-ok lijst-ok" style="grid-column: span 2;">
+    <div class="lijst-h-ok">Label 5: Vrij</div>
+    <div style="font-size:13px; margin-top:8px;">AI mag volledig vrij ingezet. Leerling kan kiezen hoe en hoeveel. Leerling reflecteert op eigenaarschap en keuzes.</div>
+  </div>
 </div>
 
 <h3 class="ch3">🧩 Doe-opdracht: Welk label hoort hier?</h3>
@@ -1032,15 +1499,174 @@ function m2s3(c){
 <div id="lblmatch"></div>
 
 <div class="nw">
+  <button class="sr-btn b" onclick="p2()">← Vorige</button>
   <button class="sr-btn g" onclick="n2()">Volgende: leerlingen begeleiden →</button>
-  <span class="nh">Stap 4/9</span>
+  <span class="nh">Stap 5/11</span>
 </div>`;
   renderLabelMatch();
 }
 
-function m2s4(c){
+function m2s_leeftijd(c){
   c.innerHTML = `
-<div class="s-badge">🧑‍🏫 Stap 5 van 9 · Leerlingen begeleiden & evalueren</div>
+<div class="s-badge">📚 Stap 6 van 12 · AI per leeftijdsfase</div>
+<h2 class="ch2">AI-gebruik per <em>leeftijdsgroep</em></h2>
+<p class="cp">AI-gebruik door leerlingen hangt sterk af van hun leeftijd en rijpheid. Sint-Rembert volgt daarom duidelijke richtlijnen per leeftijdsfase. Dit beschermt jongere leerlingen én geeft grotere leerlingen de ruimte om verantwoord te experimenteren.</p>
+
+<div style="background: white; border-left: 4px solid var(--blue); border-radius: 12px; padding: 20px; margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 14px; color: var(--blue); text-transform: uppercase; margin-bottom: 12px;">👶 2,5 tot 6 jaar (kleuteronderwijs)</div>
+  <p style="font-size: 13px; color: #3d4f8a; line-height: 1.8; font-weight: 600; margin-bottom: 12px;">
+    <strong>Geen zelfstandig AI-gebruik door leerlingen.</strong> AI kan uitsluitend indirect en ondersteunend door de <strong>leerkracht</strong> worden ingezet. Voorbeelden:
+  </p>
+  <ul style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.8; margin-left: 20px;">
+    <li>✓ AI helpt bij verhaaltjes uitwerken (fantasie & taal)</li>
+    <li>✓ AI genereert afbeeldingen ter ondersteuning (verwondering)</li>
+    <li>✓ AI helpt liedjes of versjes schrijven (creativiteit)</li>
+  </ul>
+  <div style="background: rgba(224,32,32,0.1); border-left: 3px solid var(--red); padding: 12px; border-radius: 8px; margin-top: 12px;">
+    <strong style="color: var(--red); font-size: 12px; text-transform: uppercase;">❌ NIET:</strong>
+    <p style="font-size: 12px; color: #3d4f8a; font-weight: 600; margin-top: 6px;">Leerlingen zelf aan de slag met AI-tools. Focus: taalontwikkeling, verwondering, fantasie — NIET technologie.</p>
+  </div>
+</div>
+
+<div style="background: white; border-left: 4px solid #3a2b9e; border-radius: 12px; padding: 20px; margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 14px; color: #3a2b9e; text-transform: uppercase; margin-bottom: 12px;">📖 6 tot 13 jaar (lager onderwijs)</div>
+  <p style="font-size: 13px; color: #3d4f8a; line-height: 1.8; font-weight: 600; margin-bottom: 12px;">
+    <strong>AI-gebruik enkel onder begeleiding van de leerkracht.</strong> Leerlingen maken op een <strong>verkennende manier</strong> kennis met wat AI is en wat NIET.
+  </p>
+  <ul style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.8; margin-left: 20px;">
+    <li>✓ Onderscheiden van feiten en fictie</li>
+    <li>✓ Onderscheiden van echt van AI-gegenereerd</li>
+    <li>✓ Stimuleren van eigen denkprocessen</li>
+    <li>✓ Creativiteit blijft centraal</li>
+    <li>❌ AI NIET toegestaan tijdens evaluaties/toetsen</li>
+  </ul>
+  <div style="background: rgba(224,32,32,0.1); border-left: 3px solid var(--red); padding: 12px; border-radius: 8px; margin-top: 12px;">
+    <strong style="color: var(--red); font-size: 12px; text-transform: uppercase;">⚠️ GDPR – BELANGRIJK:</strong>
+    <p style="font-size: 12px; color: var(--red); font-weight: 700; margin-top: 6px;">
+      Foto's van kinderen mogen NIET met AI worden bewerkt of als trainingsmateriaal gebruikt. Foto's uploaden naar AI-tools is niet toegestaan wegens privacyrisico.
+    </p>
+  </div>
+</div>
+
+<div style="background: white; border-left: 4px solid var(--green); border-radius: 12px; padding: 20px; margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 14px; color: var(--green); text-transform: uppercase; margin-bottom: 12px;">🎓 13 tot 18 jaar (secundair onderwijs)</div>
+  <p style="font-size: 13px; color: #3d4f8a; line-height: 1.8; font-weight: 600; margin-bottom: 12px;">
+    <strong>Kritisch en verantwoord AI-gebruik onder expliciete afspraken.</strong> Leerlingen maken bij het begin van het secundair onderwijs voor het eerst gebruik van <strong>begeleide toepassingen</strong>.
+  </p>
+  <ul style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.8; margin-left: 20px;">
+    <li>✓ Kritisch reflecteren op betrouwbaarheid AI-output</li>
+    <li>✓ Inzicht in mogelijke bias & vervalsingen</li>
+    <li>✓ AI als leerobject EN ondersteunend hulpmiddel</li>
+    <li>✓ Per vak/opdracht expliciete afspraken</li>
+    <li>✓ Altijd kunnen uitleggen hoe AI werd gebruikt</li>
+    <li>✓ Correct brongebruik & verantwoording</li>
+    <li>✓ Begrip en eigenaarschap van leerproces centraal</li>
+  </ul>
+  <div style="background: rgba(224,32,32,0.1); border-left: 3px solid var(--red); padding: 12px; border-radius: 8px; margin-top: 12px;">
+    <strong style="color: var(--red); font-size: 12px; text-transform: uppercase;">❌ Geldende regels:</strong>
+    <p style="font-size: 12px; color: #3d4f8a; font-weight: 600; margin-top: 6px;">Gebruik van AI buiten de gemaakte afspraken wordt behandeld volgens regels rond evaluatie, eerlijk werken en verantwoordelijkheid. <strong>Foto's bewerken: VERBODEN. Foto's uploaden: VERBODEN (GDPR).</strong></p>
+  </div>
+</div>
+
+<h3 class="ch3">✅ SNELLE CHECKLIST: "Mag dit AI-gebruik?"</h3>
+<div style="background: rgba(127,224,0,0.12); border-radius: 8px; padding: 16px; margin: 16px 0;">
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.8; font-weight: 600; margin-bottom: 12px;">
+Controleer met deze drie vragen of het AI-gebruik passend is:
+</p>
+<div style="display: grid; grid-template-columns: 1fr; gap: 12px;">
+<div style="background: white; border-left: 4px solid var(--green); padding: 12px; border-radius: 6px;">
+<strong style="color: var(--green); font-size: 11px;">1. LEEFTIJD-CHECK</strong>
+<p style="font-size: 11px; color: #3d4f8a; margin-top: 4px;">Is het AI-gebruik passend voor de leeftijdsgroep van mijn leerlingen?</p>
+</div>
+<div style="background: white; border-left: 4px solid var(--blue); padding: 12px; border-radius: 6px;">
+<strong style="color: var(--blue); font-size: 11px;">2. OPDRACHT-CHECK</strong>
+<p style="font-size: 11px; color: #3d4f8a; margin-top: 4px;">Heb ik duidelijk aangegeven welk AI-label (1-5) voor deze taak geldt?</p>
+</div>
+<div style="background: white; border-left: 4px solid var(--orange); padding: 12px; border-radius: 6px;">
+<strong style="color: var(--orange); font-size: 11px;">3. REFLECTIE-CHECK</strong>
+<p style="font-size: 11px; color: #3d4f8a; margin-top: 4px;">Kunnen leerlingen uitleggen wat ze hebben gedaan EN waarom ze AI hebben (of niet hebben) gebruikt?</p>
+</div>
+</div>
+<p style="font-size: 11px; color: var(--muted); margin-top: 12px; font-style: italic;">
+Alle drie JA? → Goed beleid. Één NEE? → Aanpassing nodig voordat je de opdracht geeft.
+</p>
+</div>
+
+<div class="ib warn" style="margin-top: 28px;">
+  <div class="ib-t">🔒 GDPR-Principes bij alle leeftijden</div>
+  <div class="ib-b">
+    • <strong>Geen foto's van kinderen bewerken met AI</strong> (retinascanning, gezichtsherkenning, etc.)<br>
+    • <strong>Geen foto's van kinderen uploaden naar AI-tools</strong> (privacyrisico, datalekkage)<br>
+    • <strong>Gepseudonimiseerde gegevens</strong> (werken met nummers i.p.v. namen waar mogelijk)<br>
+    • <strong>Toestemming ouders</strong> als leerlingen in AI-piloten/projecten deelnemen
+  </div>
+</div>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p2()">← Vorige</button>
+  <button class="sr-btn g" onclick="n2()">Volgende: leerlingen begeleiden →</button>
+  <span class="nh">Stap 6/11</span>
+</div>`;
+}
+
+function m2s_extra_casussen(c){
+  c.innerHTML = `
+<div class="s-badge">🎯 Stap 7 van 12 · Meer dilemma's</div>
+<h2 class="ch2">6 Praktische <em>dilemma's</em> met oplossing</h2>
+<p class="cp">Hier zijn zes extra scenario's uit het echte lespraktijk. Bij elke vraag staat: welk AI-label zou jij kiezen, en waarom?</p>
+
+<div style="background: white; border-left: 4px solid var(--blue); border-radius: 8px; padding: 16px; margin: 16px 0;">
+<strong style="color: var(--blue); font-size: 12px; text-transform: uppercase;">Dilemma 1: Poster met AI-afbeeldingen</strong>
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6; margin-top: 8px;"><strong>Situatie:</strong> Leerling (2de graad) maakt een poster over "Duurzaamheid". Ze wil AI gebruiken om mooie afbeeldingen te genereren.</p>
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6;"><strong>Juiste label:</strong> Label 4 (Aanvulling) — AI mag helpen bij illustraties, maar de tekst en concepten blijven van de leerling.</p>
+<p style="font-size: 12px; color: var(--muted); margin-top: 8px;"><strong>Waarom:</strong> Visueel ontwerp ondersteunt leren; leerling moet wel kunnen uitleggen waarom deze afbeeldingen bij duurzaamheid horen.</p>
+</div>
+
+<div style="background: white; border-left: 4px solid var(--blue); border-radius: 8px; padding: 16px; margin: 16px 0;">
+<strong style="color: var(--blue); font-size: 12px; text-transform: uppercase;">Dilemma 2: Toetsvraag beantwoorden</strong>
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6; margin-top: 8px;"><strong>Situatie:</strong> Leerling (3de graad) krijgt een toetstekst: "Beschrijf de oorzaken van WO1." Hij vraagt: mag ik ChatGPT gebruiken om punten te brainstormen?</p>
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6;"><strong>Juiste label:</strong> Label 1 (Geen AI) — dit is een toets. AI is niet toegestaan.</p>
+<p style="font-size: 12px; color: var(--muted); margin-top: 8px;"><strong>Waarom:</strong> Toetsen evalueren wat leerlingen WEL ZELF weten. Dit is een vaste regel.</p>
+</div>
+
+<div style="background: white; border-left: 4px solid var(--blue); border-radius: 8px; padding: 16px; margin: 16px 0;">
+<strong style="color: var(--blue); font-size: 12px; text-transform: uppercase;">Dilemma 3: Feedback op huiswerk</strong>
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6; margin-top: 8px;"><strong>Situatie:</strong> Je gebruikt Copilot om automatisch feedback te geven op de huiswerkstukken van leerlingen (grammatica, structuur).</p>
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6;"><strong>Juiste label:</strong> Label 4 (Aanvulling) — AI geeft ondersteunende feedback, jij als leerkracht geeft nog altijd persoonlijke feedback.</p>
+<p style="font-size: 12px; color: var(--muted); margin-top: 8px;"><strong>Waarom:</strong> AI bespaart jou tijd bij repetitieve taken. Persoonlijke feedback van jou blijft cruciaal.</p>
+</div>
+
+<div style="background: white; border-left: 4px solid var(--blue); border-radius: 8px; padding: 16px; margin: 16px 0;">
+<strong style="color: var(--blue); font-size: 12px; text-transform: uppercase;">Dilemma 4: Leerling merkt hallucinatie op</strong>
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6; margin-top: 8px;"><strong>Situatie:</strong> Leerling gebruikte ChatGPT voor onderzoekswerk en merkt dat AI factish incorrecte informatie geeft (bijv. beweert dat Einstein 1930 overleden is — niet waar). Wat te doen?</p>
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6;"><strong>Juiste reactie:</strong> PRIMA TEKEN! Dit is het moment om kritisch denken in te trainen. Oefen samen: hoe controleer je wat AI zegt? (bronnenzoeken, cross-referencing)</p>
+<p style="font-size: 12px; color: var(--muted); margin-top: 8px;"><strong>Waarom:</strong> Dit is EXACT waarom we leerlingen AI-geletterdheid aanleren — niet om blindelings te vertrouwen, maar om kritisch te checken.</p>
+</div>
+
+<div style="background: white; border-left: 4px solid var(--blue); border-radius: 8px; padding: 16px; margin: 16px 0;">
+<strong style="color: var(--blue); font-size: 12px; text-transform: uppercase;">Dilemma 5: "Iedereen doet het"</strong>
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6; margin-top: 8px;"><strong>Situatie:</strong> Leerling zegt: "Alle andere leerlingen gebruiken ChatGPT voor hun verslag. Mag ik ook?" Jij hebt Label 2 aangegeven (alleen ideeën).</p>
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6;"><strong>Juiste reactie:</strong> "Dat mag niet. Wat jij doet, zeg je tegen de klas — geen geheimen. Brainstorm met AI is OK, het verslag schrijven niet."</p>
+<p style="font-size: 12px; color: var(--muted); margin-top: 8px;"><strong>Waarom:</strong> Eerlijkheid en transparantie zijn de kern van vertrouwen op school.</p>
+</div>
+
+<div style="background: white; border-left: 4px solid var(--blue); border-radius: 8px; padding: 16px; margin: 16px 0;">
+<strong style="color: var(--blue); font-size: 12px; text-transform: uppercase;">Dilemma 6: Ouders vragen</strong>
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6; margin-top: 8px;"><strong>Situatie:</strong> Ouders mailen: "Waarom laat de school AI in de klas? Dit is toch onveilig?" Hoe antwoord je?</p>
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6;"><strong>Juiste reactie:</strong> Transparantie. Leg uit wat jullie doen (labels, richtlijnen), waarom (voorbereiding op toekomst), en welke veiligheidsmaatregelen gelden. Sterker: nodig ouders uit op een info-avond.</p>
+<p style="font-size: 12px; color: var(--muted); margin-top: 8px;"><strong>Waarom:</strong> Ouders zijn partners in goed beleid. Communicatie bouwt vertrouwen op.</p>
+</div>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p2()">← Vorige</button>
+  <button class="sr-btn g" onclick="n2()">Volgende: mag het wel/niet? →</button>
+  <span class="nh">Stap 7/12</span>
+</div>`;
+}
+
+function m2s5(c){
+  c.innerHTML = `
+<div class="s-badge">🧑‍🏫 Stap 8 van 12 · Leerlingen begeleiden & evalueren</div>
 <h2 class="ch2">Zo begeleid je <em>leerlingen</em> bij AI</h2>
 <p class="cp">Leerlingen experimenteren sowieso met AI — met of zonder jouw toestemming. De meest effectieve aanpak is daarom niet verbieden en hopen dat het niet gebeurt, maar <strong>transparant zijn en kritisch denken trainen</strong>.</p>
 <p class="cp">Het beleidskader is hier expliciet: <em>"We kiezen er bewust voor om geen AI-detectietools te gebruiken om het werk van leerlingen te analyseren of te beoordelen."</em> De werking en betrouwbaarheid van zulke tools zijn onvoldoende onderbouwd en leiden tot een grote kans op fout-positieve resultaten. Evaluatie vertrekt bij ons vanuit vertrouwen, professionele oordeelsvorming en het gesprek tussen leerkracht en leerling — niet vanuit een technisch opsporingsprobleem.</p>
@@ -1075,43 +1701,147 @@ function m2s4(c){
 <div class="nw">
   <button class="sr-btn b" onclick="p2()">← Vorige</button>
   <button class="sr-btn g" onclick="n2()">Volgende: AI-bestendig ontwerpen →</button>
-  <span class="nh">Stap 5/9</span>
-</div>`;
-}
-
-function m2s5(c){
-  c.innerHTML = `
-<div class="s-badge">🔧 Stap 6 van 9 · AI-bestendig ontwerpen</div>
-<h2 class="ch2">Maak je opdrachten <em>AI-bestendig</em></h2>
-<p class="cp">Achteraf controleren of een leerling AI gebruikte, is lastig en onbetrouwbaar (zie vorige stap). Veel effectiever: ontwerp je opdracht zo dat ze <strong>het leerproces zichtbaar maakt</strong>, in plaats van enkel op het eindproduct te focussen. Drie concrete technieken:</p>
-
-<div class="grid2">
-  <div class="pane-ok lijst-ok">
-    <div class="lijst-h-ok">✅ Ontwerp wint van controle</div>
-    <div>→ Koppel de opdracht aan een persoonlijke of lokale context (eigen ervaring, eigen klas, actuele lokale gebeurtenis)</div>
-    <div>→ Vraag tussenstappen mee in te leveren: kladversie, brainstorm, bronnenlijst</div>
-    <div>→ Laat leerlingen hun werk mondeling kort komen toelichten of verdedigen</div>
-  </div>
-  <div class="pane-nok lijst-nok">
-    <div class="lijst-h-nok">⚠️ Minder effectief</div>
-    <div>→ Enkel een eindproduct beoordelen zonder zicht op het proces</div>
-    <div>→ Vertrouwen op AI-detectietools achteraf</div>
-    <div>→ Een algemene, generieke vraag stellen die AI perfect kan beantwoorden</div>
-  </div>
-</div>
-
-<p class="cp">Voor elk AI-label kan je het ontwerp aanpassen: bij <strong>label 1 (geen AI)</strong> werk je het best met een klasmoment of een handgeschreven kladversie. Bij <strong>labels 2-3 (ideeën/bewerking)</strong> vraag je de brainstorm of de eerste versie mee in te leveren. Bij <strong>labels 4-5 (aanvulling/vrij)</strong> ligt de focus op kritische reflectie: wat heeft de leerling zelf bijgedragen, en wat heeft hij gecontroleerd of aangepast aan de AI-output?</p>
-
-<div class="nw">
-  <button class="sr-btn b" onclick="p2()">← Vorige</button>
-  <button class="sr-btn g" onclick="n2()">Volgende: mag het wel/niet? →</button>
-  <span class="nh">Stap 6/9</span>
+  <span class="nh">Stap 7/11</span>
 </div>`;
 }
 
 function m2s6(c){
   c.innerHTML = `
-<div class="s-badge">📋 Stap 7 van 9 · Mag het wel of niet?</div>
+<div class="s-badge">🔧 Stap 9 van 12 · AI-bestendige Assignments</div>
+<h2 class="ch2">Opdrachten ontwerpen waar <em>AI geen voordeel geeft</em></h2>
+<p class="cp">In plaats van achteraf controleren of leerlingen AI gebruikten, beter: ontwerp opdrachten waar AI niet helpt, of waar eigenaarschap zichtbaar is. Hier zijn <strong>concrete vakgebied-voorbeelden</strong> van wat WEL en NIET door AI kan worden opgelost.</p>
+
+<h3 class="ch3">📖 Nederlands: Karakteranalyse</h3>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0;">
+<div style="background: rgba(224,32,32,0.1); border-left: 4px solid var(--red); border-radius: 8px; padding: 14px;">
+<strong style="color: var(--red); font-size: 11px; text-transform: uppercase;">❌ AI kan dit NIET goed</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 8px; line-height: 1.6;">
+Vraag: "Vergelijk de persoonlijkheid van karakter A in jouw EIGEN leven met die van een personage uit dit boek. Welke eigenschappen herken je? Waar onderscheiden jullie zich?" 
+<br><br>
+<strong>Waarom:</strong> AI kent jouw leven niet. Alleen jij kan deze verbinding maken.
+</p>
+</div>
+<div style="background: rgba(127,224,0,0.1); border-left: 4px solid var(--green); border-radius: 8px; padding: 14px;">
+<strong style="color: var(--green); font-size: 11px; text-transform: uppercase;">✅ AI HELPT hier wel</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 8px; line-height: 1.6;">
+"Analyseer karakter X op basis van deze 3 citaten uit het boek."
+<br><br>
+<strong>Waarom:</strong> AI kan patronen in tekst zien — maar jij controleert of het klopt.
+</p>
+</div>
+</div>
+
+<h3 class="ch3">🔬 Wetenschappen: Experimenteel Denken</h3>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0;">
+<div style="background: rgba(224,32,32,0.1); border-left: 4px solid var(--red); border-radius: 8px; padding: 14px;">
+<strong style="color: var(--red); font-size: 11px; text-transform: uppercase;">❌ AI kan dit NIET goed</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 8px; line-height: 1.6;">
+Vraag: "Je hebt dit experiment gedaan. Wat observeerde je? Waarom is dit ANDERS dan je voorspelling?" 
+<br><br>
+<strong>Waarom:</strong> Jouw waarneming, jouw verrassing — AI kan dit niet bedenken.
+</p>
+</div>
+<div style="background: rgba(127,224,0,0.1); border-left: 4px solid var(--green); border-radius: 8px; padding: 14px;">
+<strong style="color: var(--green); font-size: 11px; text-transform: uppercase;">✅ AI HELPT hier wel</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 8px; line-height: 1.6;">
+"Structureer mijn lab-rapport: introductie, hypothese, methode, resultaten, discussie."
+<br><br>
+<strong>Waarom:</strong> AI helpt de structuur, maar jij interpreteert de resultaten.
+</p>
+</div>
+</div>
+
+<h3 class="ch3">🎨 Kunstgeschiedenis: Persoonlijke Betekenis</h3>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0;">
+<div style="background: rgba(224,32,32,0.1); border-left: 4px solid var(--red); border-radius: 8px; padding: 14px;">
+<strong style="color: var(--red); font-size: 11px; text-transform: uppercase;">❌ AI kan dit NIET goed</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 8px; line-height: 1.6;">
+Vraag: "Kies een kunstwerk dat je JE aanraakt. Wat voelde je toen je het zag? Welk moment in jouw leven brengt het je in herinnering?"
+<br><br>
+<strong>Waarom:</strong> AI kan kunstgeschiedenis uitleggen, maar niet VOELEN.
+</p>
+</div>
+<div style="background: rgba(127,224,0,0.1); border-left: 4px solid var(--green); border-radius: 8px; padding: 14px;">
+<strong style="color: var(--green); font-size: 11px; text-transform: uppercase;">✅ AI HELPT hier wel</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 8px; line-height: 1.6;">
+"Geef me historische context over deze kunstenaar en dit kunstwerk."
+<br><br>
+<strong>Waarom:</strong> AI is goed in informatie; jij toegt betekenis toe.
+</p>
+</div>
+</div>
+
+<h3 class="ch3">💼 Economie: Morele Keuze</h3>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0;">
+<div style="background: rgba(224,32,32,0.1); border-left: 4px solid var(--red); border-radius: 8px; padding: 14px;">
+<strong style="color: var(--red); font-size: 11px; text-transform: uppercase;">❌ AI kan dit NIET goed</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 8px; line-height: 1.6;">
+Vraag: "Bedrijf X maakt winst door kinderarbeid. Jij bent CEO. Wat doe je? Leg je dilemma uit — economie vs. ethiek."
+<br><br>
+<strong>Waarom:</strong> AI zal beide zijden uitleggen, maar JIJ moet kiezen.
+</p>
+</div>
+<div style="background: rgba(127,224,0,0.1); border-left: 4px solid var(--green); border-radius: 8px; padding: 14px;">
+<strong style="color: var(--green); font-size: 11px; text-transform: uppercase;">✅ AI HELPT hier wel</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 8px; line-height: 1.6;">
+"Maak een SWOT-analyse voor beide scenario's."
+<br><br>
+<strong>Waarom:</strong> AI organiseert info, jij weegt af.
+</p>
+</div>
+</div>
+
+<h3 class="ch3">📚 Wiskunde: Probleemoplossen</h3>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0;">
+<div style="background: rgba(224,32,32,0.1); border-left: 4px solid var(--red); border-radius: 8px; padding: 14px;">
+<strong style="color: var(--red); font-size: 11px; text-transform: uppercase;">❌ AI kan dit NIET goed</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 8px; line-height: 1.6;">
+Vraag: "Los deze stelling op. Schrijf OP elke stap WAAROM je die stap doet — wat is je redenering?"
+<br><br>
+<strong>Waarom:</strong> AI geeft het antwoord, niet het DENKEN. Jouw redenering is onzichtbaar voor AI.
+</p>
+</div>
+<div style="background: rgba(127,224,0,0.1); border-left: 4px solid var(--green); border-radius: 8px; padding: 14px;">
+<strong style="color: var(--green); font-size: 11px; text-transform: uppercase;">✅ AI HELPT hier wel</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 8px; line-height: 1.6;">
+"Controleer mijn antwoord op deze drie oefeningen."
+<br><br>
+<strong>Waarom:</strong> AI is nuttig als peer-reviewer, niet als "antwoord-machine".
+</p>
+</div>
+</div>
+
+<h3 class="ch3">⚖️ 4 Gouden Regels voor AI-bestendige Opdrachten</h3>
+<div style="background: rgba(10,31,168,0.08); border-radius: 8px; padding: 16px; margin: 16px 0;">
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.8; margin: 0;">
+<strong>1. Voeg CONTEXT toe</strong><br>
+Zeg niet: "Schrijf een essay over vrijheid"<br>
+Zeg wel: "Jij bent journalist. Schrijf een artikel over vrijheid ÉN wat het betekent in jouw eigen stad"<br><br>
+
+<strong>2. Maak het PERSOONLIJK</strong><br>
+Zeg niet: "Analyseer dit gedicht"<br>
+Zeg wel: "Dit gedicht beschrijft verlies. Welke vorm van verlies herken je in jezelf?"<br><br>
+
+<strong>3. Vraag PROCES in, niet alleen RESULTAAT</strong><br>
+Zeg niet: "Geef je eindproduct in"<br>
+Zeg wel: "Geef IN: brainstorm, eerste versie, eindversie. Beschrijf wat je hebt gewijzigd en waarom"<br><br>
+
+<strong>4. Bouw REFLECTIE in</strong><br>
+Zeg niet: "Beantwoord deze vragen"<br>
+Zeg wel: "Beantwoord deze vragen, en schrijf daarna: wat zou AI hier anders doen dan jij?"
+</p>
+</div>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p2()">← Vorige</button>
+  <button class="sr-btn g" onclick="n2()">Volgende: mag het wel/niet? →</button>
+  <span class="nh">Stap 9/12</span>
+</div>`;
+}
+
+function m2s7(c){
+  c.innerHTML = `
+<div class="s-badge">📋 Stap 10 van 12 · Mag het wel of niet?</div>
 <h2 class="ch2">Concrete <em>voorbeelden</em> uit het beleidskader</h2>
 <p class="cp">Het beleidskader geeft een aantal heldere voorbeeldsituaties. Test jezelf: klik op elke situatie en kijk of jouw inschatting klopt.</p>
 <div id="magwel"></div>
@@ -1124,98 +1854,27 @@ function m2s6(c){
 <div class="nw">
   <button class="sr-btn b" onclick="p2()">← Vorige</button>
   <button class="sr-btn g" onclick="n2()">Volgende: kennischeck →</button>
-  <span class="nh">Stap 7/9</span>
+  <span class="nh">Stap 9/11</span>
 </div>`;
   renderMagWel();
 }
 
-function m2s7(c){
-  // EQUAL LENGTH AND DIVERSIFIED TRUE INDEXES FOR QUIZ 2
+function m2s8(c){
   const quiz = [
-    {
-      q: 'Een leerling gebruikt AI bij een taak met label 1 ("Geen AI"). Wat doe je?',
-      o: [
-        'De situatie negeren och de taak gewoon normaal verbeteren, aangezien bijna alle leerlingen AI gebruiken.',
-        'Dit behandelen als een onregelmatigheid conform het schoolreglement, net zoals bij klassiek afkijken of fraude.',
-        'Stilzwijgend en zonder communicatie een aantal punten aftrekken van het eindresultaat voor deze opdracht.',
-        'De leerling verplichten om vanaf nu alle toekomstige taken voor jouw vak verplicht met pen en papier in te dienen.'
-      ],
-      a: 1,
-      f: 'Label 1 = verbod. AI-gebruik is dan een onregelmatigheid conform het schoolreglement.'
-    },
-    {
-      q: 'Welke AI-tool kiest Sint-Rembert als primaire generatieve AI-tool?',
-      o: [
-        'ChatGPT, omdat dit de meest bekende en gebruikte tool wereldwijd is.',
-        'Microsoft Copilot, omdat het binnen de beveiligde Microsoft 365-schoolomgeving werkt.',
-        'Google Gemini, omdat dit gratis is voor alle leerlingen en personeelsleden.',
-        'Geen enkele tool specifiek; elke leerkracht kiest volledig vrij zijn eigen voorkeurstool.'
-      ],
-      a: 1,
-      f: 'Copilot is de bewuste eerste keuze omdat het binnen het bestaande identiteits- en toegangsbeheer van de scholengroep blijft.'
-    },
-    {
-      q: 'Waarom gebruikt Sint-Rembert bewust GEEN AI-detectietools om leerlingenwerk te controleren?',
-      o: [
-        'Omdat detectietools te duur zijn in licentiekosten voor de volledige scholengroep.',
-        'Omdat de betrouwbaarheid onvoldoende onderbouwd is, met een grote kans op fout-positieve resultaten.',
-        'Omdat het schoolreglement het gebruik van enige vorm van software tijdens verbeteren verbiedt.',
-        'Omdat leerlingen wettelijk recht hebben op een volledig AI-vrije onderwijsomgeving binnen Europa.'
-      ],
-      a: 1,
-      f: 'Detectietools zijn onvoldoende betrouwbaar; dit staat haaks op zorgvuldig en rechtvaardig evalueren.'
-    },
-    {
-      q: 'Wat is het "mens-machine-mens-principe" uit het beleidskader?',
-      o: [
-        'AI-output wordt automatisch goedgekeurd zodra een mens de oorspronkelijke prompt heeft ingetypt.',
-        'De inzet van AI vertrekt altijd vanuit een menselijke vraag en eindigt steeds met menselijke controle.',
-        'Twee personeelsleden moeten elke AI-output afzonderlijk goedkeuren voor ze gebruikt mag worden.',
-        'Machines nemen voortaan de eerste beoordeling op zich, waarna een mens enkel nog de eindscore zet.'
-      ],
-      a: 1,
-      f: 'AI kan input leveren of suggereren, maar het traject start en eindigt altijd bij menselijke verantwoordelijkheid.'
-    },
-    {
-      q: 'Een schooldocument mag enkel naar een betalende AI-tool als aan welke voorwaarden voldaan is?',
-      o: [
-        'Enkel dat de tool een mooie gebruiksvriendelijke interface heeft voor leerkrachten en leerlingen.',
-        'Geen modeltraining met de data, opslag binnen de EU, én een betalende contractuele relatie met verwerkersovereenkomst.',
-        'Enkel dat de tool gratis beschikbaar is voor alle leerlingen, ongeacht waar de servers staan.',
-        'Enkel dat de IT-dienst de tool ooit al een keer heeft gebruikt voor een ander, niet-gerelateerd doel.'
-      ],
-      a: 1,
-      f: 'Alle drie voorwaarden moeten gelden: geen modeltraining, opslag binnen de EU, en een betalende relatie met verwerkersovereenkomst.'
-    },
-    {
-      q: 'Wat gebeurt er met een AI-toepassing die niet op de goedgekeurde lijst staat?',
-      o: [
-        'Die mag gewoon gebruikt worden zolang de leerkracht dat zelf verantwoord vindt voor zijn vak.',
-        'Die wordt beschouwd als "shadow AI" en is niet toegestaan zonder voorafgaande goedkeuring.',
-        'Die mag enkel gebruikt worden bij leerlingen vanaf het vierde middelbaar, niet bij jongere leerlingen.',
-        'Die moet eerst minstens 100 keer succesvol getest zijn door andere Vlaamse scholengroepen.'
-      ],
-      a: 1,
-      f: 'Niet-goedgekeurde tools zijn "shadow AI" en vereisen voorafgaande goedkeuring via de IT-dienst.'
-    },
-    {
-      q: 'Waar staat het beleidskader m.b.t. evalueren en toetsen met AI?',
-      o: [
-        'AI-gebruik is bij evaluaties altijd toegestaan, tenzij de leerkracht dit uitdrukkelijk verbiedt.',
-        'AI-gebruik is bij evaluaties niet toegestaan, tenzij de leerkracht dit uitdrukkelijk toelaat.',
-        'AI-gebruik bij evaluaties is een individuele keuze van elke leerling, zonder tussenkomst van de leerkracht.',
-        'Evaluaties met AI zijn überhaupt verboden binnen de volledige scholengroep, in elke vorm of context.'
-      ],
-      a: 1,
-      f: 'Het uitgangspunt is een verbod, tenzij de leerkracht expliciet en met duidelijke voorwaarden AI toelaat.'
-    }
+    {q: 'Een leerling gebruikt AI bij een taak met label 1 ("Geen AI"). Wat doe je?', o: ['De situatie negeren noch de taak gewoon normaal verbeteren, aangezien bijna alle leerlingen AI gebruiken.','Dit behandelen als een onregelmatigheid conform het schoolreglement, net zoals bij klassiek afkijken of fraude.','Stilzwijgend en zonder communicatie een aantal punten aftrekken van het eindresultaat voor deze opdracht.','De leerling verplichten om vanaf nu alle toekomstige taken voor jouw vak verplicht met pen en papier in te dienen.'], a: 1, f: 'Label 1 = verbod. AI-gebruik is dan een onregelmatigheid conform het schoolreglement.' },
+    {q: 'Welke AI-tool kiest Sint-Rembert als primaire generatieve AI-tool?', o: ['ChatGPT, omdat dit de meest bekende en gebruikte tool wereldwijd is.','Microsoft Copilot, omdat het binnen de beveiligde Microsoft 365-schoolomgeving werkt.','Google Gemini, omdat dit gratis is voor alle leerlingen en personeelsleden.','Geen enkele tool specifiek; elke leerkracht kiest volledig vrij zijn eigen voorkeurstool.'], a: 1, f: 'Copilot is de bewuste eerste keuze omdat het binnen het bestaande identiteits- en toegangsbeheer van de scholengroep blijft.' },
+    {q: 'Waarom gebruikt Sint-Rembert bewust GEEN AI-detectietools om leerlingenwerk te controleren?', o: ['Omdat detectietools te duur zijn in licentiekosten voor de volledige scholengroep.','Omdat de betrouwbaarheid onvoldoende onderbouwd is, met een grote kans op fout-positieve resultaten.','Omdat het schoolreglement het gebruik van enige vorm van software tijdens verbeteren verbiedt.','Omdat leerlingen wettelijk recht hebben op een volledig AI-vrije onderwijsomgeving binnen Europa.'], a: 1, f: 'Detectietools zijn onvoldoende betrouwbaar; dit staat haaks op zorgvuldig en rechtvaardig evalueren.' },
+    {q: 'Wat is het "mens-machine-mens-principe" uit het beleidskader?', o: ['AI-output wordt automatisch goedgekeurd zodra een mens de oorspronkelijke prompt heeft ingetypt.','De inzet van AI vertrekt altijd vanuit een menselijke vraag en eindigt steeds met menselijke controle.','Twee personeelsleden moeten elke AI-output afzonderlijk goedkeuren voor ze gebruikt mag worden.','Machines nemen voortaan de eerste beoordeling op zich, waarna een mens enkel nog de eindscore zet.'], a: 1, f: 'AI kan input leveren of suggereren, maar het traject start en eindigt altijd bij menselijke verantwoordelijkheid.' },
+    {q: 'Een schooldocument mag enkel naar een betalende AI-tool als aan welke voorwaarden voldaan is?', o: ['Enkel dat de tool een mooie gebruiksvriendelijke interface heeft voor leerkrachten en leerlingen.','Geen modeltraining met de data, opslag binnen de EU, én een betalende contractuele relatie met verwerkersovereenkomst.','Enkel dat de tool gratis beschikbaar is voor alle leerlingen, ongeacht waar de servers staan.','Enkel dat de IT-dienst de tool ooit al een keer heeft gebruikt voor een ander, niet-gerelateerd doel.'], a: 1, f: 'Alle drie voorwaarden moeten gelden: geen modeltraining, opslag binnen de EU, en een betalende relatie met verwerkersovereenkomst.' },
+    {q: 'Wat gebeurt er met een AI-toepassing die niet op de goedgekeurde lijst staat?', o: ['Die mag gewoon gebruikt worden zolang de leerkracht dat zelf verantwoord vindt voor zijn vak.','Die wordt beschouwd als "shadow AI" en is niet toegestaan zonder voorafgaande goedkeuring.','Die mag enkel gebruikt worden bij leerlingen vanaf het vierde middelbaar, niet bij jongere leerlingen.','Die moet eerst minstens 100 keer succesvol getest zijn door andere Vlaamse scholengroepen.'], a: 1, f: 'Niet-goedgekeurde tools zijn "shadow AI" en vereisen voorafgaande goedkeuring via de IT-dienst.' },
+    {q: 'Waar staat het beleidskader m.b.t. evalueren en toetsen met AI?', o: ['AI-gebruik is bij evaluaties altijd toegestaan, tenzij de leerkracht dit uitdrukkelijk verbiedt.','AI-gebruik is bij evaluaties niet toegestaan, tenzij de leerkracht dit uitdrukkelijk toelaat.','AI-gebruik bij evaluaties is een individuele keuze van elke leerling, zonder tussenkomst van de leerkracht.','Evaluaties met AI zijn überhaupt verboden binnen de volledige scholengroep, in elke vorm of context.'], a: 1, f: 'Het uitgangspunt is een verbod, tenzij de leerkracht expliciet en met duidelijke voorwaarden AI toelaat.' }
   ];
   rQuiz(c, quiz, 2, 'mod2', n2, 70);
 }
 
-function m2s8(c){
+function m2s9(c){
   c.innerHTML = `
-<div class="s-badge">🏁 Stap 9 van 9 · Praktijkscenario's & afronding</div>
+<div class="s-badge">🏁 Stap 12 van 12 · Praktijkscenario's & afronding</div>
 <h2 class="ch2">Jouw sluitende <em>actiestap</em></h2>
 <p class="cp">Je kent nu het beleidskader, de 5 AI-labels, weet hoe je leerlingen op een transparante manier begeleidt, en hoe je een opdracht AI-bestendig ontwerpt.</p>
 
@@ -1227,6 +1886,15 @@ function m2s8(c){
   <div class="ib-b">Klasse, "Wat mag (niet) met AI op school?" — interview met Vincent Vanrusselt (PXL). <a href="https://www.klasse.be/742009/wetgeving-ai-in-onderwijs-wat-mag-niet-volgens-ai-act/" target="_blank">klasse.be/742009</a></div>
 </div>
 
+<div style="background: rgba(10,31,168,0.08); border-radius: 12px; padding: 20px; border-left: 4px solid var(--green); margin: 20px 0;">
+  <strong style="color: var(--green); font-size: 12px; text-transform: uppercase;">✅ 3 Praktische actiestappen voor jouw school</strong>
+  <ol style="font-size: 12px; color: #3d4f8a; margin: 12px 0 0 0; padding-left: 20px; line-height: 1.8;">
+    <li><strong>Inventariseer:</strong> Welke AI-tools gebruikt jouw school/klasteam al? Maak een lijst — dat helpt bij compliancebeheer</li>
+    <li><strong>Communiceer:</strong> Informeer leerlingen & ouders welke AI-tools je inzet en waarom. Transparantie is wettelijk vereist (artikel 4)</li>
+    <li><strong>Bijstellen:</strong> Controleer of je beleid aansluit bij de 4 risiconiveaus — hoog risico-systemen (bv. leerlingvolging) vragen extra voorzorg</li>
+  </ol>
+</div>
+
 <h3 class="ch3">💭 Wat denk jij?</h3>
 <div id="stl-m2"></div>
 
@@ -1236,6 +1904,7 @@ function m2s8(c){
 <div class="nw">
   <button class="sr-btn b" onclick="p2()">← Vorige</button>
   <button class="sr-btn g" onclick="sR3()">🏆 Afronden & certificaat ontvangen →</button>
+  <span class="nh">Stap 11/11</span>
 </div>`;
   const ta = document.getElementById('r3');
   ta.value = localStorage.getItem('sr_r3') || '';
@@ -1245,28 +1914,69 @@ function m2s8(c){
     'Onze school heeft nood aan een duidelijker, korter overzicht van wat wel/niet mag volgens de AI Act dan wat er vandaag bestaat.'
   ]);
 }
+
 function sR3(){
   const v = (document.getElementById('r3').value||'').trim();
   if(v.length < 20){ alert('Formuleer eerst je concrete actiestap.'); return; }
   n2();
 }
 
+/* ════════════════════════════════════════════
+   MODULE 3 — COPILOT VERDIEPING (ROLE-SPECIFIC)
+   Elke rol krijgt eigen Module 3 op maat
+   ════════════════════════════════════════════ */
+
+// TEACHER VERSION (huidige)
+// TEACHER VERSION — 10 stappen (incl praktische prompts + nascholingsideeën)
+const m3_teacher = [m3s0, m3s1, m3s2, m3s_praktijkprompts_teacher, m3s3, m3s4, m3s5, m3s6, m3s_nascholingsideen_teacher, m3s7];
+
+// ADMIN VERSION (5 stappen: intro + 3 use cases + prompts + reflectie)
+const m3_admin = [m3a0, m3a1, m3a_prompts_admin, m3a2, m3a3];
+
+// MANAGEMENT VERSION (5 stappen: intro + strategie + prompts + risico + reflectie)
+const m3_mgmt = [m3m0, m3m1, m3m_prompts_mgmt, m3m2, m3m3];
+
+let m3 = []; // Zal worden ingesteld op basis van rol
+
+function rm3(){
+  // Set m3 op basis van huidige rol
+  if(S.userRole === 'teacher') m3 = m3_teacher;
+  else if(S.userRole === 'admin') m3 = m3_admin;
+  else if(S.userRole === 'management') m3 = m3_mgmt;
+  
+  const c=document.getElementById('m3c');
+  c.innerHTML='';
+  console.log('🔄 rm3: rol=' + S.userRole + ', stap ' + S.mod3.step + ' van ' + m3.length);
+  
+  // Update title
+  const titleEl = document.getElementById('mod3-title');
+  if(titleEl) {
+    if(S.userRole === 'teacher') titleEl.textContent = 'Copilot in de klas';
+    else if(S.userRole === 'admin') titleEl.textContent = 'Copilot voor administratie';
+    else if(S.userRole === 'management') titleEl.textContent = 'Copilot voor strategisch beleid';
+  }
+  
+  rDots(3, m3.length, S.mod3.step);
+  m3[S.mod3.step](c);
+  lockNextButtons(c);
+}
+
+function n3(){ S.mod3.step++; ss(); S.mod3.step >= m3.length ? d3() : rm3(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); }
+function p3(){ if(S.mod3.step > 0){ lastNavDirection='back'; S.mod3.step--; ss(); rm3(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); } }
+function d3(){ S.mod3.done=true; S.mod3.step=0; ss(); up(); rmc(); sv('home'); setTimeout(()=>alert('🎉 Copilot-verdieping voltooid!'),300); }
 
 /* ════════════════════════════════════════════
-   MODULE 3 — COPILOT IN DE PRAKTIJK (OPTIONEEL)
+   TEACHER MODULE 3 (Huidige versie)
+   Copilot in de klas — hands-on
    ════════════════════════════════════════════ */
-const m3 = [m3s0, m3s1, m3s2, m3s3, m3s4, m3s5, m3s6, m3s7];
-function rm3(){ const c=document.getElementById('m3c'); c.innerHTML=''; rDots(3,m3.length,S.mod3.step); m3[S.mod3.step](c); lockNextButtons(c); }
-function n3(){ S.mod3.step++; ss(); S.mod3.step>=m3.length ? d3() : rm3(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); }
-function p3(){ if(S.mod3.step > 0){ lastNavDirection='back'; S.mod3.step--; ss(); rm3(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); } }
-function d3(){ S.mod3.done=true; S.mod3.step=0; ss(); up(); rmc(); sv('home'); setTimeout(()=>alert('🎉 Praktijkverdieping voltooid!'),300); }
 
 function m3s0(c){
   c.innerHTML = `
 <div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">✨ Stap 1 van 8 · Aan de slag</span></div>
 <h2 class="ch2">Copilot M365 — <em>jouw assistent</em></h2>
 <svg viewBox="0 0 700 100" style="width:100%;height:auto;display:block;margin-bottom:16px;border-radius:var(--rsm);background:var(--blue)" xmlns="http://www.w3.org/2000/svg">
-  <text x="60" y="60" font-size="36" text-anchor="middle">🛡️</text>
+  <circle cx="80" cy="55" r="34" fill="rgba(127,224,0,.18)"/>
+  <text x="80" y="65" font-size="36" text-anchor="middle">🛡️</text>
   <text x="140" y="42" font-family="Archivo Black, sans-serif" font-size="14" fill="#7FE000">PROTECTED</text>
   <text x="140" y="60" font-family="Nunito, sans-serif" font-size="11" fill="rgba(255,255,255,.7)" font-weight="700">Schild-icoon zichtbaar = data blijft binnen</text>
   <text x="140" y="75" font-family="Nunito, sans-serif" font-size="11" fill="rgba(255,255,255,.7)" font-weight="700">de beveiligde schoolomgeving.</text>
@@ -1285,7 +1995,6 @@ function m3s0(c){
 
 <h3 class="ch3">🎛️ Copilot op jouw maat</h3>
 <p class="cp">Via <strong>Instellingen → Personalisation → Custom instructions</strong> kan je Copilot vragen om voortaan rekening te houden met jouw stijl of voorkeuren — bijvoorbeeld: "Schrijf aangepaste instructies voor Copilot zodat die helder mijn manier van communiceren omschrijft, gebaseerd op onze eerdere gesprekken" of gebaseerd op een bijgevoegd document met teksten die je zelf schreef. Eén keer instellen, en elk volgend gesprek sluit daar automatisch op aan.</p>
-<img src="img/copilot-personalisatie.png" alt="Copilot personalisatie-instellingen met custom instructions" class="inline-img">
 
 <div class="nw">
   <button class="sr-btn g" onclick="n3()">Volgende: prompts schrijven →</button>
@@ -1298,46 +2007,9 @@ function m3s1(c){
 <h2 class="ch2">Een goede <em>prompt</em> schrijven</h2>
 <p class="cp">De kwaliteit van wat Copilot teruggeeft, hangt sterk af van hoe specifiek je vraag (prompt) is. Een vaag verzoek als "maak een les over de Eerste Wereldoorlog" levert generieke, oppervlakkige output op — net zoals een vage vraag aan een collega ook een vaag antwoord oplevert. Gebruik daarom een vaste structuur, zodat je niets vergeet: <strong>Rol — Doel — Context — Bron — Verwachting (R-D-C-B-V)</strong>.</p>
 
-<svg viewBox="0 0 700 170" style="width:100%;height:auto;display:block;margin:18px 0" xmlns="http://www.w3.org/2000/svg">
-  <g font-family="Nunito, sans-serif">
-    <rect x="0"   y="20" width="128" height="80" rx="12" fill="var(--blue)"/>
-    <rect x="143" y="20" width="128" height="80" rx="12" fill="var(--blue)"/>
-    <rect x="286" y="20" width="128" height="80" rx="12" fill="var(--blue)"/>
-    <rect x="429" y="20" width="128" height="80" rx="12" fill="var(--blue)"/>
-    <rect x="572" y="20" width="128" height="80" rx="12" fill="var(--blue)"/>
-    <text x="64"  y="50" text-anchor="middle" font-size="20">🎭</text>
-    <text x="207" y="50" text-anchor="middle" font-size="20">🎯</text>
-    <text x="350" y="50" text-anchor="middle" font-size="20">🏫</text>
-    <text x="493" y="50" text-anchor="middle" font-size="20">📄</text>
-    <text x="636" y="50" text-anchor="middle" font-size="20">✅</text>
-    <text x="64"  y="75" text-anchor="middle" font-family="Archivo Black, sans-serif" font-size="11" fill="#7FE000">ROL</text>
-    <text x="207" y="75" text-anchor="middle" font-family="Archivo Black, sans-serif" font-size="11" fill="#7FE000">DOEL</text>
-    <text x="350" y="75" text-anchor="middle" font-family="Archivo Black, sans-serif" font-size="11" fill="#7FE000">CONTEXT</text>
-    <text x="493" y="75" text-anchor="middle" font-family="Archivo Black, sans-serif" font-size="11" fill="#7FE000">BRON</text>
-    <text x="636" y="75" text-anchor="middle" font-family="Archivo Black, sans-serif" font-size="11" fill="#7FE000">VERWACHTING</text>
-    <text x="64"  y="92" text-anchor="middle" font-size="9" fill="rgba(255,255,255,.6)" font-weight="700">wie is AI?</text>
-    <text x="207" y="92" text-anchor="middle" font-size="9" fill="rgba(255,255,255,.6)" font-weight="700">wat wil je?</text>
-    <text x="350" y="92" text-anchor="middle" font-size="9" fill="rgba(255,255,255,.6)" font-weight="700">voor wie?</text>
-    <text x="493" y="92" text-anchor="middle" font-size="9" fill="rgba(255,255,255,.6)" font-weight="700">baseer op?</text>
-    <text x="636" y="92" text-anchor="middle" font-size="9" fill="rgba(255,255,255,.6)" font-weight="700">vorm/lengte</text>
-  </g>
-</svg>
+${renderPromptComparison()}
 
-<div class="ib warn">
-  <div class="ib-t">📋 Voorbeeldprompt volgens R-D-C-B-V</div>
-  <div class="ib-b">
-    <strong>Rol:</strong> "Je bent een ervaren leerkracht geschiedenis in het secundair onderwijs."<br>
-    <strong>Doel:</strong> "Maak 5 reflectievragen bij een les over de Eerste Wereldoorlog."<br>
-    <strong>Context:</strong> "Voor leerlingen van het 4de jaar ASO, die de oorzaken al kennen maar nog niet de gevolgen."<br>
-    <strong>Bron:</strong> "Baseer je enkel op het bijgevoegde lesdocument, verzin geen extra feiten."<br>
-    <strong>Verwachting:</strong> "Korte, open vragen die aanzetten tot discussie, geen meerkeuzevragen."
-  </div>
-</div>
 <p class="cp">Krijg je niet meteen wat je zoekt? Verfijn dan in een vervolgvraag binnen hetzelfde gesprek ("maak de vragen iets korter", "voeg een vraag toe over perspectief") in plaats van helemaal opnieuw te beginnen — Copilot houdt rekening met de eerdere context van het gesprek. Controleer steeds de output zelf: ook een goede prompt garandeert geen foutloos resultaat, enkel een veel betere uitgangspositie.</p>
-
-<h3 class="ch3">⚖️ Doe-opdracht: slechte vs. betere prompt</h3>
-<p class="cp">Kijk naar deze 3 situaties. Elke situatie heeft een vage eerste prompt. Klik op de flipcard om te zien hoe een betere prompt eruitziet — en waarom die betere resultaten geeft.</p>
-<div id="promptflip"></div>
 
 <h3 class="ch3">🧩 Doe-opdracht: Schrijf je eigen prompt</h3>
 <p class="cp">Vul de 5 velden hieronder in voor een prompt die je écht zou gebruiken in jouw vak. Onderaan zie je de volledige prompt samengevoegd — die kan je meteen kopiëren naar Copilot.</p>
@@ -1348,7 +2020,6 @@ function m3s1(c){
   <button class="sr-btn g" onclick="n3()">Volgende: Maakmodule →</button>
 </div>`;
   renderPromptBuilder();
-  renderPromptFlip();
 }
 
 function m3s2(c){
@@ -1356,19 +2027,226 @@ function m3s2(c){
 <div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">🎨 Stap 3 van 8 · Maakmodule</span></div>
 <h2 class="ch2">Een poster of beeld <em>ontwerpen</em></h2>
 <p class="cp">Via de Maak- of Designer-module van Copilot kan je snel een visueel ontwerp genereren: een poster voor een klasproject, een infographic bij een les, of een uitnodiging voor een ouderavond. Klik op <strong>Create</strong> en kies wat je wil maken — een afbeelding, infographic, poster, verhaal of formulier.</p>
-<img src="img/copilot-create-overzicht.png" alt="Copilot Create-overzicht met opties zoals Create an image, Design an infographic, Design a poster" class="inline-img">
 <p class="cp">Beschrijf gewoon wat je nodig hebt ("een poster over recyclage, vriendelijke kleuren, voor leerlingen van het 1ste jaar") en kies daarna een stijl uit de galerij — van fotorealistisch tot doodle of vlakke illustratie.</p>
-<img src="img/copilot-create-stijlen.png" alt="Copilot stijlkeuze: Photorealistic, Flat Design, Sketch, Anime, en meer" class="inline-img">
 
 <div class="ib warn">
   <div class="ib-t">✏️ Let op: tekst in beelden klopt vaak niet</div>
   <div class="ib-b">AI-beeldgeneratoren maken regelmatig spelfouten in tekst die op een afbeelding staat. Controleer dit altijd, en gebruik de optie <strong>Edit Text</strong> om de tekst handmatig te corrigeren vóór je het beeld effectief gebruikt in de klas — zoals hieronder, waar een infographic over generatieve AI achteraf wordt bewerkt.</div>
 </div>
-<img src="img/copilot-beeld-bewerken.png" alt="Copilot beeld bewerken: achtergrond, object transform en de Edit text-knop" class="inline-img">
 
 <div class="nw">
   <button class="sr-btn b" onclick="p3()">← Vorige</button>
   <button class="sr-btn g" onclick="n3()">Volgende: differentiëren →</button>
+</div>`;
+}
+
+function m3s_praktijkprompts_teacher(c){
+  c.innerHTML = `
+<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">💡 Stap 4 van 9 · Praktische Prompts</span></div>
+<h2 class="ch2">5 <em>Prompts</em> voor lesvoorbereiding</h2>
+<p class="cp">Hier zijn 5 gouden prompts die je direct kan copy-pasten naar Copilot. Ze helpen bij lesvoorbereiding, evaluatie en leerlingbegeleiding. Kies hetgeen wat je nodig hebt en vul de [vierkante haakjes] in met jouw gegevens.</p>
+
+<div style="background: rgba(127,224,0,0.12); border-radius: 8px; padding: 16px; border-left: 4px solid var(--green); margin: 20px 0;">
+  <strong style="color: var(--green); font-size: 12px; text-transform: uppercase;">💡 PRO TIP: Doel-TRICK</strong>
+  <p style="font-size: 13px; color: #3d4f8a; margin: 8px 0 0 0; line-height: 1.6;">
+    Wil je nog betere prompts? Voeg telkens <strong>Rol</strong> (je bent een…), <strong>Doel</strong> (ik wil…), <strong>Taak</strong> (geef… stappen), <strong>Context</strong> (voor leerlingen van…) en <strong>Kwaliteit</strong> (output moet…) toe. Voorbeeld: "Rol: vakdidacticus aardrijkskunde. Doel: lesmateriaal. Taak: 3 kaartjes over klimaatzones. Context: 2de graad. Kwaliteit: interactief, niet meer dan 1 bladzijde."
+  </p>
+</div>
+
+<div style="background: linear-gradient(135deg, rgba(10,31,168,0.08), rgba(127,224,0,0.08)); border-radius: 12px; padding: 20px; border-left: 4px solid var(--blue); margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 13px; color: var(--blue); text-transform: uppercase; margin-bottom: 12px;">💡 Prompt 1: Interactieve werkvormen</div>
+  <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7; margin-bottom: 12px; font-style: italic;">
+    "Bedenk 5 verschillende, interactieve werkvormen voor een les van 50 minuten over [onderwerp, bv. de industriële revolutie] voor leerlingen in [leerjaar/onderwijsvorm]. Zorg voor een afwisseling tussen individueel werk en groepswerk. Geef bij elke werkvorm een korte omschrijving en een inschatting van de benodigde tijd."
+  </p>
+  <div style="background: white; border-radius: 8px; padding: 12px; border-left: 2px solid var(--green);">
+    <strong style="color: var(--green); font-size: 11px;">✓ Wat je krijgt:</strong> 5 uitgewerkte werkvormen met timing
+  </div>
+</div>
+
+<div style="background: linear-gradient(135deg, rgba(10,31,168,0.08), rgba(127,224,0,0.08)); border-radius: 12px; padding: 20px; border-left: 4px solid var(--blue); margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 13px; color: var(--blue); text-transform: uppercase; margin-bottom: 12px;">💡 Prompt 2: Teksten differentiëren</div>
+  <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7; margin-bottom: 12px; font-style: italic;">
+    "Herschrijf de onderstaande tekst over [onderwerp] in drie verschillende versies: 1) Het originele niveau, 2) Een vereenvoudigde versie voor leerlingen met taalachterstand (korte zinnen, alledaagse woorden, heldere structuur), en 3) Een uitdagende versie met rijkere woordenschat voor snelle lezers. [Plak hier de tekst]"
+  </p>
+  <div style="background: white; border-radius: 8px; padding: 12px; border-left: 2px solid var(--green);">
+    <strong style="color: var(--green); font-size: 11px;">✓ Wat je krijgt:</strong> 3 versies van dezelfde tekst op maat van elk niveau
+  </div>
+</div>
+
+<div style="background: linear-gradient(135deg, rgba(10,31,168,0.08), rgba(127,224,0,0.08)); border-radius: 12px; padding: 20px; border-left: 4px solid var(--blue); margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 13px; color: var(--blue); text-transform: uppercase; margin-bottom: 12px;">💡 Prompt 3: Toetsvragen genereren</div>
+  <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7; margin-bottom: 12px; font-style: italic;">
+    "Maak 10 meerkeuzevragen en 3 open inzichtvragen over [onderwerp/hoofdstuk] voor leerlingen van [leeftijd/niveau]. Voorzie bij de meerkeuzevragen 4 opties, waarvan telkens één de juiste is. Voeg helemaal onderaan een duidelijke correctiesleutel toe met de juiste antwoorden en een korte verklaring."
+  </p>
+  <div style="background: white; border-radius: 8px; padding: 12px; border-left: 2px solid var(--green);">
+    <strong style="color: var(--green); font-size: 11px;">✓ Wat je krijgt:</strong> 13 toetsvragen + correctiesleutel
+  </div>
+</div>
+
+<div style="background: linear-gradient(135deg, rgba(10,31,168,0.08), rgba(127,224,0,0.08)); border-radius: 12px; padding: 20px; border-left: 4px solid var(--blue); margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 13px; color: var(--blue); text-transform: uppercase; margin-bottom: 12px;">💡 Prompt 4: Constructieve feedback</div>
+  <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7; margin-bottom: 12px; font-style: italic;">
+    "Schrijf een kort stukje constructieve feedback (maximaal 4 zinnen) voor op het rapport van een leerling. De leerling is erg sterk in [positief punt, bv. mondelinge participatie], maar moet nog werken aan [werkpunt, bv. opdrachten tijdig inleveren]. De toon moet aanmoedigend zijn en eindigen met een concrete tip voor de volgende periode."
+  </p>
+  <div style="background: white; border-radius: 8px; padding: 12px; border-left: 2px solid var(--green);">
+    <strong style="color: var(--green); font-size: 11px;">✓ Wat je krijgt:</strong> Persoonlijke, constructieve rapport-opmerking
+  </div>
+</div>
+
+<div style="background: linear-gradient(135deg, rgba(10,31,168,0.08), rgba(127,224,0,0.08)); border-radius: 12px; padding: 20px; border-left: 4px solid var(--blue); margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 13px; color: var(--blue); text-transform: uppercase; margin-bottom: 12px;">💡 Prompt 5: Communicatie met ouders</div>
+  <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7; margin-bottom: 12px; font-style: italic;">
+    "Schrijf een professionele en vriendelijke e-mail naar de ouders van [naam leerling]. Geef aan dat hun kind de laatste tijd [probleem, bv. de focus verliest tijdens de les], maar benadruk direct ook iets positiefs, zoals [positief aspect]. Vraag om een kort overlegmoment om samen te kijken hoe we [naam] het beste kunnen ondersteunen."
+  </p>
+  <div style="background: white; border-radius: 8px; padding: 12px; border-left: 2px solid var(--green);">
+    <strong style="color: var(--green); font-size: 11px;">✓ Wat je krijgt:</strong> Empathische mail naar ouders
+  </div>
+</div>
+
+<div style="background: linear-gradient(135deg, rgba(127,224,0,0.08), rgba(10,31,168,0.08)); border-radius: 12px; padding: 20px; border-left: 4px solid var(--green); margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 13px; color: var(--green); text-transform: uppercase; margin-bottom: 12px;">💡 Klaar gemaakte Copilot-templates</div>
+  <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7; margin-bottom: 16px;">
+    Je hoeft niet altijd zelf prompts in te typen! Microsoft heeft klaar gemaakte templates (agents) voor onderwijs. Start daar, pas aan naar je behoefte:
+  </p>
+  
+  <div style="display: flex; flex-direction: column; gap: 10px;">
+    <a href="https://m365.cloud.microsoft/chat/?titleId=T_ee4b5de7-8666-7829-d4d1-d0c7a4bbaa8a&source=embedded-builder" target="_blank" style="background: white; border: 2px solid var(--green); border-radius: 8px; padding: 12px 16px; text-decoration: none; color: var(--green); font-weight: 700; transition: all 0.2s;">
+      📚 Onderwijsassistent — Directe tool voor lesvoorbereiding & leerlingbegeleiding
+    </a>
+    
+    <a href="https://m365.cloud.microsoft/chat/?titleId=T_395da538-6255-88c4-8096-7fafa8d0fed9&source=embedded-builder" target="_blank" style="background: white; border: 2px solid var(--blue); border-radius: 8px; padding: 12px 16px; text-decoration: none; color: var(--blue); font-weight: 700; transition: all 0.2s;">
+      🎯 AI-bestendige opdrachten maken — Template voor leerlingen-proof assignments
+    </a>
+    
+    <a href="https://m365.cloud.microsoft/chat/?titleId=P_f0ff38f1-4d81-a9b7-dbf1-b161328daa1f" target="_blank" style="background: white; border: 2px solid var(--orange); border-radius: 8px; padding: 12px 16px; text-decoration: none; color: var(--orange); font-weight: 700; transition: all 0.2s;">
+      💬 Prompt Coach — Leer beter prompten schrijven door conversatie
+    </a>
+  </div>
+</div>
+
+<h3 class="ch3">💡 5 Aanvullende prompts per vak</h3>
+<p style="font-size: 13px; color: #3d4f8a; margin: 12px 0; line-height: 1.6;">Hieronder zijn 5 extra prompts voor verschillende vakken. Je kan ze direct copy-pasten en aanpassen naar jouw les.</p>
+
+<div style="background: white; border-left: 4px solid var(--blue); border-radius: 8px; padding: 14px; margin: 14px 0;">
+<strong style="color: var(--blue); font-size: 11px; text-transform: uppercase;">📖 Nederlands: Karakteranalyse</strong>
+<p style="font-size: 12px; color: #3d4f8a; font-style: italic; margin: 8px 0 4px 0;">
+"Analyse het karakter van [hoofdpersoon] uit [boektitel]. Geef: 1) 3 kernkwaliteiten met voorbeelden uit tekst, 2) hoe die karakter verandert doorheen verhaal, 3) 1 sterkte en 1 zwakte als leerling. Schrijf in 150-200 woorden."
+</p>
+<div style="font-size: 11px; color: var(--muted);">→ Label: 3-4 (AI helpt structureren; leerling leest boek en geeft voorbeelden)</div>
+</div>
+
+<div style="background: white; border-left: 4px solid var(--orange); border-radius: 8px; padding: 14px; margin: 14px 0;">
+<strong style="color: var(--orange); font-size: 11px; text-transform: uppercase;">🔬 Wetenschappen: Lab-rapport</strong>
+<p style="font-size: 12px; color: #3d4f8a; font-style: italic; margin: 8px 0 4px 0;">
+"Ik voerde dit experiment uit: [beschrijving]. Resultaten: [getallen/waarnemingen]. Maak een structuur voor mijn lab-rapport met: Inleiding, Hypothese, Methode, Resultaten, Discussie, Conclusie. Geef tips voor ELKE sectie. AI mag structuur en tips geven, mijn woorden blijven van mij."
+</p>
+<div style="font-size: 11px; color: var(--muted);">→ Label: 2-3 (Ideeën + lichte bewerking)</div>
+</div>
+
+<div style="background: white; border-left: 4px solid var(--green); border-radius: 8px; padding: 14px; margin: 14px 0;">
+<strong style="color: var(--green); font-size: 11px; text-transform: uppercase;">🎨 Kunst: Inspiratie</strong>
+<p style="font-size: 12px; color: #3d4f8a; font-style: italic; margin: 8px 0 4px 0;">
+"Genereer 5 afbeeldingen met het thema '[thema, bijv. Steampunk nature]'. Maak ze in stijl van [kunstenaar/stijl]. Ik zal dit gebruiken als inspiratie voor mijn eigen kunstwerk, niet als eindproduct."
+</p>
+<div style="font-size: 11px; color: var(--muted);">→ Label: 2 (Ideeën via visuals)</div>
+</div>
+
+<div style="background: white; border-left: 4px solid #9C27B0; border-radius: 8px; padding: 14px; margin: 14px 0;">
+<strong style="color: #9C27B0; font-size: 11px; text-transform: uppercase;">💼 Economie: Bedrijfscase</strong>
+<p style="font-size: 12px; color: #3d4f8a; font-style: italic; margin: 8px 0 4px 0;">
+"Bedrijf [naam] staat voor een keuze: twee strategieën. Strategie A: [beschrijving], Strategie B: [beschrijving]. Maak een SWOT-analyse voor elke strategie. Welke zou jij kiezen als CEO? Geef 3 redenen. BELANGRIJK: ik bepaal zelf welke strategie beter is, niet AI."
+</p>
+<div style="font-size: 11px; color: var(--muted);">→ Label: 3-4 (Hulp bij analyse; eigen keuze)</div>
+</div>
+
+<div style="background: white; border-left: 4px solid #FF6B6B; border-radius: 8px; padding: 14px; margin: 14px 0;">
+<strong style="color: #FF6B6B; font-size: 11px; text-transform: uppercase;">⚽ Lichamelijke opvoeding: Trainingsplan</strong>
+<p style="font-size: 12px; color: #3d4f8a; font-style: italic; margin: 8px 0 4px 0;">
+"Ik wil sterker worden in [sport]. Ik train [X keer per week]. Maak een 6-week trainingsplan met progressie. Voeg uit welke oefeningen, sets, herhalingen, rustdagen. Ik zal dit testen en zeggen wat werkt."
+</p>
+<div style="font-size: 11px; color: var(--muted);">→ Label: 4 (AI genereert plan; leerling voert uit en reflecteert)</div>
+</div>
+
+<h3 class="ch3">⭐ Microsoft's Best Practices voor Prompts</h3>
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6; margin-top: 12px;">
+Microsoft benadrukt deze 5 kern-strategieën voor betere prompts (aangevuld met jouw Doel-TRICK kader):
+</p>
+
+<div style="background: white; border-left: 4px solid var(--blue); border-radius: 8px; padding: 14px; margin: 14px 0;">
+<strong style="color: var(--blue); font-size: 11px; text-transform: uppercase;">1. Wees specifiek over de rol</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 6px;">
+"Speel een leerkracht Nederlands" werkt beter dan gewoon vragen. Nog beter: "Je bent een vakdidacticus Nederlands die <strong>20 jaar ervaring</strong> heeft met <strong>2de graad SEC</strong>."
+</p>
+</div>
+
+<div style="background: white; border-left: 4px solid var(--green); border-radius: 8px; padding: 14px; margin: 14px 0;">
+<strong style="color: var(--green); font-size: 11px; text-transform: uppercase;">2. Geef context en achtergrond</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 6px;">
+"Maak een quiz over WO1" is vaag. Beter: "Maak een quiz over WO1 voor <strong>3de graad</strong>, focus op <strong>oorzaken en gevolgen</strong>, gebruik <strong>meerkeuzevragen</strong>."
+</p>
+</div>
+
+<div style="background: white; border-left: 4px solid #9C27B0; border-radius: 8px; padding: 14px; margin: 14px 0;">
+<strong style="color: #9C27B0; font-size: 11px; text-transform: uppercase;">3. Definieer het gewenste formaat</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 6px;">
+Zeg NIET: "Geef tips voor differentiatie"
+Zeg WEL: "Geef 5 tips in <strong>bullet points</strong>, elk <strong>max 1 zin</strong>, gericht op <strong>hoogbegaafde leerlingen</strong>."
+</p>
+</div>
+
+<div style="background: white; border-left: 4px solid var(--orange); border-radius: 8px; padding: 14px; margin: 14px 0;">
+<strong style="color: var(--orange); font-size: 11px; text-transform: uppercase;">4. Voeg voorbeelden toe (few-shot prompting)</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 6px;">
+"Hier zijn 2 voorbeelden van goed feedback: [voorbeeld 1] en [voorbeeld 2]. Geef me 3 meer voorbeelden in dezelfde stijl." 
+AI begrijpt het patroon veel beter.
+</p>
+</div>
+
+<div style="background: white; border-left: 4px solid #64C8C8; border-radius: 8px; padding: 14px; margin: 14px 0;">
+<strong style="color: #64C8C8; font-size: 11px; text-transform: uppercase;">5. Stuur de iteratie</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 6px;">
+Na eerste antwoord: "Goed, maar maak het <strong>12-16 jaar oud vriendelijk</strong>," of "Verwijder jargon," of "Voeg een voorbeeld in." AI passen aan gebaseerd op jouw feedback.
+</p>
+</div>
+
+<h3 class="ch3">🖼️ BONUS: Afbeeldingen genereren met AI</h3>
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6; margin-top: 12px;">
+Tekst is niet alles. AI kan ook afbeeldingen maken — handig voor posters, presentaties, lesmateriaal. Hier's hoe je het doet:
+</p>
+
+<div style="background: rgba(127,224,0,0.12); border-radius: 8px; padding: 16px; margin: 14px 0;">
+<strong style="color: var(--green); font-size: 11px; text-transform: uppercase;">📸 Afbeeldingsgeneratoren in Copilot</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 8px; line-height: 1.6;">
+Copilot kan DALL-E 3 gebruiken om afbeeldingen te maken. Vraag: "Maak een illustratie van [concept] in stijl van [kunstenaar/stijl]."<br><br>
+<strong>Voorbeeld:</strong> "Maak een illustratie van fotosynthese in stijl van een wetenschappelijke infographic, geschikt voor 2de graad."<br><br>
+<strong>Output:</strong> Je krijgt een unieke afbeelding die je kan gebruiken in les-slides, werkbladen, posters.
+</p>
+</div>
+
+<div style="background: rgba(255,193,7,0.12); border-radius: 8px; padding: 16px; margin: 14px 0;">
+<strong style="color: var(--orange); font-size: 11px; text-transform: uppercase;">⚠️ Vier dingen om te onthouden</strong>
+<ul style="font-size: 12px; color: #3d4f8a; margin-top: 8px; padding-left: 16px; line-height: 1.6;">
+<li><strong>Geen echte gezichten:</strong> Vraag AI geen afbeeldingen van echte mensen te maken (privacy)</li>
+<li><strong>Label je afbeeldingen:</strong> Zeg tegen leerlingen "Dit is AI-gegenereerd" — transparantie!</li>
+<li><strong>Controleer op raar:</strong> AI maakt soms enge dingen. Check de output voordat je het gebruikt</li>
+<li><strong>NIET voor posters van leerlingen:</strong> Laat leerlingen hun eigen gezicht NIET laten AI-genereren (label 1: geen AI)</li>
+</ul>
+</div>
+
+<div style="background: rgba(10,31,168,0.08); border-radius: 8px; padding: 16px; margin: 14px 0;">
+<strong style="color: var(--blue); font-size: 11px; text-transform: uppercase;">💡 Praktijkidee: AI afbeeldingen als leeringsmoment</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 8px; line-height: 1.6;">
+Toon leerlingen een AI-afbeelding en vraag: "Wat ziet AI verkeerd aan dit plaatje? Hoe zou jij het tekenen?" Dit helpt leerlingen kritisch denken over de grenzen van AI.</p>
+</div>
+
+<h3 class="ch3">💡 BONUS: Reverse Prompting</h3>
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6; margin: 12px 0;">
+Weet je niet hoe je iets moet vragen? Vraag AI dan gewoon: "Wat zou een goede prompt zijn om [doel] te bereiken?" AI geeft je dan een sterke prompt terug. Dit helpt je zelf beter prompts leren schrijven!
+</p>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p3()">← Vorige</button>
+  <button class="sr-btn g" onclick="n3()">Volgende: Maakmodule →</button>
 </div>`;
 }
 
@@ -1377,7 +2255,6 @@ function m3s3(c){
 <div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">📚 Stap 4 van 8 · Differentiëren</span></div>
 <h2 class="ch2">Lesmateriaal <em>differentiëren</em> op leesniveau</h2>
 <p class="cp">Heb je een goede basistekst, maar leerlingen met heel uiteenlopende leesvaardigheden? Gebruik de <strong>Teach-module</strong> binnen Copilot: kies "Modify existing content" en daarna "Modify reading level". Copilot herschrijft je tekst dan automatisch op een eenvoudiger of net uitdagender taalniveau, terwijl de inhoud hetzelfde blijft.</p>
-<img src="img/copilot-teach-tools.png" alt="Copilot Teaching tools met Modify reading level, Differentiate instructions en Align to standards" class="inline-img">
 <p class="cp">Dit is bijzonder nuttig bij gemengde klasgroepen of taalheterogene klassen (bv. een grote instroom van anderstalige nieuwkomers). Werk wel altijd met dezelfde leerdoelen: enkel het taalniveau verandert, niet de kern van wat een leerling moet kennen of kunnen.</p>
 <div class="ib warn">
   <div class="ib-t">🔍 Controleer altijd de feitelijke inhoud</div>
@@ -1409,7 +2286,6 @@ function m3s5(c){
 <h2 class="ch2">Bouw je eigen <em>agent</em></h2>
 <p class="cp">Een <strong>agent</strong> in Copilot M365 is een aangepaste, afgebakende assistent: je geeft hem specifieke instructies en eventueel eigen documenten of bronnen, en hij gedraagt zich vervolgens enkel binnen die afgesproken grenzen. Denk aan een "studiebuddy" die leerlingen enkel binnen jouw lesmateriaal helpt oefenen, zonder af te dwalen naar andere onderwerpen of het antwoord meteen weg te geven.</p>
 <p class="cp">Je maakt een agent aan via "Agents → New agent": beschrijf in gewone taal wat je nodig hebt, en Copilot bouwt de basis voor je op. Je geeft hem een naam, een duidelijke taakomschrijving ("Help leerlingen oefenen op onregelmatige werkwoorden, geef hints, geen volledige antwoorden"), en eventueel relevante documenten als kennisbasis.</p>
-<img src="img/copilot-agent-builder.png" alt="Copilot Agent Builder met veld om de agent in gewone taal te beschrijven" class="inline-img">
 <div class="ib warn">
   <div class="ib-t">⚠️ Voorzichtig met agents die leerlingen zelf gebruiken</div>
   <div class="ib-b">Test een agent altijd grondig zelf vóór je hem aan leerlingen voorstelt: probeer hem "uit te lokken" buiten zijn bedoeld gebruik, en controleer of hij binnen de schoolomgeving (met het schild-icoon) blijft werken. Bij twijfel overleg je met je pedagogisch ICT-coördinator vóór je een agent klasbreed inzet.</div>
@@ -1422,48 +2298,85 @@ function m3s5(c){
 }
 
 function m3s6(c){
-  // EQUAL LENGTHS AND BALANCED INDEXES FOR QUIZ 3
   const quiz = [
-    {
-      q: 'Je opent Copilot maar ziet het schild-icoon (Protected) niet. Wat doe je?',
-      o: [
-        'Gewoon onbezorgd verdergaan, aangezien het enkel een visueel icoontje betreft zonder functionele impact.',
-        'Direct uitloggen en opnieuw aanmelden met je schoolaccount, want zonder schild is er geen dataveiligheid.',
-        'Overstappen naar een compleet ander openbaar AI-platform om je werkzaamheden direct te continueren.',
-        'De webpagina herhaaldelijk vernieuwen en afwachten tot de server het icoon automatisch toont.'
-      ],
-      a: 1,
-      f: 'Het schild garandeert gegevensbescherming binnen de schoolomgeving.'
-    },
-    {
-      q: 'Je genereert een poster en de tekst erop bevat een spelfout. Wat is de juiste reflex?',
-      o: [
-        'De fout negeren, aangezien leerlingen in een visuele poster voornamelijk letten op de grafische elementen.',
-        'De tekst handmatig corrigeren via de Edit Text optie, omdat AI-beeldgeneratoren geregeld taalfouten maken.',
-        'De poster herhaaldelijk volledig opnieuw genereren tot er bij toeval een foutloze versie ontstaat.',
-        'Beeldgeneratie in het algemeen direct uitsluiten voor het ontwikkelen van betrouwbaar klasmateriaal.'
-      ],
-      a: 1,
-      f: 'AI-beeldgeneratoren maken vaak spelfouten in afbeeldingen. Altijd handmatig even corrigeren via Edit Text.'
-    },
-    {
-      q: 'Je hebt een sterke basistekst maar leerlingen met uiteenlopende leesniveaus. Welke tool zet je in?',
-      o: [
-        'De functionaliteit Create waarmee je direct een grafische poster of infographic ontwerpt voor de klas.',
-        'De functionaliteit Teach -> Modify existing content -> Modify reading level om de tekst snel aan te passen.',
-        'De optie Agents -> New agent om een volledig op maat gemaakte virtuele coach op te zetten voor studenten.',
-        'De ingebouwde algemene Library om te zoeken naar reeds bestaande alternatieve teksten over dit thema.'
-      ],
-      a: 1,
-      f: 'Modify reading level herschrijft je tekst op maat voor verschillende leesvaardigheden.'
-    }
+    {q: 'Je opent Copilot maar ziet het schild-icoon (Protected) niet. Wat doe je?', o: ['Gewoon onbezorgd verdergaan, aangezien het enkel een visueel icoontje betreft zonder functionele impact.','Direct uitloggen en opnieuw aanmelden met je schoolaccount, want zonder schild is er geen dataveiligheid.','Overstappen naar een compleet ander openbaar AI-platform om je werkzaamheden direct te continueren.','De webpagina herhaaldelijk vernieuwen en afwachten tot de server het icoon automatisch toont.'], a: 1, f: 'Het schild garandeert gegevensbescherming binnen de schoolomgeving.' },
+    {q: 'Je genereert een poster en de tekst erop bevat een spelfout. Wat is de juiste reflex?', o: ['De fout negeren, aangezien leerlingen in een visuele poster voornamelijk letten op de grafische elementen.','De tekst handmatig corrigeren via de Edit Text optie, omdat AI-beeldgeneratoren geregeld taalfouten maken.','De poster herhaaldelijk volledig opnieuw genereren tot er bij toeval een foutloze versie ontstaat.','Beeldgeneratie in het algemeen direct uitsluiten voor het ontwikkelen van betrouwbaar klasmateriaal.'], a: 1, f: 'AI-beeldgeneratoren maken vaak spelfouten in afbeeldingen. Altijd handmatig even corrigeren via Edit Text.' },
+    {q: 'Je hebt een sterke basistekst maar leerlingen met uiteenlopende leesniveaus. Welke tool zet je in?', o: ['De functionaliteit Create waarmee je direct een grafische poster of infographic ontwerpt voor de klas.','De functionaliteit Teach -> Modify existing content -> Modify reading level om de tekst snel aan te passen.','De optie Agents -> New agent om een volledig op maat gemaakte virtuele coach op te zetten voor studenten.','De ingebouwde algemene Library om te zoeken naar reeds bestaande alternatieve teksten over dit thema.'], a: 1, f: 'Modify reading level herschrijft je tekst op maat voor verschillende leesvaardigheden.' }
   ];
   rQuiz(c, quiz, 3, 'mod3', n3, 70);
 }
 
+function m3s_nascholingsideen_teacher(c){
+  c.innerHTML = `
+<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">🎓 Stap 11 van 12 · Wat volgt?</span></div>
+<h2 class="ch2">Volgende stappen: <em>Verdieping</em></h2>
+<p class="cp">Je hebt nu een sterke basis in Copilot. Wat wil je vervolgens dieper uitdiepen? Sint-Rembert en partners bieden nascholingsopties aan.</p>
+
+<div style="background: rgba(10,31,168,0.08); border-radius: 12px; padding: 20px; border-left: 4px solid var(--blue); margin: 20px 0;">
+  <strong style="color: var(--blue); font-size: 12px; text-transform: uppercase;">🎯 UNESCO AI-competentieframework voor leerkrachten</strong>
+  <p style="font-size: 13px; color: #3d4f8a; margin: 12px 0 0 0; line-height: 1.6;">
+    UNESCO heeft een internationaal kader opgesteld met <strong>6 kerncompetenties</strong> voor leerkrachten. Terwijl je met Copilot werkt, bouw je deze op:
+  </p>
+  <ul style="font-size: 12px; color: #3d4f8a; margin: 12px 0 0 0; padding-left: 20px; line-height: 1.8;">
+    <li><strong>AI begrijpen:</strong> Hoe werkt AI en wat kan het (niet)? ✓ Dit heb je in Module 1 gedaan</li>
+    <li><strong>Kritisch denken:</strong> Bias, privacy, ethiek herkennen ✓ Module 2 dekt dit af</li>
+    <li><strong>Technisch:</strong> Tools als Copilot praktisch gebruiken ✓ Copilot-stappen hier</li>
+    <li><strong>Pedagogisch:</strong> AI inzetten voor betere lessen (niet vervangen) — wat je nu doet</li>
+    <li><strong>Samenwerking:</strong> Met collega's & leerlingen erover communiceren — communities of practice helpen</li>
+    <li><strong>Voortdurend leren:</strong> AI evolueert snel; je blijft bijleren ✓ Nascholing hier</li>
+  </ul>
+</div>
+
+<h3 class="ch3">🎯 Mogelijke vervolgstappen</h3>
+
+<div style="background: white; border: 2px solid var(--green); border-radius: 12px; padding: 20px; margin: 16px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 14px; color: var(--green); text-transform: uppercase; margin-bottom: 8px;">📚 1. Agents bouwen: leerlingen hun eigen AI-assistent laten maken</div>
+  <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7;">Leerlingen begrijpen veel beter hoe AI werkt als ze zelf een agent (een aanpasbare chatbot) bouwen. Geschikt voor informatica, maar ook voor taallessen (vertalingsagent), wiskunde (wiskundige coach), etc.</p>
+  <div style="font-size: 12px; color: var(--muted); margin-top: 8px; font-weight: 600;">💡 Tipje: Howest en Digisprong bieden agents-workshops aan</div>
+</div>
+
+<div style="background: white; border: 2px solid var(--orange); border-radius: 12px; padding: 20px; margin: 16px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 14px; color: var(--orange); text-transform: uppercase; margin-bottom: 8px;">🔬 2. Kritisch denken over AI: bias, deepfakes, machtsverhoudingen</div>
+  <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7;">Tools als ChatGPT zijn handig, maar ook voorzichtig! Wat gebeurt er als AI een antwoord met vooroordeel geeft? Hoe herken je AI-gegenereerde afbeeldingen? Wat doen grote techbedrijven met onze data? Deze kritische lens is essentieel voor leerlingen.</p>
+  <div style="font-size: 12px; color: var(--muted); margin-top: 8px; font-weight: 600;">💡 Tipje: Prof. Orhan Agirdag (KU Leuven) verzorgt een keynote over de ethische kant van AI op 18 november</div>
+</div>
+
+<div style="background: white; border: 2px solid rgba(10,31,168,0.3); border-radius: 12px; padding: 20px; margin: 16px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 14px; color: var(--blue); text-transform: uppercase; margin-bottom: 8px;">🏫 3. AI in jouw vak: vak-specifieke workshops</div>
+  <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7;">Engels-leerkracht? Hoe geef je kritisch schrijven nog meerwaarde als ChatGPT teksten kan genereren? Wiskundelaar? Hoe zorg je dat oefenen nog zin heeft? Kunstvak? Hoe beperk je misbruik van beeld-AI? Vak-specifieke trainingen helpen veel!</p>
+  <div style="font-size: 12px; color: var(--muted); margin-top: 8px; font-weight: 600;">💡 Tipje: Binnenkort starten we sporenaanboden per vakdomein (Howest)</div>
+</div>
+
+<div style="background: white; border: 2px solid rgba(156,39,176,0.6); border-radius: 12px; padding: 20px; margin: 16px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 14px; color: #9C27B0; text-transform: uppercase; margin-bottom: 8px;">🎯 4. Scenario-gebaseerd leren: leerlingen dieper inzicht</div>
+  <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7;">In plaats van AI als "antwoordmachine" te gebruiken, zet je AI in voor <em>scenario-opdrachten</em>: leerlingen onderzoeken AI-gegenereerde teksten kritisch ("Welke bias zit hierin?"), verbeteren ze AI-output ("Maak dit geschikter voor jonge kinderen"), of gebruiken ze AI als gesprekspartner voor diepe vragen. Dit bouwt critisch denken op en maakt leerlingen echte AI-experts — niet alleen consumenten.</p>
+  <div style="font-size: 12px; color: var(--muted); margin-top: 8px; font-weight: 600;">💡 Tipje: Combineer dit met leerdoelen uit je vakdidactiek; scenario's werken best als ze gebonden zijn aan echte inhoud</div>
+</div>
+
+<div style="background: white; border: 2px solid #9333EA; border-radius: 12px; padding: 20px; margin: 16px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 14px; color: #9333EA; text-transform: uppercase; margin-bottom: 8px;">🤝 5. Leren van collega's: communities of practice</div>
+  <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7;">Velen van je collega's experimenteren nu ook met AI in de klas. Wat doe jij? Wat lukt hen? Regelmatige uitwisselingssessies helpen om van elkaar te leren. Sint-Rembert organiseert dit doorheen het schooljaar.</p>
+  <div style="font-size: 12px; color: var(--muted); margin-top: 8px; font-weight: 600;">💡 Tipje: Volgende bijeenkomst: TBA. Meld je interesse!</div>
+</div>
+
+<div style="background: linear-gradient(135deg, rgba(10,31,168,0.08), rgba(127,224,0,0.08)); border-radius: 12px; padding: 20px; border-left: 4px solid var(--blue); margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 13px; color: var(--blue); text-transform: uppercase; margin-bottom: 8px;">📅 Kalender 2025-2026</div>
+  <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.8;">
+    • <strong>18 november:</strong> Keynote Prof. Orhan Agirdag (ethiek & AI)<br>
+    • <strong>Januari-juni:</strong> Sporenaanbod Howest (agents, vak-specifieke sessies)<br>
+    • <strong>Maandelijks:</strong> Leerkrachten-uitwisselingen op Sint-Rembert
+  </p>
+</div>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p3()">← Vorige</button>
+  <button class="sr-btn g" onclick="n3()">Volgende: Slotreflectie →</button>
+</div>`;
+}
+
 function m3s7(c){
   c.innerHTML = `
-<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">🎯 Stap 8 van 8 · Slotreflectie</span></div>
+<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">🎯 Stap 12 van 12 · Slotreflectie</span></div>
 <h2 class="ch2">Slotreflectie</h2>
 <p class="cp">Je hebt nu kennisgemaakt met Copilot M365: het schild-icoon en dataveiligheid, gestructureerd prompten (R-D-C-B-V), de Maakmodule voor visueel materiaal, differentiëren op leesniveau, quizzen/rubrics genereren, en het opzetten van een eigen agent.</p>
 
@@ -1500,17 +2413,543 @@ function m3s7(c){
     'Leerlingen hun prompts laten toevoegen aan hun werk is een haalbare manier van bronvermelding voor mijn vak.'
   ]);
 }
+
 function sR2(){ n3(); }
 
 /* ════════════════════════════════════════════
-   QUIZ ENGINE
+   ADMIN MODULE 3 — Copilot voor administratie
    ════════════════════════════════════════════ */
+
+function m3a0(c){
+  c.innerHTML = `
+<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">⚡ Stap 1 van 4 · Aan de slag</span></div>
+<h2 class="ch2">Copilot voor <em>Administratie</em></h2>
+<p class="cp">Als administratief medewerker ben je de kracht achter de schermen. Copilot M365 kan je helpen om het dagelijkse papierkraam sneller, slimmer en minder foutgevoelig in te pakken. Geen complexe prompts nodig — gewone Nederlands is genoeg.</p>
+
+<h3 class="ch3">🎯 Top 5 use cases voor administratie</h3>
+<div class="sr-row">
+  <div class="sr-box wel">
+    <div class="sr-box-title">1. 📧 Mailsjablonen</div>
+    <p style="font-size: 13px; color: #3d4f8a; font-weight: 600;">Automatisch professionele e-mails genereren met correct Nederlands</p>
+  </div>
+  <div class="sr-box wel">
+    <div class="sr-box-title">2. 📋 Verslag samenvattingen</div>
+    <p style="font-size: 13px; color: #3d4f8a; font-weight: 600;">Een lang document samenvatten in kernpunten</p>
+  </div>
+</div>
+
+<div class="sr-row">
+  <div class="sr-box wel">
+    <div class="sr-box-title">3. 📅 Agenda-planning</div>
+    <p style="font-size: 13px; color: #3d4f8a; font-weight: 600;">Vergaderingen plannen: datum + deelnemers → kalender</p>
+  </div>
+  <div class="sr-box wel">
+    <div class="sr-box-title">4. ✏️ Spellingcheck</div>
+    <p style="font-size: 13px; color: #3d4f8a; font-weight: 600;">Documenten automatisch controleren op taal</p>
+  </div>
+</div>
+
+<div class="sr-row">
+  <div class="sr-box wel" style="grid-column: span 2;">
+    <div class="sr-box-title">5. 📝 Formulieren invullen</div>
+    <p style="font-size: 13px; color: #3d4f8a; font-weight: 600;">Repetitieve velden automatisch aanvullen uit templates</p>
+  </div>
+</div>
+
+<div class="nw">
+  <button class="sr-btn g" onclick="n3()">Volgende: mailsjablonen →</button>
+</div>`;
+}
+
+function m3a1(c){
+  c.innerHTML = `
+<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">📧 Stap 2 van 5 · Mails & Rapportages</span></div>
+<h2 class="ch2">Emailsjablonen & <em>Rapportages samenvatten</em></h2>
+<p class="cp">Twee snelle wins: professionele mails in seconden, en lange documenten in kernpunten samenvatten.</p>
+
+<h3 class="ch3">📧 Use case 1: Emailsjablonen genereren</h3>
+<p class="cp">Hoeveel keer schrijf je dezelfde e-mail? Copilot helpt je een sjabloon te maken die je daarna aanpast.</p>
+
+<div class="ai-card" style="border: 2px solid var(--blue); background: white; padding: 20px; border-radius: var(--rsm); margin: 16px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 12px; color: var(--blue); text-transform: uppercase; margin-bottom: 8px;">Voorbeeld: Mail naar ouders</div>
+  <div style="font-size: 12px; font-weight: 700; color: #3d4f8a; margin: 12px 0;"><strong>Jij aan Copilot:</strong><br>"Schrijf een professionele e-mail naar ouders dat hun kind morgen afwezig is wegens tandarts. Kort, vriendelijk, Nederlands."</div>
+  <div style="background: var(--off); padding: 12px; border-radius: 6px; font-size: 12px; color: #3d4f8a; font-weight: 600; line-height: 1.6;">
+    <strong>Copilot geeft:</strong><br><br>
+    <strong>Onderwerp:</strong> Afwezigheid — [naam leerling]<br><br>
+    Beste [voornaam ouder],<br><br>
+    We willen u informeren dat [naam leerling] morgen afwezig zal zijn van school wegens een afspraak bij de tandarts. We zorgen dat [hij/zij] geen belangrijke lessen mist.<br><br>
+    Met vriendelijke groet,<br>[jouw naam]
+  </div>
+  <div style="font-size: 12px; font-weight: 700; color: var(--green); margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--gray);">💾 Kopieëren → opslaan als template in Outlook!</div>
+</div>
+
+<h3 class="ch3">📋 Use case 2: Lange documenten samenvatten</h3>
+<p class="cp">Een inspectieverslag, evaluatierapport of lange notitie doorspitten? Copilot haalt de kernpunten eruit — je leest niet meer 20 bladzijden.</p>
+
+<div class="ai-card" style="border: 2px solid var(--orange); background: white; padding: 20px; border-radius: var(--rsm); margin: 16px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 12px; color: var(--orange); text-transform: uppercase; margin-bottom: 8px;">Voorbeeld: Samenvatten inspectierapport</div>
+  <div style="font-size: 12px; font-weight: 700; color: #3d4f8a; margin: 12px 0;"><strong>Jij aan Copilot:</strong><br>"Vat dit inspectierapport samen in maximaal 5 kernpunten. Zet er ook actie-items bij en vermeld kritieke punten in het rood."</div>
+  <div style="background: var(--off); padding: 12px; border-radius: 6px; font-size: 12px; color: #3d4f8a; font-weight: 600; line-height: 1.6;">
+    <strong>Copilot geeft:</strong><br><br>
+    <strong>Kernpunten:</strong><br>
+    1. Veiligheid — zeer goed<br>
+    2. <span style="color: var(--red);">⚠️ Inclusie — aandachtspunt</span><br>
+    3. Digitale vaardigheden — in uitvoering<br><br>
+    <strong>Acties:</strong> Volg inclusie-trainingen, plan check in januari
+  </div>
+</div>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p3()">← Vorige</button>
+  <button class="sr-btn g" onclick="n3()">Volgende: Praktische prompts →</button>
+  <span class="nh">Stap 2/5</span>
+</div>`;
+}
+
+function m3a_prompts_admin(c){
+  c.innerHTML = `
+<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">💡 Stap 3 van 5 · Praktische Prompts</span></div>
+<h2 class="ch2">5 <em>Prompts</em> voor administratieve taken</h2>
+<p class="cp">Hier zijn 5 praktische prompts die je dagelijkse werk versnellen. Copy-paste naar Copilot en vul de [vierkante haakjes] in.</p>
+
+<div style="background: linear-gradient(135deg, rgba(10,31,168,0.08), rgba(127,224,0,0.08)); border-radius: 12px; padding: 20px; border-left: 4px solid var(--blue); margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 13px; color: var(--blue); text-transform: uppercase; margin-bottom: 12px;">💡 Prompt 1: Actiepunten uit vergaderverslagen</div>
+  <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7; font-style: italic;">
+    "Lees het onderstaande verslag van de [directieraad/personeelsvergadering]. Geef bovenaan een ultrakorte samenvatting van 3 zinnen. Maak daaronder een tabel met drie kolommen ('Actiepunt', 'Verantwoordelijke', 'Deadline') en vul deze aan met alle afspraken. [Plak hier de notulen]"
+  </p>
+  <div style="background: white; border-radius: 8px; padding: 12px; border-left: 2px solid var(--green);">
+    <strong style="color: var(--green); font-size: 11px;">✓ Wat je krijgt:</strong> Gestructureerde tabel met actiepunten + deadlines
+  </div>
+</div>
+
+<div style="background: linear-gradient(135deg, rgba(10,31,168,0.08), rgba(127,224,0,0.08)); border-radius: 12px; padding: 20px; border-left: 4px solid var(--blue); margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 13px; color: var(--blue); text-transform: uppercase; margin-bottom: 12px;">💡 Prompt 2: Schoolnieuwsbrief schrijven</div>
+  <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7; font-style: italic;">
+    "Schrijf een enthousiast en vlot leesbaar artikel van maximaal 200 woorden voor de schoolnieuwsbrief over [onderwerp, bv. de nieuwe parkeerregeling]. De doelgroep is de ouders. Vermijd formeel jargon, gebruik vlotte tussenkopjes en som de belangrijkste praktische details op in bulletpoints."
+  </p>
+  <div style="background: white; border-radius: 8px; padding: 12px; border-left: 2px solid var(--green);">
+    <strong style="color: var(--green); font-size: 11px;">✓ Wat je krijgt:</strong> Toegankelijk persberichtje klaar voor publicatie
+  </div>
+</div>
+
+<div style="background: linear-gradient(135deg, rgba(10,31,168,0.08), rgba(127,224,0,0.08)); border-radius: 12px; padding: 20px; border-left: 4px solid var(--blue); margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 13px; color: var(--blue); text-transform: uppercase; margin-bottom: 12px;">💡 Prompt 3: Vriendelijke herinneringsmails</div>
+  <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7; font-style: italic;">
+    "Stel een e-mail op naar ouders om hen te herinneren aan [ontbrekend document / openstaande factuur]. De oorspronkelijke deadline was [datum]. Houd de toon beleefd en begripvol, maar wees duidelijk over het belang. Vermeld onderaan bij wie ze terechtkunnen met vragen."
+  </p>
+  <div style="background: white; border-radius: 8px; padding: 12px; border-left: 2px solid var(--green);">
+    <strong style="color: var(--green); font-size: 11px;">✓ Wat je krijgt:</strong> Welwillende maar duidelijke follow-up mail
+  </div>
+</div>
+
+<div style="background: linear-gradient(135deg, rgba(10,31,168,0.08), rgba(127,224,0,0.08)); border-radius: 12px; padding: 20px; border-left: 4px solid var(--blue); margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 13px; color: var(--blue); text-transform: uppercase; margin-bottom: 12px;">💡 Prompt 4: Draaiboeken en checklist</div>
+  <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7; font-style: italic;">
+    "Maak een uitgebreid, chronologisch draaiboek in tabelvorm voor de organisatie van [evenement, bv. opendeurdag]. Verdeel de acties in vier fases: '2 maanden vooraf', '2 weken vooraf', 'De dag zelf', 'Afbouw achteraf'. Houd rekening met communicatie, catering en facilitair beheer."
+  </p>
+  <div style="background: white; border-radius: 8px; padding: 12px; border-left: 2px solid var(--green);">
+    <strong style="color: var(--green); font-size: 11px;">✓ Wat je krijgt:</strong> Compleet projectplan voor groot evenement
+  </div>
+</div>
+
+<div style="background: linear-gradient(135deg, rgba(10,31,168,0.08), rgba(127,224,0,0.08)); border-radius: 12px; padding: 20px; border-left: 4px solid var(--blue); margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 13px; color: var(--blue); text-transform: uppercase; margin-bottom: 12px;">💡 Prompt 5: Stap-voor-stap handleidingen</div>
+  <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7; font-style: italic;">
+    "Schrijf een duidelijke, stapsgewijze handleiding voor het lerarenteam over hoe zij [nieuwe procedure] moeten uitvoeren. Gebruik een genummerde lijst. Leg de nadruk op de stappen waar vaak fouten worden gemaakt en hou de zinnen zo kort en direct mogelijk."
+  </p>
+  <div style="background: white; border-radius: 8px; padding: 12px; border-left: 2px solid var(--green);">
+    <strong style="color: var(--green); font-size: 11px;">✓ Wat je krijgt:</strong> Heldere handleiding voor collega's
+  </div>
+</div>
+
+<div style="background: linear-gradient(135deg, rgba(127,224,0,0.08), rgba(10,31,168,0.08)); border-radius: 12px; padding: 20px; border-left: 4px solid var(--green); margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 13px; color: var(--green); text-transform: uppercase; margin-bottom: 12px;">💡 Klaar gemaakte Copilot-templates</div>
+  <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7; margin-bottom: 16px;">
+    Microsoft biedt templates aan speciaal voor onderwijs. Handige startpunten voor adminwerk:
+  </p>
+  
+  <div style="display: flex; flex-direction: column; gap: 10px;">
+    <a href="https://m365.cloud.microsoft/chat/?titleId=T_ee4b5de7-8666-7829-d4d1-d0c7a4bbaa8a&source=embedded-builder" target="_blank" style="background: white; border: 2px solid var(--green); border-radius: 8px; padding: 12px 16px; text-decoration: none; color: var(--green); font-weight: 700; transition: all 0.2s;">
+      📚 Onderwijsassistent — Voor communicatie, planning & organisatie
+    </a>
+  </div>
+</div>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p3()">← Vorige</button>
+  <button class="sr-btn g" onclick="n3()">Volgende: Rapportages →</button>
+</div>`;
+}
+
+function m3a2(c){
+  c.innerHTML = `
+<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">⚡ Stap 4 van 5 · Efficiëncy & Automatisering</span></div>
+<h2 class="ch2">Administratie <em>sneller & slimmer</em></h2>
+<p class="cp">De beste AI-use case voor administratie is niet "dit kunnen machines voor me doen", maar "hoe besteed ik mijn tijd slimmer in?" Hier zijn 3 concrete efficiency-wins:</p>
+
+<div style="background: white; border-left: 4px solid var(--blue); border-radius: 12px; padding: 20px; margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 14px; color: var(--blue); text-transform: uppercase; margin-bottom: 12px;">⚡ Win 1: Automatische formulierinvulling</div>
+  <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.8;">
+    Veel administratie is repetitief: contactgegevens, data, standaardteksten. Geef Copilot je "template" één keer, dan vult hij dezelfde informatie automatisch in de volgende 10 formulieren in. <strong>Besparing: 2-3 uur per week.</strong>
+  </p>
+</div>
+
+<div style="background: white; border-left: 4px solid var(--orange); border-radius: 12px; padding: 20px; margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 14px; color: var(--orange); text-transform: uppercase; margin-bottom: 12px;">⚡ Win 2: Snel data schoonmaken</div>
+  <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.8;">
+    Je hebt een Excel met misgemaakte gegevens: inconsistente naamnotatie ("Jan de Vries" vs "J. de Vries"), foute datumformaten, ontbrekende nummers. Copilot kan dit automatisch herkennen en correct zetten. <strong>Besparing: 3-5 uur per batch.</strong>
+  </p>
+</div>
+
+<div style="background: white; border-left: 4px solid var(--green); border-radius: 12px; padding: 20px; margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 14px; color: var(--green); text-transform: uppercase; margin-bottom: 12px;">⚡ Win 3: Vergaderverslagen in 2 minuten samenvatten</div>
+  <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.8;">
+    Je krijgt een 45-minuten-verslag van de schoolraad. Plak het in Copilot, zeg "Geef actiepunten + verantwoordelijken + deadlines in een tabel." Klaar in 2 minuten. <strong>Besparing: 20-30 minuten per vergadering.</strong>
+  </p>
+</div>
+
+<div class="ib info" style="margin-top: 20px;">
+  <div class="ib-t">💡 Slim gebruiken: kwaliteit checken</div>
+  <div class="ib-b">
+    Copilot werkt snel, maar zeg altijd: "Dit is niet perfect, ik zal het nog controleren." Zaken die Copilot overloopt: nummerlogica, lastige contexten, inconsistenties. Jij blijft de "final check".
+  </div>
+</div>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p3()">← Vorige</button>
+  <button class="sr-btn g" onclick="n3()">Volgende: GDPR & Afronding →</button>
+  <span class="nh">Stap 4/5</span>
+</div>`;
+}
+
+function m3a3(c){
+  c.innerHTML = `
+<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">🔒 Stap 5 van 5 · GDPR & Afronding</span></div>
+<h2 class="ch2"><em>GDPR-check:</em> Wat mag niet</h2>
+<p class="cp">Het meest kritieke voor administratie: weet wat je wél en niet mag doen met AI.</p>
+
+<div style="background: rgba(224,32,32,0.1); border-left: 4px solid var(--red); border-radius: 12px; padding: 20px; margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 14px; color: var(--red); text-transform: uppercase; margin-bottom: 16px;">❌ Dit mag ABSOLUUT niet</div>
+  
+  <div style="margin-bottom: 16px;">
+    <div style="font-weight: 700; color: var(--red); font-size: 13px; text-transform: uppercase; margin-bottom: 8px;">1. Foto's van kinderen bewerken met AI</div>
+    <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7;">
+      Zelfs "onschuldige" aanpassingen (background verwijderen, gezicht blurren) zijn gevoelig. GDPR en portretrecht beschermen kinderen. <strong>Risico: zware boetes.</strong>
+    </p>
+  </div>
+
+  <div style="margin-bottom: 16px;">
+    <div style="font-weight: 700; color: var(--red); font-size: 13px; text-transform: uppercase; margin-bottom: 8px;">2. Bestanden of documenten met leerlinggegevens online zetten</div>
+    <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7;">
+      Een Excel met leerlingnamen/scores/adressen uploaden naar ChatGPT of een gratis AI-tool = GDPR-schending. Alle leerlinggegevens blijven in M365 (met schild-icoon).
+    </p>
+  </div>
+
+  <div style="margin-bottom: 16px;">
+    <div style="font-weight: 700; color: var(--red); font-size: 13px; text-transform: uppercase; margin-bottom: 8px;">3. Persoonsgegevens in openbare prompts</div>
+    <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7;">
+      Nooit: "Schrijf een mail naar Jan de Vries (leerling 3A) omdat hij...". Altijd anonimiseren: "Schrijf een mail naar een leerling omdat hij afwezig was."
+    </p>
+  </div>
+
+  <div>
+    <div style="font-weight: 700; color: var(--red); font-size: 13px; text-transform: uppercase; margin-bottom: 8px;">4. Gevoelige schoolgegevens zonder beveiligde tool</div>
+    <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7;">
+      Leerlinggegevens, beleidsteksten, evaluatierapporten → alleen in Copilot M365 (het schild-icoon zichtbaar). Nooit gratis tools.
+    </p>
+  </div>
+</div>
+
+<div style="background: rgba(10,31,168,0.08); border-left: 4px solid var(--blue); border-radius: 12px; padding: 20px; margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 14px; color: var(--blue); text-transform: uppercase; margin-bottom: 12px;">✅ Dit mag wel</div>
+  <ul style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.8; margin: 0; padding-left: 20px;">
+    <li>Emailsjablonen genereren (zonder echte namen)</li>
+    <li>Rapporten samenvatten (in M365)</li>
+    <li>Efficiëncytips zoeken (proces-verbeteringen)</li>
+    <li>Standaarddocumenten schrijven (beleid, info)</li>
+    <li>Formulieren optimaliseren (structuur, workflow)</li>
+  </ul>
+</div>
+
+<h3 class="ch3">💭 Reflectie</h3>
+<p class="cp">Je hebt nu gezien hoe Copilot je administratie sneller kan maken: mails, samenvatten, automatisering. Wat ga je deze week als eerste uitproberen?</p>
+
+<textarea class="sr-ta" id="r2" placeholder="Ik ga als eerst uitproberen... omdat ik dit veel tijd bespaar bij..." style="height: 100px;"></textarea>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p3()">← Vorige</button>
+  <button class="sr-btn o" onclick="sR2()">✅ Verdieping voltooid →</button>
+  <span class="nh">Stap 5/5</span>
+</div>`;
+  const ta = document.getElementById('r2');
+  ta.value = localStorage.getItem('sr_r2_admin') || '';
+  ta.oninput = ()=>localStorage.setItem('sr_r2_admin', ta.value);
+}
+
+/* ════════════════════════════════════════════
+   MANAGEMENT MODULE 3 — Copilot voor beleid
+   ════════════════════════════════════════════ */
+
+function m3m0(c){
+  c.innerHTML = `
+<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">🎯 Stap 1 van 5 · Strategisch</span></div>
+<h2 class="ch2">Copilot voor <em>Strategisch Beleid</em></h2>
+<p class="cp">Als schoolleiding zet je in op lange termijn: beleidsdocumenten, risicobeheer, regelingteksten, stakeholderberichten. Copilot helpt je die snel en deugdelijk op papier te krijgen.</p>
+
+<h3 class="ch3">🎯 Top 4 strategische use cases</h3>
+<div class="sr-row">
+  <div class="sr-box wel">
+    <div class="sr-box-title">1. 📋 Beleidsdocumenten</div>
+    <p style="font-size: 13px; color: #3d4f8a; font-weight: 600;">Eerste versie van een beleidskader (AI, duurzaamheid, inclusie) in een uur opgesteld</p>
+  </div>
+  <div class="sr-box wel">
+    <div class="sr-box-title">2. 🔍 Risicoanalyse</div>
+    <p style="font-size: 13px; color: #3d4f8a; font-weight: 600;">Identificeer risico's en voorstel mitigatie op basis van je schoolcontext</p>
+  </div>
+</div>
+
+<div class="sr-row">
+  <div class="sr-box wel">
+    <div class="sr-box-title">3. 💬 Stakeholder-communicatie</div>
+    <p style="font-size: 13px; color: #3d4f8a; font-weight: 600;">Brieven aan raad van bestuur, ouders en overheid goed formuleren</p>
+  </div>
+  <div class="sr-box wel">
+    <div class="sr-box-title">4. ⚖️ Regelingcompliance</div>
+    <p style="font-size: 13px; color: #3d4f8a; font-weight: 600;">Check of je beleid aansluit bij EU AI Act, GDPR, schoolwetgeving</p>
+  </div>
+</div>
+
+<div class="nw">
+  <button class="sr-btn g" onclick="n3()">Volgende: Beleidsdocumenten →</button>
+</div>`;
+}
+
+function m3m1(c){
+  c.innerHTML = `
+<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">📋 Stap 2 van 5 · Beleidsdocumenten</span></div>
+<h2 class="ch2">Beleidsdocumenten <em>opstellen</em></h2>
+<p class="cp">Een nieuw AI-beleidskader? Een DG-plan? Een code of conduct? Copilot levert je eerste versie in minuten — jij refineert naar schoolse context.</p>
+
+<div class="ai-card" style="border: 2px solid var(--blue); background: white; padding: 20px; border-radius: var(--rsm); margin: 16px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 12px; color: var(--blue); text-transform: uppercase; margin-bottom: 8px;">Voorbeeld: AI-Beleidskader (5 minuten)</div>
+  <div style="font-size: 12px; font-weight: 700; color: #3d4f8a; margin: 12px 0;"><strong>Jij aan Copilot:</strong><br>"Maak een beleidskader voor AI-gebruik in een Nederlandse scholengroep (3 basisscholen + 1 voortgezet). Include: visie, risico's, goedgekeurde tools, ondersteuning, monitoren. Format: kort + puntsgewijs."</div>
+  <div style="background: var(--off); padding: 12px; border-radius: 6px; font-size: 12px; color: #3d4f8a; font-weight: 600; line-height: 1.6;">
+    <strong>Copilot geeft:</strong> Volledige structuur van beleidskader waarmee jij direct kan starten en aanpassen naar schoolcontext.
+  </div>
+</div>
+
+<div class="ib warn">
+  <div class="ib-t">⚠️ Controleer juridisch</div>
+  <div class="ib-b">Laat gegenereerde beleidsteksten altijd controleren door juridisch adviseur of schoolcoach vóór publicatie. AI helpt met vorm, niet met juridische verantwoordelijkheid.</div>
+</div>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p3()">← Vorige</button>
+  <button class="sr-btn g" onclick="n3()">Volgende: Prompts voor beleid →</button>
+</div>`;
+}
+
+function m3m_prompts_mgmt(c){
+  c.innerHTML = `
+<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">💡 Stap 3 van 5 · Praktische Prompts</span></div>
+<h2 class="ch2">5 <em>Prompts</em> voor strategisch beleid</h2>
+<p class="cp">5 prompts die je helpen bij beleidsontwikkeling, risicomanagement en communicatie. Veel van deze taken nemen weken — deze prompts kunnen je eerst in uren zetten.</p>
+
+<div style="background: linear-gradient(135deg, rgba(10,31,168,0.08), rgba(127,224,0,0.08)); border-radius: 12px; padding: 20px; border-left: 4px solid var(--blue); margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 13px; color: var(--blue); text-transform: uppercase; margin-bottom: 12px;">💡 Prompt 1: AI-Beleidskader in 2 uur</div>
+  <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7; font-style: italic;">
+    "Maak een beleidskader voor AI-gebruik in een Nederlandse scholengroep (bv. 3 basisscholen + 1 voortgezet). Include: visie, risico's, goedgekeurde tools, ondersteuning voor personeel, monitoren. Format: kort + puntsgewijs, geschikt voor raad van bestuur."
+  </p>
+  <div style="background: white; border-radius: 8px; padding: 12px; border-left: 2px solid var(--green);">
+    <strong style="color: var(--green); font-size: 11px;">✓ Wat je krijgt:</strong> Compleet beleidskader als basis
+  </div>
+</div>
+
+<div style="background: linear-gradient(135deg, rgba(10,31,168,0.08), rgba(127,224,0,0.08)); border-radius: 12px; padding: 20px; border-left: 4px solid var(--blue); margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 13px; color: var(--blue); text-transform: uppercase; margin-bottom: 12px;">💡 Prompt 2: Risicoanalyse voor AI-implementatie</div>
+  <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7; font-style: italic;">
+    "Maak een risicoanalyse voor AI-implementatie in onze scholen. Include: risico, waarschijnlijkheid (hoog/midden/laag), impact op onderwijs, mitigatie, verantwoordelijke. Categorieën: technisch, juridisch, pedagogisch, organisatorisch."
+  </p>
+  <div style="background: white; border-radius: 8px; padding: 12px; border-left: 2px solid var(--green);">
+    <strong style="color: var(--green); font-size: 11px;">✓ Wat je krijgt:</strong> Gestructureerd risicoregister
+  </div>
+</div>
+
+<div style="background: linear-gradient(135deg, rgba(10,31,168,0.08), rgba(127,224,0,0.08)); border-radius: 12px; padding: 20px; border-left: 4px solid var(--blue); margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 13px; color: var(--blue); text-transform: uppercase; margin-bottom: 12px;">💡 Prompt 3: Compliance-check EU AI Act</div>
+  <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7; font-style: italic;">
+    "Check of ons [huisige schoolbeleid/handboek] aansluit bij artikel 4 van de EU AI Act (geldig sinds 2 februari 2025). Wat ontbreekt? Wat moeten we toevoegen of aanpassen? Geef suggesties op basis van deze wettekst: [copy-paste artikel 4]."
+  </p>
+  <div style="background: white; border-radius: 8px; padding: 12px; border-left: 2px solid var(--green);">
+    <strong style="color: var(--green); font-size: 11px;">✓ Wat je krijgt:</strong> Juridische gapanalyse
+  </div>
+</div>
+
+<div style="background: linear-gradient(135deg, rgba(10,31,168,0.08), rgba(127,224,0,0.08)); border-radius: 12px; padding: 20px; border-left: 4px solid var(--blue); margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 13px; color: var(--blue); text-transform: uppercase; margin-bottom: 12px;">💡 Prompt 4: Stakeholder-brief naar ouders/bestuur</div>
+  <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7; font-style: italic;">
+    "Schrijf een brief aan [ouders/raad van bestuur] over onze AI-strategie. Include: waarom AI belangrijk is, hoe we het verantwoord gebruiken, beschermmaatregelen voor leerlingen, wat zij kunnen verwachten. Toon: transparantie + zekerheid. Lengte: 1 A4."
+  </p>
+  <div style="background: white; border-radius: 8px; padding: 12px; border-left: 2px solid var(--green);">
+    <strong style="color: var(--green); font-size: 11px;">✓ Wat je krijgt:</strong> Professionele stakeholder-communicatie
+  </div>
+</div>
+
+<div style="background: linear-gradient(135deg, rgba(10,31,168,0.08), rgba(127,224,0,0.08)); border-radius: 12px; padding: 20px; border-left: 4px solid var(--blue); margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 13px; color: var(--blue); text-transform: uppercase; margin-bottom: 12px;">💡 Prompt 5: Trainingsagenda voor leerkrachten</div>
+  <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7; font-style: italic;">
+    "Maak een trainingsagenda voor AI-geletterdheid bij onze leerkrachten. Include: Module 1 (concepten), Module 2 (beleid), optionele verdieping (Copilot praktijk). Voeg deadlines in en wijs welke afdelingen/vakken prioriteit krijgen. Format: kalender-view."
+  </p>
+  <div style="background: white; border-radius: 8px; padding: 12px; border-left: 2px solid var(--green);">
+    <strong style="color: var(--green); font-size: 11px;">✓ Wat je krijgt:</strong> Gestructureerde implementatieplan
+  </div>
+</div>
+
+<div style="background: linear-gradient(135deg, rgba(127,224,0,0.08), rgba(10,31,168,0.08)); border-radius: 12px; padding: 20px; border-left: 4px solid var(--green); margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 13px; color: var(--green); text-transform: uppercase; margin-bottom: 12px;">💡 Klaar gemaakte Copilot-templates</div>
+  <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7; margin-bottom: 16px;">
+    Microsoft biedt templates aan speciaal voor onderwijs. Templates voor strategisch werken:
+  </p>
+  
+  <div style="display: flex; flex-direction: column; gap: 10px;">
+    <a href="https://m365.cloud.microsoft/chat/?titleId=T_ee4b5de7-8666-7829-d4d1-d0c7a4bbaa8a&source=embedded-builder" target="_blank" style="background: white; border: 2px solid var(--green); border-radius: 8px; padding: 12px 16px; text-decoration: none; color: var(--green); font-weight: 700; transition: all 0.2s;">
+      📚 Onderwijsassistent — Voor stakeholder-communicatie & planning
+    </a>
+    
+    <a href="https://m365.cloud.microsoft/chat/?titleId=T_395da538-6255-88c4-8096-7fafa8d0fed9&source=embedded-builder" target="_blank" style="background: white; border: 2px solid var(--blue); border-radius: 8px; padding: 12px 16px; text-decoration: none; color: var(--blue); font-weight: 700; transition: all 0.2s;">
+      🎯 AI-bestendige opdrachten maken — Voor beleidsvorming rond AI-gebruik
+    </a>
+  </div>
+</div>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p3()">← Vorige</button>
+  <button class="sr-btn g" onclick="n3()">Volgende: Risicoanalyse →</button>
+</div>`;
+}
+
+function m3m2(c){
+  c.innerHTML = `
+<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">⚖️ Stap 4 van 5 · Compliance & Implementatie</span></div>
+<h2 class="ch2">EU AI Act & GDPR <em>compliance-check</em></h2>
+<p class="cp">Je beleid moet voldoen aan regelgeving. Copilot helpt je snel een gap-analyse te maken: wat hebben we al, wat mist nog?</p>
+
+<div style="background: white; border-left: 4px solid var(--blue); border-radius: 12px; padding: 20px; margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 14px; color: var(--blue); text-transform: uppercase; margin-bottom: 12px;">🔍 Use case: Regelgeving checken</div>
+  <div style="font-size: 12px; font-weight: 700; color: #3d4f8a; margin: 12px 0; font-style: italic;">
+    "Gegeven zijn artikel 4 van de EU AI Act en ons huisig AI-beleid [copy-paste beleid]. Maak een gapanalyse: welke elementen ontbreken? Wat moet aangepast? Voeg actiepunten toe."
+  </div>
+  <div style="background: var(--off); padding: 12px; border-radius: 6px; font-size: 12px; color: #3d4f8a; font-weight: 600; line-height: 1.6; margin-top: 12px;">
+    <strong>Copilot geeft:</strong> Tabel met "Vereiste" / "Huisig beleid" / "Ontbreekt?" / "Actiepunt"
+  </div>
+</div>
+
+<div style="background: white; border-left: 4px solid var(--orange); border-radius: 12px; padding: 20px; margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 14px; color: var(--orange); text-transform: uppercase; margin-bottom: 12px;">🚀 Use case: Implementatie-roadmap</div>
+  <div style="font-size: 12px; font-weight: 700; color: #3d4f8a; margin: 12px 0; font-style: italic;">
+    "Maak een implementatie-roadmap voor AI-geletterdheid op onze scholengroep. Include: fase 1 (korte termijn), fase 2 (middellang), fase 3 (lang). Voeg per fase: doelen, acties, teams, deadlines, budget."
+  </div>
+  <div style="background: var(--off); padding: 12px; border-radius: 6px; font-size: 12px; color: #3d4f8a; font-weight: 600; line-height: 1.6; margin-top: 12px;">
+    <strong>Copilot geeft:</strong> Gestructureerde roadmap die je direct met team kan bespreken
+  </div>
+</div>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p3()">← Vorige</button>
+  <button class="sr-btn g" onclick="n3()">Volgende: GDPR & Afronding →</button>
+  <span class="nh">Stap 4/5</span>
+</div>`;
+}
+
+function m3m3(c){
+  c.innerHTML = `
+<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">🔒 Stap 5 van 5 · GDPR & Afronding</span></div>
+<h2 class="ch2"><em>GDPR-check:</em> Wat mag niet</h2>
+<p class="cp">Kritisch voor beleid: weet wat je wél en niet mag bij AI-implementatie.</p>
+
+<div style="background: rgba(224,32,32,0.1); border-left: 4px solid var(--red); border-radius: 12px; padding: 20px; margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 14px; color: var(--red); text-transform: uppercase; margin-bottom: 16px;">❌ Dit mag ABSOLUUT niet</div>
+  
+  <div style="margin-bottom: 16px;">
+    <div style="font-weight: 700; color: var(--red); font-size: 13px; text-transform: uppercase; margin-bottom: 8px;">1. Foto's van kinderen bewerken met AI</div>
+    <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7;">
+      Verboden door portretrecht en GDPR. Zelfs "onschuldige" bewerking. Dit geldt ook voor leerlingenfoto's voor schoolpost of jaarboek. <strong>Risico: boetes tot €20.000.</strong>
+    </p>
+  </div>
+
+  <div style="margin-bottom: 16px;">
+    <div style="font-weight: 700; color: var(--red); font-size: 13px; text-transform: uppercase; margin-bottom: 8px;">2. Leerling- of personeelsgegevens naar gratis tools</div>
+    <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7;">
+      Excel met namen, evaluaties, adressen → ChatGPT/Gemini = GDPR-schending. Data blijft in M365 (met schild-icoon). Geen uitzonderingen.
+    </p>
+  </div>
+
+  <div style="margin-bottom: 16px;">
+    <div style="font-weight: 700; color: var(--red); font-size: 13px; text-transform: uppercase; margin-bottom: 8px;">3. Gevoelige bestanden online plaatsen</div>
+    <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7;">
+      Beleidsteksten met schoolinterne info, evaluatierapporten, personeelsgegevens → nooit naar publieke platforms. Enkel M365 of beveiligde tools met verwerkersovereenkomst.
+    </p>
+  </div>
+
+  <div>
+    <div style="font-weight: 700; color: var(--red); font-size: 13px; text-transform: uppercase; margin-bottom: 8px;">4. Automatische screeningssystemen voor leerlingen</div>
+    <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7;">
+      AI-systemen die emoties, talent of geschiktheid van leerlingen herkennen/beoordelen zonder menselijke tussenkomst zijn voor Sint-Rembert verboden. Altijd mens blijft beslisser.
+    </p>
+  </div>
+</div>
+
+<div style="background: rgba(10,31,168,0.08); border-left: 4px solid var(--blue); border-radius: 12px; padding: 20px; margin: 20px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 14px; color: var(--blue); text-transform: uppercase; margin-bottom: 12px;">✅ Dit mag wel (verantwoord)</div>
+  <ul style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.8; margin: 0; padding-left: 20px;">
+    <li>Beleidsteksten helpen genereren (aanpassen naar school)</li>
+    <li>Risicoanalyse uitvoeren (conceptueel)</li>
+    <li>Stakeholder-brieven formuleren (voorzichtig generiek)</li>
+    <li>Compliance-checks tegen regelgeving</li>
+    <li>Trainingsmaterialen ontwikkelen (algemeen)</li>
+  </ul>
+</div>
+
+<h3 class="ch3">💭 Jouw strategische afweging</h3>
+<p class="cp">Je hebt nu gezien hoe Copilot kan helpen bij beleidsontwikkeling, compliance-checks en implementatieplannen. Wat ga je als eerste met je team doorvoeren?</p>
+
+<textarea class="sr-ta" id="r2" placeholder="We gaan als eerst... omdat dit onze strategie ondersteunt bij..." style="height: 100px;"></textarea>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p3()">← Vorige</button>
+  <button class="sr-btn o" onclick="sR2()">✅ Verdieping voltooid →</button>
+  <span class="nh">Stap 5/5</span>
+</div>`;
+  const ta = document.getElementById('r2');
+  ta.value = localStorage.getItem('sr_r2_mgmt') || '';
+  ta.oninput = ()=>localStorage.setItem('sr_r2_mgmt', ta.value);
+}
+
 function rQuiz(con, qs, modN, sk, onComplete, pass){
   const id = 'q'+modN+'_'+Date.now();
   const st = { ans: new Array(qs.length).fill(null), correct: new Array(qs.length).fill(false) };
   const wrap = document.createElement('div');
 
-  // Conditionally show Vorige button in quiz footer container ONLY if step layout permits or inside quiz engine
+  // Shuffle functie
+  const shuffle = (arr) => {
+    const copy = [...arr];
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  };
+
+  // Randomiseer antwoorden per vraag
+  qs.forEach(q => {
+    const origCorrectIndex = q.a;
+    const origCorrectAnswer = q.o[origCorrectIndex];
+    const shuffledOptions = shuffle(q.o);
+    const newCorrectIndex = shuffledOptions.indexOf(origCorrectAnswer);
+    q.o = shuffledOptions;
+    q.a = newCorrectIndex;
+  });
+
   let prevBtnHtml = '';
   if(modN === 1) prevBtnHtml = `<button class="sr-btn b" style="background:#cbd5e1; color:var(--blue); margin-right:auto;" onclick="p1()">← Vorige stap</button>`;
   if(modN === 2) prevBtnHtml = `<button class="sr-btn b" style="background:#cbd5e1; color:var(--blue); margin-right:auto;" onclick="p2()">← Vorige stap</button>`;
@@ -1568,6 +3007,10 @@ function rQuiz(con, qs, modN, sk, onComplete, pass){
   };
 }
 
+/* ════════════════════════════════════════════
+   DOE-OPDRACHTEN & HELPERS
+   ════════════════════════════════════════════ */
+
 function renderAiCards(){
   const items = [
     {n:'Spamfilter e-mail', ai:true, w:'Machine learning'},
@@ -1588,19 +3031,12 @@ function renderAiCards(){
   });
 }
 
-/* ════════════════════════════════════════════
-   DOE-OPDRACHT — Spot de hallucinatie (Module 1)
-   ════════════════════════════════════════════ */
 function renderHalluCards(){
   const items = [
-    { t:'"Een team van MIT-onderzoekers ontdekte in 2023 dat het brein van leerkrachten gemiddeld 12% sneller informatie verwerkt na een training in AI-tools."',
-      h:true, e:'Hallucinatie: een vage, niet-bestaande studie met een erg specifiek percentage — een klassiek hallucinatiepatroon.' },
-    { t:'"De Eerste Wereldoorlog duurde van 1914 tot 1918."',
-      h:false, e:'Klopt — dit is een algemeen geverifieerd historisch feit.' },
-    { t:'"Albert Einstein ontving in 1921 de Nobelprijs voor de Natuurkunde voor zijn verklaring van het foto-elektrisch effect."',
-      h:false, e:'Klopt — niet elke specifieke uitspraak is een hallucinatie. Kritisch blijven werkt in twee richtingen.' },
-    { t:'"Volgens artikel 12 van het schoolreglement van Sint-Rembert mag je nooit AI gebruiken voor lesvoorbereiding."',
-      h:true, e:'Hallucinatie: een verzonnen artikelnummer dat bovendien niet overeenkomt met het echte AI-beleid van de school (zie Module 2).' }
+    { t:'"Een team van MIT-onderzoekers ontdekte in 2023 dat het brein van leerkrachten gemiddeld 12% sneller informatie verwerkt na een training in AI-tools."', h:true, e:'Hallucinatie: een vage, niet-bestaande studie met een erg specifiek percentage — een klassiek hallucinatiepatroon.' },
+    { t:'"De Eerste Wereldoorlog duurde van 1914 tot 1918."', h:false, e:'Klopt — dit is een algemeen geverifieerd historisch feit.' },
+    { t:'"Albert Einstein ontving in 1921 de Nobelprijs voor de Natuurkunde voor zijn verklaring van het foto-elektrisch effect."', h:false, e:'Klopt — niet elke specifieke uitspraak is een hallucinatie. Kritisch blijven werkt in twee richtingen.' },
+    { t:'"Volgens artikel 12 van het schoolreglement van Sint-Rembert mag je nooit AI gebruiken voor lesvoorbereiding."', h:true, e:'Hallucinatie: een verzonnen artikelnummer dat bovendien niet overeenkomt met het echte AI-beleid van de school (zie Module 2).' }
   ];
   const g = document.getElementById('hallu');
   if(!g) return;
@@ -1615,9 +3051,6 @@ function renderHalluCards(){
   });
 }
 
-/* ════════════════════════════════════════════
-   DOE-OPDRACHT — Welk label hoort hier? (Module 2)
-   ════════════════════════════════════════════ */
 function renderLabelMatch(){
   const items = [
     { d:'Leerlingen schrijven een opstel over hun zomervakantie, volledig met de hand, zonder enige digitale hulp.', a:1 },
@@ -1626,12 +3059,27 @@ function renderLabelMatch(){
     { d:'Leerlingen maken een infographic en mogen AI gebruiken om een deel van de illustraties of tekstblokken aan te vullen, naast hun eigen werk.', a:4 },
     { d:'Leerlingen mogen volledig vrij AI gebruiken om een marketingplan te schrijven, zolang ze achteraf kunnen uitleggen welke keuzes ze maakten.', a:5 }
   ];
+  
+  // Shuffle functie
+  const shuffle = (arr) => {
+    const copy = [...arr];
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  };
+  
   const g = document.getElementById('lblmatch');
   if(!g) return;
   items.forEach((it,idx)=>{
     const card = document.createElement('div'); card.className='lm-card';
+    
+    // Randomiseer label-knoppen
+    const labels = shuffle([1,2,3,4,5]);
     let opts = '';
-    for(let i=1;i<=5;i++) opts += '<button class="lm-btn" data-v="'+i+'">'+i+'</button>';
+    labels.forEach(i => opts += '<button class="lm-btn" data-v="'+i+'">'+i+'</button>');
+    
     card.innerHTML = '<div class="lm-q">'+(idx+1)+'. '+it.d+'</div><div class="lm-opts">'+opts+'</div><div class="lm-fb" id="lmfb'+idx+'"></div>';
     g.appendChild(card);
     card.querySelectorAll('.lm-btn').forEach(b=>{
@@ -1652,18 +3100,33 @@ function renderLabelMatch(){
   });
 }
 
-/* ════════════════════════════════════════════
-   DOE-OPDRACHT — Mag het wel of niet? (Module 2)
-   Op basis van het beleidskader, sectie "Voorbeelden"
-   ════════════════════════════════════════════ */
 function renderMagWel(){
   const items = [
-    { t:'Anonieme tekst intypen in een gratis tool.', ok:true, e:'Mag — geen persoonsgegevens, geen schooldocument.' },
-    { t:'Een schooldocument uploaden naar een gratis tool.', ok:false, e:'Mag niet — gratis tools voldoen niet aan de 3 voorwaarden (geen modeltraining, opslag in EU, betalende relatie).' },
-    { t:'Een schooldocument uploaden naar een goedgekeurde betalende tool.', ok:true, e:'Mag — als de tool aan alle 3 de voorwaarden voldoet.' },
-    { t:'Een rapport met leerlingnamen uploaden, waar dan ook.', ok:false, e:'Mag nooit — persoonsgegevens van leerlingen horen niet in een AI-tool.' },
-    { t:"Foto's/video's van leerlingen posten op het schoolaccount van Facebook of Instagram.", ok:true, e:'Mag — mits toestemming volgens GDPR en schoolbeleid.' },
-    { t:'Beelden van leerlingen gebruiken in AI-systemen van externe sociale-mediaplatformen.', ok:false, e:'Mag niet — externe platformen kunnen die data gebruiken als trainingsdata.' }
+    { 
+      t:'Casus 1: De snelle rapportcommentaren — Excel met namen/scores uploaden naar ChatGPT voor gepersonaliseerde rapportteksten.', 
+      ok:false, 
+      e:'Mag NIET — GDPR-inbreuk. Je deelt persoonsgegevens (namen gekoppeld aan evaluaties) met extern commercieel platform dat data mogelijk voor modeltraining gebruikt. Enkel met anonimisering óf afgeschermde bedrijfsomgeving (Copilot M365).' 
+    },
+    { 
+      t:'Casus 2: De gedifferentieerde leestekst — Complex krantenartikel in Copilot kopiëren, herschrijven naar B1 en uitdagend niveau, beide versies in de les gebruiken.', 
+      ok:true, 
+      e:'Mag — Perfect voorbeeld van AI als didactische assistent. Geen persoonsgegevens, leerkracht voert inhoudelijke controle uit en leert differentiatievaardigheden.' 
+    },
+    { 
+      t:'Casus 3: De vlekkeloze code — Leerling geeft exact opdrachtomschrijving aan AI-chatbot, kopieert gegenereerde code, levert in zonder bronvermelding als eigen werk.', 
+      ok:false, 
+      e:'Mag NIET — Plagiaat en leerbedrog. Doel van opdracht is de vaardigheid van leerling evalueren, niet toolbediening. Ondermijnt evaluatieintegriteit zonder bronvermelding.' 
+    },
+    { 
+      t:'Casus 4: De virtuele sparringpartner — Leerling gebruikt AI voor brainstorm knelpunten logistieke keten, zoekt zelf betrouwbare bronnen, schrijft presentatie zelf, vermeldt AI in bronnenlijst.', 
+      ok:true, 
+      e:'Mag — Sterke informatievaardigheden. AI als startpunt & inspiratie, niet als eindproduct. Kritische verwerking, betrouwbare bronnen & transparante vermelding = integriteit.' 
+    },
+    { 
+      t:'Casus 5: De blinde corrector — Leerkracht scant handgeschreven toetsantwoorden, laat AI die corrigeren op basis van sleutel en geven van scores, neemt scores blindelings over.', 
+      ok:false, 
+      e:'Mag NIET — Verantwoordelijkheid blijft bij leerkracht. AI hallucineert soms of interpreteert creatieve (maar juiste) antwoorden als fout. Eindcontrole door leerkracht is verplicht voor eerlijke evaluatie.' 
+    }
   ];
   const g = document.getElementById('magwel');
   if(!g) return;
@@ -1690,63 +3153,7 @@ function renderMagWel(){
     });
   });
 }
-/* ════════════════════════════════════════════
-   DOE-OPDRACHT — Slechte vs. betere prompt (Module 3)
-   ════════════════════════════════════════════ */
-function renderPromptFlip(){
-  const g = document.getElementById('promptflip');
-  if(!g) return;
-  const items = [
-    {
-      situatie: 'Je wil oefenvragen maken voor een les over de Tweede Wereldoorlog (4de jaar ASO).',
-      slecht: '"Maak vragen over WO2."',
-      beter: '"Je bent een ervaren leerkracht geschiedenis in het secundair. Maak 5 open vragen over de oorzaken van de Tweede Wereldoorlog voor leerlingen van het 4de jaar ASO die de aanloop al kennen maar de gevolgen nog niet. Zorg dat elke vraag aanzet tot redeneren, geen feiten opzoeken."',
-      tip: 'Rol + niveau + focus + type vraag → veel rijker resultaat dan alleen het onderwerp.'
-    },
-    {
-      situatie: 'Je wil een e-mail schrijven naar ouders over het eindejaarsgesprek.',
-      slecht: '"Schrijf een e-mail over het eindejaarsgesprek."',
-      beter: '"Schrijf een vriendelijke, informele e-mail aan ouders van een 2de middelbaar klas. Nodig hen uit voor een kort eindejaarsgesprek op donderdag 19 juni tussen 16u en 18u. Vermeld dat het max. 15 minuten duurt, dat inschrijven verplicht is via de link [LINK], en sluit positief af. Houd het onder de 100 woorden."',
-      tip: 'Context (wie, wanneer), toon (vriendelijk/informeel), concrete inhoud en gewenste lengte = geen overbodige heen-en-weer.'
-    },
-    {
-      situatie: 'Je wil een samenvatting van een ingewikkeld beleidsdocument.',
-      slecht: '"Vat dit document samen."',
-      beter: '"Vat dit document samen in maximaal 5 bullets voor een leerkracht die weinig tijd heeft. Focus alleen op wat er concreet verandert in de klas. Gebruik eenvoudige taal, geen vakjargon. Begin elke bullet met een werkwoord."',
-      tip: 'Doelgroep + format + focus + stijl = samenvatting die je écht kan gebruiken zonder herlezen.'
-    }
-  ];
-  items.forEach((it, idx) => {
-    const card = document.createElement('div');
-    card.className = 'flip-card';
-    card.innerHTML = `
-      <div class="flip-inner" id="fi${idx}">
-        <div class="flip-front">
-          <div class="flip-sit">${it.situatie}</div>
-          <div class="flip-label-bad">❌ Vage prompt</div>
-          <div class="flip-bad">${it.slecht}</div>
-          <button class="sr-btn g" style="margin-top:12px" onclick="flipCard(${idx})">Toon betere versie →</button>
-        </div>
-        <div class="flip-back">
-          <div class="flip-sit">${it.situatie}</div>
-          <div class="flip-label-good">✅ Betere prompt (R-D-C-B-V)</div>
-          <div class="flip-good">${it.beter}</div>
-          <div class="flip-tip">💡 ${it.tip}</div>
-          <button class="sr-btn b" style="margin-top:12px" onclick="flipCard(${idx})">← Terug</button>
-        </div>
-      </div>`;
-    g.appendChild(card);
-  });
-}
-window.flipCard = function(idx){
-  const el = document.getElementById('fi'+idx);
-  if(!el) return;
-  el.classList.toggle('flipped');
-};
 
-/* ════════════════════════════════════════════
-   DOE-OPDRACHT — Schrijf je eigen prompt (Module 3)
-   ════════════════════════════════════════════ */
 function renderPromptBuilder(){
   const g = document.getElementById('promptbuilder');
   if(!g) return;
@@ -1783,8 +3190,328 @@ function renderPromptBuilder(){
 }
 
 /* ════════════════════════════════════════════
-   BOOTSTRAP — uitgesteld tot het einde van het
-   bestand, zodat alle const/function-declaraties
-   (incl. ST_Q en de module-arrays) al bestaan.
+   NIEUW: Casus Scenario rendering
    ════════════════════════════════════════════ */
-if(!S.starttest.taken){ goStartTest(); } else { sv('home'); }
+
+function renderCasusScenario(containerId){
+  const scenarios = [
+    {
+      title: 'Situatie 1: De verdachte sprongen maken',
+      desc: 'Een leerling levert een uitgebreide analyse in over supply chain management. De theorie klopt, maar het vakjargon en zinsbouw liggen onnatuurlijk hoog en ver boven het normale niveau van deze leerling.',
+      choices: [
+        {
+          text: '"Heb je Copilot of ChatGPT gebruikt voor deze taak?"',
+          label: 'A: De agent',
+          feedback: '❌ Defensief. Dit werkt weerstand in de hand. Je verzandt in een welles-nietes spelletje waarbij jij het AI-gebruik moet bewijzen.',
+          type: 'wrong'
+        },
+        {
+          text: '"Ik zie dat je een enorme sprong hebt gemaakt in je academische schrijfstijl en het gebruik van complexe logistieke termen. Leg eens uit hoe je dit hebt aangepakt?"',
+          label: 'B: De coach',
+          feedback: '✅ Perfect! Je opent het gesprek op procesniveau. Je toont interesse en dwingt de leerling om mondeling eigenaarschap te tonen. Ruimte voor eerlijkheid over AI als hulp.',
+          type: 'correct'
+        }
+      ]
+    },
+    {
+      title: 'Situatie 2: De leerling met het "vreemde" kladblok',
+      desc: 'Je ziet dat een leerling in de klas de hele toets in Copilot aan het uitwerken is (niet discreet, gewoon open scherm). Label is "2 — Ideeën", dus mag AI voor brainstorm. Maar dit voelt als meer dan ideeën.',
+      choices: [
+        {
+          text: '"Zet die laptop onmiddellijk uit, dit mag niet!"',
+          label: 'A: Zero tolerance',
+          feedback: '❌ Escalatief en onrechtvaardig. Label 2 staat AI toe. Nu maak je de leerling boos en ondergraa je je eigen regels.',
+          type: 'wrong'
+        },
+        {
+          text: '"Even checken: Label 2 is voor ideeën. Wat voor ideeën haul je eruit, en hoe bouw je daarop voort in je eigen werk?"',
+          label: 'B: Clarify & steer',
+          feedback: '✅ Juist! Je hebt de leerling op het label teruggepakt. Je zorgt dat ze zich bewust zijn van de grens, zonder te verschullen achter "maar je mag het niet".',
+          type: 'correct'
+        }
+      ]
+    },
+    {
+      title: 'Situatie 3: De opdrachtherformulering',
+      desc: 'Je realiseren je na drie jaar dat je standaard huiswerkopdracht "Schrijf een betoog van 500 woorden over [onderwerp]" voor AI-tools praktisch een open uitnodiging is. Wat doe je?',
+      choices: [
+        {
+          text: '"Voortaan alle huiswerk met pen en papier, inleveren in foto-vorm. Hacker-proof!"',
+          label: 'A: Totale lockdown',
+          feedback: '❌ Negatief en onwerkbaar. Je erkent niet dat het probleem in de opdrachtformulering zit, niet in AI op zich.',
+          type: 'wrong'
+        },
+        {
+          text: '"Herformuleer: Leerlingen reflecteren eerst mondeling op 2 minuten, schrijven hun eigen stelling, geven deze daarna aan AI voor taalcorrectie (Label 3), en zetten hun prompt erbij als bijlage."',
+          label: 'B: Redesign the task',
+          feedback: '✅ Excellent! Je: 1) Maakt het proces zichtbaar (mondeling), 2) Beperkt AI tot waar het zinvol is (taal, niet inhoud), 3) Vraagt transparantie (prompt erbij). Dit is AI-bestendig ontwerp.',
+          type: 'correct'
+        }
+      ]
+    }
+  ];
+
+  const c = document.getElementById(containerId);
+  if(!c) return;
+  
+  let html = '<div class="casus-wrap">';
+  scenarios.forEach((s, si) => {
+    html += `<div class="casus-scenario">
+      <div class="casus-title">${s.title}</div>
+      <div class="casus-desc">${s.desc}</div>
+      <div class="casus-choices">`;
+    
+    s.choices.forEach((ch, ci) => {
+      const id = `casus-${si}-${ci}`;
+      html += `<div class="casus-choice">
+        <div class="casus-choice-label">${ch.label}</div>
+        <button class="casus-btn" id="${id}" data-feedback="${ch.feedback}" data-type="${ch.type}">
+          ${ch.text}
+        </button>
+        <div class="casus-fb" id="${id}-fb"></div>
+      </div>`;
+    });
+    
+    html += `</div></div>`;
+  });
+  html += '</div>';
+  c.innerHTML = html;
+
+  // Event listeners
+  c.querySelectorAll('.casus-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const id = this.id;
+      const feedback = this.dataset.feedback;
+      const type = this.dataset.type;
+      const fbEl = document.getElementById(id + '-fb');
+      
+      fbEl.className = 'casus-fb show ' + type;
+      fbEl.textContent = feedback;
+      this.disabled = true;
+    });
+  });
+}
+
+/* ════════════════════════════════════════════
+   NIEUW: Prompt Comparison rendering
+   ════════════════════════════════════════════ */
+
+function renderPromptComparison(){
+  const example = {
+    bad: "Maak een oefening over boekhouden en de btw.",
+    good: "Rol: Je bent een leerkracht economie. Doel: Maak een realistische, praktische casus waarin een startende ondernemer de btw-aangifte moet berekenen. Context: Voor leerlingen van de 3de graad, die de basisprincipes al kennen. Bron: Baseer je uitsluitend op standaard Belgische btw-tarieven (21%, 12%, 6%). Verwachting: Een korte introductietekst van het fictieve bedrijf, gevolgd door 3 concrete berekeningsvragen. Voorzie de antwoordsleutel apart.",
+    badResult: "Generieke, sterke theoretische lap tekst of oppervlakkige meerkeuzevraag over wat 'btw' betekent.",
+    goodResult: "Bruikbare, actieve klasoefening: realistische scenario, direct inzetbaar, juiste toon, Belgische context, antwoordsleutel erbij."
+  };
+
+  return `
+<div class="prompt-comp-wrap">
+  <div class="prompt-comp-intro">
+    <div class="prompt-comp-icon">⚡</div>
+    <div>
+      <div class="prompt-comp-title">De kracht van R-D-C-B-V</div>
+      <div class="prompt-comp-sub">Hieronder zie je dezelfde vraag aan Copilot — eerst vaag, daarna gestructureerd. Let op het verschil!</div>
+    </div>
+  </div>
+
+  <div class="prompt-comp-grid">
+    <!-- MATIG -->
+    <div class="prompt-comp-col bad">
+      <div class="prompt-comp-col-header">❌ Zonder structuur</div>
+      <div class="prompt-comp-label">JE PROMPT</div>
+      <div class="prompt-comp-content">${example.bad}</div>
+      <div class="prompt-comp-divider">↓ COPILOT GEEFT</div>
+      <div class="prompt-comp-result">${example.badResult}</div>
+      <div class="prompt-comp-verdict">Niet bruikbaar direct in je les.</div>
+    </div>
+
+    <!-- STERK -->
+    <div class="prompt-comp-col good">
+      <div class="prompt-comp-col-header">✅ Met R-D-C-B-V structuur</div>
+      <div class="prompt-comp-label">JE PROMPT</div>
+      <svg class="rdcbv-badge" viewBox="0 0 220 60" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="0" width="40" height="60" rx="6" fill="#0A1FA8"/><text x="20" y="35" text-anchor="middle" font-size="12" fill="#7FE000" font-weight="bold">Rol</text>
+        <rect x="45" y="0" width="40" height="60" rx="6" fill="#0A1FA8"/><text x="65" y="35" text-anchor="middle" font-size="12" fill="#7FE000" font-weight="bold">Doel</text>
+        <rect x="90" y="0" width="40" height="60" rx="6" fill="#0A1FA8"/><text x="110" y="35" text-anchor="middle" font-size="12" fill="#7FE000" font-weight="bold">Context</text>
+        <rect x="135" y="0" width="40" height="60" rx="6" fill="#0A1FA8"/><text x="155" y="35" text-anchor="middle" font-size="12" fill="#7FE000" font-weight="bold">Bron</text>
+        <rect x="180" y="0" width="40" height="60" rx="6" fill="#0A1FA8"/><text x="200" y="35" text-anchor="middle" font-size="12" fill="#7FE000" font-weight="bold">Verwachting</text>
+      </svg>
+      <div class="prompt-comp-content small">${example.good}</div>
+      <div class="prompt-comp-divider">↓ COPILOT GEEFT</div>
+      <div class="prompt-comp-result good">${example.goodResult}</div>
+      <div class="prompt-comp-verdict ok">✨ Direct inzetbaar in je klas!</div>
+    </div>
+  </div>
+
+  <div class="prompt-comp-tip">
+    <div class="prompt-comp-tip-icon">💡</div>
+    <div class="prompt-comp-tip-text"><strong>Pro tip:</strong> Hoe specifieke je prompt, hoe beter Copilot snapt wat je wil. Die paar extra zinnen besparen je later 20 minuten herschrijven!</div>
+  </div>
+</div>
+  `;
+}
+
+/* ════════════════════════════════════════════
+   NIEUW: FAQ rendering
+   ════════════════════════════════════════════ */
+
+function renderFAQ(){
+  const faqs = [
+    {
+      q: '❓ Ik kan Copilot niet vinden in mijn Microsoft 365',
+      a: 'Copilot zit in office.com, rechtsboven onder "Apps". Niet zichtbaar? Zorg dat je bent aangemeld met je officiële schoolaccount (@sint-rembert.be). Aanmelden via https://office.com > Inloggen > Zoeken naar "Copilot" in de app-galerij.'
+    },
+    {
+      q: '🛡️ Ik zie het schild-icoon niet in Copilot',
+      a: 'Het schild (Protected) zou standaard zichtbaar moeten zijn. Als je het niet ziet: Log uit, wis je browsercache (Ctrl+Shift+Del), en log terug in met je schoolaccount. Nog steeds weg? Mail naar Arne Breemeersch (arne.breemeersch@sint-rembert.be) — je bent mogelijk ingelogd met het verkeerde account.'
+    },
+    {
+      q: '💾 Ik heb mijn reflectieverslag per ongeluk gewist / ben mijn voortgang kwijt',
+      a: 'De cursus slaat alles lokaal op in je browser (localStorage). Cookies gewist? Helaas is het weg. Zorg altijd dat je je Reflectieverslag download voordat je de browser sluit! Noodgeval: mail de pagina naar jezelf zodat je de HTML kunt opslaan.'
+    },
+    {
+      q: '📱 De cursus werkt niet goed op mijn telefoon / tablet',
+      a: 'De cursus is ontworpen voor desktop/laptop (scherm ≥ 980px). Tablets: landscape-modus proberen. Smartphones: vraag om een desktop-apparaat voor de cursus — de videos en teksten zijn te uitgebreid voor klein scherm.'
+    },
+    {
+      q: '🎓 Ik heb mijn certificaat al gedownload, maar ik kan het niet vinden',
+      a: 'Je browser heeft het waarschijnlijk opgeslagen in je Downloads-map. Zoek daar naar een PDF met jouw naam. Niet gevonden? Je kan het slechts 1x downloaden, dus helaas niet opnieuw — mail Arne (arne.breemeersch@sint-rembert.be) met je voornaam/achternaam als backup.'
+    },
+    {
+      q: '🚀 Kan ik Module 3 overslaan en rechtstreeks naar het certificaat?',
+      a: 'Module 3 is optioneel. Je ontvangt je certificaat zodra je Module 1 & 2 hebt afgerond. Module 3 is voor verdieping enkel als je meer wil weten over Copilot in de praktijk.'
+    },
+    {
+      q: '📧 Ik heb een fout gevonden / wil feedback geven',
+      a: 'Dank je! Mail naar Arne Breemeersch (arne.breemeersch@sint-rembert.be) met je bevinding. Include: wat ging fout, op welke stap, en wat verwachtte je?'
+    }
+  ];
+
+  let html = '<div class="faq-wrap">';
+  faqs.forEach((item, i) => {
+    const id = `faq-${i}`;
+    html += `
+<div class="faq-item">
+  <button class="faq-q" onclick="toggleFAQ('${id}')">
+    <span>${item.q}</span>
+    <span class="faq-toggle">+</span>
+  </button>
+  <div class="faq-a" id="${id}" style="display:none">
+    <p>${item.a}</p>
+  </div>
+</div>`;
+  });
+  html += '</div>';
+  return html;
+}
+
+function toggleFAQ(id) {
+  const el = document.getElementById(id);
+  const isOpen = el.style.display !== 'none';
+  el.style.display = isOpen ? 'none' : 'block';
+  
+  const btn = el.previousElementSibling;
+  const toggle = btn.querySelector('.faq-toggle');
+  toggle.textContent = isOpen ? '+' : '−';
+}
+
+/* ════════════════════════════════════════════
+   NAAM MANAGEMENT
+   ════════════════════════════════════════════ */
+
+function showNameEntry() {
+  if(S.name) return; // Naam al ingevuld
+  
+  const modal = document.createElement('div');
+  modal.id = 'name-modal';
+  modal.style.cssText = `
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(10,31,168,0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 8888;
+  `;
+  
+  modal.innerHTML = `
+    <div style="background: white; border-radius: 16px; padding: 40px; max-width: 500px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+      <div style="font-size: 48px; margin-bottom: 16px;">👤</div>
+      <h2 style="font-family: 'Archivo Black', sans-serif; font-size: 24px; color: var(--blue); margin-bottom: 8px; text-transform: uppercase;">Jouw naam invullen</h2>
+      <p style="color: var(--muted); font-weight: 600; margin-bottom: 24px;">We gebruiken deze naam op je certificaat. Zorg dat je deze correct invult!</p>
+      
+      <input type="text" id="name-modal-input" class="un-inp" placeholder="Voornaam Achternaam" style="width: 100%; font-size: 15px; padding: 12px; border: 2px solid var(--gray); border-radius: 8px; margin-bottom: 16px;">
+      
+      <button class="sr-btn g" onclick="saveName()" style="width: 100%; padding: 14px;">✓ Opslaan en doorgaan</button>
+      
+      <p style="font-size: 12px; color: var(--muted); margin-top: 16px; font-weight: 600;">Voorbeeld: <em>Lieve Janssen</em></p>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+  document.getElementById('name-modal-input').focus();
+  document.getElementById('name-modal-input').addEventListener('keypress', function(e) {
+    if(e.key === 'Enter') saveName();
+  });
+}
+
+function saveName() {
+  const input = document.getElementById('name-modal-input');
+  const name = input?.value?.trim() || '';
+  
+  if(!name) {
+    alert('Vul alstublieft je naam in.');
+    return;
+  }
+  
+  S.name = name;
+  ss();
+  console.log('✓ Naam opgeslagen:', name);
+  
+  const modal = document.getElementById('name-modal');
+  if(modal) modal.remove();
+  
+  // Toon welkomstbericht
+  const welcomeEl = document.getElementById('welcome-name');
+  if(welcomeEl) welcomeEl.textContent = name;
+  
+  // Ga naar startest
+  setTimeout(() => goStartTest(), 500);
+}
+
+// Start sequence
+window.addEventListener('DOMContentLoaded', function() {
+  console.log('DOMContentLoaded: Script geladen, state:', S);
+  
+  // Zorg dat naamveld ingevuld is
+  document.getElementById('un').value = S.name || '';
+  
+  // Eerst: update UI met huidige state
+  ua();
+  up();
+  rmc();
+  
+  // Dan: check rolkeuze
+  if(!S.userRole){
+    console.log('Geen rol gekozen, toon selector');
+    showRoleSelector();
+  } else {
+    console.log('Rol gekozen:', S.userRole);
+    if(!S.starttest.taken){ 
+      console.log('Startest niet gedaan, start');
+      goStartTest(); 
+    } else { 
+      console.log('Ga naar home');
+      sv('home'); 
+    }
+  }
+});
+
+// Fallback als DOMContentLoaded niet werkt
+setTimeout(function() {
+  if(!document.querySelector('.role-view') && !S.userRole && !S.starttest.taken) {
+    console.log('Fallback: toon rolkeuze');
+    showRoleSelector();
+  }
+}, 500);
