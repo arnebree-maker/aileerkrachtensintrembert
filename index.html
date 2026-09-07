@@ -1,173 +1,96 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI-Geletterdheid — Sint-Rembert</title>
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI-geletterdheid voor Sint-Rembert. Leer hoe AI werkt en gebruik het verantwoord.">
+    <title>AI-Eerkrachten — Sint-Rembert</title>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
-<div id="app">
-<aside id="sidebar">
-  <div class="sb-logo">
-    <div class="sb-badge"><span>Sint-Rembert</span></div>
-    <div class="sb-title">AI-<em>Geletterdheid</em><br>Kies je route</div>
-    <div class="sb-sub">Scholengroep Sint-Rembert · schooljaar 2026-2027</div>
-  </div>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">🧠 AI-Eerkrachten</div>
+            <p class="tagline">AI-geletterdheid voor Sint-Rembert</p>
+        </header>
 
-  <div class="nav-sec">
-    <div class="nav-lbl">Navigatie</div>
-    <div class="ni active" onclick="goHome()" id="nav-home"><div class="ni-icon">🏠</div><div class="ni-info"><div class="ni-title">Startpagina</div><div class="ni-sub">Welkom & overzicht</div></div></div>
-    <div class="ni available" onclick="goTeacher()"><div class="ni-icon">👨‍🏫</div><div class="ni-info"><div class="ni-title">Leerkrachten</div><div class="ni-sub">Professionalisering</div></div></div>
-    <div class="ni available" onclick="goStudent()"><div class="ni-icon">👨‍🎓</div><div class="ni-info"><div class="ni-title">Leerlingen</div><div class="ni-sub">AI-Skills training</div></div></div>
-  </div>
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Wat is AI-geletterdheid?</h1>
+            <p>4 stappen om AI te begrijpen en verantwoord in te zetten.</p>
+        </section>
 
-  <div class="sb-bot">
-    <div style="padding: 12px; background: #f0f2f5; border-radius: 6px; font-size: 13px; line-height: 1.6; color: #666;">
-      <strong style="color: #1a1a1a;">💡 Tip:</strong> Kies hieronder je route — leerkracht of leerling. Elk traject is speciaal op maat gemaakt.
-    </div>
-  </div>
-</aside>
+        <!-- AILit Framework: 4 Pillars -->
+        <section class="ailit-grid">
+            <article class="pillar" data-pillar="1">
+                <div class="pillar-icon">👁️</div>
+                <h3>Awareness</h3>
+                <p>Begrijp waar AI in je leven zit</p>
+            </article>
 
-<main id="main">
+            <article class="pillar" data-pillar="2">
+                <div class="pillar-icon">🔍</div>
+                <h3>Understanding</h3>
+                <p>Leer hoe AI echt werkt</p>
+            </article>
 
-<!-- ════════ HOME ════════ -->
-<div class="view active" id="view-home">
-  <div class="hero">
-    <div class="hero-ey"><span>Scholengroep Sint-Rembert × Beleidskader AI</span></div>
-    <h1 class="hero-h1">AI-Geletterdheid<br>voor <span class="g">iedereen</span></h1>
-    <p class="hero-p">AI verandert onderwijs, werk en maatschappij. Sint-Rembert bereidt alle betrokken — leerkrachten ánd leerlingen — voor op deze toekomst. Met ons beleidskader en praktische training leer je AI niet alleen te begrijpen, maar ook verantwoord in te zetten.</p>
-    <div class="hero-stats">
-      <div class="hs"><div class="hs-num">👨‍🏫</div><div class="hs-lbl">Leerkrachten · Professioneel</div></div>
-      <div class="hs"><div class="hs-num">👨‍🎓</div><div class="hs-lbl">Leerlingen · Praktisch</div></div>
-      <div class="hs"><div class="hs-num">📋</div><div class="hs-lbl">Beleidskader</div></div>
-      <div class="hs"><div class="hs-num">✅</div><div class="hs-lbl">EU AI Act Compliant</div></div>
-    </div>
-  </div>
+            <article class="pillar" data-pillar="3">
+                <div class="pillar-icon">🛠️</div>
+                <h3>Competence</h3>
+                <p>Gebruik AI zelf en effectief</p>
+            </article>
 
-  <div class="sw">
-    <!-- OUR APPROACH -->
-    <div class="sw-title">Onze <em>aanpak</em></div>
-    <div class="sw-sub">Gebaseerd op het Sint-Rembert beleidskader voor verantwoord AI-gebruik</div>
-    
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 28px;">
-      <div class="principle-box">
-        <div class="pb-icon">👤</div>
-        <div class="pb-title">De mens blijft centraal</div>
-        <div class="pb-text">AI is een ondersteuning, niet een vervanging. Leerkrachten en leerlingen bepalen en verantwoorden hun keuzes.</div>
-      </div>
+            <article class="pillar" data-pillar="4">
+                <div class="pillar-icon">⚖️</div>
+                <h3>Critical Thinking</h3>
+                <p>Vraag kritisch: wat zijn de risico's?</p>
+            </article>
+        </section>
 
-      <div class="principle-box">
-        <div class="pb-icon">⭐</div>
-        <div class="pb-title">Meerwaarde is vereist</div>
-        <div class="pb-text">We zetten AI in waar het echt bijdraagt aan beter onderwijs — niet voor de hype.</div>
-      </div>
+        <!-- Call-to-Action: Two Paths -->
+        <section class="cta-section">
+            <h2>Kies je pad</h2>
+            
+            <div class="cta-grid">
+                <!-- Teachers Path -->
+                <button class="cta-button teacher" onclick="goTeacher()">
+                    <span class="cta-icon">👨‍🏫</span>
+                    <h3>Ik ben leerkracht</h3>
+                    <p>Lesmateriaal, werkbladen & stappenplannen</p>
+                    <span class="arrow">→</span>
+                </button>
 
-      <div class="principle-box">
-        <div class="pb-icon">🔍</div>
-        <div class="pb-title">Transparantie & eigenaarschap</div>
-        <div class="pb-text">Wie AI gebruikt, blijft eigenaar van het proces. Uitkomsten worden altijd zorgvuldig gecontroleerd.</div>
-      </div>
+                <!-- Students Path -->
+                <button class="cta-button student" onclick="goStudent()">
+                    <span class="cta-icon">👨‍🎓</span>
+                    <h3>Ik ben leerling</h3>
+                    <p>Interactieve modules & AI-experimenten</p>
+                    <span class="arrow">→</span>
+                </button>
+            </div>
+        </section>
 
-      <div class="principle-box">
-        <div class="pb-icon">🎓</div>
-        <div class="pb-title">Leeftijdsgeschikt</div>
-        <div class="pb-text">AI-gebruik is altijd afgestemd op de maturiteit en ontwikkelingsfase van leerlingen.</div>
-      </div>
+        <!-- Quick Links to Resources -->
+        <section class="resources">
+            <h3>Vertrouw je bronnen</h3>
+            <div class="resource-links">
+                <a href="https://kennisnet.nl/ai-geletterdheid/" target="_blank" rel="noopener">📚 Kennisnet</a>
+                <a href="https://vernieuwenderwijs.nl/ai-geletterdheid-ailit/" target="_blank" rel="noopener">🎓 Vernieuwenderwijs</a>
+                <a href="https://www.howest.be/" target="_blank" rel="noopener">🏢 HOWEST/VIVES</a>
+                <a href="https://digisrong.be/" target="_blank" rel="noopener">🔬 DigiSrong</a>
+            </div>
+        </section>
 
-      <div class="principle-box">
-        <div class="pb-icon">⚖️</div>
-        <div class="pb-title">Deskundigheid</div>
-        <div class="pb-text">Alle medewerkers en leerlingen die AI gebruiken, hebben het basisniveau AI-geletterdheid.</div>
-      </div>
-
-      <div class="principle-box">
-        <div class="pb-icon">🛡️</div>
-        <div class="pb-title">Wet- & regelgeving</div>
-        <div class="pb-text">We houden ons aan de AVG, EU AI Act en alle relevante regelgeving.</div>
-      </div>
-    </div>
-
-    <!-- ROUTES SECTION -->
-    <div class="sw-title" style="margin-top: 40px">Kies <em>jouw</em> route</div>
-    <div class="sw-sub">Twee trajecten, elk speciaal op maat gemaakt</div>
-
-    <div class="routes-grid">
-      <div class="route-card teacher-route">
-        <div class="rc-header">
-          <div class="rc-icon">👨‍🏫</div>
-          <div class="rc-title">Ik ben LEERKRACHT</div>
-        </div>
-        <div class="rc-body">
-          <p><strong>Professionalisering</strong> om je leerlingen verantwoord te begeleiden.</p>
-          <ul class="rc-list">
-            <li>✓ Wat is AI echt? (Basis + diepgang)</li>
-            <li>✓ Beleid & veiligheid (AVG, EU AI Act)</li>
-            <li>✓ Leerlingen begeleiden</li>
-            <li>✓ Copilot praktisch gebruiken</li>
-            <li>✓ Certificaat (EU AI Act artikel 4)</li>
-          </ul>
-          <div class="rc-time">3-4 uur training</div>
-        </div>
-        <button class="route-btn teacher" onclick="goTeacher()">Start trainee →</button>
-      </div>
-
-      <div class="route-card student-route">
-        <div class="rc-header">
-          <div class="rc-icon">👨‍🎓</div>
-          <div class="rc-title">Ik ben LEERLING</div>
-        </div>
-        <div class="rc-body">
-          <p><strong>AI-Skills</strong> om als student verantwoord met AI om te gaan.</p>
-          <ul class="rc-list">
-            <li>✓ Wat is AI? (geen rocket science)</li>
-            <li>✓ ChatGPT/Copilot praktisch gebruiken</li>
-            <li>✓ Goeie prompts schrijven</li>
-            <li>✓ Hallucineringen & bias herkennen</li>
-            <li>✓ AI inzetten in jouw schoolwerk</li>
-          </ul>
-          <div class="rc-time">3.5 uur training</div>
-        </div>
-        <button class="route-btn student" onclick="goStudent()">Start modules →</button>
-      </div>
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Sint-Rembert Secundair Onderwijs — AI-geletterdheid voor toekomst</p>
+            <p style="font-size: 0.85rem; margin-top: 0.5rem; opacity: 0.7;">
+                Gebaseerd op <a href="https://vernieuwenderwijs.nl/ai-geletterdheid-ailit/" style="color: inherit; text-decoration: underline;">AILit-raamwerk</a> (Europese standaard)
+            </p>
+        </footer>
     </div>
 
-    <!-- CONTEXT -->
-    <div style="background: #f9f9f9; border-left: 4px solid #667eea; padding: 20px; border-radius: 4px; margin-top: 28px;">
-      <div style="font-weight: 700; color: #1a1a1a; margin-bottom: 8px;">📋 Dit is onderdeel van...</div>
-      <p style="margin: 0; font-size: 14px; color: #666; line-height: 1.6;">
-        <strong>Beleidskader Artificiële Intelligentie van Sint-Rembert</strong> — het centrale referentiedocument voor verantwoord AI-gebruik in onze scholengroep. Dit traject helpt iedereen die framework te begrijpen en toe te passen. Aansluitend op het Digisprong-beleid van de Vlaamse overheid en artikel 4 van de EU AI Act.
-      </p>
-    </div>
-
-  </div>
-
-</div>
-
-<footer style="font-size: 11px; color: #666; margin-top: 60px; padding: 30px 20px; border-top: 1px solid #ddd; background: #f9f9f9; line-height: 1.8;">
-  <div style="max-width: 1200px; margin: 0 auto;">
-    <p style="margin: 0 0 12px 0;"><strong>Over dit trainingsplatform</strong></p>
-    <p style="margin: 0;">
-      Sint-Rembert AI-geletterdheid platform — gebaseerd op het <strong>Beleidskader Artificiële Intelligentie</strong>, aansluitend op Digisprong (Vlaamse overheid) en het <strong>AILit-raamwerk</strong> (Europese standaard).
-    </p>
-  </div>
-</footer>
-
-</main>
-</div>
-
-<script>
-function goTeacher() {
-  window.location.href = 'teacher.html';
-}
-function goStudent() {
-  window.location.href = 'leerlingen.html';
-}
-function goHome() {
-  // Already home, just smooth scroll to top
-  document.querySelector('#main').scrollTop = 0;
-}
-</script>
+    <script src="index.js"></script>
 </body>
 </html>
