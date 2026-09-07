@@ -6,6 +6,16 @@
 <title>AI-Skills voor Leerlingen — Sint-Rembert</title>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<style>
+.quiz-q { background: white; padding: 14px; border-radius: 6px; margin: 12px 0; border-left: 4px solid var(--blue); }
+.quiz-opt { margin: 8px 0; cursor: pointer; padding: 6px; border-radius: 4px; }
+.quiz-opt:hover { background: #f0f2f5; }
+.quiz-opt input { margin-right: 6px; }
+.discussion { background: #fff9e6; padding: 16px; border-radius: 6px; border-left: 4px solid var(--orange); margin: 16px 0; }
+.video-box { background: #e6f3ff; padding: 14px; border-radius: 6px; margin: 12px 0; border-left: 4px solid #667eea; }
+.vrt-link { background: #ffe6f0; padding: 12px; border-radius: 6px; margin: 8px 0; }
+.oefening { background: #e6ffe6; padding: 14px; border-radius: 6px; margin: 12px 0; border-left: 4px solid var(--green); }
+</style>
 </head>
 <body>
 <div id="app">
@@ -13,652 +23,578 @@
   <div class="sb-logo">
     <div class="sb-badge"><span>Sint-Rembert</span></div>
     <div class="sb-title">AI-<em>Skills</em><br>Leerlingen</div>
-    <div class="sb-sub">Scholengroep Sint-Rembert · schooljaar 2026-2027</div>
+    <div class="sb-sub">Scholengroep Sint-Rembert · 2026-2027</div>
   </div>
 
   <div class="nav-sec">
     <div class="nav-lbl">Menu</div>
-    <div class="ni active" onclick="goHome()" id="nav-home"><div class="ni-icon">🏠</div><div class="ni-info"><div class="ni-title">Startpagina</div><div class="ni-sub">Welkom & overzicht</div></div></div>
+    <div class="ni active" onclick="goHome()" id="nav-home"><div class="ni-icon">🏠</div><div class="ni-info"><div class="ni-title">Startpagina</div><div class="ni-sub">Welkom</div></div></div>
   </div>
 
   <div class="nav-sec">
     <div class="nav-lbl">Modules</div>
-    <div class="ni available" onclick="sm(1)" id="nav-mod1"><div class="ni-icon">🤔</div><div class="ni-info"><div class="ni-title">Module 1: Wat is AI?</div><div class="ni-sub">Verplicht</div></div><span class="ni-badge" id="l1">›</span></div>
-    <div class="ni locked" onclick="sm(2)" id="nav-mod2"><div class="ni-icon">💬</div><div class="ni-info"><div class="ni-title">Module 2: ChatGPT/Copilot</div><div class="ni-sub">Verplicht</div></div><span class="ni-badge" id="l2">🔒</span></div>
-    <div class="ni locked" onclick="sm(3)" id="nav-mod3"><div class="ni-icon">✍️</div><div class="ni-info"><div class="ni-title">Module 3: Prompts</div><div class="ni-sub">Verplicht</div></div><span class="ni-badge" id="l3">🔒</span></div>
-    <div class="ni locked" onclick="sm(4)" id="nav-mod4"><div class="ni-icon">⚠️</div><div class="ni-info"><div class="ni-title">Module 4: Hallucinaties</div><div class="ni-sub">Verplicht</div></div><span class="ni-badge" id="l4">🔒</span></div>
-    <div class="ni locked" onclick="sm(5)" id="nav-mod5"><div class="ni-icon">📝</div><div class="ni-info"><div class="ni-title">Module 5: Deepfakes</div><div class="ni-sub">Verplicht</div></div><span class="ni-badge" id="l5">🔒</span></div>
-    <div class="ni locked" onclick="sm(6)" id="nav-mod6"><div class="ni-icon">🤝</div><div class="ni-info"><div class="ni-title">Module 6: Ethics</div><div class="ni-sub">Verplicht</div></div><span class="ni-badge" id="l6">🔒</span></div>
-    <div class="ni locked" onclick="tryC()" id="nav-cert"><div class="ni-icon">🏆</div><div class="ni-info"><div class="ni-title">Certificaat</div><div class="ni-sub">Na alle modules</div></div><span class="ni-badge" id="lc">🔒</span></div>
+    <div class="ni available" onclick="sm(1)" id="nav-mod1"><div class="ni-icon">🤔</div><div class="ni-info"><div class="ni-title">M1: Wat is AI?</div></div><span class="ni-badge" id="l1">›</span></div>
+    <div class="ni locked" onclick="sm(2)" id="nav-mod2"><div class="ni-icon">⚙️</div><div class="ni-info"><div class="ni-title">M2: Hoe werkt AI?</div></div><span class="ni-badge" id="l2">🔒</span></div>
+    <div class="ni locked" onclick="sm(3)" id="nav-mod3"><div class="ni-icon">✨</div><div class="ni-info"><div class="ni-title">M3: Generatieve AI</div></div><span class="ni-badge" id="l3">🔒</span></div>
+    <div class="ni locked" onclick="sm(4)" id="nav-mod4"><div class="ni-icon">⚠️</div><div class="ni-info"><div class="ni-title">M4: Ethiek & Bias</div></div><span class="ni-badge" id="l4">🔒</span></div>
+    <div class="ni locked" onclick="sm(5)" id="nav-mod5"><div class="ni-icon">📚</div><div class="ni-info"><div class="ni-title">M5: AI in School</div></div><span class="ni-badge" id="l5">🔒</span></div>
+    <div class="ni locked" onclick="sm(6)" id="nav-mod6"><div class="ni-icon">🌍</div><div class="ni-info"><div class="ni-title">M6: AI in Maatschappij</div></div><span class="ni-badge" id="l6">🔒</span></div>
+    <div class="ni locked" onclick="tryC()" id="nav-cert"><div class="ni-icon">🏆</div><div class="ni-info"><div class="ni-title">Certificaat</div></div><span class="ni-badge" id="lc">🔒</span></div>
   </div>
 
   <div class="sb-bot">
     <div class="uc">
       <div class="av" id="av">?</div>
-      <div style="flex:1"><input class="un-inp" id="un" placeholder="Vul je naam in"><div class="eh">Voortgang lokaal bijgehouden</div></div>
+      <div style="flex:1"><input class="un-inp" id="un" placeholder="Je naam"><div class="eh">Voortgang lokaal bijgehouden</div></div>
     </div>
   </div>
 </aside>
 
 <main id="main">
 
-<!-- ════════ HOME ════════ -->
+<!-- HOME -->
 <div class="view active" id="view-home">
   <div class="hero">
-    <div class="hero-ey"><span>Sint-Rembert AI-Skills voor Leerlingen</span></div>
+    <div class="hero-ey">Sint-Rembert AI-Skills voor Leerlingen</div>
     <h1 class="hero-h1">Leer AI <span class="g">echt begrijpen</span></h1>
-    <p class="hero-p">Je gebruikt ChatGPT misschien al. Maar weet je hoe het écht werkt? En wat je ermee mag doen? Deze 6 modules leren je AI kritisch in te zetten — in je essays, projecten en huiswerk. Niet als vervanging, maar als slimme sidekick.</p>
+    <p class="hero-p">Je gebruikt ChatGPT misschien al. Maar weet je hoe het écht werkt? Deze 6 modules (gebaseerd op de EDUbox Artificiële Intelligentie) leren je AI van de grond op te begrijpen — en kritisch in te zetten.</p>
     <div class="hero-stats">
-      <div class="hs"><div class="hs-num">6</div><div class="hs-lbl">Modules · Praktisch</div></div>
-      <div class="hs"><div class="hs-num">📚</div><div class="hs-lbl">Geen Programmeren</div></div>
-      <div class="hs"><div class="hs-num">🎯</div><div class="hs-lbl">Voor Jouw Vakken</div></div>
+      <div class="hs"><div class="hs-num">6</div><div class="hs-lbl">Modules · EDUbox-based</div></div>
+      <div class="hs"><div class="hs-num">📊</div><div class="hs-lbl">Interactief</div></div>
+      <div class="hs"><div class="hs-num">🎯</div><div class="hs-lbl">Praktisch</div></div>
       <div class="hs"><div class="hs-num">🏆</div><div class="hs-lbl">Certificaat</div></div>
     </div>
   </div>
 
   <div class="sw">
-    <div class="sw-title">De <em>6 modules</em></div>
-    <div class="sw-sub">Allemaal verplicht. Je gaat ze stap voor stap doen. Samen duren ze ongeveer 3-4 uur.</div>
-
+    <div class="sw-title">6 <em>Modules</em> Over AI</div>
     <div class="mods-grid">
-      <div class="mc" id="cm1" onclick="sm(1)">
+      <div class="mc" onclick="sm(1)">
         <div class="mc-badge">Module 1 · Start</div>
         <div class="mc-icon">🤔</div>
         <div class="mc-title">Wat is AI?</div>
-        <div class="mc-desc">Machine learning, grote taalmodellen, ChatGPT — wat is het echt? En waar zit AI in jouw leven?</div>
-        <div class="mc-meta"><div class="mc-dur">~35 min</div><div class="mc-stat" id="ps1">Beschikbaar</div></div>
-        <button class="sr-btn g" id="bm1">▶ Start</button>
+        <div class="mc-desc">AI overal om je heen. De 3 elementen. Real-life voorbeelden.</div>
+        <button class="sr-btn g">▶ Start</button>
       </div>
-
-      <div class="mc locked" id="cm2" onclick="sm(2)">
-        <div class="mc-badge">Module 2 · Verplicht</div>
-        <div class="mc-icon">💬</div>
-        <div class="mc-title">ChatGPT & Copilot gebruiken</div>
-        <div class="mc-desc">Hoe werkt ChatGPT echt? Wat zijn de regels op school? En hoe schrijf je een goeie prompt?</div>
-        <div class="mc-meta"><div class="mc-dur">~40 min</div><div class="mc-stat locked" id="ps2">🔒 Na module 1</div></div>
-        <button class="sr-btn" id="bm2" disabled>🔒 Voltooi module 1</button>
+      <div class="mc" onclick="sm(2)">
+        <div class="mc-badge">Module 2</div>
+        <div class="mc-icon">⚙️</div>
+        <div class="mc-title">Hoe Werkt AI?</div>
+        <div class="mc-desc">Procedureel, Machine Learning, Deep Learning, Neurale Netwerken</div>
+        <button class="sr-btn">▶ Start</button>
       </div>
-
-      <div class="mc locked" id="cm3" onclick="sm(3)">
-        <div class="mc-badge">Module 3 · Verplicht</div>
-        <div class="mc-icon">✍️</div>
-        <div class="mc-title">Prompts & Tricks</div>
-        <div class="mc-desc">Goeie vragen = goeie antwoorden. Leer de kunst van prompts schrijven en AI beter inzetten.</div>
-        <div class="mc-meta"><div class="mc-dur">~35 min</div><div class="mc-stat locked" id="ps3">🔒 Na module 2</div></div>
-        <button class="sr-btn" id="bm3" disabled>🔒 Voltooi module 2</button>
+      <div class="mc" onclick="sm(3)">
+        <div class="mc-badge">Module 3</div>
+        <div class="mc-icon">✨</div>
+        <div class="mc-title">Generatieve AI</div>
+        <div class="mc-desc">ChatGPT, taalmodellen, prompts, AI-voorbeelden creëren</div>
+        <button class="sr-btn">▶ Start</button>
       </div>
-
-      <div class="mc locked" id="cm4" onclick="sm(4)">
-        <div class="mc-badge">Module 4 · Verplicht</div>
+      <div class="mc" onclick="sm(4)">
+        <div class="mc-badge">Module 4</div>
         <div class="mc-icon">⚠️</div>
-        <div class="mc-title">Hallucinaties & Bias</div>
-        <div class="mc-desc">ChatGPT verzint dingen. Hoe check je of het klopt? En waar zit bias in AI?</div>
-        <div class="mc-meta"><div class="mc-dur">~35 min</div><div class="mc-stat locked" id="ps4">🔒 Na module 3</div></div>
-        <button class="sr-btn" id="bm4" disabled>🔒 Voltooi module 3</button>
+        <div class="mc-title">Ethiek & Problemen</div>
+        <div class="mc-desc">Bias, energieverbruik, deepfakes, waarheid</div>
+        <button class="sr-btn">▶ Start</button>
       </div>
-
-      <div class="mc locked" id="cm5" onclick="sm(5)">
-        <div class="mc-badge">Module 5 · Verplicht</div>
-        <div class="mc-icon">📝</div>
-        <div class="mc-title">Deepfakes & Media</div>
-        <div class="mc-desc">AI kan beelden, video's en audio's verzinnen. Hoe herken je nep? Wie kun je nog vertrouwen?</div>
-        <div class="mc-meta"><div class="mc-dur">~35 min</div><div class="mc-stat locked" id="ps5">🔒 Na module 4</div></div>
-        <button class="sr-btn" id="bm5" disabled>🔒 Voltooi module 4</button>
+      <div class="mc" onclick="sm(5)">
+        <div class="mc-badge">Module 5</div>
+        <div class="mc-icon">📚</div>
+        <div class="mc-title">AI in School</div>
+        <div class="mc-desc">ChatGPT in huiswerk, regels, ethische afspraken</div>
+        <button class="sr-btn">▶ Start</button>
       </div>
-
-      <div class="mc locked" id="cm6" onclick="sm(6)">
+      <div class="mc" onclick="sm(6)">
         <div class="mc-badge">Module 6 · Slot</div>
-        <div class="mc-icon">🤝</div>
-        <div class="mc-title">Ethics & Kritisch Denken</div>
-        <div class="mc-desc">AI is krachtig. Hoe zorg je dat je het verantwoord gebruikt? En wat zijn je grenzen?</div>
-        <div class="mc-meta"><div class="mc-dur">~30 min</div><div class="mc-stat locked" id="ps6">🔒 Na module 5</div></div>
-        <button class="sr-btn" id="bm6" disabled>🔒 Voltooi module 5</button>
-      </div>
-    </div>
-
-    <div class="sw-title" style="margin-top:40px">Sint-Rembert <em>regels</em></div>
-    <div class="sw-sub">Dit mag je wel en niet met AI op school.</div>
-    <div class="sr-row">
-      <div class="sr-box wel">
-        <div class="sr-box-title">✅ Wat mag wel?</div>
-        <div class="sri"><div class="sr-chk">✓</div>AI gebruiken voor brainstorm</div>
-        <div class="sri"><div class="sr-chk">✓</div>ChatGPT/Copilot gebruiken met je schoolaccount</div>
-        <div class="sri"><div class="sr-chk">✓</div>AI-output kritisch gebruiken als vertrekpunt</div>
-        <div class="sri"><div class="sr-chk">✓</div>AI helpt je leren en nadenken</div>
-        <div class="sri"><div class="sr-chk">✓</div>Je eigen gedachten toevoegen</div>
-      </div>
-      <div class="sr-box niet">
-        <div class="sr-box-title">❌ Wat mag niet?</div>
-        <div class="sri sr-x-item"><div class="sr-x">✕</div>AI-antwoord kritiekloos kopieëren</div>
-        <div class="sri sr-x-item"><div class="sr-x">✕</div>AI-werk als je eigen werk voordoen</div>
-        <div class="sri sr-x-item"><div class="sr-x">✕</div>Persoonlijke data ingeven in ChatGPT</div>
-        <div class="sri sr-x-item"><div class="sr-x">✕</div>Medeleerlingen helpen met AI vals spelen</div>
-        <div class="sri sr-x-item"><div class="sr-x">✕</div>Vertrouwen op AI zonder eigen gedachte</div>
+        <div class="mc-icon">🌍</div>
+        <div class="mc-title">AI in Maatschappij</div>
+        <div class="mc-desc">Banen, creativiteit, toekomst, reflectie</div>
+        <button class="sr-btn">▶ Start</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ════════ MODULE 1 ════════ -->
+<!-- MODULE 1: WAT IS AI? -->
 <div class="view" id="view-mod1">
   <div class="mh">
     <button class="bk" onclick="sv('home')">← Terug</button>
-    <div class="mh-info">
-      <div class="mh-num">Module 1 · Basis</div>
-      <div class="mh-title">Wat is AI?</div>
-    </div>
+    <div class="mh-info"><div class="mh-num">Module 1</div><div class="mh-title">Wat is AI?</div></div>
   </div>
-  <div class="mc-content">
+  <div class="mc-content" style="padding: 20px;">
     <h2>🤔 Wat is Artificiële Intelligentie?</h2>
     <p>Artificiële intelligentie, of kortweg AI, duikt tegenwoordig overal op. Het is een heel omvangrijk thema. Maar wat is AI precies? En welke principes zitten daarachter?</p>
 
-    <h3>AI is overal aanwezig</h3>
-    <p>Geloof het of niet, maar je komt voortdurend in contact met AI. Apps zoals:</p>
+    <h3>AI is Overal Aanwezig</h3>
+    <p>Geloof het of niet, maar je komt voortdurend in contact met AI:</p>
     <ul>
-      <li><strong>Waze/Google Maps</strong> — routeplanning naar school</li>
-      <li><strong>Instagram/TikTok</strong> — wat zie je op je feed? AI bepaalt dit!</li>
-      <li><strong>Netflix/Spotify</strong> — welke serie of nummer krijg je aanbevolen?</li>
-      <li><strong>YouTube</strong> — welke video's ziet je eerst?</li>
-      <li><strong>WhatsApp</strong> — emoji-voorspellingen, autocorrect</li>
+      <li><strong>🗺️ Waze/Google Maps</strong> — routeplanning</li>
+      <li><strong>📱 Instagram & TikTok</strong> — welke posts zie jij op je feed?</li>
+      <li><strong>🎬 Netflix & Spotify</strong> — aanbevelingen</li>
+      <li><strong>🎵 YouTube</strong> — welke video's eerst?</li>
     </ul>
-    <p>Maardat is niet alles. AI wordt in nog veel meer toepassingen gebruikt. Denk aan zelfrijdende auto's, medische diagnoses, chatbots, en nog veel meer!</p>
 
-    <h3>De 3 Elementen van AI</h3>
-    <p>AI bestaat uit drie essentiële onderdelen:</p>
-    <div style="background: #f0f2f5; padding: 16px; border-radius: 6px; margin: 16px 0;">
-      <div style="margin-bottom: 14px;">
-        <strong>1️⃣ Computer + Software</strong><br>
-        Een sterk en snel computersysteem voorzien van de nodige software.
-      </div>
-      <div style="margin-bottom: 14px;">
-        <strong>2️⃣ Heel veel DATA</strong><br>
-        Hoe meer data er zijn, hoe gemakkelijker de computer patronen kan vinden. Denk: miljoenen foto's, miljarden woorden, enzovoort.
-      </div>
-      <div>
-        <strong>3️⃣ Algoritmes (Wiskundige formules)</strong><br>
-        Deze gebruiken wiskunde om patronen te herkennen en toe te passen op nieuwe data.
-      </div>
+    <div class="oefening">
+      <strong>💭 Oefening 1:</strong> Welke apps/websites gebruik JIJ waar AI een rol speelt? Schrijf er 3 op.
+    </div>
+
+    <h3>De 3 Essentiële Elementen van AI</h3>
+    <p><strong>AI bestaat uit 3 dingen:</strong></p>
+    <div style="background: #f0f2f5; padding: 14px; border-radius: 6px; margin: 12px 0;">
+      <strong>1️⃣ Een sterk computersysteem</strong><br>
+      Met de nodige software. De "hardware" die alles doet.
+    </div>
+    <div style="background: #f0f2f5; padding: 14px; border-radius: 6px; margin: 12px 0;">
+      <strong>2️⃣ HEEL VEEL Data</strong><br>
+      Hoe meer data, hoe beter AI patronen vindt. Denk: miljarden foto's, woorden, etc.
+    </div>
+    <div style="background: #f0f2f5; padding: 14px; border-radius: 6px; margin: 12px 0;">
+      <strong>3️⃣ Algoritmes (Wiskundige formules)</strong><br>
+      Die patronen herkennen en op nieuwe data toepassen.
     </div>
 
     <h3>Machine Learning: Hoe Leert AI?</h3>
-    <p>Stel je voor dat je AI duizenden foto's van <strong>katten</strong> en duizenden foto's van <strong>honden</strong> laat zien. AI analyzeert die foto's en zoekt naar patronen:</p>
+    <p>Stel: je geeft AI <strong>duizenden foto's van katten</strong> en <strong>duizenden foto's van honden</strong>. AI analyzeert en zoekt patronen:</p>
     <ul>
-      <li>Katten hebben puntige oren, honden hebben flaporen</li>
-      <li>Katten hebben lijnen in hun ogen, honden hebben ronde ogen</li>
-      <li>Katten hebben snorren, honden niet</li>
+      <li>Katten: puntige oren, ronde ogen, snorren</li>
+      <li>Honden: flaporen, andere ogen, geen snorren</li>
     </ul>
-    <p>Na miljarden voorbeelden zegt AI: "Ah! Ik herken de patronen!" Daarna kun je een NIEUWE foto tonen van een dier, en AI zegt: "Dit is met 95% zekerheid een kat."</p>
+    <p>Daarna kun je een NIEUWE foto tonen. AI zegt: "Dit is met 95% zekerheid een kat."</p>
 
-    <h3>Praktische Voorbeelden</h3>
+    <div class="quiz-q">
+      <strong>❓ Quiz vraag 1:</strong> Welke 3 elementen heeft AI?<br>
+      <div class="quiz-opt"><input type="radio" name="q1"> Computer, Data, Algoritmes</div>
+      <div class="quiz-opt"><input type="radio" name="q1"> Internet, Server, Cloud</div>
+      <div class="quiz-opt"><input type="radio" name="q1"> Python, Java, Javascript</div>
+      <button onclick="checkQuiz()" class="sr-btn g">Check antwoord</button>
+    </div>
+
+    <h3>Real-Life Voorbeelden</h3>
+
     <div style="background: #fffacd; padding: 14px; border-left: 4px solid #ff9f43; margin: 12px 0; border-radius: 4px;">
-      <strong>📱 Instagram & TikTok:</strong> AI analyzeert wat jij liket, wie je volgt, hoe lang je ergens naar kijkt. Dan voorspelt het wat JIJ graag ziet — en je blijft langer scrollen!
+      <strong>📱 Instagram:</strong> AI analyzeert wat jij liket, wie je volgt, hoe lang je kijkt. Dan voorspelt het wat JIJ graag ziet — en je blijft langer scrollen!
     </div>
 
     <div style="background: #e6f3ff; padding: 14px; border-left: 4px solid #667eea; margin: 12px 0; border-radius: 4px;">
-      <strong>🚗 Zelfrijdende auto's:</strong> Computers analyseren verkeerssituaties in real-time. AI beslist: Rem! Versnellen! Stuur links! Alles automatisch.
+      <strong>🚗 Zelfrijdende auto's:</strong> AI analyzeert verkeerssituaties REAL-TIME. Rem! Versnellen! Links afslaan!
     </div>
 
     <div style="background: #ffe6f0; padding: 14px; border-left: 4px solid #f5576c; margin: 12px 0; border-radius: 4px;">
-      <strong>🎵 Voice cloning (Deepfake):</strong> MNM-dj Imane Boudadi werd in 2023 vervangen door een AI-versie van haar stem! ChatGPT schreef teksten, AI sprak ze in met haar stem.
+      <strong>🎤 Voice Cloning (Deepfake):</strong> In 2023 werd MNM-dj Imane Boudadi vervangen door een AI-versie van haar stem! ChatGPT schreef teksten, AI sprak ze in.
     </div>
 
     <h3>Voordelen EN Risico's</h3>
-    <p><strong>AI heeft veel mogelijkheden:</strong></p>
-    <ul>
-      <li>✅ Helpt artsen ziektes sneller herkennen</li>
-      <li>✅ Vertaalt talen in real-time</li>
-      <li>✅ Helpt met brainstorming en creativiteit</li>
-      <li>✅ Bespaart veel tijd op routine-werk</li>
-    </ul>
-    <p><strong>Maar er zijn ook risico's:</strong></p>
-    <ul>
-      <li>❌ Privacy: Instagram ziet alles wat je doet</li>
-      <li>❌ Bias: AI kan vooroordelen hebben (uit trainingsdata)</li>
-      <li>❌ Hallucinaties: AI verzint soms dingen</li>
-      <li>❌ Deepfakes: Nep-video's die overtuigend zijn</li>
-    </ul>
+    <div class="sr-row">
+      <div class="sr-box wel">
+        <div class="sr-box-title">✅ Voordelen</div>
+        <div class="sri"><div class="sr-chk">✓</div>Sneller diagnosticeren ziekten</div>
+        <div class="sri"><div class="sr-chk">✓</div>Talen vertalen in real-time</div>
+        <div class="sri"><div class="sr-chk">✓</div>Creativiteit stimuleren</div>
+      </div>
+      <div class="sr-box niet">
+        <div class="sr-box-title">❌ Risico's</div>
+        <div class="sri sr-x-item"><div class="sr-x">✕</div>Privacy: Instagram ziet alles</div>
+        <div class="sri sr-x-item"><div class="sr-x">✕</div>Bias: AI erftvoor ordelen</div>
+        <div class="sri sr-x-item"><div class="sr-x">✕</div>Deepfakes: nep-video's</div>
+      </div>
+    </div>
 
-    <div style="background: #fff9e6; padding: 16px; border-radius: 6px; margin-top: 20px; border-left: 4px solid var(--orange);">
-      <strong>💡 Reflectievraag:</strong> Welke AI-apps gebruik JIJ het meest? Welke voordelen zie je, en welke risico's?
+    <div class="discussion">
+      <strong>💬 Discussie:</strong><br>
+      "AI helpt veel, maar vraagt vragen. Welke voordelen zie jij in AI? Welke risico's maken je bezorgd?"
     </div>
 
     <button class="sr-btn g" onclick="completeModule(1)" style="margin-top: 20px;">✅ Module 1 Voltooid</button>
   </div>
 </div>
 
-<!-- ════════ MODULE 2 ════════ -->
+<!-- MODULE 2: HOE WERKT AI? -->
 <div class="view" id="view-mod2">
   <div class="mh">
     <button class="bk" onclick="sv('home')">← Terug</button>
-    <div class="mh-info">
-      <div class="mh-num">Module 2 · Praktisch</div>
-      <div class="mh-title">ChatGPT & Copilot</div>
-    </div>
+    <div class="mh-info"><div class="mh-num">Module 2</div><div class="mh-title">Hoe Werkt AI?</div></div>
   </div>
-  <div class="mc-content">
-    <h2>💬 Hoe Werkt ChatGPT?</h2>
-    <p>ChatGPT is een <strong>Groot Taalmodel (Large Language Model / LLM)</strong> — een soort AI die miljarden woorden ("tokens") heeft "gelezen" en geleerd welk woord waarschijnlijk volgt.</p>
+  <div class="mc-content" style="padding: 20px;">
+    <h2>⚙️ De 3 Fases van AI</h2>
+    <p>AI is niet altijd hetzelfde geweest. Er zijn <strong>3 fases</strong> in de geschiedenis van AI:</p>
 
-    <div style="background: #e6f3ff; padding: 16px; border-radius: 6px; margin: 16px 0; border-left: 4px solid #667eea;">
-      <strong>🧠 Analogie:</strong> Stel je voor dat je 1 miljoen boeken hebt gelezen. Iemand zegt: "Het weer is..." en jij zegt automatisch "...mooi!" omdat dat in boeken meestal volgt. ChatGPT doet EXACT hetzelfde — maar dan met miljarden voorbeelden!
+    <div style="background: white; border-left: 4px solid #667eea; padding: 14px; margin: 12px 0; border-radius: 4px;">
+      <strong>1️⃣ Procedurele Fase (jaren '50-'80)</strong><br>
+      AI volgt simpele stappenplannen. Stap 1 → Stap 2 → Stap 3. Zoals een Ikea-handleiding!<br>
+      <em>Voorbeeld: Schaakcomputer die simpele regels volgt.</em>
     </div>
 
-    <h3>ChatGPT is GEEN internet-verbinding</h3>
-    <p>ChatGPT is NOT online geraakt na september 2024 (ongeveer). Dus:</p>
-    <ul>
-      <li>❌ Kan huiswerk van vorig week niet opzoeken</li>
-      <li>❌ Weet niet wat gisteren gebeurde</li>
-      <li>❌ Kan geen REAL-TIME info geven</li>
-      <li>✅ Maar kan WEL alles bespreken tot september 2024</li>
-    </ul>
-
-    <h3>Wat Kan ChatGPT Doen?</h3>
-    <div class="sr-row">
-      <div class="sr-box wel">
-        <div class="sr-box-title">✅ Wat MAG wel</div>
-        <div class="sri"><div class="sr-chk">✓</div>Essays en brainstorming helpen</div>
-        <div class="sri"><div class="sr-chk">✓</div>Vragen beantwoorden</div>
-        <div class="sri"><div class="sr-chk">✓</div>Code schrijven en uitleggen</div>
-        <div class="sri"><div class="sr-chk">✓</div>Creativiteit stimuleren</div>
-        <div class="sri"><div class="sr-chk">✓</div>Feedback op je werk geven</div>
-      </div>
-      <div class="sr-box niet">
-        <div class="sr-box-title">❌ GEEN echte garantie</div>
-        <div class="sri sr-x-item"><div class="sr-x">✕</div>GEEN echte informatie garanteren</div>
-        <div class="sri sr-x-item"><div class="sr-x">✕</div>Kan hallucineren (verzinnen!)</div>
-        <div class="sri sr-x-item"><div class="sr-x">✕</div>Weet niet wat NU gebeurt</div>
-        <div class="sri sr-x-item"><div class="sr-x">✕</div>Kan biased zijn (vooroordelen)</div>
-      </div>
-    </div>
-
-    <h3>Sint-Rembert Regels voor ChatGPT</h3>
     <div style="background: white; border-left: 4px solid var(--green); padding: 14px; margin: 12px 0; border-radius: 4px;">
-      <strong>✅ JE MAG</strong>
-      <ul>
-        <li>Brainstorming doen</li>
-        <li>Vragen stellen</li>
-        <li>Feedback krijgen op je eigen werk</li>
-        <li>Je schoolaccount gebruiken (met ChatGPT voor onderwijs)</li>
-        <li>AI-output als VERTREKPUNT gebruiken</li>
-      </ul>
+      <strong>2️⃣ Machine Learning Fase (jaren '80-2010)</strong><br>
+      AI leert van data. Je geeft het voorbeelden, en AI zoekt patronen.<br>
+      <em>Voorbeeld: Spamfilter die leert wat spam is.</em>
     </div>
 
-    <div style="background: white; border-left: 4px solid var(--red); padding: 14px; margin: 12px 0; border-radius: 4px;">
-      <strong>❌ JE MAG NIET</strong>
-      <ul>
-        <li>AI-antwoord kritiekloos kopieëren als eigen werk</li>
-        <li>Je naam/adres ingeven in ChatGPT</li>
-        <li>Persoonlijke info van vrienden ingeven</li>
-        <li>AI-werk met je naam inleveren (fout!)</li>
-        <li>Zonder kritische blik accepteren (altijd checken!)</li>
-      </ul>
+    <div style="background: white; border-left: 4px solid var(--orange); padding: 14px; margin: 12px 0; border-radius: 4px;">
+      <strong>3️⃣ Deep Learning Fase (2010-nu)</strong><br>
+      AI gebruikt neurale netwerken (netwerken zoals ons brein). Kan complexe taken doen.<br>
+      <em>Voorbeeld: ChatGPT, gezichtsherkenning, zelfrijdende auto's.</em>
     </div>
 
-    <h3>Copilot vs ChatGPT</h3>
-    <p><strong>Copilot</strong> (Microsoft) is soortgelijk als ChatGPT, maar:</p>
+    <h3>De 3 Soorten Machine Learning</h3>
+
+    <strong>A) Gesuperviseerd Leren</strong><br>
+    Je geeft AI <strong>gelabelde data</strong>: "Dit is een kat," "Dit is een hond."<br>
+    AI leert de verschillen en kan daarna nieuwe foto's categoriseren.<br>
+    <em>IRL: Gezichtsherkenning in je telefoon (foto's groeperen)</em>
+
+    <strong>B) Ongesuperviseerd Leren</strong><br>
+    Je geeft AI data ZONDER labels. AI moet zelf structuur aanbrengen.<br>
+    AI groepeert dingen op basis van overeenkomsten.<br>
+    <em>IRL: Spotify-aanbevelingen, Zalando-producten</em>
+
+    <strong>C) Versterkend Leren (Reinforcement Learning)</strong><br>
+    AI leert door trial-and-error. Fouten = straf, goed = beloning.<br>
+    <em>IRL: Videogames, robotica, AlphaGo (schaakcomputer)</em>
+
+    <h3>Deep Learning & Neurale Netwerken</h3>
+    <p>Deep Learning combineert Machine Learning met <strong>neurale netwerken</strong> — netwerken als ons brein!</p>
+    <p>Een neuraal netwerk heeft:</p>
     <ul>
-      <li>✅ Kan WÈLINTERNET gebruiken (real-time info)</li>
-      <li>✅ Ziet je schooldocumenten (OneDrive integratie)</li>
-      <li>✅ Is beschikbaar via je schoolaccount</li>
-      <li>❌ Kan ook verkeerde info geven (niet perfect!)</li>
+      <li><strong>Input laag</strong> — De data die binnenkomt</li>
+      <li><strong>Verborgen lagen</strong> — Die data verwerken</li>
+      <li><strong>Output laag</strong> — Het eindantwoord (62% kat, 38% hond)</li>
     </ul>
 
-    <div style="background: #fff9e6; padding: 16px; border-radius: 6px; margin-top: 20px; border-left: 4px solid var(--orange);">
-      <strong>💡 Praktijkoefening:</strong><br>
-      Geef ChatGPT een vraag over je huiswerk. Krijg je een goed antwoord? Checkt het via Google. Wat miste ChatGPT?
+    <div class="video-box">
+      <strong>📺 Video:</strong> Hoe werken neurale netwerken precies?<br>
+      (Te vinden in de EDUbox of op VRT NWS)
+    </div>
+
+    <h3>Generatieve AI (De Doorbraak van 2022)</h3>
+    <p>In 2022 gebeurde er iets bijzonders: AI kon zelf dingen creëren! Dit heet <strong>generatieve AI</strong>.</p>
+    <p>ChatGPT werkt zo: het is een <strong>taalmodel</strong> dat miljarden woorden has "gelezen". Het voorspelt welk woord waarschijnlijk volgt:</p>
+    <div style="background: #fff3cd; padding: 14px; border-radius: 6px; margin: 12px 0;">
+      Jij: "Het weer is..."<br>
+      ChatGPT thinks: "Statistically gezien volgt meestal 'mooi' of 'slecht'"<br>
+      ChatGPT: "Het weer is mooi vandaag!"
+    </div>
+
+    <div class="quiz-q">
+      <strong>❓ Quiz vraag 2:</strong> Welke fase van AI was EERST?<br>
+      <div class="quiz-opt"><input type="radio" name="q2"> Deep Learning</div>
+      <div class="quiz-opt"><input type="radio" name="q2"> Procedureel</div>
+      <div class="quiz-opt"><input type="radio" name="q2"> Machine Learning</div>
+      <button onclick="checkQuiz()" class="sr-btn g">Check antwoord</button>
+    </div>
+
+    <div class="oefening">
+      <strong>🧠 Oefening:</strong><br>
+      Noem een real-life voorbeeld van elk type machine learning:<br>
+      • Gesuperviseerd:<br>
+      • Ongesuperviseerd:<br>
+      • Versterkend:
     </div>
 
     <button class="sr-btn g" onclick="completeModule(2)" style="margin-top: 20px;">✅ Module 2 Voltooid</button>
   </div>
 </div>
 
-<!-- ════════ MODULE 3 ════════ -->
+<!-- MODULE 3: GENERATIEVE AI -->
 <div class="view" id="view-mod3">
   <div class="mh">
     <button class="bk" onclick="sv('home')">← Terug</button>
-    <div class="mh-info">
-      <div class="mh-num">Module 3 · Skills</div>
-      <div class="mh-title">Prompts & Tricks</div>
-    </div>
+    <div class="mh-info"><div class="mh-num">Module 3</div><div class="mh-title">Generatieve AI</div></div>
   </div>
-  <div class="mc-content">
-    <h2>✍️ De Kunst van Goede Prompts</h2>
-    <p><strong>Slechte prompt = slechte antwoord. Goede prompt = VEEL beter antwoord!</strong></p>
-    <p>Een prompt is de vraag die jij ChatGPT stelt. Hoe beter jij vraagt, hoe beter het antwoord!</p>
+  <div class="mc-content" style="padding: 20px;">
+    <h2>✨ Generatieve AI: AI Creëert Dingen</h2>
+    <p>Tot 2022 kon AI vooral <strong>categoriseren</strong> en <strong>voorspellen</strong>. Nu kan het ook <strong>creëren</strong>!</p>
 
-    <h3>Voorbeeld: Slechte vs Goede Prompts</h3>
-
-    <div style="background: #ffe6e6; padding: 16px; border-radius: 6px; margin: 12px 0; border-left: 4px solid #ff6b6b;">
-      <strong>❌ SLECHTE PROMPT:</strong><br>
-      "Leg AI uit"<br><br>
-      <em>Resultaat: Generieke, oppervlakkige uitleg. Niet bruikbaar.</em>
-    </div>
-
-    <div style="background: #e6ffe6; padding: 16px; border-radius: 6px; margin: 12px 0; border-left: 4px solid #51cf66;">
-      <strong>✅ GOEDE PROMPT:</strong><br>
-      "Leg AI uit in 3 korte alinea's, begrijpelijk voor een 15-jarige, met voorbeelden uit sociale media die ik dagelijks gebruik"<br><br>
-      <em>Resultaat: Veel relevanter, beter onderbouwd, persoonlijker!</em>
-    </div>
-
-    <div style="background: #fff3bf; padding: 16px; border-radius: 6px; margin: 12px 0; border-left: 4px solid #fcc419;">
-      <strong>🔥 SUPER GOEDE PROMPT (Pro-tip!):</strong><br>
-      "Je bent een informaticadocent. Ik ben een Havo-leerling Nederlands die een essay schrijft over AI en samenleving. Leg uit hoe AI's trainingsdata bias kan veroorzaken. Geef een concreet voorbeeld. Maak het begrijpelijk zonder technisch jargon. Max 150 woorden."<br><br>
-      <em>Resultaat: PERFECT! ChatGPT weet precies wat je nodig hebt.</em>
-    </div>
-
-    <h3>6 Tips voor Betere Prompts</h3>
-
-    <div style="background: white; border-left: 4px solid var(--blue); padding: 14px; margin: 12px 0; border-radius: 4px;">
-      <strong>1. Wees SPECIFIEK</strong><br>
-      <em>Slecht:</em> "Schrijf een verhaal"<br>
-      <em>Goed:</em> "Schrijf een spannend sciencefiction-verhaal van 300 woorden over een robot-kloon die bewustzijn krijgt"
-    </div>
-
-    <div style="background: white; border-left: 4px solid var(--green); padding: 14px; margin: 12px 0; border-radius: 4px;">
-      <strong>2. Geef CONTEXT</strong><br>
-      Vertel AI wie je bent, wat je nodig hebt. "Ik ben een Havo-leerling Engels. Ik schrijf een essay over klimaatverandering. Help me met de inleiding die begint met een opvallende feit."
-    </div>
-
-    <div style="background: white; border-left: 4px solid var(--orange); padding: 14px; margin: 12px 0; border-radius: 4px;">
-      <strong>3. Bepaal de LENGTE</strong><br>
-      "Schrijf 200 woorden / 3 alinea's / max 2 minuten lezen"<br>
-      Veel beter dan "schrijf iets over..."
-    </div>
-
-    <div style="background: white; border-left: 4px solid #ff9f43; padding: 14px; margin: 12px 0; border-radius: 4px;">
-      <strong>4. Geef VOORBEELDEN</strong><br>
-      "Zoals dit voorbeeld: [jouw voorbeeld]. Doe iets soortgelijks."<br>
-      AI leert van voorbeelden!
-    </div>
-
-    <div style="background: white; border-left: 4px solid #f5576c; padding: 14px; margin: 12px 0; border-radius: 4px;">
-      <strong>5. Vra OM FEEDBACK</strong><br>
-      "Geef feedback op dit antwoord en verbeter het" → AI kan helpen verbeteren!
-    </div>
-
-    <div style="background: white; border-left: 4px solid #7fe000; padding: 14px; margin: 12px 0; border-radius: 4px;">
-      <strong>6. ITEREER (Stap voor stap)</strong><br>
-      Eerste antwoord niet perfect? Stel vervolgvragen!<br>
-      "Kan dat korter?" "Meer humoristisch?" "Begrijpelijker voor 12-jarigen?"
-    </div>
-
-    <h3>Praktijk-Oefening</h3>
-    <p>Schrijf een prompt voor ChatGPT over je favoriete vakgebied. Zorg dat het:</p>
+    <h3>Wat kan Generatieve AI Creëren?</h3>
     <ul>
-      <li>✓ Specifiek is</li>
-      <li>✓ Context geeft (wie je bent)</li>
-      <li>✓ Lengte bepaalt</li>
-      <li>✓ Voorbeelden geeft</li>
+      <li>💬 <strong>Tekst:</strong> ChatGPT, essays, brieven</li>
+      <li>🖼️ <strong>Afbeeldingen:</strong> DALL-E, Midjourney (foto's, kunst)</li>
+      <li>🎵 <strong>Muziek & Audio:</strong> AI-stemmen, liedjes</li>
+      <li>🎬 <strong>Video:</strong> AI-gegenereerde video's</li>
+      <li>💻 <strong>Code:</strong> GitHub Copilot schrijft programmacode!</li>
     </ul>
 
-    <div style="background: #fff9e6; padding: 16px; border-radius: 6px; margin-top: 20px; border-left: 4px solid var(--orange);">
-      <strong>💡 Reflectie:</strong> Welk verschil zie je tussen een slechte en goede prompt? Waarom is specifiek belangrijk?
+    <h3>ChatGPT: Het Groot Taalmodel</h3>
+    <p><strong>ChatGPT is een "Large Language Model" (LLM)</strong> — een AI die miljarden woorden has gelezen.</p>
+    <p>Hoe werkt het?</p>
+    <ol>
+      <li>Je geeft ChatGPT een vraag (prompt)</li>
+      <li>ChatGPT analyzeert: "Welk woord volgt statistisch gezien?"</li>
+      <li>ChatGPT genereert woord voor woord</li>
+      <li>Je krijgt een antwoord!</li>
+    </ol>
+
+    <div class="oefening">
+      <strong>🔥 Oefening: Prompting</strong><br>
+      Een <strong>prompt</strong> is de vraag die je ChatGPT geeft. Goede prompts = betere antwoorden!<br><br>
+      <strong>❌ SLECHTE PROMPT:</strong> "Schrijf iets over AI"<br>
+      <strong>✅ GOEDE PROMPT:</strong> "Schrijf een korte tekst van 100 woorden over AI voor een 15-jarige, met 1 voorbeeld uit sociale media"
+    </div>
+
+    <h3>Hoe Maak Je Goede Prompts?</h3>
+    <div style="background: white; border-left: 4px solid #667eea; padding: 14px; margin: 12px 0; border-radius: 4px;">
+      <strong>💡 Tip 1: Wees SPECIFIEK</strong><br>
+      "Leg AI uit" → "Leg AI uit voor 15-jarigen met voorbeelden uit apps die ze kennen"
+    </div>
+    <div style="background: white; border-left: 4px solid var(--green); padding: 14px; margin: 12px 0; border-radius: 4px;">
+      <strong>💡 Tip 2: Geef CONTEXT</strong><br>
+      "Ik ben een Engels-leerling. Schrijf feedback op mijn essay (hier volgt de tekst)..."
+    </div>
+    <div style="background: white; border-left: 4px solid var(--orange); padding: 14px; margin: 12px 0; border-radius: 4px;">
+      <strong>💡 Tip 3: Bepaal de LENGTE</strong><br>
+      "200 woorden" of "3 alinea's" of "max 2 minuten lezen"
+    </div>
+    <div style="background: white; border-left: 4px solid #ff9f43; padding: 14px; margin: 12px 0; border-radius: 4px;">
+      <strong>💡 Tip 4: Geef VOORBEELDEN</strong><br>
+      "Zoals hier: [voorbeeld]. Doe iets soortgelijks."
+    </div>
+    <div style="background: white; border-left: 4px solid #f5576c; padding: 14px; margin: 12px 0; border-radius: 4px;">
+      <strong>💡 Tip 5: ITEREER</strong><br>
+      Eerste antwoord niet goed? Vraag: "Kan dat korter?" "Meer humoristisch?"
+    </div>
+
+    <div class="quiz-q">
+      <strong>❓ Quiz vraag 3:</strong> Wat is een "prompt"?<br>
+      <div class="quiz-opt"><input type="radio" name="q3"> Een straf voor het maken van fouten</div>
+      <div class="quiz-opt"><input type="radio" name="q3"> De vraag/opdracht die je ChatGPT geeft</div>
+      <div class="quiz-opt"><input type="radio" name="q3"> Een computerbestand</div>
+      <button onclick="checkQuiz()" class="sr-btn g">Check antwoord</button>
+    </div>
+
+    <h3>Real-Life Voorbeelden van Generatieve AI</h3>
+    <div style="background: #e6f3ff; padding: 14px; border-radius: 6px; margin: 12px 0;">
+      <strong>🎵 "Because of You" — Gustaph (2023)</strong><br>
+      Belgische zanger Gustaph maakte een liedje. VRT NWS gebruikte AI om het in te zingen door Billie Eilish, Taylor Swift, Freddie Mercury (!), en Homer Simpson!
+    </div>
+
+    <div class="vrt-link">
+      <strong>🔗 Bekijk het resultaat:</strong> VRT NWS (link staat in EDUbox footer)
+    </div>
+
+    <div style="background: #ffe6e6; padding: 14px; border-radius: 6px; margin: 12px 0;">
+      <strong>🔴 ⚠️ HALLUCINATIES!</strong><br>
+      ChatGPT kan fouten maken (hallucinaties). Bijv. feiten verzinnen. ALTIJD checken via Google!
     </div>
 
     <button class="sr-btn g" onclick="completeModule(3)" style="margin-top: 20px;">✅ Module 3 Voltooid</button>
   </div>
 </div>
 
-<!-- ════════ MODULE 4 ════════ -->
+<!-- MODULE 4: ETHIEK & BIAS -->
 <div class="view" id="view-mod4">
   <div class="mh">
     <button class="bk" onclick="sv('home')">← Terug</button>
-    <div class="mh-info">
-      <div class="mh-num">Module 4 · Kritisch</div>
-      <div class="mh-title">Hallucinaties & Bias</div>
-    </div>
+    <div class="mh-info"><div class="mh-num">Module 4</div><div class="mh-title">Ethiek & Bias</div></div>
   </div>
-  <div class="mc-content">
-    <h2>⚠️ Hallucinaties: ChatGPT Verzint Dingen!</h2>
-    <p>ChatGPT kan heel overtuigend lijken, maar het <strong>verzint soms dingen</strong> (dit heet een "hallucination"). Het ziet patronen, maar niet altijd waar!</p>
+  <div class="mc-content" style="padding: 20px;">
+    <h2>⚠️ Ethische Dilemma's & Problemen</h2>
+    <p>AI is krachtig, maar brengt ook problemen mee. Hier zijn de 4 grootste:</p>
 
-    <div style="background: #fff3cd; padding: 16px; border-radius: 6px; margin: 16px 0; border-left: 4px solid var(--orange);">
-      <strong>⚠️ REËEL VOORBEELD VAN HALLUCINATION:</strong><br><br>
-      <strong>Prompt:</strong> "Wie won het Belgisch Voetbalkampioenschap in 1987?"<br><br>
-      <strong>ChatGPT antwoord:</strong> "RSC Anderlecht won in 1987 onder trainer Johan Cruijff en..."<br><br>
-      <strong>MAAR WACHT!</strong> Dit kan FOUT zijn! ChatGPT "raadt" gewoon wat waarschijnlijk is, zonder echt te weten.<br><br>
-      <strong>Wat jij moet doen:</strong> ALTIJD verifiëren via Google of betrouwbare bronnen!
+    <h3>1️⃣ Bias in AI</h3>
+    <p>AI traingt op data die door MENSEN gemaakt zijn. Dus AI erftvoor oordelen!</p>
+    <div style="background: #ffe6e6; padding: 14px; border-radius: 6px; margin: 12px 0;">
+      <strong>VOORBEELD:</strong><br>
+      Vraag: "Beschrijf een succesvolle zakenman"<br>
+      ChatGPT: "John, 55 jaar, assertief, hardvochtig..."<br>
+      <strong>BIAS:</strong> Waarom automatisch mannelijk? Dit zit in trainingsdata!
     </div>
 
-    <h3>Waarom Hallucineren?</h3>
-    <p>ChatGPT werkt op basis van statistieken en patronen. Het zegt het woord dat statistisch gezien het meest waarschijnlijk volgt — niet altijd WAAR!</p>
-    <p>Stel je voor:</p>
+    <div class="video-box">
+      <strong>📺 Video:</strong> Professor An Jacobs over bias in AI (EDUbox/VRT)
+    </div>
+
+    <h3>2️⃣ Energieverbruik</h3>
+    <p>ChatGPT gebruikt 25x meer energie dan een Google-zoekopdracht!</p>
+    <p><strong>Waarom?</strong> Omdat miljarden berekeningen gebeuren op grote servers.</p>
+    <div style="background: #fff3cd; padding: 14px; border-radius: 6px; margin: 12px 0;">
+      <strong>💡 Tip:</strong> Kun je zonder ChatGPT? Gebruik dan Google in plaats daarvan!<br>
+      <strong>💡 Lokale AI:</strong> Je kunt ook kleinere AI-modellen op je eigen computer installeren (minder energieverbruik, meer privacy!)
+    </div>
+
+    <h3>3️⃣ Deepfakes & "Wat is Echt?"</h3>
+    <p>AI kan foto's, video's en audio creëren die NEPPPP lijken maar ECHT lijken!</p>
     <ul>
-      <li>AI ziet in trainingsdata: "De hoofdstad van België is..."</li>
-      <li>Volgende woord is meestal: "Brussel"</li>
-      <li>Dus wanneer jij vraagt, zegt AI "Brussel" — en dat klopt!</li>
-      <li>MAAR voor onbekende feiten (bijv. "Wie won kampioen 1987?") raadt AI!</li>
+      <li>🎤 Voice cloning: Iemands stem klonen (MNM-dj Imane)</li>
+      <li>🎬 Video deepfakes: Mensen dingen laten zeggen/doen die ze nooit deden</li>
+      <li>📸 Foto deepfakes: Volledig nep-foto's die echt lijken</li>
     </ul>
 
-    <h3>Hoe Check Je ChatGPT-Antwoorden?</h3>
-    <div style="background: #e6f3ff; padding: 14px; border-radius: 6px; margin: 12px 0;">
-      <strong>✅ Tip 1: Google het</strong><br>
-      Pak je favoriete feiten en zoek ze op. Klopt ChatGPT?
+    <div style="background: #fff9e6; padding: 14px; border-radius: 6px; margin: 12px 0; border-left: 4px solid var(--orange);">
+      <strong>🔍 Hoe herken je deepfakes?</strong><br>
+      • Ogen: Reflectie raar?<br>
+      • Lippen: Sync met geluid?<br>
+      • Handen: AI maakt slecht handen!<br>
+      • Reverse image search: Google de foto
     </div>
 
-    <div style="background: #e6f3ff; padding: 14px; border-radius: 6px; margin: 12px 0;">
-      <strong>✅ Tip 2: Vraag bronnen</strong><br>
-      Vraag aan ChatGPT: "Waar haal je dit vandaan?" Soms geeft het referenties!
+    <div class="vrt-link">
+      <strong>📺 VRT NWS Video's over Deepfakes:</strong><br>
+      • Hoe deepfakes herkennen<br>
+      • Hoe AI-foto's herkennen<br>
+      (Links in EDUbox footer)
     </div>
 
-    <div style="background: #e6f3ff; padding: 14px; border-radius: 6px; margin: 12px 0;">
-      <strong>✅ Tip 3: Cross-check</strong><br>
-      Vraag het TWEE keer anders. Geeft ChatGPT hetzelfde antwoord?
+    <h3>4️⃣ Ethische Dilemma's</h3>
+    <p>AI kan niet altijd morele vragen beantwoorden!</p>
+    <div class="discussion">
+      <strong>❌ DILEMMA:</strong> Een zelfrijdende auto rijdt naar 5 voetgangers toe. Het kan:<br>
+      A) Rechtdoor gaan (5 dood)<br>
+      B) Afslaan en zelf tegen een boom (bestuurder dood)<br><br>
+      <strong>Wie decides dit? Een computer kan deze keuze niet maken!</strong>
     </div>
 
-    <div style="background: #e6f3ff; padding: 14px; border-radius: 6px; margin: 12px 0;">
-      <strong>✅ Tip 4: Logica checken</strong><br>
-      Zeggen de getallen/data logisch voor jou?
+    <div class="video-box">
+      <strong>📺 Video:</strong> Julie Moeyersoms over ethische dilemma's (EDUbox)
     </div>
 
-    <h3>🔴 BIAS: Vooroordelen in AI</h3>
-    <p>AI traingt op gegevens die door MENSEN gemaakt zijn. Dus AI erft onze vooroordelen!</p>
-
-    <div style="background: #ffe6e6; padding: 16px; border-radius: 6px; margin: 16px 0; border-left: 4px solid #ff6b6b;">
-      <strong>📌 REËEL VOORBEELD VAN BIAS:</strong><br><br>
-      <strong>Prompt naar ChatGPT:</strong> "Beschrijf een succesvolle zakenman"<br><br>
-      <strong>ChatGPT AI output:</strong><br>
-      "John, 55 jaar oud, assertief, gedreven, hardvochtig..."<br><br>
-      <strong>BIAS ALARM! 🚨</strong><br>
-      • Waarom automatisch mannelijk?<br>
-      • Waarom "hardvochtig"?<br>
-      • Deze stereotype zit in de trainingsdata van ChatGPT! (Websites, boeken, media die MANNEN als succesvolle ondernemers beschrijven)
-    </div>
-
-    <h3>Hoe Spot je Bias?</h3>
-    <ul>
-      <li>🔴 Stereotypes (zit er één groep beter/slechter af?)</li>
-      <li>🔴 Gegenderde taal (automatisch mannelijk/vrouwelijk?)</li>
-      <li>🔴 Culturele vooroordelen (bepaalde nationaliteiten positief/negatief?)</li>
-      <li>🔴 Ageism (zijn ouderen/jongeren negatief voorgesteld?)</li>
-    </ul>
-
-    <div style="background: #fff9e6; padding: 16px; border-radius: 6px; margin-top: 20px; border-left: 4px solid var(--orange);">
-      <strong>💡 Experiment:</strong> Geef ChatGPT dezelfde prompt TWEE keer:<br>
-      1. "Beschrijf een succesvolle zakenman"<br>
-      2. "Beschrijf een succesvolle zakenvrouw"<br><br>
-      <strong>Vraag jezelf af:</strong> Zijn de antwoorden anders? Kun je bias zien?
+    <div class="quiz-q">
+      <strong>❓ Quiz vraag 4:</strong> Wat is bias in AI?<br>
+      <div class="quiz-opt"><input type="radio" name="q4"> Vooroordelen in data waarmee AI traingt</div>
+      <div class="quiz-opt"><input type="radio" name="q4"> Een soort virus in computers</div>
+      <div class="quiz-opt"><input type="radio" name="q4"> Een beroemdheid</div>
+      <button onclick="checkQuiz()" class="sr-btn g">Check antwoord</button>
     </div>
 
     <button class="sr-btn g" onclick="completeModule(4)" style="margin-top: 20px;">✅ Module 4 Voltooid</button>
   </div>
 </div>
 
-<!-- ════════ MODULE 5 ════════ -->
+<!-- MODULE 5: AI IN SCHOOL -->
 <div class="view" id="view-mod5">
   <div class="mh">
     <button class="bk" onclick="sv('home')">← Terug</button>
-    <div class="mh-info">
-      <div class="mh-num">Module 5 · Media</div>
-      <div class="mh-title">Deepfakes & Vertrouwen</div>
-    </div>
+    <div class="mh-info"><div class="mh-num">Module 5</div><div class="mh-title">AI in School</div></div>
   </div>
-  <div class="mc-content">
-    <h2>🎬 Deepfakes: AI Kan Alles Nep Maken!</h2>
-    <p>AI kan nu <strong>foto's, video's en audio maken die NEPPPP zijn maar ECHT lijken</strong>. Dit heet een "deepfake". En het wordt steeds moeilijker om te herkennen!</p>
+  <div class="mc-content" style="padding: 20px;">
+    <h2>📚 ChatGPT & Huiswerk: Wat Mag & Wat Niet?</h2>
+    <p>AI is handig voor huiswerk, maar je moet voorzichtig zijn. Sint-Rembert heeft regels!</p>
 
-    <h3>Soorten Deepfakes</h3>
-
-    <div style="background: white; border-left: 4px solid var(--blue); padding: 14px; margin: 12px 0; border-radius: 4px;">
-      <strong>📱 AUDIO Deepfakes</strong><br>
-      Iemands stem klonen. In 2023 werd MNM-dj Imane Boudadi vervangen door een AI-versie van haar eigen stem! De presentatieteksten waren geschreven door ChatGPT, en AI sprak ze in met Imanes stem.
-    </div>
-
-    <div style="background: white; border-left: 4px solid var(--green); padding: 14px; margin: 12px 0; border-radius: 4px;">
-      <strong>🎵 MUZIEK Deepfakes</strong><br>
-      Het liedje "Because of You" van Belgische zanger Gustaph werd ingezongen door Billie Eilish, Taylor Swift, en ZELFS dode zanger Freddie Mercury — allemaal via AI!
-    </div>
-
-    <div style="background: white; border-left: 4px solid var(--orange); padding: 14px; margin: 12px 0; border-radius: 4px;">
-      <strong>🎬 VIDEO Deepfakes</strong><br>
-      Oplichters maken video's met influencers (bijv. MrBeast) die smartphones aanbieden voor 2 dollar — NEPS! Mensen geven hun creditcard en worden bestolen.
-    </div>
-
-    <div style="background: white; border-left: 4px solid #ff9f43; padding: 14px; margin: 12px 0; border-radius: 4px;">
-      <strong>📸 FOTO Deepfakes</strong><br>
-      AI-gegenereerde foto's die echt lijken. Niemand ziet het verschil! Dit is ECHT een probleem op dating-apps en sociale media.
-    </div>
-
-    <h3>Hoe Herken Je Een Deepfake?</h3>
-
-    <div style="background: #e6f3ff; padding: 14px; border-radius: 6px; margin: 12px 0;">
-      <strong>👀 Video Deepfakes checken:</strong>
-      <ul>
-        <li>🔍 Ogen: Kijken ze raar? Zijn pupillen te groot/klein?</li>
-        <li>🔍 Lippen: Sync met geluid? Of gaat geluid voor op lippen?</li>
-        <li>🔍 Handen: Teken je handen goed? (AI maakt slechte handen!)</li>
-        <li>🔍 Achtergrond: Onnatuurlijk? Vreemde vormen?</li>
-        <li>🔍 Reflecties: In ogen/glazen zichtbaar en logisch?</li>
-      </ul>
-    </div>
-
-    <div style="background: #e6f3ff; padding: 14px; border-radius: 6px; margin: 12px 0;">
-      <strong>📸 Foto Deepfakes checken:</strong>
-      <ul>
-        <li>🔍 <strong>Reverse image search:</strong> Upload foto in Google → vind bron</li>
-        <li>🔍 Haartextuur: Is het natuurlijk of blurry/vreemd?</li>
-        <li>🔍 Asymmetrie: Beide ogen exact hetzelfde? (Echt gezicht: niet!)</li>
-        <li>🔍 Tanden: Zijn ze perfect? (AI maakt te perfecte tanden!)</li>
-        <li>🔍 Context: Waar is dit foto genomen? Verificatie?</li>
-      </ul>
-    </div>
-
-    <h3>Wat Te Doen Als Je Deepfake Ziet?</h3>
+    <h3>✅ JE MAG ChatGPT gebruiken voor:</h3>
     <ul>
-      <li>❌ NIET doorsturen / spreiden</li>
-      <li>✅ RAPPORTEER op platform (Instagram, TikTok, YouTube)</li>
-      <li>✅ WAARSCHUW vrienden ("Dit is deepfake!")</li>
-      <li>✅ ZOEK BRONNEN (is het echt geverifieerd?)</li>
+      <li>✓ Brainstorming (ideeën genereren)</li>
+      <li>✓ Begrip helpen (iets uitleggen laten)</li>
+      <li>✓ Feedback (feedback op je eigen tekst)</li>
+      <li>✓ Inspiratie (starten met ideeën)</li>
+      <li>✓ Oefenen (vraagjes stellen)</li>
     </ul>
 
-    <div style="background: #fff9e6; padding: 16px; border-radius: 6px; margin-top: 20px; border-left: 4px solid var(--orange);">
-      <strong>💡 Challenge:</strong> Zoek online naar "deepfake examples" en probeer er zelf 1-2 te herkennen. Gelukt?
+    <h3>❌ JE MAG NIET:</h3>
+    <ul>
+      <li>✕ ChatGPT-antwoord kritiekloos kopieëren</li>
+      <li>✕ AI-werk als je eigen werk voordoen (PLAGIAAT!)</li>
+      <li>✕ Persoonlijke data ingeven (adres, naam vrienden)</li>
+      <li>✕ Medeleerlingen helpen vals spelen</li>
+      <li>✕ Zonder kritische blik accepteren (ALTIJD checken!)</li>
+    </ul>
+
+    <div class="discussion">
+      <strong>💬 Discussie:</strong><br>
+      "Ik laat ChatGPT mijn essay schrijven en lever dat in."<br>
+      → Is dat eerlijk? Waarom wel/niet?<br><br>
+      "Ik vraag ChatGPT om feedback op MIJN essay."<br>
+      → Mag dat? Waarom wel/niet?
+    </div>
+
+    <h3>Sint-Rembert AI-Charter</h3>
+    <p>Je gaat met je klas afspraken maken over AI-gebruik. Dit heet een <strong>charter</strong>.</p>
+    <div style="background: #f0f2f5; padding: 14px; border-radius: 6px; margin: 12px 0;">
+      <strong>Mogelijke afspraken:</strong><br>
+      • Zeg ALTIJD wanneer je AI gebruikt<br>
+      • AI is een HULPMIDDEL, niet vervanging<br>
+      • Je bent VERANTWOORDELIJK voor het resultaat<br>
+      • Je moet BEGRIJPEN wat AI maakt<br>
+      • Delen van AI-output mag, kopieëren niet
+    </div>
+
+    <div class="oefening">
+      <strong>🤝 Oefening:</strong><br>
+      Wat zou JIJ in een AI-charter opnemen? Schrijf 3 regels op die voor JOU logisch zijn.
+    </div>
+
+    <div class="quiz-q">
+      <strong>❓ Quiz vraag 5:</strong> Is het OK om ChatGPT-antwoord direct in te leveren?<br>
+      <div class="quiz-opt"><input type="radio" name="q5"> Ja, ChatGPT maakt het perfect</div>
+      <div class="quiz-opt"><input type="radio" name="q5"> Nee, dat is plagiaat</div>
+      <div class="quiz-opt"><input type="radio" name="q5"> Hangt af van de leraar</div>
+      <button onclick="checkQuiz()" class="sr-btn g">Check antwoord</button>
     </div>
 
     <button class="sr-btn g" onclick="completeModule(5)" style="margin-top: 20px;">✅ Module 5 Voltooid</button>
   </div>
 </div>
 
-<!-- ════════ MODULE 6 ════════ -->
+<!-- MODULE 6: AI IN MAATSCHAPPIJ -->
 <div class="view" id="view-mod6">
   <div class="mh">
     <button class="bk" onclick="sv('home')">← Terug</button>
-    <div class="mh-info">
-      <div class="mh-num">Module 6 · Reflectie</div>
-      <div class="mh-title">Ethics & Kritisch Denken</div>
-    </div>
+    <div class="mh-info"><div class="mh-num">Module 6</div><div class="mh-title">AI in Maatschappij</div></div>
   </div>
-  <div class="mc-content">
-    <h2>🤝 AI is Krachtig — Hoe Gebruik Je Het Verantwoord?</h2>
-    <p>AI is geen goed of slecht. <strong>Het hangt af van HOE JIJ HET GEBRUIKT.</strong></p>
+  <div class="mc-content" style="padding: 20px;">
+    <h2>🌍 AI in de Echte Wereld</h2>
+    <p>AI gaat veel veranderen in onze samenleving. Goeie en slechte dingen!</p>
 
-    <h3>Sint-Rembert AI-Ethiek (5 Principes)</h3>
-    <p>Sint-Rembert werkt met een <strong>Beleidskader Artificiële Intelligentie</strong> met 5 kernprincipes:</p>
-
-    <div style="background: #f0f2f5; padding: 14px; border-radius: 6px; margin: 12px 0; border-left: 4px solid #667eea;">
-      <strong>👤 1. De Mens Blijft Centraal</strong><br>
-      AI is gereedschap, niet baas. JIJ bepaalt wat je doet, niet ChatGPT. Je verantwoording blijft bij jou!
+    <h3>Stelling 1: "AI zal alle banen doen verdwijnen"</h3>
+    <div class="discussion">
+      <strong>❓ Is deze angst realistisch?</strong><br>
+      • Welke banen zijn kwetsbaar? (repetitief werk)<br>
+      • Welke banen zijn NIET kwetsbaar? (creatief, menselijk)<br>
+      • Wat gebeurt er met werkloze mensen?<br>
+      • Moeten we nieuwe regels maken?
     </div>
 
-    <div style="background: #f0f2f5; padding: 14px; border-radius: 6px; margin: 12px 0; border-left: 4px solid #51cf66;">
-      <strong>⭐ 2. Meerwaarde is Vereist</strong><br>
-      Gebruik AI alleen als het écht bijdraagt. Niet zomaar "omdat je kan" of "voor de fun".
+    <h3>Stelling 2: "Voor sommige zaken wil ik AI liever NIET"</h3>
+    <div class="discussion">
+      <strong>❓ Waar kan AI helpen? Waar niet?</strong><br>
+      • AI voor routinewerk: JA of NEE?<br>
+      • AI voor medische diagnose: JA of NEE?<br>
+      • AI voor rechtspraak (wie is schuldig?): JA of NEE?<br>
+      • AI voor vriendschappen: JA of NEE?
     </div>
 
-    <div style="background: #f0f2f5; padding: 14px; border-radius: 6px; margin: 12px 0; border-left: 4px solid #fcc419;">
-      <strong>🔍 3. Transparantie & Eigenaarschap</strong><br>
-      Als je AI gebruikt, zeg het! "Met ChatGPT-assistentie". En blijf verantwoordelijk voor het resultaat.
+    <h3>Stelling 3: "AI zal nooit zo creatief zijn als mensen"</h3>
+    <div class="discussion">
+      <strong>❓ Wat betekent creativiteit eigenlijk?</strong><br>
+      • Kan AI origineel zijn?<br>
+      • Kan AI muziek/kunst maken?<br>
+      • Is AI-kunst echt "kunst"?<br>
+      • Waar ligt de grens?
     </div>
 
-    <div style="background: #f0f2f5; padding: 14px; border-radius: 6px; margin: 12px 0; border-left: 4px solid #ff8787;">
-      <strong>🛡️ 4. Privacy & Veiligheid</strong><br>
-      Geef NOOIT persoonlijke info. Geen adres, geen namen van vrienden, geen financiële data.
+    <div class="video-box">
+      <strong>📺 Video:</strong> Chris Umé (AI-expert) over waar we voorzichtig moeten zijn
     </div>
 
-    <div style="background: #f0f2f5; padding: 14px; border-radius: 6px; margin: 12px 0; border-left: 4px solid #748ffc;">
-      <strong>⚖️ 5. Deskundigheid</strong><br>
-      Iedereen die AI gebruikt moet het snappen. Dus die modules zijn heel belangrijk!
+    <h3>Reflectie: Jouw Toekomst & AI</h3>
+    <div class="oefening">
+      <strong>✏️ Reflectievragen:</strong><br><br>
+      1. Hoe zal AI JOUW toekomst veranderen?<br>
+      2. Waar ben JIJ bezorgd over?<br>
+      3. Wat vind je eerlijk vs. oneerlijk AI-gebruik?<br>
+      4. Waar wil JIJ grenzen stellen?<br>
+      5. Hoe help je anderen AI verantwoord gebruiken?
     </div>
 
-    <h3>Kritische Vragen Stellen</h3>
-    <p>Voordat jij AI gebruikt, stel jezelf deze vragen:</p>
-    <ul>
-      <li>❓ <strong>Waarom</strong> zou ik AI hier gebruiken? Is er écht een voordeel?</li>
-      <li>❓ <strong>Wie</strong> traingt deze AI? Welke data gebruiken ze?</li>
-      <li>❓ <strong>Wat</strong> zijn de risico's? Privacy? Bias? Hallucinaties?</li>
-      <li>❓ <strong>Hoe</strong> check ik het antwoord? Kan ik verifiëren?</li>
-      <li>❓ <strong>Wanneer</strong> hoeft AI er NIET bij? (Veel vaker dan je denkt!)</li>
-    </ul>
-
-    <h3>Jouw Grens: Waar Stopt Je Verantwoordelijkheid?</h3>
-    <p>Niet alles mag gewoon zomaar. Hieronder staat wat Sint-Rembert niet toestaat:</p>
-
-    <div style="background: #ffe6e6; border-left: 4px solid #ff6b6b; padding: 14px; border-radius: 6px; margin: 12px 0;">
-      <strong>🚫 VERBODEN:</strong>
-      <ul>
-        <li>❌ AI detectie-tools gebruiken (doen niet wat ze zeggen!)</li>
-        <li>❌ Foto's van klasgenoten in AI-generators stoppen</li>
-        <li>❌ Persoonsgegevens in niet-goedgekeurde AI's ingeven</li>
-        <li>❌ Deepfakes maken van mensen zonder toestemming</li>
-        <li>❌ AI-werk als je eigen werk voordoen (plagiaat!)</li>
-      </ul>
+    <div class="discussion">
+      <strong>💭 Final gedachte:</strong><br>
+      AI wordt steeds slimmer. Jóuw kritische denken moet ook meegroeien. Niet bang zijn, maar WÉL voorzichtig. <strong>Dat is echte AI-geletterdheid!</strong>
     </div>
 
-    <h3>AI-Reflectie: Wat Vind JIJ?</h3>
-    <p>Denk na over deze diepgaande vragen:</p>
-    <div style="background: white; padding: 14px; border: 2px solid #ddd; border-radius: 6px; margin-top: 16px;">
-      <p><strong>1. Hoe zal AI mijn toekomst veranderen?</strong><br>
-      <em>(Bijv. mijn beroep, mijn school, vriendschappen, hobby's?)</em></p>
-
-      <p><strong>2. Waar ben ik bezorgd over met AI?</strong><br>
-      <em>(Privacy? Werkloosheid? Deepfakes? Bias?)</em></p>
-
-      <p><strong>3. Wat vind ik eerlijk vs. oneerlijk AI-gebruik?</strong><br>
-      <em>(Wat mag wel, wat niet?)</em></p>
-
-      <p><strong>4. Waar wil ik AI NIET gebruiken (persoonlijke grenzen)?</strong><br>
-      <em>(Bijv. "Ik schrijf mijn dagboek ZELF")</em></p>
-
-      <p><strong>5. Hoe help ik anderen AI verantwoord te gebruiken?</strong><br>
-      <em>(Vrienden, familie, school?)</em></p>
+    <div class="vrt-link">
+      <strong>📺 VRT NWS KLAAR-Pakket over AI:</strong><br>
+      <a href="https://www.vrt.be/vrtnws/nl/2024/03/15/klaar-artificiele-intelligentie/" target="_blank">Bekijk KLAAR Artificiële Intelligentie</a>
     </div>
 
-    <div style="background: #fff9e6; padding: 16px; border-radius: 6px; margin-top: 20px; border-left: 4px solid var(--orange);">
-      <strong>💡 Final Gedachte:</strong><br>
-      AI wordt steeds slimmer. Jóuw kritische denken moet ook meegroeien. Niet bang zijn, maar WÉL voorzichtig. Dat is echte AI-geletterdheid!
-    </div>
-
-    <button class="sr-btn g" onclick="completeModule(6)" style="margin-top: 20px;">✅ Module 6 Voltooid</button>
+    <button class="sr-btn g" onclick="completeModule(6)" style="margin-top: 20px;">✅ Module 6 Voltooid 🏆</button>
   </div>
 </div>
 
-<!-- ════════ CERTIFICAAT ════════ -->
-<div id="cert-view">
+<!-- CERTIFICAAT -->
+<div id="cert-view" style="display:none; padding: 20px;">
   <div class="cert-wrap">
     <div class="cert-intro">
       <div class="cert-fire">🎉</div>
-      <h2 style="font-family:'Archivo Black',sans-serif;font-size:26px;color:var(--blue);text-transform:uppercase;margin-bottom:7px">Gefeliciteerd!</h2>
-      <p style="color:var(--muted);font-weight:700;margin-bottom:28px">Je hebt alle 6 modules voltooid. Je bent nu AI-geletterd! 🚀</p>
+      <h2 style="font-family:'Archivo Black';font-size:26px;color:var(--blue);text-transform:uppercase;">Gefeliciteerd!</h2>
+      <p style="color:var(--muted);font-weight:700;">Je hebt alle 6 modules voltooid! Je bent nu AI-geletterd! 🚀</p>
     </div>
 
     <div class="cert-box">
@@ -667,39 +603,35 @@
       <div class="cert-title">Certificaat <em>AI-Skills voor Leerlingen</em></div>
       <div class="cert-dec">Dit certificaat bevestigt dat</div>
       <div class="cert-name" id="cert-name">Leerling</div>
-      <div class="cert-desc">alle 6 modules van de <strong>AI-Skills voor Leerlingen</strong> cursus succesvol heeft voltooid en aangetoond dat deze leerling begrijpt hoe AI werkt, kritisch kan denken over AI, en verantwoord AI kan gebruiken in schoolwerk.</div>
+      <div class="cert-desc">alle 6 modules van de <strong>AI-Skills voor Leerlingen</strong> cursus succesvol heeft voltooid. Deze leerling begrijpt AI, kan kritisch nadenken, en zal AI verantwoord gebruiken.</div>
       <div class="cert-comps">
-        <div class="cert-comp"><span class="ck">✓</span>AI begrijpen & herkennen</div>
-        <div class="cert-comp"><span class="ck">✓</span>ChatGPT/Copilot effectief gebruiken</div>
-        <div class="cert-comp"><span class="ck">✓</span>Goeie prompts schrijven</div>
-        <div class="cert-comp"><span class="ck">✓</span>Hallucinaties & bias herkennen</div>
-        <div class="cert-comp"><span class="ck">✓</span>Deepfakes detecteren</div>
-        <div class="cert-comp"><span class="ck">✓</span>Verantwoord AI-gebruik</div>
-        <div class="cert-comp"><span class="ck">✓</span>Kritisch nadenken over AI</div>
+        <div class="cert-comp"><span class="ck">✓</span>Wat is AI? (overal, 3 elementen)</div>
+        <div class="cert-comp"><span class="ck">✓</span>Hoe werkt AI? (Machine Learning, Deep Learning)</div>
+        <div class="cert-comp"><span class="ck">✓</span>Generatieve AI & Prompting</div>
+        <div class="cert-comp"><span class="ck">✓</span>Ethiek, Bias, Deepfakes</div>
+        <div class="cert-comp"><span class="ck">✓</span>AI in school verantwoord gebruiken</div>
+        <div class="cert-comp"><span class="ck">✓</span>Kritisch denken over AI-toekomst</div>
       </div>
-      <div class="cert-sr"><span>Sint-</span><em>Rembert</em><span>Scholengroep</span></div>
+      <div class="cert-sr"><span>Sint-</span><em>Rembert</em></div>
       <div class="cert-meta">
         <div class="cm-i"><div class="cm-lbl">Datum</div><div class="cm-val" id="cert-date">—</div></div>
-        <div class="cm-i"><div class="cm-lbl">Platform</div><div class="cm-val">Sint-Rembert AI-Skills</div></div>
+        <div class="cm-i"><div class="cm-lbl">Niveau</div><div class="cm-val">Secundair Onderwijs</div></div>
         <div class="cm-i"><div class="cm-lbl">Geldigheid</div><div class="cm-val">2 jaar</div></div>
-        <div class="cm-i"><div class="cm-lbl">Niveau</div><div class="cm-val">Secundair onderwijs</div></div>
       </div>
     </div>
 
-    <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 20px;">
-      <button class="print-btn" id="print-cert-btn" onclick="doCertPrint()">🖨️ Download certificaat (PDF)</button>
-      <button class="summary-btn" id="download-summary-btn" onclick="downloadSummary()">💾 Download Reflectieverslag</button>
+    <div style="text-align: center; margin-top: 20px; gap: 12px;">
+      <button class="sr-btn g" onclick="doCertPrint()" style="margin-right: 10px;">🖨️ Download PDF</button>
+      <button class="sr-btn" onclick="sv('home')">← Terug</button>
     </div>
-    <div class="cert-warn">✅ Goed gedaan! Je bent nu officieel AI-geletterd! Download je certificaat en toon het aan je ouders/leraren. Je bent een AI-skills champion! 🚀</div>
   </div>
 </div>
 
-<footer style="font-size: 11px; color: #666; margin-top: 60px; padding: 30px 20px; border-top: 1px solid #ddd; background: #f9f9f9; line-height: 1.8;">
+<footer style="font-size: 11px; color: #666; margin-top: 60px; padding: 30px 20px; border-top: 1px solid #ddd; background: #f9f9f9;">
   <div style="max-width: 1200px; margin: 0 auto;">
-    <p style="margin: 0 0 12px 0;"><strong>Over deze cursus</strong></p>
-    <p style="margin: 0;">
-      Sint-Rembert AI-Skills voor Leerlingen — Versie 2026<br>
-      Gebaseerd op het Sint-Rembert Beleidskader Artificiële Intelligentie
+    <p><strong>Sint-Rembert AI-Skills voor Leerlingen</strong><br>
+    Gebaseerd op de EDUbox Artificiële Intelligentie (BENEDMO)<br>
+    VRT NWS KLAAR-pakket, VRT-archieven, en Sint-Rembert Beleidskader
     </p>
   </div>
 </footer>
