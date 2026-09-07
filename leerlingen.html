@@ -1,147 +1,311 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI-Skills voor Leerlingen — Sint-Rembert</title>
-  <link rel="stylesheet" href="leerlingen.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI-Skills voor Leerlingen — Sint-Rembert</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="app-wrap">
-  <aside class="sidebar">
-    <div class="logo-wrap">
-      <div class="logo">🤖</div>
-      <div class="logo-text">AI-Skills</div>
-      <div class="logo-sub">voor Leerlingen</div>
+<div id="app">
+<aside id="sidebar">
+  <div class="sb-logo">
+    <div class="sb-badge"><span>Sint-Rembert</span></div>
+    <div class="sb-title">AI-<em>Skills</em><br>Leerlingen</div>
+    <div class="sb-sub">Scholengroep Sint-Rembert · schooljaar 2026-2027</div>
+  </div>
+
+  <div class="nav-sec">
+    <div class="nav-lbl">Menu</div>
+    <div class="ni active" onclick="goHome()" id="nav-home"><div class="ni-icon">🏠</div><div class="ni-info"><div class="ni-title">Startpagina</div><div class="ni-sub">Welkom & overzicht</div></div></div>
+  </div>
+
+  <div class="nav-sec">
+    <div class="nav-lbl">Modules</div>
+    <div class="ni available" onclick="sm(1)" id="nav-mod1"><div class="ni-icon">🤔</div><div class="ni-info"><div class="ni-title">Module 1: Wat is AI?</div><div class="ni-sub">Verplicht</div></div><span class="ni-badge" id="l1">›</span></div>
+    <div class="ni locked" onclick="sm(2)" id="nav-mod2"><div class="ni-icon">💬</div><div class="ni-info"><div class="ni-title">Module 2: ChatGPT/Copilot</div><div class="ni-sub">Verplicht</div></div><span class="ni-badge" id="l2">🔒</span></div>
+    <div class="ni locked" onclick="sm(3)" id="nav-mod3"><div class="ni-icon">✍️</div><div class="ni-info"><div class="ni-title">Module 3: Prompts & Tricks</div><div class="ni-sub">Verplicht</div></div><span class="ni-badge" id="l3">🔒</span></div>
+    <div class="ni locked" onclick="sm(4)" id="nav-mod4"><div class="ni-icon">⚠️</div><div class="ni-info"><div class="ni-title">Module 4: Hallucinaties</div><div class="ni-sub">Verplicht</div></div><span class="ni-badge" id="l4">🔒</span></div>
+    <div class="ni locked" onclick="sm(5)" id="nav-mod5"><div class="ni-icon">📝</div><div class="ni-info"><div class="ni-title">Module 5: Deepfakes</div><div class="ni-sub">Verplicht</div></div><span class="ni-badge" id="l5">🔒</span></div>
+    <div class="ni locked" onclick="sm(6)" id="nav-mod6"><div class="ni-icon">🤝</div><div class="ni-info"><div class="ni-title">Module 6: Ethics</div><div class="ni-sub">Verplicht</div></div><span class="ni-badge" id="l6">🔒</span></div>
+    <div class="ni locked" onclick="tryC()" id="nav-cert"><div class="ni-icon">🏆</div><div class="ni-info"><div class="ni-title">Certificaat</div><div class="ni-sub">Na alle modules</div></div><span class="ni-badge" id="lc">🔒</span></div>
+  </div>
+
+  <div class="sb-bot">
+    <div class="uc">
+      <div class="av" id="av">?</div>
+      <div style="flex:1"><input class="un-inp" id="un" placeholder="Vul je naam in" disabled readonly><div class="eh">Voortgang lokaal bijgehouden</div></div>
     </div>
-    
-    <nav class="nav-main">
-      <button class="nav-btn" id="nav-home" onclick="goHome()">🏠 Home</button>
-      <button class="nav-btn" id="nav-1" onclick="sm(1)">🤔 Module 1</button>
-      <button class="nav-btn" id="nav-2" onclick="sm(2)">💬 Module 2</button>
-      <button class="nav-btn" id="nav-3" onclick="sm(3)">✍️ Module 3</button>
-      <button class="nav-btn" id="nav-4" onclick="sm(4)">⚠️ Module 4</button>
-      <button class="nav-btn" id="nav-5" onclick="sm(5)">📝 Module 5</button>
-      <button class="nav-btn" id="nav-6" onclick="sm(6)">🤝 Module 6</button>
-      <button class="nav-btn" id="nav-cert" onclick="sv('cert')" style="margin-top: 20px; background: linear-gradient(135deg, #7fe000, #5cc000);">🏆 Certificaat</button>
-    </nav>
-    
-    <div class="name-section">
-      <label>Je naam:</label>
-      <input type="text" id="un" placeholder="Vul in..." onchange="sn()" readonly disabled style="opacity: 0.7;">
-    </div>
-    
-    <div class="progress-section">
-      <div class="prog-label">Voortgang</div>
-      <div class="prog-bar">
-        <div class="prog-fill" id="prog-fill"></div>
-      </div>
-      <div class="prog-text" id="prog-text">0%</div>
-    </div>
-  </aside>
+  </div>
+</aside>
 
-  <main class="main-content">
-    <div id="main" class="main-scroller">
-      <!-- HOME VIEW -->
-      <div id="view-home" class="view active">
-        <div class="home-hero">
-          <div class="hero-icon">🤖</div>
-          <h1>AI-Skills voor Leerlingen</h1>
-          <p class="hero-sub">Leer AI echt begrijpen. En gebruiken. En kritisch denken erover.</p>
-          
-          <div class="hero-cards">
-            <div class="hero-card">
-              <div class="hc-icon">⚡</div>
-              <div class="hc-title">Praktisch</div>
-              <p>Je leert niet alleen theorie — je werkt echt met AI tools.</p>
-            </div>
-            <div class="hero-card">
-              <div class="hc-icon">🎯</div>
-              <div class="hc-title">Voor jou</div>
-              <p>Hoe gebruik je AI voor essays, projecten, huiswerk?</p>
-            </div>
-            <div class="hero-card">
-              <div class="hc-icon">🧠</div>
-              <div class="hc-title">Kritisch</div>
-              <p>Wat zijn de valkuilen? Hallucineringen? Bias?</p>
-            </div>
-          </div>
+<main id="main">
 
-          <div class="home-info">
-            <h2>Wat gaat je leren?</h2>
-            <ul style="font-size: 14px; color: #3d4f8a; line-height: 2; margin-left: 20px;">
-              <li>✅ Wat is AI echt (niet Hollywood-hype)?</li>
-              <li>✅ Hoe ChatGPT/Copilot gebruiken (hands-on)</li>
-              <li>✅ Goeie prompts schrijven (je kunst perfectioneren)</li>
-              <li>✅ Hallucineringen en bias herkennen</li>
-              <li>✅ AI inzetten voor jouw schoolwerk</li>
-              <li>✅ Ethische vragen stellen</li>
-            </ul>
-          </div>
-
-          <div class="home-action">
-            <button class="start-btn" onclick="startCourse()">Start → Welkomtest</button>
-            <p style="font-size: 12px; color: #999; margin-top: 12px;">~3.5 uur totaal | 6 modules | Quiz + certificaat</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- MODULE VIEWS -->
-      <div id="view-mod1" class="view"></div>
-      <div id="view-mod2" class="view"></div>
-      <div id="view-mod3" class="view"></div>
-      <div id="view-mod4" class="view"></div>
-      <div id="view-mod5" class="view"></div>
-      <div id="view-mod6" class="view"></div>
-
-      <!-- STARTTEST VIEW -->
-      <div id="view-starttest" class="view"></div>
-
-      <!-- CERTIFICATE VIEW -->
-      <div id="cert-view" style="display: none;">
-        <div class="cert-card">
-          <div class="cert-header">
-            <div class="cert-icon">🏆</div>
-            <h2>Certificaat</h2>
-            <p>AI-Skills voor Leerlingen</p>
-          </div>
-          
-          <div class="cert-name">
-            <div class="cn-label">Dit certificaat wordt uitgereikt aan</div>
-            <div class="cn-value" id="cert-name-display">Leerling</div>
-          </div>
-
-          <div class="cert-text">
-            Deze leerling heeft met succes alle 6 modules van de "AI-Skills voor Leerlingen" cursus voltooid en aangetoond dat hij/zij:
-          </div>
-
-          <div class="cert-comps">
-            <div class="cert-comp">✓ AI kan herkennen en begrijpen</div>
-            <div class="cert-comp">✓ ChatGPT/Copilot effectief kan gebruiken</div>
-            <div class="cert-comp">✓ Goeie prompts kan schrijven</div>
-            <div class="cert-comp">✓ Hallucineringen en bias kan herkennen</div>
-            <div class="cert-comp">✓ AI verantwoord in schoolwerk kan inzetten</div>
-            <div class="cert-comp">✓ Kritisch over AI kan nadenken</div>
-          </div>
-
-          <div class="cert-sr"><span>Sint-</span><em>Rembert</em></div>
-          <div class="cert-meta">
-            <div class="cm-i"><div class="cm-lbl">Datum</div><div class="cm-val" id="cert-date">—</div></div>
-            <div class="cm-i"><div class="cm-lbl">Platform</div><div class="cm-val">AI-Skills</div></div>
-            <div class="cm-i"><div class="cm-lbl">Geldigheid</div><div class="cm-val">2 jaar</div></div>
-          </div>
-        </div>
-
-        <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 20px;">
-          <button class="print-btn" onclick="doCertPrint()">🖨️ Download certificaat (PDF)</button>
-          <button class="summary-btn" onclick="downloadSummary()">💾 Download Reflectieverslag (TXT)</button>
-        </div>
-        <div class="cert-warn">✅ Goed gedaan! Download je certificaat en toon het aan je ouders/leraren. Je bent nu een AI-skills champion! 🚀</div>
-      </div>
-    </div>
-  </main>
+<!-- ════════ STARTTEST (verplichte poort, 1 kans) ════════ -->
+<div class="view active" id="view-starttest">
+  <div class="mc-content" id="st-content"></div>
 </div>
 
-<script src="leerlingen-v2.js"></script>
+<!-- ════════ HOME ════════ -->
+<div class="view" id="view-home">
+  <div class="hero">
+    <div class="hero-ey"><span>Sint-Rembert AI-Skills voor Leerlingen</span></div>
+    <h1 class="hero-h1">Leer AI <span class="g">echt begrijpen</span></h1>
+    <p class="hero-p">Je gebruikt ChatGPT misschien al. Maar weet je hoe het écht werkt? En wat je ermee mag doen? Deze 6 modules leren je AI kritisch in te zetten — in je essays, projecten en huiswerk. Niet als vervanging, maar als slimme sidekick.</p>
+    <div class="hero-stats">
+      <div class="hs"><div class="hs-num">6</div><div class="hs-lbl">Modules · Praktisch</div></div>
+      <div class="hs"><div class="hs-num">📚</div><div class="hs-lbl">Geen Programmeren</div></div>
+      <div class="hs"><div class="hs-num">🎯</div><div class="hs-lbl">Voor Jouw Vakken</div></div>
+      <div class="hs"><div class="hs-num">🏆</div><div class="hs-lbl">Certificaat</div></div>
+    </div>
+  </div>
+
+  <div class="sw">
+    <!-- MODULE OVERVIEW -->
+    <div class="sw-title">De <em>6 modules</em></div>
+    <div class="sw-sub">Allemaal verplicht. Je gaat ze stap voor stap doen. Samen duren ze ongeveer 3-4 uur.</div>
+
+    <div class="mods-grid">
+      <div class="mc" id="cm1" onclick="sm(1)">
+        <div class="mc-badge">Module 1 · Start</div>
+        <div class="mc-icon">🤔</div>
+        <div class="mc-title">Wat is AI?</div>
+        <div class="mc-desc">Machine learning, grote taalmodellen, ChatGPT — wat is het echt? En waar zit AI in jouw leven?</div>
+        <div class="mc-meta"><div class="mc-dur">~30 min</div><div class="mc-stat" id="ps1">Beschikbaar</div></div>
+        <button class="sr-btn g" id="bm1">▶ Start</button>
+      </div>
+
+      <div class="mc locked" id="cm2" onclick="sm(2)">
+        <div class="mc-badge">Module 2 · Verplicht</div>
+        <div class="mc-icon">💬</div>
+        <div class="mc-title">ChatGPT & Copilot gebruiken</div>
+        <div class="mc-desc">Hoe werkt ChatGPT echt? Wat zijn de regels op school? En hoe schrijf je een goeie prompt?</div>
+        <div class="mc-meta"><div class="mc-dur">~30 min</div><div class="mc-stat locked" id="ps2">🔒 Na module 1</div></div>
+        <button class="sr-btn" id="bm2" disabled>🔒 Voltooi module 1</button>
+      </div>
+
+      <div class="mc locked" id="cm3" onclick="sm(3)">
+        <div class="mc-badge">Module 3 · Verplicht</div>
+        <div class="mc-icon">✍️</div>
+        <div class="mc-title">Prompts & Tricks</div>
+        <div class="mc-desc">Goeie vragen = goeie antwoorden. Leer de kunst van prompts schrijven en AI beter inzetten.</div>
+        <div class="mc-meta"><div class="mc-dur">~30 min</div><div class="mc-stat locked" id="ps3">🔒 Na module 2</div></div>
+        <button class="sr-btn" id="bm3" disabled>🔒 Voltooi module 2</button>
+      </div>
+
+      <div class="mc locked" id="cm4" onclick="sm(4)">
+        <div class="mc-badge">Module 4 · Verplicht</div>
+        <div class="mc-icon">⚠️</div>
+        <div class="mc-title">Hallucinaties & Bias</div>
+        <div class="mc-desc">ChatGPT verzint dingen. Hoe check je of het klopt? En waar zit bias in AI?</div>
+        <div class="mc-meta"><div class="mc-dur">~30 min</div><div class="mc-stat locked" id="ps4">🔒 Na module 3</div></div>
+        <button class="sr-btn" id="bm4" disabled>🔒 Voltooi module 3</button>
+      </div>
+
+      <div class="mc locked" id="cm5" onclick="sm(5)">
+        <div class="mc-badge">Module 5 · Verplicht</div>
+        <div class="mc-icon">📝</div>
+        <div class="mc-title">Deepfakes & Media</div>
+        <div class="mc-desc">AI kan beelden, video's en audio's verzinnen. Hoe herken je nep? Wie kun je nog vertrouwen?</div>
+        <div class="mc-meta"><div class="mc-dur">~30 min</div><div class="mc-stat locked" id="ps5">🔒 Na module 4</div></div>
+        <button class="sr-btn" id="bm5" disabled>🔒 Voltooi module 4</button>
+      </div>
+
+      <div class="mc locked" id="cm6" onclick="sm(6)">
+        <div class="mc-badge">Module 6 · Slot</div>
+        <div class="mc-icon">🤝</div>
+        <div class="mc-title">Ethics & Kritisch Denken</div>
+        <div class="mc-desc">AI is krachtig. Hoe zorg je dat je het verantwoord gebruikt? En wat zijn je grenzen?</div>
+        <div class="mc-meta"><div class="mc-dur">~30 min</div><div class="mc-stat locked" id="ps6">🔒 Na module 5</div></div>
+        <button class="sr-btn" id="bm6" disabled>🔒 Voltooi module 5</button>
+      </div>
+    </div>
+
+    <!-- PRAKTISCHE VOORBEELDEN -->
+    <div class="sw-title" style="margin-top:40px">Praktische <em>voorbeelden</em></div>
+    <div class="sw-sub">Wat gaan je echt leren? Hier zijn 4 teasers:</div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 28px;">
+      <div style="background: white; padding: 18px; border-radius: var(--radius); border-left: 4px solid var(--blue);">
+        <div style="font-weight: 700; font-size: 14px; color: var(--blue); margin-bottom: 8px;">📖 Essay met AI</div>
+        <p style="font-size: 13px; color: var(--muted); margin: 0; line-height: 1.6;">ChatGPT helpt met brainstorm. Maar jij schrijft. Hoe blijf je eigenaar?</p>
+      </div>
+
+      <div style="background: white; padding: 18px; border-radius: var(--radius); border-left: 4px solid var(--green);">
+        <div style="font-weight: 700; font-size: 14px; color: var(--green); margin-bottom: 8px;">🎯 Goede Prompts</div>
+        <p style="font-size: 13px; color: var(--muted); margin: 0; line-height: 1.6;">Slechte vragen → slechte antwoorden. Leer vragen stellen als pro.</p>
+      </div>
+
+      <div style="background: white; padding: 18px; border-radius: var(--radius); border-left: 4px solid var(--orange);">
+        <div style="font-weight: 700; font-size: 14px; color: var(--orange); margin-bottom: 8px;">⚠️ Hallucinaties Catchen</div>
+        <p style="font-size: 13px; color: var(--muted); margin: 0; line-height: 1.6;">ChatGPT verzint facts. Hoe check je? Tips & tricks.</p>
+      </div>
+
+      <div style="background: white; padding: 18px; border-radius: var(--radius); border-left: 4px solid var(--red);">
+        <div style="font-weight: 700; font-size: 14px; color: var(--red); margin-bottom: 8px;">🚨 Fake Detectie</div>
+        <p style="font-size: 13px; color: var(--muted); margin: 0; line-height: 1.6;">AI maakt overtuigende nep. Leer nep van echt scheiden.</p>
+      </div>
+    </div>
+
+    <!-- RULES SECTION -->
+    <div class="sw-title">De <em>regels</em> op Sint-Rembert</div>
+    <div class="sw-sub">Dit mag je wel en niet met AI op school.</div>
+    <div class="sr-row">
+      <div class="sr-box wel">
+        <div class="sr-box-title">✅ Wat mag wel?</div>
+        <div class="sri"><div class="sr-chk">✓</div>AI gebruiken voor brainstorm</div>
+        <div class="sri"><div class="sr-chk">✓</div>ChatGPT/Copilot gebruiken met je schoolaccount</div>
+        <div class="sri"><div class="sr-chk">✓</div>AI-output kritisch gebruiken als vertrekpunt</div>
+        <div class="sri"><div class="sr-chk">✓</div>AI helpt je leren en nadenken</div>
+        <div class="sri"><div class="sr-chk">✓</div>Je eigen gedachten toevoegen</div>
+      </div>
+      <div class="sr-box niet">
+        <div class="sr-box-title">❌ Wat mag niet?</div>
+        <div class="sri sr-x-item"><div class="sr-x">✕</div>AI-antwoord kritiekloos kopieëren</div>
+        <div class="sri sr-x-item"><div class="sr-x">✕</div>AI-werk als je eigen werk voordoen</div>
+        <div class="sri sr-x-item"><div class="sr-x">✕</div>Persoonlijke data ingeven in ChatGPT</div>
+        <div class="sri sr-x-item"><div class="sr-x">✕</div>Medeleerlingen helpen met AI vals spelen</div>
+        <div class="sri sr-x-item"><div class="sr-x">✕</div>Vertrouwen op AI zonder eigen gedachte</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════ MODULE 1 ════════ -->
+<div class="view" id="view-mod1">
+  <div class="mh">
+    <button class="bk" onclick="sv('home')">← Terug</button>
+    <div class="mh-info">
+      <div class="mh-num">Module 1 · Basis</div>
+      <div class="mh-title" id="mod1-title">Wat is AI?</div>
+    </div>
+    <div class="dots" id="sd1"></div>
+  </div>
+  <div class="mc-content" id="m1c"></div>
+</div>
+
+<!-- ════════ MODULE 2 ════════ -->
+<div class="view" id="view-mod2">
+  <div class="mh">
+    <button class="bk" onclick="sv('home')">← Terug</button>
+    <div class="mh-info">
+      <div class="mh-num">Module 2 · Praktisch</div>
+      <div class="mh-title" id="mod2-title">ChatGPT & Copilot</div>
+    </div>
+    <div class="dots" id="sd2"></div>
+  </div>
+  <div class="mc-content" id="m2c"></div>
+</div>
+
+<!-- ════════ MODULE 3 ════════ -->
+<div class="view" id="view-mod3">
+  <div class="mh">
+    <button class="bk" onclick="sv('home')">← Terug</button>
+    <div class="mh-info">
+      <div class="mh-num">Module 3 · Skills</div>
+      <div class="mh-title" id="mod3-title">Prompts & Tricks</div>
+    </div>
+    <div class="dots" id="sd3"></div>
+  </div>
+  <div class="mc-content" id="m3c"></div>
+</div>
+
+<!-- ════════ MODULE 4 ════════ -->
+<div class="view" id="view-mod4">
+  <div class="mh">
+    <button class="bk" onclick="sv('home')">← Terug</button>
+    <div class="mh-info">
+      <div class="mh-num">Module 4 · Kritisch</div>
+      <div class="mh-title" id="mod4-title">Hallucinaties & Bias</div>
+    </div>
+    <div class="dots" id="sd4"></div>
+  </div>
+  <div class="mc-content" id="m4c"></div>
+</div>
+
+<!-- ════════ MODULE 5 ════════ -->
+<div class="view" id="view-mod5">
+  <div class="mh">
+    <button class="bk" onclick="sv('home')">← Terug</button>
+    <div class="mh-info">
+      <div class="mh-num">Module 5 · Media</div>
+      <div class="mh-title" id="mod5-title">Deepfakes & Vertrouwen</div>
+    </div>
+    <div class="dots" id="sd5"></div>
+  </div>
+  <div class="mc-content" id="m5c"></div>
+</div>
+
+<!-- ════════ MODULE 6 ════════ -->
+<div class="view" id="view-mod6">
+  <div class="mh">
+    <button class="bk" onclick="sv('home')">← Terug</button>
+    <div class="mh-info">
+      <div class="mh-num">Module 6 · Reflectie</div>
+      <div class="mh-title" id="mod6-title">Ethics & Kritisch Denken</div>
+    </div>
+    <div class="dots" id="sd6"></div>
+  </div>
+  <div class="mc-content" id="m6c"></div>
+</div>
+
+<!-- ════════ CERTIFICAAT ════════ -->
+<div id="cert-view">
+  <div class="cert-wrap">
+    <div class="cert-intro">
+      <div class="cert-fire">🎉</div>
+      <h2 style="font-family:'Archivo Black',sans-serif;font-size:26px;color:var(--blue);text-transform:uppercase;margin-bottom:7px">Gefeliciteerd!</h2>
+      <p style="color:var(--muted);font-weight:700;margin-bottom:28px">Je hebt alle 6 modules voltooid. Download je certificaat!</p>
+    </div>
+
+    <div class="cert-box">
+      <div class="cert-wm">SINT-REMBERT</div>
+      <div class="cert-school">Scholengroep Sint-Rembert</div>
+      <div class="cert-title">Certificaat <em>AI-Skills voor Leerlingen</em></div>
+      <div class="cert-dec">Dit certificaat bevestigt dat</div>
+      <div class="cert-name" id="cert-name">Leerling</div>
+      <div class="cert-desc">alle 6 modules van de <strong>AI-Skills voor Leerlingen</strong> cursus succesvol heeft voltooid en aangetoond dat deze leerling begrijpt hoe AI werkt, kritisch kan denken over AI en verantwoord AI kan gebruiken in schoolwerk.</div>
+      <div class="cert-comps">
+        <div class="cert-comp"><span class="ck">✓</span>AI begrijpen & herkennen</div>
+        <div class="cert-comp"><span class="ck">✓</span>ChatGPT/Copilot effectief gebruiken</div>
+        <div class="cert-comp"><span class="ck">✓</span>Goeie prompts schrijven</div>
+        <div class="cert-comp"><span class="ck">✓</span>Hallucinaties & bias herkennen</div>
+        <div class="cert-comp"><span class="ck">✓</span>Deepfakes detecteren</div>
+        <div class="cert-comp"><span class="ck">✓</span>Verantwoord AI-gebruik</div>
+        <div class="cert-comp"><span class="ck">✓</span>Kritisch nadenken over AI</div>
+      </div>
+      <div class="cert-sr"><span>Sint-</span><em>Rembert</em><span>Scholengroep</span></div>
+      <div class="cert-meta">
+        <div class="cm-i"><div class="cm-lbl">Datum</div><div class="cm-val" id="cert-date">—</div></div>
+        <div class="cm-i"><div class="cm-lbl">Platform</div><div class="cm-val">Sint-Rembert AI-Skills</div></div>
+        <div class="cm-i"><div class="cm-lbl">Geldigheid</div><div class="cm-val">2 jaar</div></div>
+        <div class="cm-i"><div class="cm-lbl">Niveau</div><div class="cm-val">Secundair onderwijs</div></div>
+      </div>
+    </div>
+
+    <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 20px;">
+      <button class="print-btn" id="print-cert-btn" onclick="doCertPrint()">🖨️ Download certificaat (PDF)</button>
+      <button class="summary-btn" id="download-summary-btn" onclick="downloadSummary()">💾 Download Reflectieverslag (TXT)</button>
+    </div>
+    <div class="cert-warn">✅ Goed gedaan! Download je certificaat en toon het aan je ouders/leraren. Je bent nu een AI-skills champion! 🚀</div>
+  </div>
+</div>
+
+<footer style="font-size: 11px; color: #666; margin-top: 60px; padding: 30px 20px; border-top: 1px solid #ddd; background: #f9f9f9; line-height: 1.8;">
+  <div style="max-width: 1200px; margin: 0 auto;">
+    <p style="margin: 0 0 12px 0;"><strong>Over deze cursus</strong></p>
+    <p style="margin: 0;">
+      Sint-Rembert AI-Skills voor Leerlingen — Versie 2.0 (2026)<br>
+      Interactieve training voor leerlingen secundair onderwijs, gebaseerd op het Beleidskader Artificiële Intelligentie van Sint-Rembert
+    </p>
+  </div>
+</footer>
+
+</main>
+</div>
+
+<script src="leerlingen.js"></script>
 </body>
 </html>
