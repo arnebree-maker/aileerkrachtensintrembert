@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI-Cursussen Sint-Rembert</title>
+  <link rel="stylesheet" href="start.css">
+</head>
+<body>
+  <div class="stars-bg"></div>
+  
+  <div class="container">
+    <div class="content">
+      <!-- HEADER -->
+      <div class="header">
+        <div class="logo-main">
+          <div class="logo-icon">🤖</div>
+          <h1>AI-Cursussen</h1>
+          <p class="tagline">Sint-Rembert Scholengroep</p>
+        </div>
+        
+        <div class="hero-text">
+          <h2>Kies je pad</h2>
+          <p>Ben je leerkracht of leerling?<br>Beide hebben hun eigen avontuur.</p>
+        </div>
+      </div>
+
+      <!-- CARDS -->
+      <div class="cards-container">
+        <!-- LEERKRACHT CARD -->
+        <div class="card teacher-card" onclick="goTeacher()">
+          <div class="card-bg"></div>
+          
+          <div class="card-top">
+            <div class="card-icon">👨‍🏫</div>
+            <h3>Voor Leerkrachten</h3>
+          </div>
+
+          <div class="card-content">
+            <p class="card-sub">Professionalisering AI-geletterdheid</p>
+            
+            <ul class="card-features">
+              <li>✅ 3 verplichte modules</li>
+              <li>✅ 1 verdiepingsmodule (Copilot)</li>
+              <li>✅ Certificaat + Reflectie</li>
+              <li>✅ 2 Podcasts (AudioLM)</li>
+              <li>✅ Praktische prompts</li>
+            </ul>
+
+            <div class="card-meta">
+              <span class="badge ready">✨ LIVE</span>
+              <span class="time">~3.5 uur</span>
+            </div>
+
+            <button class="cta-btn teacher-btn">Start cursus →</button>
+          </div>
+
+          <div class="card-corner">
+            <div class="corner-icon">📚</div>
+          </div>
+        </div>
+
+        <!-- LEERLING CARD -->
+        <div class="card student-card" onclick="goStudent()">
+          <div class="card-bg"></div>
+          
+          <div class="badge-in-progress">🚀 IN PROGRESS</div>
+
+          <div class="card-top">
+            <div class="card-icon">👨‍🎓</div>
+            <h3>Voor Leerlingen</h3>
+          </div>
+
+          <div class="card-content">
+            <p class="card-sub">AI-Skills: van beginner tot expert</p>
+            
+            <ul class="card-features">
+              <li>✅ 6 interactieve modules</li>
+              <li>✅ Hands-on met ChatGPT/Copilot</li>
+              <li>✅ Sint-Rembert AI-labels</li>
+              <li>✅ Casussen & dilemma's</li>
+              <li>✅ Certificaat + Reflectie</li>
+            </ul>
+
+            <div class="card-meta">
+              <span class="badge in-dev">🔨 KOMEND</span>
+              <span class="time">~6 uur</span>
+            </div>
+
+            <button class="cta-btn student-btn" disabled>Binnenkort beschikbaar</button>
+          </div>
+
+          <div class="card-corner">
+            <div class="corner-icon">🎮</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INFO SECTION -->
+      <div class="info-section">
+        <div class="info-box">
+          <div class="info-icon">🎯</div>
+          <h4>Voor iedereen</h4>
+          <p>Of je nu lesgeeft of leert: AI-geletterdheid is essentieel in 2026.</p>
+        </div>
+
+        <div class="info-box">
+          <div class="info-icon">🛡️</div>
+          <h4>Sint-Rembert Beleid</h4>
+          <p>Beide cursussen volgen het Sint-Rembert AI-beleidskader.</p>
+        </div>
+
+        <div class="info-box">
+          <div class="info-icon">🏆</div>
+          <h4>Certificaten</h4>
+          <p>Voltooi alle modules en download je certificaat!</p>
+        </div>
+      </div>
+
+      <!-- FOOTER -->
+      <div class="footer">
+        <p>Sint-Rembert Scholengroep | AI-Geletterdheid Platform</p>
+        <p style="font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 8px;">
+          <a href="#" style="color: rgba(255,255,255,0.8); text-decoration: none;">Bronvermelding</a> • 
+          <a href="#" style="color: rgba(255,255,255,0.8); text-decoration: none;">Privacy</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script src="start.js"></script>
+</body>
+</html>
