@@ -3,130 +3,204 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI-Cursussen Sint-Rembert</title>
+  <title>AI-Geletterdheid — Sint-Rembert</title>
   <link rel="stylesheet" href="start.css">
 </head>
 <body>
-  <div class="stars-bg"></div>
-  
-  <div class="container">
-    <div class="content">
-      <!-- HEADER -->
-      <div class="header">
-        <div class="logo-main">
-          <div class="logo-icon">🤖</div>
-          <h1>AI-Cursussen</h1>
-          <p class="tagline">Sint-Rembert Scholengroep</p>
+  <div class="sr-wrapper">
+    <!-- HEADER BANNER -->
+    <header class="sr-header">
+      <div class="header-content">
+        <div class="sr-logo-section">
+          <div class="sr-logo-box">
+            <div class="sr-logo">SR</div>
+          </div>
+          <div class="sr-branding">
+            <h1>Sint-Rembert</h1>
+            <p>Scholengroep</p>
+          </div>
         </div>
-        
-        <div class="hero-text">
-          <h2>Kies je pad</h2>
-          <p>Ben je leerkracht of leerling?<br>Beide hebben hun eigen avontuur.</p>
+        <div class="header-tagline">
+          <p>AI-Geletterdheid Platform</p>
         </div>
       </div>
+    </header>
 
-      <!-- CARDS -->
-      <div class="cards-container">
-        <!-- LEERKRACHT CARD -->
-        <div class="card teacher-card" onclick="goTeacher()">
-          <div class="card-bg"></div>
-          
-          <div class="card-top">
-            <div class="card-icon">👨‍🏫</div>
-            <h3>Voor Leerkrachten</h3>
-          </div>
+    <!-- MAIN CONTAINER -->
+    <div class="sr-container">
+      <div class="sr-content">
+        <!-- INTRO SECTION -->
+        <section class="intro-section">
+          <h2>Welkom bij AI-Geletterdheid</h2>
+          <p class="intro-text">
+            Sint-Rembert bereidt je voor op de digitale toekomst. 
+            Of je nu lesgeeft of leert — AI-geletterdheid is essentieel.
+          </p>
+        </section>
 
-          <div class="card-content">
-            <p class="card-sub">Professionalisering AI-geletterdheid</p>
+        <!-- CARDS GRID -->
+        <div class="sr-cards-grid">
+          <!-- LEERKRACHT CARD -->
+          <div class="sr-card teacher-path" onclick="goTeacher()">
+            <div class="card-icon-lg">👨‍🏫</div>
             
-            <ul class="card-features">
-              <li>✅ 3 verplichte modules</li>
-              <li>✅ 1 verdiepingsmodule (Copilot)</li>
-              <li>✅ Certificaat + Reflectie</li>
-              <li>✅ 2 Podcasts (AudioLM)</li>
-              <li>✅ Praktische prompts</li>
-            </ul>
-
-            <div class="card-meta">
-              <span class="badge ready">✨ LIVE</span>
-              <span class="time">~3.5 uur</span>
+            <div class="card-header">
+              <h3>Voor Leerkrachten</h3>
+              <p class="card-tagline">Professionalisering</p>
             </div>
 
-            <button class="cta-btn teacher-btn">Start cursus →</button>
-          </div>
-
-          <div class="card-corner">
-            <div class="corner-icon">📚</div>
-          </div>
-        </div>
-
-        <!-- LEERLING CARD -->
-        <div class="card student-card" onclick="goStudent()">
-          <div class="card-bg"></div>
-          
-          <div class="badge-in-progress">🚀 IN PROGRESS</div>
-
-          <div class="card-top">
-            <div class="card-icon">👨‍🎓</div>
-            <h3>Voor Leerlingen</h3>
-          </div>
-
-          <div class="card-content">
-            <p class="card-sub">AI-Skills: van beginner tot expert</p>
-            
-            <ul class="card-features">
-              <li>✅ 6 interactieve modules</li>
-              <li>✅ Hands-on met ChatGPT/Copilot</li>
-              <li>✅ Sint-Rembert AI-labels</li>
-              <li>✅ Casussen & dilemma's</li>
-              <li>✅ Certificaat + Reflectie</li>
-            </ul>
-
-            <div class="card-meta">
-              <span class="badge in-dev">🔨 KOMEND</span>
-              <span class="time">~6 uur</span>
+            <div class="card-description">
+              <p>Verdiep je in AI-geletterdheid met onze gecureerde cursus. Leer praktische toepassingen voor je klaslokaal en develop je digitale competenties.</p>
             </div>
 
-            <button class="cta-btn student-btn" disabled>Binnenkort beschikbaar</button>
+            <div class="card-details">
+              <div class="detail-item">
+                <span class="detail-label">Modules</span>
+                <span class="detail-value">3 verplicht + 1 optioneel</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Duur</span>
+                <span class="detail-value">~3.5 uur</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Status</span>
+                <span class="detail-value sr-live">✨ LIVE</span>
+              </div>
+            </div>
+
+            <button class="sr-btn-primary">Start cursus →</button>
           </div>
 
-          <div class="card-corner">
-            <div class="corner-icon">🎮</div>
+          <!-- LEERLING CARD -->
+          <div class="sr-card student-path">
+            <div class="in-progress-badge">🚀 KOMEND</div>
+            <div class="card-icon-lg">👨‍🎓</div>
+            
+            <div class="card-header">
+              <h3>Voor Leerlingen</h3>
+              <p class="card-tagline">AI-Skills Bootcamp</p>
+            </div>
+
+            <div class="card-description">
+              <p>Leer AI begrijpen, gebruiken en kritisch denken. Van ChatGPT basics tot ethische vragen — alles wat je moet weten voor het digitale onderwijs.</p>
+            </div>
+
+            <div class="card-details">
+              <div class="detail-item">
+                <span class="detail-label">Modules</span>
+                <span class="detail-value">6 interactief</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Duur</span>
+                <span class="detail-value">~6 uur</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Status</span>
+                <span class="detail-value sr-coming">📅 FEBRUARI</span>
+              </div>
+            </div>
+
+            <button class="sr-btn-secondary" disabled>Binnenkort beschikbaar</button>
           </div>
         </div>
-      </div>
 
-      <!-- INFO SECTION -->
-      <div class="info-section">
-        <div class="info-box">
-          <div class="info-icon">🎯</div>
-          <h4>Voor iedereen</h4>
-          <p>Of je nu lesgeeft of leert: AI-geletterdheid is essentieel in 2026.</p>
+        <!-- FEATURES SECTION -->
+        <section class="sr-features">
+          <h3>Sint-Rembert AI-Beleidskader</h3>
+          
+          <div class="features-grid">
+            <div class="feature-card">
+              <div class="feature-icon">🎯</div>
+              <h4>Duidelijk Beleid</h4>
+              <p>5 AI-labels voor elk soort schoolwerk — van "geen AI" tot "volledig vrij".</p>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon">🛡️</div>
+              <h4>Veilig Leren</h4>
+              <p>Ethische kwesties, hallucineringen, bias — alles behandeld met zorg.</p>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon">📊</div>
+              <h4>Praktisch</h4>
+              <p>Hands-on met ChatGPT & Copilot. Vakspecifieke voorbeelden inbegrepen.</p>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon">🏆</div>
+              <h4>Certificaten</h4>
+              <p>Voltooi alle modules en ontvang je officieel Sint-Rembert certificaat.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- INFO BANNER -->
+        <div class="sr-info-banner">
+          <div class="banner-icon">ℹ️</div>
+          <div class="banner-text">
+            <strong>Vragen?</strong> Neem contact op via de chatbot of mail naar 
+            <a href="mailto:informaticadienst.pedagogisch@sint-rembert.be">informaticadienst.pedagogisch@sint-rembert.be</a>
+          </div>
         </div>
-
-        <div class="info-box">
-          <div class="info-icon">🛡️</div>
-          <h4>Sint-Rembert Beleid</h4>
-          <p>Beide cursussen volgen het Sint-Rembert AI-beleidskader.</p>
-        </div>
-
-        <div class="info-box">
-          <div class="info-icon">🏆</div>
-          <h4>Certificaten</h4>
-          <p>Voltooi alle modules en download je certificaat!</p>
-        </div>
-      </div>
-
-      <!-- FOOTER -->
-      <div class="footer">
-        <p>Sint-Rembert Scholengroep | AI-Geletterdheid Platform</p>
-        <p style="font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 8px;">
-          <a href="#" style="color: rgba(255,255,255,0.8); text-decoration: none;">Bronvermelding</a> • 
-          <a href="#" style="color: rgba(255,255,255,0.8); text-decoration: none;">Privacy</a>
-        </p>
       </div>
     </div>
+
+    <!-- FOOTER -->
+    <footer class="sr-footer">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>Sint-Rembert</h4>
+          <p>AI-Geletterdheid Platform<br>2026</p>
+        </div>
+        <div class="footer-section">
+          <h4>Meer Info</h4>
+          <ul>
+            <li><a href="#">Over Sint-Rembert</a></li>
+            <li><a href="#">Beleidskader</a></li>
+            <li><a href="#">Privacy</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Contact</h4>
+          <p>informaticadienst.pedagogisch@<br>sint-rembert.be</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Sint-Rembert Scholengroep. Alle rechten voorbehouden.</p>
+      </div>
+    </footer>
   </div>
+
+  <!-- HELPDESK BOT -->
+  <div class="helpdesk-widget" id="helpdeskWidget">
+    <div class="helpdesk-header">
+      <h4>💬 Hulp nodig?</h4>
+      <button class="close-btn" onclick="toggleHelpdesk()">×</button>
+    </div>
+    
+    <div class="helpdesk-body">
+      <div class="bot-message">
+        <p>Hallo! 👋 Heb je een vraag over de AI-cursussen of ons beleidskader?</p>
+      </div>
+
+      <form id="helpForm" onsubmit="sendHelp(event)">
+        <textarea id="helpText" placeholder="Wat wil je weten?" required></textarea>
+        <input type="email" id="helpEmail" placeholder="Je email (optioneel)">
+        <button type="submit">Stuur vraag →</button>
+      </form>
+
+      <p style="font-size:11px; color:#666; margin-top:12px; text-align:center; line-height:1.4;">
+        Jouw bericht gaat naar de informaticadienst:<br>
+        <strong>informaticadienst.pedagogisch@sint-rembert.be</strong>
+      </p>
+    </div>
+  </div>
+
+  <!-- HELPDESK BUTTON -->
+  <button class="helpdesk-btn" onclick="toggleHelpdesk()" title="Help nodig?">
+    <span>💬</span>
+  </button>
 
   <script src="start.js"></script>
 </body>
