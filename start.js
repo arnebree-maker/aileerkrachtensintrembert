@@ -56,3 +56,51 @@ style.textContent = `
   }
 `;
 document.head.appendChild(style);
+
+// ===== HELPDESK FUNCTIONS =====
+
+function toggleHelpdesk() {
+  const widget = document.getElementById('helpdeskWidget');
+  widget.classList.toggle('active');
+  
+  if (widget.classList.contains('active')) {
+    // Focus textarea when opened
+    setTimeout(() => {
+      document.getElementById('helpText').focus();
+    }, 100);
+  }
+}
+
+function sendHelp(event) {
+  event.preventDefault();
+  
+  const message = document.getElementById('helpText').value.trim();
+  const email = document.getElementById('helpEmail').value.trim();
+  
+  if (!message) {
+    alert('Voer een vraag in!');
+    return;
+  }
+
+  // Build mailto link
+  const subject = encodeURIComponent('Vraag AI-Cursus Sint-Rembert');
+  const body = encodeURIComponent(
+    `Vraag/Opmerking:\n${message}\n\n` +
+    (email ? `Antwoord naar: ${email}\n` : 'Antwoord naar: (niet opgegeven)\n') +
+    `Datum: ${new Date().toLocaleString('nl-BE')}`
+  );
+  
+  const mailtoLink = `mailto:informaticadienst.pedagogisch@sint-rembert.be?subject=${subject}&body=${body}`;
+  
+  // Open mail client
+  window.location.href = mailtoLink;
+  
+  // Show confirmation
+  setTimeout(() => {
+    alert('✅ Je vraag is verstuurd naar de informaticadienst!\n\nAls je geen mail-app hebt, stuur je vraag handmatig naar:\ninformaticadienst.pedagogisch@sint-rembert.be');
+    
+    // Reset form
+    document.getElementById('helpForm').reset();
+    toggleHelpdesk();
+  }, 500);
+}
