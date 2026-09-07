@@ -4,11 +4,601 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI-Geletterdheid — Sint-Rembert</title>
-  <link rel="stylesheet" href="start.css">
+  <style>
+:root {
+  --sr-dark: #1A3A4A;
+  --sr-accent: #2E5F7F;
+  --sr-green: #4CAF50;
+  --sr-light: #F5F7FA;
+  --sr-white: #FFFFFF;
+  --sr-text: #2C3E50;
+  --sr-subtle: #8BA0AC;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  background: var(--sr-light);
+  color: var(--sr-text);
+  line-height: 1.6;
+}
+
+a {
+  color: var(--sr-accent);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+a:hover {
+  color: var(--sr-dark);
+  text-decoration: underline;
+}
+
+.sr-header {
+  background: linear-gradient(135deg, var(--sr-dark) 0%, var(--sr-accent) 100%);
+  color: var(--sr-white);
+  padding: 40px 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.sr-logo-section {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.sr-logo-box {
+  width: 60px;
+  height: 60px;
+  background: var(--sr-white);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.sr-logo {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--sr-dark);
+  letter-spacing: -1px;
+}
+
+.sr-branding h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+  margin-bottom: 4px;
+}
+
+.sr-branding p {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.9;
+  margin: 0;
+}
+
+.header-tagline {
+  text-align: right;
+}
+
+.header-tagline p {
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0.95;
+}
+
+.sr-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.sr-container {
+  flex: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 60px 20px;
+}
+
+.sr-content {
+  width: 100%;
+}
+
+.intro-section {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.intro-section h2 {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--sr-dark);
+  margin-bottom: 16px;
+}
+
+.intro-text {
+  font-size: 16px;
+  color: var(--sr-subtle);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+.sr-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 32px;
+  margin-bottom: 80px;
+}
+
+.sr-card {
+  background: var(--sr-white);
+  border-radius: 12px;
+  padding: 40px 32px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  border-top: 4px solid var(--sr-accent);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.sr-card:hover {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  transform: translateY(-4px);
+}
+
+.in-progress-badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: var(--sr-green);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.card-icon-lg {
+  font-size: 56px;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.card-header h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--sr-dark);
+  margin-bottom: 6px;
+}
+
+.card-tagline {
+  font-size: 12px;
+  color: var(--sr-subtle);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+.card-description {
+  margin: 24px 0;
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--sr-text);
+}
+
+.card-description p {
+  margin: 0;
+}
+
+.card-details {
+  background: var(--sr-light);
+  padding: 20px;
+  border-radius: 8px;
+  margin: 24px 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+}
+
+.detail-item {
+  text-align: center;
+}
+
+.detail-label {
+  display: block;
+  font-size: 11px;
+  color: var(--sr-subtle);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.detail-value {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--sr-dark);
+}
+
+.detail-value.sr-live {
+  color: var(--sr-green);
+}
+
+.detail-value.sr-coming {
+  color: var(--sr-accent);
+}
+
+.sr-btn-primary {
+  width: 100%;
+  padding: 14px 20px;
+  background: var(--sr-accent);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 20px;
+}
+
+.sr-btn-primary:hover {
+  background: var(--sr-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(42, 95, 127, 0.3);
+}
+
+.sr-btn-secondary {
+  width: 100%;
+  padding: 14px 20px;
+  background: #E0E0E0;
+  color: var(--sr-subtle);
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: not-allowed;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 20px;
+}
+
+.sr-features {
+  margin-bottom: 60px;
+  padding: 60px 40px;
+  background: var(--sr-white);
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+.sr-features h3 {
+  font-size: 28px;
+  color: var(--sr-dark);
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+.feature-card {
+  text-align: center;
+  padding: 24px;
+  background: var(--sr-light);
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+
+.feature-card:hover {
+  background: white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.feature-icon {
+  font-size: 36px;
+  margin-bottom: 12px;
+}
+
+.feature-card h4 {
+  font-size: 16px;
+  color: var(--sr-dark);
+  margin-bottom: 8px;
+}
+
+.feature-card p {
+  font-size: 13px;
+  color: var(--sr-subtle);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.sr-info-banner {
+  background: var(--sr-light);
+  border-left: 4px solid var(--sr-green);
+  padding: 24px;
+  border-radius: 8px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 40px;
+}
+
+.banner-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.banner-text {
+  font-size: 14px;
+  color: var(--sr-text);
+  line-height: 1.6;
+}
+
+.sr-footer {
+  background: var(--sr-dark);
+  color: white;
+  padding: 40px 20px 20px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 40px;
+}
+
+.footer-section h4 {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+.footer-section p,
+.footer-section a {
+  font-size: 13px;
+  color: rgba(255,255,255,0.8);
+  line-height: 1.8;
+}
+
+.footer-section ul {
+  list-style: none;
+}
+
+.footer-section li {
+  margin-bottom: 8px;
+}
+
+.footer-section a:hover {
+  color: white;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+}
+
+.helpdesk-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--sr-green);
+  border: none;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+  transition: all 0.3s;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.helpdesk-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 20px rgba(76, 175, 80, 0.5);
+}
+
+.helpdesk-widget {
+  position: fixed;
+  bottom: 100px;
+  right: 30px;
+  width: 360px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+  z-index: 100;
+  animation: slideUp 0.4s ease;
+  max-height: 500px;
+  overflow-y: auto;
+  display: none;
+  flex-direction: column;
+}
+
+.helpdesk-widget.active {
+  display: flex;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.helpdesk-header {
+  background: var(--sr-green);
+  color: white;
+  padding: 16px;
+  border-radius: 12px 12px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.helpdesk-header h4 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.close-btn {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  transition: all 0.2s;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-btn:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+.helpdesk-body {
+  padding: 16px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.bot-message {
+  background: var(--sr-light);
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  color: var(--sr-text);
+  line-height: 1.6;
+}
+
+.bot-message p {
+  margin: 0;
+}
+
+#helpForm textarea,
+#helpForm input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 13px;
+  resize: vertical;
+  transition: border-color 0.2s;
+}
+
+#helpForm textarea:focus,
+#helpForm input:focus {
+  outline: none;
+  border-color: var(--sr-green);
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+#helpForm textarea {
+  height: 80px;
+}
+
+#helpForm button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  background: var(--sr-green);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s;
+}
+
+#helpForm button:hover {
+  background: #45A049;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+  .sr-header {
+    padding: 30px 16px;
+  }
+
+  .header-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .sr-container {
+    padding: 40px 16px;
+  }
+
+  .sr-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .card-details {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .helpdesk-widget {
+    width: calc(100vw - 40px);
+    bottom: 100px;
+    right: 20px;
+  }
+}
+  </style>
 </head>
 <body>
   <div class="sr-wrapper">
-    <!-- HEADER BANNER -->
     <header class="sr-header">
       <div class="header-content">
         <div class="sr-logo-section">
@@ -26,37 +616,27 @@
       </div>
     </header>
 
-    <!-- MAIN CONTAINER -->
     <div class="sr-container">
       <div class="sr-content">
-        <!-- INTRO SECTION -->
         <section class="intro-section">
           <h2>Welkom bij AI-Geletterdheid</h2>
-          <p class="intro-text">
-            Sint-Rembert bereidt je voor op de digitale toekomst. 
-            Of je nu lesgeeft of leert — AI-geletterdheid is essentieel.
-          </p>
+          <p class="intro-text">Sint-Rembert bereidt je voor op de digitale toekomst. Of je nu lesgeeft of leert — AI-geletterdheid is essentieel.</p>
         </section>
 
-        <!-- CARDS GRID -->
         <div class="sr-cards-grid">
-          <!-- LEERKRACHT CARD -->
-          <div class="sr-card teacher-path" onclick="goTeacher()">
+          <div class="sr-card" onclick="window.location.href='teacher.html';">
             <div class="card-icon-lg">👨‍🏫</div>
-            
             <div class="card-header">
               <h3>Voor Leerkrachten</h3>
               <p class="card-tagline">Professionalisering</p>
             </div>
-
             <div class="card-description">
-              <p>Verdiep je in AI-geletterdheid met onze gecureerde cursus. Leer praktische toepassingen voor je klaslokaal en develop je digitale competenties.</p>
+              <p>Verdiep je in AI-geletterdheid met onze gecureerde cursus. Leer praktische toepassingen voor je klaslokaal.</p>
             </div>
-
             <div class="card-details">
               <div class="detail-item">
                 <span class="detail-label">Modules</span>
-                <span class="detail-value">3 verplicht + 1 optioneel</span>
+                <span class="detail-value">3 + 1 optioneel</span>
               </div>
               <div class="detail-item">
                 <span class="detail-label">Duur</span>
@@ -67,24 +647,19 @@
                 <span class="detail-value sr-live">✨ LIVE</span>
               </div>
             </div>
-
             <button class="sr-btn-primary">Start cursus →</button>
           </div>
 
-          <!-- LEERLING CARD -->
-          <div class="sr-card student-path">
+          <div class="sr-card">
             <div class="in-progress-badge">🚀 KOMEND</div>
             <div class="card-icon-lg">👨‍🎓</div>
-            
             <div class="card-header">
               <h3>Voor Leerlingen</h3>
               <p class="card-tagline">AI-Skills Bootcamp</p>
             </div>
-
             <div class="card-description">
-              <p>Leer AI begrijpen, gebruiken en kritisch denken. Van ChatGPT basics tot ethische vragen — alles wat je moet weten voor het digitale onderwijs.</p>
+              <p>Leer AI begrijpen, gebruiken en kritisch denken. Van ChatGPT basics tot ethische vragen.</p>
             </div>
-
             <div class="card-details">
               <div class="detail-item">
                 <span class="detail-label">Modules</span>
@@ -99,54 +674,45 @@
                 <span class="detail-value sr-coming">📅 FEBRUARI</span>
               </div>
             </div>
-
             <button class="sr-btn-secondary" disabled>Binnenkort beschikbaar</button>
           </div>
         </div>
 
-        <!-- FEATURES SECTION -->
         <section class="sr-features">
           <h3>Sint-Rembert AI-Beleidskader</h3>
-          
           <div class="features-grid">
             <div class="feature-card">
               <div class="feature-icon">🎯</div>
               <h4>Duidelijk Beleid</h4>
-              <p>5 AI-labels voor elk soort schoolwerk — van "geen AI" tot "volledig vrij".</p>
+              <p>5 AI-labels voor elk soort schoolwerk.</p>
             </div>
-
             <div class="feature-card">
               <div class="feature-icon">🛡️</div>
               <h4>Veilig Leren</h4>
-              <p>Ethische kwesties, hallucineringen, bias — alles behandeld met zorg.</p>
+              <p>Ethische kwesties, hallucineringen, bias.</p>
             </div>
-
             <div class="feature-card">
               <div class="feature-icon">📊</div>
               <h4>Praktisch</h4>
-              <p>Hands-on met ChatGPT & Copilot. Vakspecifieke voorbeelden inbegrepen.</p>
+              <p>Hands-on met ChatGPT & Copilot.</p>
             </div>
-
             <div class="feature-card">
               <div class="feature-icon">🏆</div>
               <h4>Certificaten</h4>
-              <p>Voltooi alle modules en ontvang je officieel Sint-Rembert certificaat.</p>
+              <p>Voltooi alle modules en ontvang je certificaat.</p>
             </div>
           </div>
         </section>
 
-        <!-- INFO BANNER -->
         <div class="sr-info-banner">
           <div class="banner-icon">ℹ️</div>
           <div class="banner-text">
-            <strong>Vragen?</strong> Neem contact op via de chatbot of mail naar 
-            <a href="mailto:informaticadienst.pedagogisch@sint-rembert.be">informaticadienst.pedagogisch@sint-rembert.be</a>
+            <strong>Vragen?</strong> Neem contact op via de chatbot of mail naar <a href="mailto:informaticadienst.pedagogisch@sint-rembert.be">informaticadienst.pedagogisch@sint-rembert.be</a>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- FOOTER -->
     <footer class="sr-footer">
       <div class="footer-content">
         <div class="footer-section">
@@ -172,36 +738,68 @@
     </footer>
   </div>
 
-  <!-- HELPDESK BOT -->
   <div class="helpdesk-widget" id="helpdeskWidget">
     <div class="helpdesk-header">
       <h4>💬 Hulp nodig?</h4>
       <button class="close-btn" onclick="toggleHelpdesk()">×</button>
     </div>
-    
     <div class="helpdesk-body">
       <div class="bot-message">
         <p>Hallo! 👋 Heb je een vraag over de AI-cursussen of ons beleidskader?</p>
       </div>
-
       <form id="helpForm" onsubmit="sendHelp(event)">
         <textarea id="helpText" placeholder="Wat wil je weten?" required></textarea>
         <input type="email" id="helpEmail" placeholder="Je email (optioneel)">
         <button type="submit">Stuur vraag →</button>
       </form>
-
       <p style="font-size:11px; color:#666; margin-top:12px; text-align:center; line-height:1.4;">
-        Jouw bericht gaat naar de informaticadienst:<br>
+        Jouw bericht gaat naar:<br>
         <strong>informaticadienst.pedagogisch@sint-rembert.be</strong>
       </p>
     </div>
   </div>
 
-  <!-- HELPDESK BUTTON -->
   <button class="helpdesk-btn" onclick="toggleHelpdesk()" title="Help nodig?">
     <span>💬</span>
   </button>
 
-  <script src="start.js"></script>
+  <script>
+function toggleHelpdesk() {
+  const widget = document.getElementById('helpdeskWidget');
+  widget.classList.toggle('active');
+  if (widget.classList.contains('active')) {
+    setTimeout(() => {
+      document.getElementById('helpText').focus();
+    }, 100);
+  }
+}
+
+function sendHelp(event) {
+  event.preventDefault();
+  const message = document.getElementById('helpText').value.trim();
+  const email = document.getElementById('helpEmail').value.trim();
+  
+  if (!message) {
+    alert('Voer een vraag in!');
+    return;
+  }
+
+  const subject = encodeURIComponent('Vraag AI-Cursus Sint-Rembert');
+  const body = encodeURIComponent(
+    `Vraag/Opmerking:\n${message}\n\n` +
+    (email ? `Antwoord naar: ${email}\n` : 'Antwoord naar: (niet opgegeven)\n') +
+    `Datum: ${new Date().toLocaleString('nl-BE')}`
+  );
+  
+  const mailtoLink = `mailto:informaticadienst.pedagogisch@sint-rembert.be?subject=${subject}&body=${body}`;
+  window.location.href = mailtoLink;
+  
+  setTimeout(() => {
+    alert('✅ Je vraag is verstuurd naar de informaticadienst!');
+    document.getElementById('helpForm').reset();
+    toggleHelpdesk();
+  }, 500);
+}
+  </script>
 </body>
 </html>
