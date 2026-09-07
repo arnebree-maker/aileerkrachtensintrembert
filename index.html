@@ -3,703 +3,653 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI-Geletterdheid — Sint-Rembert</title>
+  <title>Sint-Rembert — AI-Geletterdheid Platform</title>
   <style>
-:root {
-  --sr-blue: #0033CC;
-  --sr-purple: #6B21A8;
-  --sr-green: #7FE000;
-  --sr-dark: #1A1A2E;
-  --sr-light: #F5F7FA;
-  --sr-white: #FFFFFF;
-  --sr-text: #2C3E50;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: var(--sr-light);
-  color: var(--sr-text);
-  display: flex;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-/* ===== SIDEBAR ===== */
-.sidebar {
-  width: 280px;
-  background: var(--sr-white);
-  padding: 32px 24px;
-  box-shadow: 2px 0 8px rgba(0,0,0,0.1);
-  overflow-y: auto;
-  position: fixed;
-  height: 100vh;
-  left: 0;
-  top: 0;
-}
-
-.sr-logo-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 24px;
-  padding-bottom: 24px;
-  border-bottom: 1px solid #eee;
-}
-
-.sr-logo-box {
-  width: 48px;
-  height: 48px;
-  background: linear-gradient(135deg, var(--sr-blue), var(--sr-purple));
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-weight: 800;
-  font-size: 20px;
-}
-
-.sr-branding h3 {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--sr-dark);
-  margin-bottom: 2px;
-}
-
-.sr-branding p {
-  font-size: 11px;
-  color: #999;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.sidebar-section {
-  margin-bottom: 32px;
-}
-
-.sidebar-title {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: #999;
-  font-weight: 700;
-  margin-bottom: 16px;
-}
-
-.sidebar-item {
-  padding: 12px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s;
-  margin-bottom: 8px;
-  border: 2px solid transparent;
-  font-size: 14px;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.sidebar-item:hover {
-  background: var(--sr-light);
-}
-
-.sidebar-item.active {
-  background: linear-gradient(135deg, var(--sr-blue), var(--sr-purple));
-  color: white;
-  border-color: var(--sr-green);
-}
-
-.sidebar-item span {
-  font-size: 18px;
-}
-
-/* ===== MAIN CONTENT ===== */
-.main-content {
-  margin-left: 280px;
-  width: calc(100% - 280px);
-  background: linear-gradient(135deg, #0033CC 0%, #6B21A8 100%);
-  color: white;
-  padding: 60px 80px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-height: 100vh;
-}
-
-.hero-title {
-  font-size: 56px;
-  font-weight: 800;
-  margin-bottom: 24px;
-  line-height: 1.2;
-  letter-spacing: -1px;
-}
-
-.hero-title .highlight {
-  color: var(--sr-green);
-}
-
-.hero-subtitle {
-  font-size: 18px;
-  line-height: 1.8;
-  margin-bottom: 60px;
-  opacity: 0.95;
-  max-width: 600px;
-}
-
-.hero-badge {
-  display: inline-block;
-  background: rgba(255,255,255,0.15);
-  border: 1px solid var(--sr-green);
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 32px;
-  color: var(--sr-green);
-  font-weight: 700;
-}
-
-/* ===== FEATURED ITEMS ===== */
-.featured-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-  margin-bottom: 60px;
-}
-
-.featured-item {
-  background: rgba(255,255,255,0.1);
-  backdrop-filter: blur(10px);
-  padding: 32px 20px;
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.2);
-  text-align: center;
-  transition: all 0.3s;
-  cursor: pointer;
-}
-
-.featured-item:hover {
-  background: rgba(255,255,255,0.15);
-  border-color: var(--sr-green);
-  transform: translateY(-4px);
-}
-
-.featured-icon {
-  font-size: 32px;
-  margin-bottom: 12px;
-}
-
-.featured-number {
-  font-size: 36px;
-  font-weight: 800;
-  margin-bottom: 8px;
-  color: var(--sr-green);
-}
-
-.featured-label {
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-weight: 600;
-  line-height: 1.4;
-}
-
-/* ===== BUTTONS ===== */
-.button-group {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-.btn {
-  padding: 14px 28px;
-  border: none;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.btn-primary {
-  background: var(--sr-green);
-  color: var(--sr-dark);
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(127, 224, 0, 0.3);
-}
-
-.btn-secondary {
-  background: rgba(255,255,255,0.2);
-  color: white;
-  border: 2px solid var(--sr-green);
-}
-
-.btn-secondary:hover {
-  background: rgba(127, 224, 0, 0.2);
-}
-
-/* ===== VISION SECTION ===== */
-.vision-section {
-  background: rgba(255,255,255,0.05);
-  padding: 32px;
-  border-radius: 12px;
-  border-top: 3px solid var(--sr-green);
-  margin-top: 40px;
-}
-
-.vision-title {
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 16px;
-  color: var(--sr-green);
-}
-
-.vision-text {
-  font-size: 14px;
-  line-height: 1.8;
-  opacity: 0.9;
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 1024px) {
-  .sidebar {
-    width: 200px;
-    padding: 20px 16px;
-  }
-
-  .main-content {
-    margin-left: 200px;
-    width: calc(100% - 200px);
-    padding: 40px;
-  }
-
-  .hero-title {
-    font-size: 40px;
-  }
-
-  .featured-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 768px) {
-  body {
-    flex-direction: column;
-  }
-
-  .sidebar {
-    width: 100%;
-    height: auto;
-    position: static;
-    padding: 20px;
-    box-shadow: none;
-    border-bottom: 1px solid #eee;
-  }
-
-  .main-content {
-    margin-left: 0;
-    width: 100%;
-    padding: 40px 20px;
-    min-height: auto;
-  }
-
-  .hero-title {
-    font-size: 32px;
-  }
-
-  .hero-subtitle {
-    font-size: 16px;
-  }
-
-  .featured-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-  }
-
-  .featured-item {
-    padding: 20px 16px;
-  }
-
-  .featured-number {
-    font-size: 28px;
-  }
-
-  .button-group {
-    flex-direction: column;
-  }
-
-  .btn {
-    width: 100%;
-    text-align: center;
-  }
-}
-
-@media (max-width: 480px) {
-  .sidebar {
-    padding: 16px;
-  }
-
-  .main-content {
-    padding: 24px 16px;
-  }
-
-  .hero-title {
-    font-size: 24px;
-    margin-bottom: 16px;
-  }
-
-  .hero-subtitle {
-    font-size: 14px;
-    margin-bottom: 32px;
-  }
-
-  .featured-grid {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-
-  .featured-item {
-    padding: 16px 12px;
-  }
-
-  .featured-number {
-    font-size: 24px;
-  }
-
-  .featured-label {
-    font-size: 11px;
-  }
-}
-
-/* ===== HELPDESK BOT ===== */
-.helpdesk-btn {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: var(--sr-green);
-  border: none;
-  color: var(--sr-dark);
-  font-size: 28px;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(127, 224, 0, 0.4);
-  transition: all 0.3s;
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.helpdesk-btn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 8px 20px rgba(127, 224, 0, 0.5);
-}
-
-.helpdesk-widget {
-  position: fixed;
-  bottom: 100px;
-  right: 30px;
-  width: 360px;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-  z-index: 100;
-  animation: slideUp 0.4s ease;
-  max-height: 500px;
-  overflow-y: auto;
-  display: none;
-  flex-direction: column;
-}
-
-.helpdesk-widget.active {
-  display: flex;
-}
-
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.helpdesk-header {
-  background: linear-gradient(135deg, var(--sr-blue), var(--sr-purple));
-  color: white;
-  padding: 16px;
-  border-radius: 12px 12px 0 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-shrink: 0;
-}
-
-.helpdesk-header h4 {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 700;
-}
-
-.close-btn {
-  background: rgba(255,255,255,0.2);
-  border: none;
-  color: white;
-  font-size: 24px;
-  cursor: pointer;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  transition: all 0.2s;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.close-btn:hover {
-  background: rgba(255,255,255,0.3);
-}
-
-.helpdesk-body {
-  padding: 16px;
-  flex: 1;
-  overflow-y: auto;
-}
-
-.bot-message {
-  background: var(--sr-light);
-  padding: 12px;
-  border-radius: 8px;
-  margin-bottom: 16px;
-  font-size: 13px;
-  color: var(--sr-text);
-  line-height: 1.6;
-}
-
-.bot-message p {
-  margin: 0;
-}
-
-#helpForm textarea,
-#helpForm input {
-  width: 100%;
-  padding: 10px;
-  margin-top: 8px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-family: inherit;
-  font-size: 13px;
-  resize: vertical;
-}
-
-#helpForm textarea:focus,
-#helpForm input:focus {
-  outline: none;
-  border-color: var(--sr-green);
-  box-shadow: 0 0 0 3px rgba(127, 224, 0, 0.1);
-}
-
-#helpForm textarea {
-  height: 80px;
-}
-
-#helpForm button {
-  width: 100%;
-  padding: 10px;
-  margin-top: 8px;
-  background: linear-gradient(135deg, var(--sr-blue), var(--sr-purple));
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-weight: 600;
-  cursor: pointer;
-  font-size: 13px;
-  transition: all 0.2s;
-}
-
-#helpForm button:hover {
-  transform: translateY(-1px);
-}
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    :root {
+      --sr-blue: #0033CC;
+      --sr-purple: #6B21A8;
+      --sr-green: #7FE000;
+      --sr-dark: #1a1a1a;
+      --sr-light: #f5f5f5;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+      background: #fff;
+      color: var(--sr-dark);
+      line-height: 1.6;
+    }
+    
+    .container {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      min-height: 100vh;
+    }
+    
+    /* SIDEBAR (LEFT) */
+    .sidebar {
+      background: #fff;
+      padding: 40px 24px;
+      border-right: 1px solid #e0e0e0;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    
+    .logo-section {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+    }
+    
+    .logo-circle {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--sr-blue), var(--sr-purple));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 36px;
+      font-weight: bold;
+      box-shadow: 0 4px 12px rgba(0, 51, 204, 0.2);
+    }
+    
+    .logo-text {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--sr-blue);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    
+    .brand-tagline {
+      text-align: center;
+      font-size: 11px;
+      color: #999;
+      margin-top: 8px;
+    }
+    
+    .nav-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .nav-item {
+      padding: 12px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      color: #666;
+      transition: all 0.2s;
+      border-left: 3px solid transparent;
+    }
+    
+    .nav-item:hover {
+      background: var(--sr-light);
+      color: var(--sr-blue);
+      border-left-color: var(--sr-green);
+    }
+    
+    .nav-item.active {
+      background: linear-gradient(135deg, rgba(0, 51, 204, 0.08), rgba(107, 33, 168, 0.08));
+      color: var(--sr-blue);
+      border-left-color: var(--sr-green);
+      font-weight: 600;
+    }
+    
+    /* HERO (RIGHT) */
+    .hero-section {
+      background: linear-gradient(135deg, var(--sr-blue) 0%, var(--sr-purple) 100%);
+      color: white;
+      padding: 60px 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 32px;
+      overflow-y: auto;
+    }
+    
+    .badge {
+      display: inline-block;
+      background: rgba(127, 224, 0, 0.2);
+      color: var(--sr-green);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      width: fit-content;
+      text-transform: uppercase;
+    }
+    
+    .hero-title {
+      font-size: 48px;
+      font-weight: 800;
+      line-height: 1.2;
+      margin: 16px 0;
+    }
+    
+    .hero-subtitle {
+      font-size: 18px;
+      line-height: 1.5;
+      color: rgba(255, 255, 255, 0.9);
+      margin: 16px 0 32px;
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 32px 0;
+    }
+    
+    .feature-card {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 20px;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s;
+    }
+    
+    .feature-card:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-4px);
+    }
+    
+    .feature-icon {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+    
+    .feature-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    
+    .feature-desc {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.4;
+    }
+    
+    .button-group {
+      display: flex;
+      gap: 16px;
+      margin: 32px 0;
+    }
+    
+    .btn {
+      padding: 14px 32px;
+      border-radius: 8px;
+      border: none;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    
+    .btn-primary {
+      background: var(--sr-green);
+      color: var(--sr-dark);
+    }
+    
+    .btn-primary:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(127, 224, 0, 0.3);
+    }
+    
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+    
+    /* CONTENT SECTIONS */
+    .content-section {
+      margin-top: 48px;
+      padding-top: 48px;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .section-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: var(--sr-green);
+    }
+    
+    .vision-text {
+      font-size: 15px;
+      line-height: 1.8;
+      color: rgba(255, 255, 255, 0.95);
+    }
+    
+    /* BELEIDSKADER COLLAPSIBLE */
+    .beleid-section {
+      margin-top: 48px;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      padding-top: 32px;
+    }
+    
+    .beleid-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      padding: 16px 0;
+      transition: all 0.3s;
+    }
+    
+    .beleid-header:hover {
+      opacity: 0.8;
+    }
+    
+    .beleid-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--sr-green);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .beleid-toggle {
+      font-size: 24px;
+      transition: transform 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+    }
+    
+    .beleid-toggle.open {
+      transform: rotate(180deg);
+    }
+    
+    .beleid-content {
+      display: none;
+      margin-top: 24px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      border-left: 3px solid var(--sr-green);
+    }
+    
+    .beleid-content.open {
+      display: block;
+    }
+    
+    .beleid-text {
+      font-size: 14px;
+      line-height: 1.8;
+      color: rgba(255, 255, 255, 0.9);
+    }
+    
+    .beleid-text p {
+      margin-bottom: 16px;
+    }
+    
+    .beleid-text strong {
+      color: var(--sr-green);
+    }
+    
+    .beleid-text ul, .beleid-text ol {
+      margin-left: 24px;
+      margin-bottom: 16px;
+    }
+    
+    .beleid-text li {
+      margin-bottom: 8px;
+      line-height: 1.6;
+    }
+    
+    /* HELPDESK BOT */
+    .helpdesk-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 56px;
+      height: 56px;
+      background: var(--sr-green);
+      color: var(--sr-dark);
+      border: none;
+      border-radius: 50%;
+      font-size: 28px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(127, 224, 0, 0.3);
+      transition: all 0.3s;
+      z-index: 999;
+    }
+    
+    .helpdesk-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 20px rgba(127, 224, 0, 0.4);
+    }
+    
+    .helpdesk-widget {
+      position: fixed;
+      bottom: 100px;
+      right: 24px;
+      width: 360px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+      display: none;
+      flex-direction: column;
+      z-index: 998;
+      overflow: hidden;
+    }
+    
+    .helpdesk-widget.open {
+      display: flex;
+    }
+    
+    .helpdesk-header {
+      background: linear-gradient(135deg, var(--sr-blue), var(--sr-purple));
+      color: white;
+      padding: 20px;
+      font-weight: 600;
+    }
+    
+    .helpdesk-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      max-height: 360px;
+      overflow-y: auto;
+    }
+    
+    .helpdesk-body input, .helpdesk-body textarea {
+      padding: 10px 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 14px;
+    }
+    
+    .helpdesk-body textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+    
+    .helpdesk-submit {
+      padding: 12px;
+      background: var(--sr-green);
+      color: var(--sr-dark);
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .helpdesk-submit:hover {
+      opacity: 0.9;
+    }
+    
+    /* FOOTER */
+    footer {
+      font-size: 8px;
+      color: #999;
+      margin-top: 40px;
+      padding: 12px 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(0, 0, 0, 0.1);
+      line-height: 1.5;
+    }
+    
+    footer strong {
+      color: var(--sr-green);
+    }
+    
+    /* RESPONSIVE */
+    @media (max-width: 1024px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+      
+      .sidebar {
+        position: static;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid #e0e0e0;
+        padding: 24px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+      }
+      
+      .hero-section {
+        padding: 40px 48px;
+      }
+      
+      .hero-title {
+        font-size: 36px;
+      }
+    }
+    
+    @media (max-width: 640px) {
+      .hero-section {
+        padding: 24px 16px;
+      }
+      
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .button-group {
+        flex-direction: column;
+      }
+      
+      .helpdesk-widget {
+        width: calc(100% - 48px);
+      }
+    }
   </style>
 </head>
 <body>
-  <!-- SIDEBAR -->
-  <div class="sidebar">
-    <div class="sr-logo-header">
-      <div class="sr-logo-box">SR</div>
-      <div class="sr-branding">
-        <h3>Sint-Rembert</h3>
-        <p>Scholengroep</p>
+  <div class="container">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="logo-section">
+        <div class="logo-circle">🎓</div>
+        <div class="logo-text">Sint-Rembert</div>
+        <div class="brand-tagline">AI-Geletterdheid</div>
       </div>
-    </div>
-
-    <div class="sidebar-section">
-      <div class="sidebar-title">Kies je pad</div>
-      <div class="sidebar-item active" onclick="scrollToSection('teacher')">
-        <span>👨‍🏫</span>
-        <div>
-          <div>Voor Leerkrachten</div>
-          <small style="font-size:11px; opacity:0.7;">Professionalisering</small>
-        </div>
-      </div>
-      <div class="sidebar-item" onclick="scrollToSection('student')">
-        <span>👨‍🎓</span>
-        <div>
-          <div>Voor Leerlingen</div>
-          <small style="font-size:11px; opacity:0.7;">AI-Skills (Feb)</small>
-        </div>
-      </div>
-    </div>
-
-    <div class="sidebar-section">
-      <div class="sidebar-title">Informatie</div>
-      <div class="sidebar-item">
-        <span>ℹ️</span>
-        <div>
-          <div>Over Sint-Rembert</div>
-          <small style="font-size:11px; opacity:0.7;">Beleidskader</small>
-        </div>
-      </div>
-      <div class="sidebar-item">
-        <span>📧</span>
-        <div>
-          <div>Contact</div>
-          <small style="font-size:11px; opacity:0.7;">Help & Support</small>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- MAIN CONTENT -->
-  <div class="main-content" id="teacher">
-    <div class="hero-badge">🎓 AI-GELETTERDHEID PLATFORM</div>
+      
+      <nav class="nav-menu">
+        <div class="nav-item active">📚 Cursus</div>
+        <div class="nav-item">📖 Handleiding</div>
+        <div class="nav-item">🎯 Doelstellingen</div>
+        <div class="nav-item">❓ Help</div>
+      </nav>
+    </aside>
     
-    <h1 class="hero-title">
-      WORD <span class="highlight">AI-GELETTERD</span><br>
-      ALS LEERKRACHT
-    </h1>
-
-    <p class="hero-subtitle">
-      Sint-Rembert bereidt je voor op de digitale toekomst. Leer hoe je AI verantwoord inzet in je klaslokaal. Deze cursus maakt je wegwijs in wat AI is, hoe je leerlingen begeleidt bij verantwoord gebruik, en wat onze schoolregels zeggen. Twee verplichte modules, één certificaat conform het Sint-Rembert beleidskader.
-    </p>
-
-    <div class="featured-grid">
-      <div class="featured-item">
-        <div class="featured-icon">✍️</div>
-        <div class="featured-number">2</div>
-        <div class="featured-label">VERPLICHTE<br>MODULES</div>
+    <!-- HERO SECTION -->
+    <main class="hero-section">
+      <div>
+        <span class="badge">🚀 AI-Geletterdheid Platform</span>
+        
+        <h1 class="hero-title">Word AI-geletterd als leerkracht</h1>
+        
+        <p class="hero-subtitle">
+          Leer hoe je Copilot en andere AI-tools verantwoord inzet in je onderwijs. Volledig aligned met het Sint-Rembert beleid.
+        </p>
       </div>
-      <div class="featured-item">
-        <div class="featured-icon">🚀</div>
-        <div class="featured-number">1</div>
-        <div class="featured-label">VERDIEPINGS<br>MODULE</div>
+      
+      <!-- FEATURES -->
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">📚</div>
+          <div class="feature-title">2 Modules</div>
+          <div class="feature-desc">Basiskennis + Praktijktoepassingen</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🎓</div>
+          <div class="feature-title">Certificaat</div>
+          <div class="feature-desc">Erkend bij afronding</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💡</div>
+          <div class="feature-title">5 Labeling Regels</div>
+          <div class="feature-desc">Sint-Rembert beleid</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⏱️</div>
+          <div class="feature-title">2-3 uur</div>
+          <div class="feature-desc">Eigen tempo</div>
+        </div>
       </div>
-      <div class="featured-item">
-        <div class="featured-icon">🏷️</div>
-        <div class="featured-number">5</div>
-        <div class="featured-label">AI-LABELS<br>ONTDEKKEN</div>
+      
+      <!-- BUTTONS -->
+      <div class="button-group">
+        <a href="teacher.html" class="btn btn-primary">Start Cursus →</a>
+        <button class="btn btn-secondary" onclick="openHelpdesk()">Vragen? 💬</button>
       </div>
-      <div class="featured-item">
-        <div class="featured-icon">🏆</div>
-        <div class="featured-number">1</div>
-        <div class="featured-label">CERTIFICAAT<br>WACHTEN</div>
+      
+      <!-- VISION -->
+      <div class="content-section">
+        <h2 class="section-title">🎯 Onze visie</h2>
+        <p class="vision-text">
+          Sint-Rembert zet in op <strong>verantwoord AI-gebruik</strong> in het onderwijs. AI is een ondersteunend hulpmiddel — nooit een vervanging van je professionele verantwoordelijkheid. We trainen zowel leerkrachten als leerlingen om kritisch, ethisch en veilig om te gaan met deze technologie.
+        </p>
       </div>
-    </div>
-
-    <div class="button-group">
-      <button class="btn btn-primary" onclick="window.location.href='teacher.html'">Start Cursus →</button>
-      <button class="btn btn-secondary" onclick="toggleHelpdesk()">Vragen? 💬</button>
-    </div>
-
-    <div class="vision-section">
-      <div class="vision-title">🎯 ONZE VISIE OP AI</div>
-      <div class="vision-text">
-        Sint-Rembert gelooft in <strong>AI als een kans</strong>, niet als een bedreiging. We helpen je zélf-zekerder en verantwoordelijker met AI om te gaan — en je leerlingen ook. Dit platform is je eerste stap.
+      
+      <!-- BELEIDSKADER COLLAPSIBLE -->
+      <div class="beleid-section">
+        <div class="beleid-header" onclick="toggleBeleid()">
+          <div class="beleid-title">
+            <span>🛡️ Sint-Rembert Beleidskader AI</span>
+          </div>
+          <div class="beleid-toggle" id="bToggle">⌄</div>
+        </div>
+        
+        <div class="beleid-content" id="bContent">
+          <div class="beleid-text">
+            <p><strong>Principes:</strong></p>
+            <ul>
+              <li><strong>De mens blijft centraal.</strong> AI ondersteunt, vervangt niet. Leerlingen blijven actief, niet passief.</li>
+              <li><strong>Meerwaarde is vereist.</strong> AI wordt enkel ingezet wanneer er een duidelijke pedagogische winst is.</li>
+              <li><strong>Transparantie & eigenaarschap.</strong> Wie AI gebruikt, blijft verantwoordelijk. Fouten moeten herkend en gecorrigeerd worden.</li>
+              <li><strong>Leeftijds- & ontwikkelingsgeschikt.</strong> AI-gebruik moet afgestemd zijn op leeftijd en maturiteit van leerlingen.</li>
+            </ul>
+            
+            <p style="margin-top: 20px;"><strong>Randvoorwaarden:</strong></p>
+            <ul>
+              <li><strong>Wet- en regelgeving:</strong> AVG, AI-verordening (EU AI Act), informatieveiligheid.</li>
+              <li><strong>Deskundigheid:</strong> Alle medewerkers die AI inzetten moeten AI-geletterd zijn.</li>
+              <li><strong>Privacy & veiligheid:</strong> Alleen goedgekeurde tools. Persoonsgegevens niet in publieke systemen.</li>
+              <li><strong>Kritisch denken:</strong> AI-onderwijs bevordert begrip, herkenning van fouten en ethische reflectie.</li>
+            </ul>
+            
+            <p style="margin-top: 20px;"><strong>Goedgekeurde AI-tools op Sint-Rembert:</strong></p>
+            <ul>
+              <li>🔵 Microsoft Copilot (primair)</li>
+              <li>✅ ChatGPT, Claude.ai, Google Gemini, Gamma.app, NotebookLM</li>
+              <li>📊 Bookwidgets AI</li>
+            </ul>
+            
+            <p style="margin-top: 20px;"><strong>Wat mag &amp; wat niet:</strong></p>
+            <ul>
+              <li>✅ <strong>AI gebruiken voor:</strong> Lesmateriaal, brainstormen, differentiatie, administratie, feedback</li>
+              <li>❌ <strong>Niet voor:</strong> Plagiaat, nepnieuws, manipulatie, ongecontroleerde datauitwisseling</li>
+              <li>🏷️ <strong>Leerlingen moeten vermelden:</strong> Welke AI-tool ze gebruikten en hun prompts toevoegen</li>
+            </ul>
+            
+            <p style="margin-top: 20px; font-style: italic; opacity: 0.85;">
+              📄 Dit is een samenvatting. Het volledige beleidskader vindt u bij de schoolleiding.
+            </p>
+          </div>
+        </div>
       </div>
-    </div>
+      
+      <!-- FOOTER -->
+      <footer>
+        <div style="margin-top: 20px;">
+          <strong>Over deze cursus</strong><br>
+          Sint-Rembert AI-geletterdheid cursus — Versie 3.0 (2026)<br>
+          Interactieve training voor leerkrachten secundair onderwijs<br>
+          <br>
+          <strong>Bronvermelding</strong><br>
+          E-licentie: AI-geletterdheid | E-AI | ISBN: 9789400241947<br>
+          Microsoft Responsible AI | EU AI Act (2024)<br>
+          Sint-Rembert Beleidskader Artificiële Intelligentie
+        </div>
+      </footer>
+    </main>
   </div>
-
+  
   <!-- HELPDESK WIDGET -->
-  <div class="helpdesk-widget" id="helpdeskWidget">
-    <div class="helpdesk-header">
-      <h4>💬 Hulp nodig?</h4>
-      <button class="close-btn" onclick="toggleHelpdesk()">×</button>
-    </div>
+  <div class="helpdesk-widget" id="helpWidget">
+    <div class="helpdesk-header">💬 Vragen? Contacteer ons</div>
     <div class="helpdesk-body">
-      <div class="bot-message">
-        <p>Hallo! 👋 Heb je een vraag over de AI-cursussen of Sint-Rembert beleidskader?</p>
-      </div>
-      <form id="helpForm" onsubmit="sendHelp(event)">
-        <textarea id="helpText" placeholder="Wat wil je weten?" required></textarea>
-        <input type="email" id="helpEmail" placeholder="Je email (optioneel)">
-        <button type="submit">Stuur vraag →</button>
-      </form>
-      <p style="font-size:11px; color:#666; margin-top:12px; text-align:center; line-height:1.4;">
-        Jouw bericht gaat naar:<br>
-        <strong>informaticadienst.pedagogisch@sint-rembert.be</strong>
-      </p>
+      <input type="email" id="helpEmail" placeholder="Je email">
+      <textarea id="helpMessage" placeholder="Je vraag of opmerking..."></textarea>
+      <button class="helpdesk-submit" onclick="submitHelp()">Verstuur →</button>
     </div>
   </div>
-
+  
   <!-- HELPDESK BUTTON -->
-  <button class="helpdesk-btn" onclick="toggleHelpdesk()" title="Help nodig?">💬</button>
-
+  <button class="helpdesk-btn" onclick="toggleHelpdesk()">💬</button>
+  
   <script>
-function toggleHelpdesk() {
-  const widget = document.getElementById('helpdeskWidget');
-  widget.classList.toggle('active');
-  if (widget.classList.contains('active')) {
-    setTimeout(() => {
-      document.getElementById('helpText').focus();
-    }, 100);
-  }
-}
-
-function sendHelp(event) {
-  event.preventDefault();
-  const message = document.getElementById('helpText').value.trim();
-  const email = document.getElementById('helpEmail').value.trim();
-  
-  if (!message) {
-    alert('Voer een vraag in!');
-    return;
-  }
-
-  const subject = encodeURIComponent('Vraag AI-Cursus Sint-Rembert');
-  const body = encodeURIComponent(
-    `Vraag/Opmerking:\n${message}\n\n` +
-    (email ? `Antwoord naar: ${email}\n` : 'Antwoord naar: (niet opgegeven)\n') +
-    `Datum: ${new Date().toLocaleString('nl-BE')}`
-  );
-  
-  const mailtoLink = `mailto:informaticadienst.pedagogisch@sint-rembert.be?subject=${subject}&body=${body}`;
-  window.location.href = mailtoLink;
-  
-  setTimeout(() => {
-    alert('✅ Je vraag is verstuurd!');
-    document.getElementById('helpForm').reset();
-    toggleHelpdesk();
-  }, 500);
-}
-
-function scrollToSection(id) {
-  const el = document.getElementById(id);
-  if (el) {
-    el.scrollIntoView({ behavior: 'smooth' });
-  }
-}
+    function openHelpdesk() {
+      document.getElementById('helpWidget').classList.add('open');
+    }
+    
+    function toggleHelpdesk() {
+      document.getElementById('helpWidget').classList.toggle('open');
+    }
+    
+    function toggleBeleid() {
+      const content = document.getElementById('bContent');
+      const toggle = document.getElementById('bToggle');
+      content.classList.toggle('open');
+      toggle.classList.toggle('open');
+    }
+    
+    function submitHelp() {
+      const email = document.getElementById('helpEmail').value;
+      const message = document.getElementById('helpMessage').value;
+      
+      if (!email || !message) {
+        alert('Vul alstublieft beide velden in.');
+        return;
+      }
+      
+      const subject = encodeURIComponent('Sint-Rembert AI Platform - Vraag');
+      const body = encodeURIComponent(`Naam/Email: ${email}\n\nVraag/Opmerking:\n${message}`);
+      
+      window.location.href = `mailto:informaticadienst.pedagogisch@sint-rembert.be?subject=${subject}&body=${body}`;
+      
+      document.getElementById('helpEmail').value = '';
+      document.getElementById('helpMessage').value = '';
+      document.getElementById('helpWidget').classList.remove('open');
+    }
   </script>
 </body>
 </html>
