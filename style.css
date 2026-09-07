@@ -2160,3 +2160,163 @@ button { font-family: inherit; cursor: pointer; border: none; }
 .lockNextButtons:disabled::after {
   display: none !important;
 }
+
+/* ════════════════════════════════════════════
+   HOMEPAGE — Principle Boxes
+   ════════════════════════════════════════════ */
+
+.principle-box {
+  background: white;
+  border: 2px solid var(--gray);
+  border-radius: var(--radius);
+  padding: 24px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.principle-box:hover {
+  border-color: var(--blue);
+  box-shadow: 0 8px 24px rgba(10, 31, 168, 0.1);
+  transform: translateY(-4px);
+}
+
+.pb-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.pb-title {
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--blue);
+  margin-bottom: 8px;
+}
+
+.pb-text {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ════════════════════════════════════════════
+   HOMEPAGE — Route Cards
+   ════════════════════════════════════════════ */
+
+.routes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.route-card {
+  background: white;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.route-card:hover {
+  box-shadow: 0 12px 32px rgba(0,0,0,0.15);
+  transform: translateY(-8px);
+}
+
+.rc-header {
+  padding: 28px 20px;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.teacher-route .rc-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.student-route .rc-header {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.rc-icon {
+  font-size: 40px;
+  flex-shrink: 0;
+}
+
+.rc-title {
+  font-weight: 700;
+  font-size: 14px;
+  opacity: 0.95;
+}
+
+.rc-body {
+  padding: 24px;
+  flex: 1;
+}
+
+.rc-body > p {
+  font-size: 14px;
+  color: var(--text);
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+
+.rc-list {
+  list-style: none;
+  margin-bottom: 16px;
+}
+
+.rc-list li {
+  font-size: 13px;
+  color: var(--muted);
+  padding: 6px 0;
+  line-height: 1.6;
+}
+
+.rc-list li::before {
+  content: "✓ ";
+  color: var(--green);
+  font-weight: 700;
+  margin-right: 6px;
+}
+
+.rc-time {
+  font-size: 12px;
+  color: var(--muted);
+  padding-top: 12px;
+  border-top: 1px solid var(--gray);
+  margin-top: 12px;
+  font-weight: 600;
+}
+
+.route-btn {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 13px;
+  margin-top: 16px;
+  transition: all 0.2s ease;
+  color: white;
+}
+
+.route-btn.teacher {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.route-btn.teacher:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.route-btn.student {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.route-btn.student:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(245, 87, 108, 0.3);
+}
