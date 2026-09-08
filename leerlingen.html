@@ -1,388 +1,802 @@
-// Sint-Rembert AI-Geletterdheid Cursus — LEERKRACHTEN COMPLETE VERSION
-// Version 3.0 Enhanced with Full PDF Export
-// ALL functions defined here - no missing references!
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI-Skills voor Leerlingen — Sint-Rembert</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+.quiz-q { background: white; padding: 14px; border-radius: 6px; margin: 12px 0; border-left: 4px solid var(--blue); }
+.quiz-opt { margin: 8px 0; cursor: pointer; padding: 8px; border-radius: 4px; }
+.quiz-opt:hover { background: #f0f2f5; }
+.quiz-opt input { margin-right: 6px; }
+.discussion { background: #fff9e6; padding: 16px; border-radius: 6px; border-left: 4px solid var(--orange); margin: 16px 0; }
+.video-box { background: #e6f3ff; padding: 14px; border-radius: 6px; margin: 12px 0; border-left: 4px solid #667eea; }
+.vrt-link { background: #ffe6f0; padding: 12px; border-radius: 6px; margin: 8px 0; }
+.oefening { background: #e6ffe6; padding: 14px; border-radius: 6px; margin: 12px 0; border-left: 4px solid var(--green); }
 
-const S = {
-  m1: false, m2: false, m3: false,
-  username: '',
-  storageKey: 'sr_leerkrachten_v3_complete',
-  answers: {}
-};
-
-// ════════════════════════════════════════════════════════
-// INITIALIZATION
-// ════════════════════════════════════════════════════════
-
-document.addEventListener('DOMContentLoaded', () => {
-  console.log('✓ Teacher script loaded');
-  loadState();
-  updateUI();
-  updateProgress();
-  
-  const un = document.getElementById('un');
-  if (un) {
-    un.disabled = false;
-    un.value = S.username || '';
-    un.addEventListener('change', sn);
-  }
-});
-
-// ════════════════════════════════════════════════════════
-// STATE MANAGEMENT
-// ════════════════════════════════════════════════════════
-
-function saveState() {
-  try {
-    localStorage.setItem(S.storageKey, JSON.stringify(S));
-  } catch(e) {
-    console.warn('⚠️ localStorage write failed:', e);
-  }
+/* PDF Export Styles */
+.pdf-hidden { display: none !important; }
+@media print {
+  .pdf-hidden { display: none !important; }
+  body { margin: 0; padding: 0; }
+  #sidebar { display: none; }
+  #main { margin: 0; width: 100%; }
+  .view { page-break-after: always; }
+  .mh { display: none; }
 }
 
-function loadState() {
-  try {
-    const saved = localStorage.getItem(S.storageKey);
-    if (saved) {
-      Object.assign(S, JSON.parse(saved));
-      console.log('✓ State loaded from localStorage');
-    }
-  } catch(e) {
-    console.warn('⚠️ localStorage read failed:', e);
-  }
+/* Certification Section */
+.cert-section { 
+  page-break-before: always; 
+  background: white;
+  padding: 40px;
+  text-align: center;
+  font-family: 'Nunito', sans-serif;
+  border: 3px solid var(--blue);
+  border-radius: 8px;
+  margin: 30px 0;
 }
 
-function sn() {
-  S.username = (document.getElementById('un')?.value || '').trim();
-  const av = document.getElementById('av');
-  if (av) av.textContent = S.username ? S.username.charAt(0).toUpperCase() : '?';
-  saveState();
-  updateUI();
+.answers-section {
+  page-break-before: always;
+  background: #f9f9f9;
+  padding: 30px;
+  margin: 20px 0;
+  border-radius: 8px;
 }
 
-// ════════════════════════════════════════════════════════
-// UI UPDATES
-// ════════════════════════════════════════════════════════
-
-function updateUI() {
-  const av = document.getElementById('av');
-  if (av) av.textContent = S.username ? S.username.charAt(0).toUpperCase() : '?';
-  
-  // Update badges
-  try {
-    if (!S.m1) document.getElementById('l1').textContent = '›';
-    if (S.m1 && !S.m2) document.getElementById('l2').textContent = '✓';
-    if (S.m2) document.getElementById('l3').textContent = '✓';
-    if (S.m1 && S.m2) document.getElementById('lc').textContent = '✓';
-  } catch(e) {
-    console.warn('⚠️ Badge update failed:', e);
-  }
-  
-  // Update nav items
-  try {
-    document.getElementById('nav-mod1').classList.remove('locked');
-    if (S.m1) document.getElementById('nav-mod2').classList.remove('locked');
-    if (S.m3) document.getElementById('nav-mod3').classList.remove('locked');
-    if (S.m1 && S.m2) document.getElementById('nav-cert').classList.remove('locked');
-  } catch(e) {
-    console.warn('⚠️ Nav update failed:', e);
-  }
+.answer-item {
+  background: white;
+  padding: 15px;
+  margin: 10px 0;
+  border-left: 4px solid var(--blue);
+  border-radius: 4px;
 }
 
-function updateProgress() {
-  try {
-    let done = 0;
-    if (S.m1) done++;
-    if (S.m2) done++;
-    const pct = Math.round((done / 2) * 100);
-    
-    const pb = document.getElementById('pb');
-    if (pb) pb.style.width = pct + '%';
-    
-    const pctEl = document.getElementById('pct');
-    if (pctEl) pctEl.textContent = pct + '%';
-    
-    const status = document.getElementById('st-status');
-    if (status) {
-      if (!S.m1 && !S.m2) {
-        status.textContent = 'Start Module 1';
-      } else if (S.m1 && !S.m2) {
-        status.textContent = 'Module 1 klaar, volg Module 2';
-      } else if (S.m1 && S.m2) {
-        status.textContent = 'Klaar! Download certificaat';
-      }
-    }
-  } catch(e) {
-    console.warn('⚠️ Progress update failed:', e);
-  }
+.answer-label {
+  font-weight: 700;
+  color: var(--blue);
+  margin-bottom: 5px;
+  font-size: 13px;
 }
 
-// ════════════════════════════════════════════════════════
-// NAVIGATION
-// ════════════════════════════════════════════════════════
-
-function sv(view) {
-  console.log('→ Navigating to:', view);
-  try {
-    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-    const viewEl = document.getElementById('view-' + view);
-    if (viewEl) {
-      viewEl.classList.add('active');
-    } else {
-      console.warn('⚠️ View not found:', 'view-' + view);
-    }
-    
-    if (view !== 'cert' && document.getElementById('cert-view')) {
-      document.getElementById('cert-view').style.display = 'none';
-    }
-  } catch(e) {
-    console.error('❌ Navigation error:', e);
-  }
+.answer-text {
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.5;
+  font-family: 'Courier New', monospace;
 }
+</style>
+</head>
+<body>
+<div id="app">
+<aside id="sidebar">
+  <div class="sb-logo">
+    <div class="sb-badge"><span>Sint-Rembert</span></div>
+    <div class="sb-title">AI-<em>Skills</em><br>Leerlingen</div>
+    <div class="sb-sub">Scholengroep Sint-Rembert · 2026-2027</div>
+  </div>
 
-function goHome() {
-  sv('home');
-}
+  <div class="nav-sec">
+    <div class="nav-lbl">Menu</div>
+    <div class="ni active" onclick="goHome()" id="nav-home"><div class="ni-icon">🏠</div><div class="ni-info"><div class="ni-title">Startpagina</div><div class="ni-sub">Welkom</div></div></div>
+  </div>
 
-function sm(mod) {
-  console.log('→ Module selected:', mod);
-  if (mod === 1 || (mod === 2 && S.m1) || mod === 3) {
-    sv('mod' + mod);
-  } else {
-    alert('⚠️ Voltooi eerst Module 1!');
-  }
-}
+  <div class="nav-sec">
+    <div class="nav-lbl">Modules</div>
+    <div class="ni available" onclick="sm(1)" id="nav-mod1"><div class="ni-icon">🤔</div><div class="ni-info"><div class="ni-title">M1: Wat is AI?</div></div><span class="ni-badge" id="l1">›</span></div>
+    <div class="ni locked" onclick="sm(2)" id="nav-mod2"><div class="ni-icon">⚙️</div><div class="ni-info"><div class="ni-title">M2: Hoe werkt AI?</div></div><span class="ni-badge" id="l2">🔒</span></div>
+    <div class="ni locked" onclick="sm(3)" id="nav-mod3"><div class="ni-icon">✨</div><div class="ni-info"><div class="ni-title">M3: Generatieve AI</div></div><span class="ni-badge" id="l3">🔒</span></div>
+    <div class="ni locked" onclick="sm(4)" id="nav-mod4"><div class="ni-icon">⚠️</div><div class="ni-info"><div class="ni-title">M4: Ethiek & Bias</div></div><span class="ni-badge" id="l4">🔒</span></div>
+    <div class="ni locked" onclick="sm(5)" id="nav-mod5"><div class="ni-icon">📚</div><div class="ni-info"><div class="ni-title">M5: AI in School</div></div><span class="ni-badge" id="l5">🔒</span></div>
+    <div class="ni locked" onclick="sm(6)" id="nav-mod6"><div class="ni-icon">🌍</div><div class="ni-info"><div class="ni-title">M6: AI in Maatschappij</div></div><span class="ni-badge" id="l6">🔒</span></div>
+    <div class="ni locked" onclick="tryC()" id="nav-cert"><div class="ni-icon">🏆</div><div class="ni-info"><div class="ni-title">Certificaat</div></div><span class="ni-badge" id="lc">🔒</span></div>
+  </div>
 
-function tryC() {
-  if (S.m1 && S.m2) {
-    showCertificate();
-  } else {
-    alert('⚠️ Voltooi eerst modules 1 & 2!');
-  }
-}
+  <div class="sb-bot">
+    <div class="uc">
+      <div class="av" id="av">?</div>
+      <div style="flex:1"><input class="un-inp" id="un" placeholder="Je naam" onchange="sn()"><div class="eh">Voortgang lokaal bijgehouden</div></div>
+    </div>
+  </div>
+</aside>
 
-// ════════════════════════════════════════════════════════
-// MODULE MANAGEMENT
-// ════════════════════════════════════════════════════════
+<main id="main">
 
-function completeModule(num) {
-  console.log('✓ Completing module:', num);
-  S['m' + num] = true;
-  saveState();
-  updateUI();
-  updateProgress();
-  alert('✅ Module ' + num + ' voltooid!');
-  sv('home');
-}
+<!-- HOME -->
+<div class="view active" id="view-home">
+  <div class="hero">
+    <div class="hero-ey">Sint-Rembert AI-Skills voor Leerlingen</div>
+    <h1 class="hero-h1">Leer AI <span class="g">echt begrijpen</span></h1>
+    <p class="hero-p">Je gebruikt ChatGPT misschien al. Maar weet je hoe het écht werkt? Deze 6 modules (gebaseerd op de EDUbox Artificiële Intelligentie) leren je AI van de grond op te begrijpen — en kritisch in te zetten. Na module 6 download je een certificaat met al je antwoorden!</p>
+    <div class="hero-stats">
+      <div class="hs"><div class="hs-num">6</div><div class="hs-lbl">Modules · Interactief</div></div>
+      <div class="hs"><div class="hs-num">📊</div><div class="hs-lbl">Met videos</div></div>
+      <div class="hs"><div class="hs-num">🎯</div><div class="hs-lbl">Praktisch</div></div>
+      <div class="hs"><div class="hs-num">🏆</div><div class="hs-lbl">1 Certificaat + Antwoorden</div></div>
+    </div>
+  </div>
 
-// ════════════════════════════════════════════════════════
-// ANSWER MANAGEMENT
-// ════════════════════════════════════════════════════════
-
-function saveAnswer(fieldId, type) {
-  let value = '';
-  
-  // Textarea
-  const textarea = document.getElementById(fieldId);
-  if (textarea) {
-    value = textarea.value;
-  }
-  
-  // Radio
-  const radio = document.querySelector(`input[name="${fieldId}"]:checked`);
-  if (radio) {
-    value = radio.value;
-  }
-  
-  S.answers[fieldId] = value;
-  saveState();
-  
-  // Feedback
-  const feedbackEl = document.getElementById('feedback_' + fieldId);
-  if (feedbackEl) {
-    feedbackEl.innerHTML = '✅ Opgeslagen!';
-    feedbackEl.style.color = 'green';
-    setTimeout(() => {
-      feedbackEl.innerHTML = '';
-    }, 2000);
-  }
-  
-  console.log('→ Answer saved:', fieldId, '=', value.substring(0, 30) + '...');
-}
-
-// Auto-save
-document.addEventListener('change', (e) => {
-  if (e.target.tagName === 'TEXTAREA') {
-    saveAnswer(e.target.id);
-  }
-  if (e.target.tagName === 'INPUT' && e.target.type === 'radio') {
-    saveAnswer(e.target.name);
-  }
-});
-
-// ════════════════════════════════════════════════════════
-// CERTIFICATE
-// ════════════════════════════════════════════════════════
-
-function showCertificate() {
-  console.log('→ Showing certificate');
-  try {
-    document.querySelectorAll('.view').forEach(v => v.style.display = 'none');
-    
-    const certView = document.getElementById('cert-view');
-    if (certView) {
-      certView.style.display = 'block';
-      document.getElementById('cert-name').textContent = S.username || 'Leerkracht';
-      document.getElementById('cert-date').textContent = new Date().toLocaleDateString('nl-NL', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      });
-    }
-  } catch(e) {
-    console.error('❌ Certificate error:', e);
-  }
-}
-
-// ════════════════════════════════════════════════════════
-// PDF EXPORT — MEGA FUNCTION
-// ════════════════════════════════════════════════════════
-
-function downloadCompletePDF() {
-  console.log('→ Downloading PDF');
-  
-  if (!S.username || !S.username.trim()) {
-    alert('⚠️ Vul eerst je naam in (linksboven in de zijbalk)!');
-    return;
-  }
-
-  if (!S.m1 || !S.m2) {
-    alert('⚠️ Voltooi eerst modules 1 & 2 voor het certificaat!');
-    return;
-  }
-
-  const allAnswers = S.answers || {};
-  
-  let htmlContent = `
-    <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6; max-width: 900px; margin: 0 auto;">
-      
-      <!-- CERTIFICATE PAGE -->
-      <div style="page-break-after: always; text-align: center; padding: 60px 40px; border: 3px solid #0066cc; border-radius: 8px; background: #f9f9f9; margin-bottom: 40px;">
-        <div style="font-size: 24px; margin-bottom: 20px;">🎉</div>
-        <h1 style="font-family: 'Arial Black', sans-serif; font-size: 36px; color: #0066cc; text-transform: uppercase; margin-bottom: 10px;">Certificaat</h1>
-        <h2 style="font-size: 24px; color: #0066cc; margin-bottom: 30px;">AI-Geletterdheid voor Leerkrachten</h2>
-        
-        <div style="border-top: 2px solid #0066cc; border-bottom: 2px solid #0066cc; padding: 30px 0; margin: 30px 0;">
-          <p style="font-size: 16px; color: #666; margin: 0 0 10px 0;">Dit certificaat bevestigt dat</p>
-          <p style="font-size: 28px; font-weight: bold; color: #0066cc; margin: 0 0 20px 0;">${S.username || 'Leerkracht'}</p>
-          <p style="font-size: 14px; color: #666; margin: 0;">de cursus <strong>AI-Spelregels & AI-Geletterdheid voor Leerkrachten</strong> succesvol heeft voltooid.</p>
-        </div>
-        
-        <div style="text-align: left; background: #e6f2ff; padding: 20px; border-radius: 6px; margin: 20px 0;">
-          <p style="font-weight: bold; margin-top: 0; color: #0066cc;">Verworven competenties:</p>
-          <ul style="margin: 10px 0; padding-left: 20px;">
-            <li>AI begrijpen & herkennen</li>
-            <li>Machine Learning & Deep Learning</li>
-            <li>EU AI Act (artikel 4) kennen</li>
-            <li>Leerlingen veilig begeleiden</li>
-            <li>AI-Spelregels toepassen</li>
-            <li>Verantwoord AI-gebruik</li>
-          </ul>
-        </div>
-        
-        <div style="margin: 30px 0; padding: 20px; background: white; border-left: 4px solid #0066cc;">
-          <div style="display: flex; justify-content: space-around; font-size: 13px;">
-            <div><strong>Datum</strong><br>${new Date().toLocaleDateString('nl-NL', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
-            <div><strong>Kader</strong><br>EU AI Act</div>
-            <div><strong>Geldigheid</strong><br>2 jaar</div>
-          </div>
-        </div>
-        
-        <p style="font-size: 12px; color: #999; margin-top: 40px; margin-bottom: 0;">Scholengroep Sint-Rembert · 2026-2027</p>
+  <div class="sw">
+    <div class="sw-title">6 <em>Modules</em> Over AI</div>
+    <div class="mods-grid">
+      <div class="mc" onclick="sm(1)">
+        <div class="mc-badge">Module 1 · Start</div>
+        <div class="mc-icon">🤔</div>
+        <div class="mc-title">Wat is AI?</div>
+        <div class="mc-desc">AI overal om je heen. De 3 elementen. Real-life voorbeelden.</div>
+        <button class="sr-btn g">▶ Start</button>
       </div>
-      
-      <!-- ANSWERS PAGE -->
-      <div style="padding: 40px; background: #f5f5f5;">
-        <h1 style="color: #0066cc; border-bottom: 3px solid #0066cc; padding-bottom: 10px;">📊 Je Antwoorden & Reflecties</h1>
-        
-        ${formatAnswersForPDF()}
+      <div class="mc" onclick="sm(2)">
+        <div class="mc-badge">Module 2</div>
+        <div class="mc-icon">⚙️</div>
+        <div class="mc-title">Hoe Werkt AI?</div>
+        <div class="mc-desc">Procedureel, Machine Learning, Deep Learning, Neurale Netwerken</div>
+        <button class="sr-btn">▶ Start</button>
+      </div>
+      <div class="mc" onclick="sm(3)">
+        <div class="mc-badge">Module 3</div>
+        <div class="mc-icon">✨</div>
+        <div class="mc-title">Generatieve AI</div>
+        <div class="mc-desc">ChatGPT, taalmodellen, prompts, AI-voorbeelden creëren</div>
+        <button class="sr-btn">▶ Start</button>
+      </div>
+      <div class="mc" onclick="sm(4)">
+        <div class="mc-badge">Module 4</div>
+        <div class="mc-icon">⚠️</div>
+        <div class="mc-title">Ethiek & Problemen</div>
+        <div class="mc-desc">Bias, energieverbruik, deepfakes, waarheid</div>
+        <button class="sr-btn">▶ Start</button>
+      </div>
+      <div class="mc" onclick="sm(5)">
+        <div class="mc-badge">Module 5</div>
+        <div class="mc-icon">📚</div>
+        <div class="mc-title">AI in School</div>
+        <div class="mc-desc">ChatGPT in huiswerk, regels, ethische afspraken</div>
+        <button class="sr-btn">▶ Start</button>
+      </div>
+      <div class="mc" onclick="sm(6)">
+        <div class="mc-badge">Module 6 · Slot</div>
+        <div class="mc-icon">🌍</div>
+        <div class="mc-title">AI in Maatschappij</div>
+        <div class="mc-desc">Banen, creativiteit, toekomst, reflectie</div>
+        <button class="sr-btn">▶ Start</button>
       </div>
     </div>
-  `;
+  </div>
+</div>
 
-  const element = document.createElement('div');
-  element.innerHTML = htmlContent;
-  
-  // Check if html2pdf available
-  if (typeof html2pdf !== 'undefined') {
-    const opt = {
-      margin: 10,
-      filename: `AI-Certificaat-Leerkracht-${S.username}-${new Date().getFullYear()}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' },
-      pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
-    };
+<!-- ════════════ MODULE 1: WAT IS AI? ════════════ -->
+<div class="view" id="view-mod1">
+  <div class="mh">
+    <button class="bk" onclick="sv('home')">← Terug</button>
+    <div class="mh-info"><div class="mh-num">Module 1 · Begin</div><div class="mh-title">Wat is AI?</div></div>
+    <div class="dots" id="sd1"></div>
+  </div>
+  <div class="mc-content" style="padding: 20px;">
+    <h2>🤔 Wat is Artificiële Intelligentie?</h2>
+    <p>Artificiële intelligentie, of kortweg AI, duikt tegenwoordig overal op. Het is een heel omvangrijk thema. Maar wat is AI precies? En welke principes zitten daarachter?</p>
 
-    html2pdf().set(opt).from(element).save();
-    console.log('✓ PDF generated');
-  } else {
-    console.warn('⚠️ html2pdf not available, using fallback');
-    downloadPDFFallback();
-  }
-}
+    <h3>AI is Overal Aanwezig</h3>
+    <p>Geloof het of niet, maar je komt voortdurend in contact met AI:</p>
+    <ul>
+      <li><strong>🗺️ Waze/Google Maps</strong> — routeplanning & verkeerspatronen</li>
+      <li><strong>📱 Instagram & TikTok</strong> — welke posts zie jij op je feed? AI beslist!</li>
+      <li><strong>🎬 Netflix & Spotify</strong> — welke serie of nummer volgende?</li>
+      <li><strong>🎵 YouTube</strong> — welke video's eerst? AI rangschikt alles.</li>
+      <li><strong>📧 Gmail</strong> — spam-filter (97% accuracy met AI)</li>
+      <li><strong>🎮 Gaming</strong> — tegenstanders in games zijn vaak AI-gestuurd</li>
+    </ul>
 
-function formatAnswersForPDF() {
-  let html = '';
-  const allAnswers = S.answers || {};
-  
-  Object.keys(allAnswers).forEach(key => {
-    const answer = allAnswers[key];
-    if (!answer) return;
-    
-    html += `
-      <div style="background: white; padding: 15px; margin: 15px 0; border-left: 4px solid #0066cc; border-radius: 4px;">
-        <p style="margin: 0; font-weight: bold; color: #0066cc;">${key}</p>
-        <p style="margin: 8px 0 0 0; color: #333; white-space: pre-wrap; font-family: Courier New, monospace; font-size: 12px;">
-          ${answer.substring(0, 200)}${answer.length > 200 ? '...' : ''}
-        </p>
+    <div class="oefening">
+      <strong>💭 Oefening 1.1:</strong> Welke apps/websites gebruik JIJ waar je denkt dat AI een rol speelt? Schrijf er 5 op. Bedenk ook: hoe zou AI daar helpen?
+      <textarea id="ans1_1" style="width:100%;height:80px;margin-top:10px;padding:8px;border:1px solid #ddd;border-radius:4px;font-family:Arial;font-size:13px;" placeholder="Typ je antwoord..."></textarea>
+    </div>
+
+    <div class="video-box">
+      <strong>📹 Video 1:</strong> "AI overal om ons heen" (5 min) — <a href="https://www.youtube.com/embed/0JCqlbssqIQ" target="_blank">Bekijk op YouTube</a>
+    </div>
+
+    <h3>De 3 Essentiële Elementen van AI</h3>
+    <p><strong>AI bestaat uit 3 dingen:</strong></p>
+    <div style="background: #f0f2f5; padding: 14px; border-radius: 6px; margin: 12px 0;">
+      <strong>1️⃣ Een sterk computersysteem</strong><br>
+      Met de nodige software en hardware. Dit zijn gigantische servers, miljarden berekeningen per seconde.
+    </div>
+    <div style="background: #f0f2f5; padding: 14px; border-radius: 6px; margin: 12px 0;">
+      <strong>2️⃣ HEEL VEEL Data</strong><br>
+      Hoe meer data, hoe beter AI patronen vindt. Denk: miljarden foto's, woorden, zinnen, etc. Meer data = betere AI.
+    </div>
+    <div style="background: #f0f2f5; padding: 14px; border-radius: 6px; margin: 12px 0;">
+      <strong>3️⃣ Algoritmes (Wiskundige formules)</strong><br>
+      Die patronen herkennen en op nieuwe data toepassen. De "hersenen" van AI.
+    </div>
+
+    <div class="quiz-q">
+      <strong>❓ Quiz vraag 1.1:</strong> ChatGPT kan zo goed schrijven omdat het:<br>
+      <div class="quiz-opt"><input type="radio" name="q1_1" value="a"> Miljarden tekstvoorbeelden heeft gelezen en patronen herkend</div>
+      <div class="quiz-opt"><input type="radio" name="q1_1" value="b"> Zelf kan denken zoals mensen</div>
+      <div class="quiz-opt"><input type="radio" name="q1_1" value="c"> Verbonden is met het internet</div>
+      <div style="margin-top:10px;">
+        <button onclick="saveAnswer('q1_1', 'quiz')" class="sr-btn g" style="font-size:12px;">Opslaan</button>
+        <span id="feedback1_1" style="margin-left:10px;"></span>
       </div>
-    `;
-  });
-  
-  return html || '<p style="color: #999;">Geen antwoorden opgeslagen.</p>';
-}
+    </div>
 
-function downloadPDFFallback() {
-  let text = `
-════════════════════════════════════════════════════════
-CERTIFICAAT — AI-GELETTERDHEID VOOR LEERKRACHTEN
-SCHOLENGROEP SINT-REMBERT
-════════════════════════════════════════════════════════
+    <h3>Machine Learning: Hoe Leert AI?</h3>
+    <p>Stel: je geeft AI <strong>duizenden foto's van katten</strong> en <strong>duizenden foto's van honden</strong>. AI analyzeert en zoekt patronen:</p>
+    <ul>
+      <li><strong>Katten:</strong> puntige oren, ronde ogen, snorren, buigende lichaam</li>
+      <li><strong>Honden:</strong> flaporen, andere oogstand, geen snorren, ander lichaam</li>
+    </ul>
+    <p>Daarna kun je een NIEUWE foto tonen. AI zegt: "Dit is met 95% zekerheid een kat."</p>
+    <p><strong>Dit heet Machine Learning:</strong> AI leert door voorbeelden, niet door programmeren!</p>
 
-Leerkracht: ${S.username}
-Datum: ${new Date().toLocaleDateString('nl-NL')}
+    <div class="discussion">
+      <strong>💬 Discussie:</strong><br>
+      "AI werkt met statistiek en patronen, niet met begrijpen."<br>
+      → Klopt dat? Wat is het verschil tussen herkennen en begrijpen?
+    </div>
 
-JE ANTWOORDEN:
-`;
-  
-  Object.keys(S.answers || {}).forEach(key => {
-    text += `\n${key}:\n${S.answers[key]}\n`;
-  });
-  
-  const blob = new Blob([text], { type: 'text/plain' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `AI-Certificaat-Leerkracht-${S.username}-${new Date().getFullYear()}.txt`;
-  a.click();
-  URL.revokeObjectURL(url);
-  console.log('✓ TXT fallback downloaded');
-}
+    <h3>Verschillende Soorten AI</h3>
+    <div style="background: #fff0e6; padding: 14px; border-radius: 6px; margin: 12px 0;">
+      <strong>1. Narrow AI (Beperkte AI)</strong><br>
+      Kan ÉÉN ding heel goed: fotos sorteren, schaken, taalherkenning. ChatGPT is narrow AI (alleen taal).
+    </div>
+    <div style="background: #fff0e6; padding: 14px; border-radius: 6px; margin: 12px 0;">
+      <strong>2. General AI (Sterke AI)</strong><br>
+      Zou alles kunnen (net als mensen). BESTAAT NOG NIET. Experts denken misschien over 10-50 jaar.
+    </div>
+    <div style="background: #fff0e6; padding: 14px; border-radius: 6px; margin: 12px 0;">
+      <strong>3. Super AI (ASI)</strong><br>
+      Slimmer dan alle mensen samen. Science fiction moment, niemand weet of het bestaat.
+    </div>
 
-// ════════════════════════════════════════════════════════
-// FINAL CHECKS
-// ════════════════════════════════════════════════════════
+    <div class="quiz-q">
+      <strong>❓ Quiz vraag 1.2:</strong> ChatGPT is een voorbeeld van:<br>
+      <div class="quiz-opt"><input type="radio" name="q1_2" value="a"> Narrow AI (specialisatie)</div>
+      <div class="quiz-opt"><input type="radio" name="q1_2" value="b"> General AI (alles kan)</div>
+      <div class="quiz-opt"><input type="radio" name="q1_2" value="c"> Super AI</div>
+      <div style="margin-top:10px;">
+        <button onclick="saveAnswer('q1_2', 'quiz')" class="sr-btn g" style="font-size:12px;">Opslaan</button>
+        <span id="feedback1_2" style="margin-left:10px;"></span>
+      </div>
+    </div>
 
-console.log('✓ All functions defined');
-console.log('✓ Teacher.js ready');
+    <h3>Reflectie: Wat Verbaast Je Meest?</h3>
+    <div class="oefening">
+      <strong>✏️ Reflectie 1:</strong> Wat verbaast je het meest aan AI? Wat vind je eng? Wat cool?
+      <textarea id="ans1_ref" style="width:100%;height:80px;margin-top:10px;padding:8px;border:1px solid #ddd;border-radius:4px;font-family:Arial;font-size:13px;" placeholder="Typ je gedachten..."></textarea>
+    </div>
+
+    <button class="sr-btn g" onclick="completeModule(1)" style="margin-top: 20px;">✅ Module 1 Voltooid</button>
+  </div>
+</div>
+
+<!-- ════════════ MODULE 2: HOE WERKT AI? ════════════ -->
+<div class="view" id="view-mod2">
+  <div class="mh">
+    <button class="bk" onclick="sv('home')">← Terug</button>
+    <div class="mh-info"><div class="mh-num">Module 2</div><div class="mh-title">Hoe Werkt AI?</div></div>
+    <div class="dots" id="sd2"></div>
+  </div>
+  <div class="mc-content" style="padding: 20px;">
+    <h2>⚙️ Hoe Werkt Artificiële Intelligentie Dieper?</h2>
+    <p>Nu je weet wat AI is, gaan we dieper in op HOE het werkt. Bereid je voor op neuralen netwerken, deep learning, en coole voorbeelden!</p>
+
+    <h3>Stap 1: Procedurele AI (Het Simpel Begin)</h3>
+    <p>Simpele regels op basis van IF-THEN:</p>
+    <div style="background: #e8f4f8; padding: 12px; border-radius: 6px; margin: 10px 0; font-family: monospace; font-size: 12px;">
+      IF temperatuur &lt; 0°C → THEN rood waarschuwing<br>
+      IF batterij &lt; 20% → THEN "laag" tonen<br>
+      IF spam_score &gt; 0.9 → THEN move naar spam folder
+    </div>
+    <p>Dit werkt, maar is niet echt "intelligent" — het is gewoon programming.</p>
+
+    <h3>Stap 2: Machine Learning (AI Leert)</h3>
+    <p>In plaats van regels schrijven, laat je AI zelf patronen zoeken in data.</p>
+    <p><strong>Voorbeeld:</strong> Je hebt 10.000 e-mails (spam of niet). Je geeft AI die data:</p>
+    <ul>
+      <li>Woorden als "GRATIS", "winnen", "klik hier" = waarschijnlijk spam</li>
+      <li>Woorden als "vergadering", "rapport", je naam = waarschijnlijk legit</li>
+    </ul>
+    <p>AI creëert een model met <strong>gewichten</strong>: hoe zwaar tellen bepaalde woorden mee?</p>
+
+    <div class="video-box">
+      <strong>📹 Video 2:</strong> "Machine Learning Simpel Uitgelegd" (8 min) — <a href="https://www.youtube.com/embed/7R52wiUgxZI" target="_blank">Bekijk</a>
+    </div>
+
+    <h3>Stap 3: Deep Learning & Neurale Netwerken</h3>
+    <p>Machine Learning is cool, maar soms niet genoeg. <strong>Deep Learning</strong> gebruikt "neurale netwerken" — losjes gemodelleerd naar je brein!</p>
+    <p>Neurale netwerken hebben meerdere lagen:</p>
+    <ul>
+      <li><strong>Input laag:</strong> Foto van 784 pixels (28×28) gaat erin</li>
+      <li><strong>Verborgen lagen:</strong> 5, 10, 100+ lagen die patronen zoeken</li>
+      <li><strong>Output laag:</strong> Ja/nee, getal, of label (bijv. "kat" of "hond")</li>
+    </ul>
+    <p>Hoe meer lagen, hoe meer details het kan leren (daarom "deep" learning).</p>
+
+    <div class="quiz-q">
+      <strong>❓ Quiz vraag 2.1:</strong> ChatGPT en afbeeldingen-AI gebruiken waarschijnlijk:<br>
+      <div class="quiz-opt"><input type="radio" name="q2_1" value="a"> Simpele IF-THEN regels</div>
+      <div class="quiz-opt"><input type="radio" name="q2_1" value="b"> Machine Learning</div>
+      <div class="quiz-opt"><input type="radio" name="q2_1" value="c"> Deep Learning met neurale netwerken</div>
+      <div style="margin-top:10px;">
+        <button onclick="saveAnswer('q2_1', 'quiz')" class="sr-btn g" style="font-size:12px;">Opslaan</button>
+        <span id="feedback2_1" style="margin-left:10px;"></span>
+      </div>
+    </div>
+
+    <h3>Hoe Leren Neurale Netwerken?</h3>
+    <p><strong>Backpropagation:</strong> Als AI fout maakt:</p>
+    <ol>
+      <li>AI maakt gok: "Dit is een kat"</li>
+      <li>Fout! Het was een hond.</li>
+      <li>AI past gewichten aan: "Ik maak die fout niet meer"</li>
+      <li>Repeat miljoen keer</li>
+    </ol>
+    <p>Het is echt "leren door fouten maken"! Net als jij op school.</p>
+
+    <div class="oefening">
+      <strong>💭 Oefening 2.1:</strong> Stel je hebt een AI-model dat gezichten herkent. Welke data zou je nodig hebben om het goed te trainen? (Hoeveel foto's? Wat voor gezichten?)
+      <textarea id="ans2_1" style="width:100%;height:80px;margin-top:10px;padding:8px;border:1px solid #ddd;border-radius:4px;" placeholder="Typ je antwoord..."></textarea>
+    </div>
+
+    <h3>Transformers & Taalmodellen</h3>
+    <p>ChatGPT gebruikt een speciale soort neuraal netwerk genaamd "Transformer". Dit werkt goed voor taal:</p>
+    <ul>
+      <li>Ziet woorden in context (wat komen voor/na?)</li>
+      <li>Leert samenhang tussen zinnen</li>
+      <li>Kan hele paragrafen uit het hoofd genereren</li>
+    </ul>
+    <p><strong>Interessant feit:</strong> ChatGPT is getraind op ongeveer <strong>300 miljard woorden</strong>! Dat is het hele internet (min. privé data).</p>
+
+    <div class="discussion">
+      <strong>💬 Discussie:</strong><br>
+      "ChatGPT kan zo goed schrijven dat het bijna intelligent lijkt. Maar is het echt denken of alleen patronen voorspellen?"<br>
+      → Wat denk JIJ? Waar zit het verschil?
+    </div>
+
+    <h3>Reflectie: Hoe Sterk is AI?</h3>
+    <div class="oefening">
+      <strong>✏️ Reflectie 2:</strong> Nu je weet HOE AI werkt, leek het je eerder magisch of logisch? Waar voel jij je zekerder/onzekerder?
+      <textarea id="ans2_ref" style="width:100%;height:80px;margin-top:10px;padding:8px;border:1px solid #ddd;border-radius:4px;" placeholder="Typ je gedachten..."></textarea>
+    </div>
+
+    <button class="sr-btn g" onclick="completeModule(2)" style="margin-top: 20px;">✅ Module 2 Voltooid</button>
+  </div>
+</div>
+
+<!-- ════════════ MODULE 3: GENERATIEVE AI ════════════ -->
+<div class="view" id="view-mod3">
+  <div class="mh">
+    <button class="bk" onclick="sv('home')">← Terug</button>
+    <div class="mh-info"><div class="mh-num">Module 3</div><div class="mh-title">Generatieve AI</div></div>
+    <div class="dots" id="sd3"></div>
+  </div>
+  <div class="mc-content" style="padding: 20px;">
+    <h2>✨ Generatieve AI: ChatGPT, DALL-E, Copilot</h2>
+    <p>Dit is het gloednieuwe spul! Generatieve AI maakt iets NIEUWS: tekst, afbeeldingen, code, muziek.</p>
+
+    <h3>Wat is Generatief?</h3>
+    <p><strong>Generatief</strong> = "het maakt nieuw spul"</p>
+    <ul>
+      <li><strong>✅ Generatief:</strong> ChatGPT schrijft een essay, DALL-E tekent een nieuwe afbeelding</li>
+      <li><strong>❌ Niet generatief:</strong> Gmail spam-filter beoordeelt e-mail (classificatie, geen creatie)</li>
+    </ul>
+
+    <h3>ChatGPT: Hoe Genereert Het Tekst?</h3>
+    <p>ChatGPT werkt woordje-voor-woordje:</p>
+    <ol>
+      <li>Jij: "Schrijf een gedicht over sneeuw"</li>
+      <li>AI denkt: "Sneeuw → winter → koud → wit → prachtig"</li>
+      <li>AI genereert woord 1: "Witte"</li>
+      <li>AI genereert woord 2: "vlokken"</li>
+      <li>Repeat totdat het klaar voelt</li>
+    </ol>
+    <p>Het voorbereidt letterlijk het volgende beste woord, gebaseerd op miljarden voorbeelden!</p>
+
+    <div class="video-box">
+      <strong>📹 Video 3A:</strong> "ChatGPT Uitgelegd" (7 min) — <a href="https://www.youtube.com/embed/JfIgo1hLaFI" target="_blank">Bekijk</a>
+    </div>
+
+    <h3>De Kunst van Prompting: Hoe Vraag Je Het Goed?</h3>
+    <p>ChatGPT is alleen zo goed als je vraag. <strong>Prompting</strong> = het stellen van de juiste vraag op de juiste manier.</p>
+
+    <div style="background: #fff3e0; padding: 12px; border-radius: 6px; margin: 10px 0;">
+      <strong>❌ Slechte prompt:</strong> "Schrijf iets over AI"<br><br>
+      <strong>✅ Goede prompt:</strong> "Schrijf een korte samenvatting (150 woorden) over hoe ChatGPT werkt, voor leerlingen van 13 jaar. Gebruik duidelijke voorbeelden en geen moeilijke vakwoorden."
+    </div>
+
+    <p><strong>Prompting-trucs:</strong></p>
+    <ul>
+      <li>Wees specifiek (niet "iets", maar "dit")</li>
+      <li>Zeg de lengte (kort, 500 woorden, één zin)</li>
+      <li>Geef context (voor wie? voor welk vak?)</li>
+      <li>Geef voorbeelden (show, don't tell)</li>
+      <li>Zeg wat je NIET wilt</li>
+    </ul>
+
+    <div class="oefening">
+      <strong>💭 Oefening 3.1:</strong> Verzin 2 prompts: 1 slechte, 1 goede. Waar zitten de verschillen?
+      <textarea id="ans3_1" style="width:100%;height:100px;margin-top:10px;padding:8px;border:1px solid #ddd;border-radius:4px;" placeholder="Slechte prompt: ...\n\nGoede prompt: ..."></textarea>
+    </div>
+
+    <h3>DALL-E, Midjourney, Stable Diffusion: AI maakt Afbeeldingen</h3>
+    <p>Net als ChatGPT werkt afbeeldings-AI, maar dan "achteruit":</p>
+    <ul>
+      <li>Je zegt: "Een cyberpunk-stad met neonlichten"</li>
+      <li>AI zet dat om in cijfers/vectoren</li>
+      <li>AI genereert pixel voor pixel een afbeelding</li>
+    </ul>
+    <p><strong>Super belangrijk:</strong> Die afbeeldingen zijn NIEUW, niet gekopieerd. Maar waar leerde AI dat "cyberpunk" eruit ziet? Uit duizenden bestaande afbeeldingen online!</p>
+
+    <div class="discussion">
+      <strong>💬 Discussie:</strong><br>
+      "DALL-E maakt nieuwe afbeeldingen. Maar is dat kunst? Of is het alleen 'menging' van bestaande kunst?"<br>
+      → Wie is de kunstenaar? De programmeur? Jij die de prompt schrijft? AI?
+    </div>
+
+    <h3>Risico's van Generatieve AI</h3>
+    <div style="background: #ffe6e6; padding: 12px; border-radius: 6px; margin: 10px 0;">
+      <strong>⚠️ Hallucinaties:</strong> ChatGPT verzint soms dingen! "Wetenschapper X vond dit in 2019" → FOUT. AI gokt en klinkt zeker.
+    </div>
+    <div style="background: #ffe6e6; padding: 12px; border-radius: 6px; margin: 10px 0;">
+      <strong>⚠️ Plagiaat:</strong> AI is getraind op miljarden tekstjes online. Soms herhaalt het woord-voor-woord.
+    </div>
+    <div style="background: #ffe6e6; padding: 12px; border-radius: 6px; margin: 10px 0;">
+      <strong>⚠️ Bias:</strong> Als trainings-data vooroordelen bevat (bijv. vrouwen = huisvrouw), leert AI die ook.
+    </div>
+
+    <div class="quiz-q">
+      <strong>❓ Quiz vraag 3.1:</strong> Wat is het grootste risico van ChatGPT gebruiken voor huiswerk?<br>
+      <div class="quiz-opt"><input type="radio" name="q3_1" value="a"> Het werkt niet goed</div>
+      <div class="quiz-opt"><input type="radio" name="q3_1" value="b"> Het kan hallucinaties bevatten en je het niet door hebt</div>
+      <div class="quiz-opt"><input type="radio" name="q3_1" value="c"> Het is illegaal</div>
+      <div style="margin-top:10px;">
+        <button onclick="saveAnswer('q3_1', 'quiz')" class="sr-btn g" style="font-size:12px;">Opslaan</button>
+        <span id="feedback3_1" style="margin-left:10px;"></span>
+      </div>
+    </div>
+
+    <h3>Reflectie: Voelen van AI</h3>
+    <div class="oefening">
+      <strong>✏️ Reflectie 3:</strong> Hoe voelt het om met generatieve AI te werken? Voelt het als samenwerking met een collega of als sjoemelgereedschap?
+      <textarea id="ans3_ref" style="width:100%;height:80px;margin-top:10px;padding:8px;border:1px solid #ddd;border-radius:4px;" placeholder="Typ je gedachten..."></textarea>
+    </div>
+
+    <button class="sr-btn g" onclick="completeModule(3)" style="margin-top: 20px;">✅ Module 3 Voltooid</button>
+  </div>
+</div>
+
+<!-- ════════════ MODULE 4: ETHIEK & BIAS ════════════ -->
+<div class="view" id="view-mod4">
+  <div class="mh">
+    <button class="bk" onclick="sv('home')">← Terug</button>
+    <div class="mh-info"><div class="mh-num">Module 4</div><div class="mh-title">Ethiek & Problemen</div></div>
+    <div class="dots" id="sd4"></div>
+  </div>
+  <div class="mc-content" style="padding: 20px;">
+    <h2>⚠️ Ethiek, Bias, Deepfakes: De Donkere Kant van AI</h2>
+    <p>AI is tof, maar niet alles is rozengeur en maneschijn. Er zijn echt problemen die we moeten begrijpen.</p>
+
+    <h3>Bias: AI Discrimineert Zonder Het Te Weten</h3>
+    <p><strong>Voorbeeld:</strong> Een bedrijf maakt AI om CV's te sorteren (wie wordt aangenomen?)</p>
+    <p>Het probleem: de trainings-data bevat historisch veel meer mannen in technische rollen. AI leert:</p>
+    <ul>
+      <li>"Java programmeur" → waarschijnlijk man → score: +++ </li>
+      <li>"Vrouw in IT" → zeldzaam in data → score: --</li>
+    </ul>
+    <p>Resultaat? De AI discrimineert vrouwen! Zonder boosheid, gewoon statistiek.</p>
+
+    <div class="discussion">
+      <strong>💬 Discussie:</strong><br>
+      Wie is schuldig? De programmeur? De data? De bedrijf? Hoe voorkomen we dit?
+    </div>
+
+    <h3>Deepfakes: Nepvideo's van Jezelf</h3>
+    <p>AI kan nu video's van jezelf maken terwijl je zelf geen speech gaf! Deepfakes gebruiken deep learning.</p>
+    <p><strong>Angsten:</strong></p>
+    <ul>
+      <li>Valse verkiezingen-video's (politicus zegt iets dat hij nooit zei)</li>
+      <li>Nepintimatie (naaktfoto's van mensen die niet bestaan)</li>
+      <li>Fraude (video van jou die geld overboekt?)</li>
+    </ul>
+
+    <div class="video-box">
+      <strong>📹 Video 4A:</strong> "Deepfakes Verklaard" (6 min) — <a href="https://www.youtube.com/embed/pplTSQvfKe8" target="_blank">Bekijk</a>
+    </div>
+
+    <h3>Energie & Milieu: Het Verborgen Probleem</h3>
+    <p>ChatGPT trainen kostte <strong>miljoen kWh elektriciteit</strong>. Dat is het verbruik van 100 huizen per jaar!</p>
+    <p>Elke keer dat je ChatGPT gebruikt, kost het energie.</p>
+    <div style="background: #fff0e6; padding: 12px; border-radius: 6px; margin: 10px 0;">
+      <strong>☁️ Feit:</strong> AI-trainingen produceren meer CO2 dan een auto-trip naar Amerika.<br>
+      → Is dat gelijk aan voordelen? Moeilijk...
+    </div>
+
+    <h3>Privacy: Ze Slaan Alles Op</h3>
+    <p>Wanneer je ChatGPT gebruikt:</p>
+    <ul>
+      <li>Je prompt wordt opgeslagen (in Cloud)</li>
+      <li>OpenAI ziet wat je vraagt (is dat OK?)</li>
+      <li>Medische gegevens, huiswerkvragen, alles wordt opgeslagen</li>
+    </ul>
+    <p><strong>⚠️ BELANGRIJK:</strong> Nooit je echte naam, adres, of gevoelige info in ChatGPT geven!</p>
+
+    <div class="oefening">
+      <strong>💭 Oefening 4.1:</strong> Stel je logt in op ChatGPT. Welke informatie zou jij NIET willen dat OpenAI weet?
+      <textarea id="ans4_1" style="width:100%;height:80px;margin-top:10px;padding:8px;border:1px solid #ddd;border-radius:4px;" placeholder="Typ je antwoord..."></textarea>
+    </div>
+
+    <h3>Werkloosheid & Economie</h3>
+    <p><strong>De angst:</strong> "AI gaat mijn baan stelen!"</p>
+    <div style="background: #e6f3ff; padding: 12px; border-radius: 6px; margin: 10px 0;">
+      <strong>Realiteit:</strong> Banen die REPETITIEF zijn (copypaste, standaard e-mails) verdwijnen sneller. Banen die CREATIEF/MENSELIJK zijn (arts, leraar, kunstenaar) blijven bestaan. Veel zal verschuiven, niet verdwijnen.
+    </div>
+
+    <div class="quiz-q">
+      <strong>❓ Quiz vraag 4.1:</strong> Wat is het grootste ethische probleem van AI in jouw ogen?<br>
+      <div class="quiz-opt"><input type="radio" name="q4_1" value="a"> Bias & discriminatie</div>
+      <div class="quiz-opt"><input type="radio" name="q4_1" value="b"> Privacy & data-opslag</div>
+      <div class="quiz-opt"><input type="radio" name="q4_1" value="c"> Werkloosheid</div>
+      <div class="quiz-opt"><input type="radio" name="q4_1" value="d"> Deepfakes & desinformatie</div>
+      <div style="margin-top:10px;">
+        <button onclick="saveAnswer('q4_1', 'quiz')" class="sr-btn g" style="font-size:12px;">Opslaan</button>
+        <span id="feedback4_1" style="margin-left:10px;"></span>
+      </div>
+    </div>
+
+    <h3>Reflectie: Waar Trek Jij de Grens?</h3>
+    <div class="oefening">
+      <strong>✏️ Reflectie 4:</strong> AI is technologie, niet goed of fout van nature. Waar zou JIJ regels willen stellen?
+      <textarea id="ans4_ref" style="width:100%;height:80px;margin-top:10px;padding:8px;border:1px solid #ddd;border-radius:4px;" placeholder="Bijvoorbeeld: AI mag niet gebruiken voor..."></textarea>
+    </div>
+
+    <button class="sr-btn g" onclick="completeModule(4)" style="margin-top: 20px;">✅ Module 4 Voltooid</button>
+  </div>
+</div>
+
+<!-- ════════════ MODULE 5: AI IN SCHOOL ════════════ -->
+<div class="view" id="view-mod5">
+  <div class="mh">
+    <button class="bk" onclick="sv('home')">← Terug</button>
+    <div class="mh-info"><div class="mh-num">Module 5</div><div class="mh-title">AI in School</div></div>
+    <div class="dots" id="sd5"></div>
+  </div>
+  <div class="mc-content" style="padding: 20px;">
+    <h2>📚 AI in School: Hoe Ga Je Ermee Om?</h2>
+    <p>AI verandert onderwijs nu. Hoe kunnen leerlingen en leerkrachten ermee omgaan? Eerlijk en slim?</p>
+
+    <h3>ChatGPT voor Huiswerk: Mag Dat?</h3>
+    <div style="background: #e6ffe6; padding: 12px; border-radius: 6px; margin: 10px 0;">
+      <strong>✅ Mag wel:</strong><br>
+      • ChatGPT gebruiken om een moeilijk concept uit te leggen<br>
+      • Hulp vragen bij brainstormen (ideëen verzamelen)<br>
+      • Feedback krijgen op JOUW eigen essay<br>
+      • Andere mogelijkheden ontdekken
+    </div>
+
+    <div style="background: #ffe6e6; padding: 12px; border-radius: 6px; margin: 10px 0;">
+      <strong>❌ Mag niet (plagiaat!):</strong><br>
+      • ChatGPT-essay direct inleveren als je eigen werk<br>
+      • ChatGPT-antwoord copypaste in toets (cheaten)<br>
+      • Zeggen dat JIJ iets hebt geschreven terwijl AI het deed<br>
+      • ChatGPT gebruiken als je leraar zegt "geen AI"
+    </div>
+
+    <div class="oefening">
+      <strong>💭 Oefening 5.1:</strong> Zijn deze situaties OK of niet? Leg uit WHY:<br>
+      1. Je vraagt ChatGPT om structuur voor je essay<br>
+      2. Je laat ChatGPT een essay schrijven en vult je naam in<br>
+      3. Je vraagt ChatGPT om moeilijke woorden uit te leggen<br>
+      4. Je kopieert ChatGPT-output in je toets zonder het aan te geven
+      <textarea id="ans5_1" style="width:100%;height:100px;margin-top:10px;padding:8px;border:1px solid #ddd;border-radius:4px;" placeholder="Typ je antwoorden..."></textarea>
+    </div>
+
+    <h3>Sint-Rembert AI-Charter</h3>
+    <p>Elke klas gaat met AI-afspraken werken. Dit heet een <strong>charter</strong>. Mogelijke regels:</p>
+    <ul>
+      <li>🎯 <strong>Zeg ALTIJD wanneer je AI gebruikt</strong> (in commentaar of voetnoot)</li>
+      <li>🛠️ <strong>AI is een hulpmiddel, niet vervanging</strong> van je eigen denken</li>
+      <li>⚖️ <strong>Je bent verantwoordelijk</strong> voor wat AI oplevert</li>
+      <li>🤔 <strong>Je moet begrijpen</strong> wat AI maakt (niet blind vertrouwen)</li>
+      <li>📝 <strong>Delen van AI-output mag, heel kopieëren niet</strong></li>
+    </ul>
+
+    <div class="discussion">
+      <strong>💬 Discussie:</strong><br>
+      "Hoe weet een leraar dat JIJ het huiswerk hebt gedaan en niet ChatGPT?"<br>
+      → Wat is het verschil tussen samenwerken en sjoemelen?
+    </div>
+
+    <h3>Tools Waar Je Op School Mee Werkt</h3>
+    <div style="background: #f0f2f5; padding: 12px; border-radius: 6px; margin: 10px 0;">
+      <strong>✓ Goedgekeurd op school:</strong> ChatGPT (met account), Microsoft Copilot, Google Bard (misschien)<br>
+      <strong>✗ Niet goedgekeurd:</strong> Gratis tools waar je data bewaard kan worden
+    </div>
+
+    <h3>Reflectie: Je Eigen Grenzen</h3>
+    <div class="oefening">
+      <strong>✏️ Reflectie 5:</strong> Hoe zou JIJ AI gebruiken in school? Waar zou je zeggen "nee, dat is te ver"?
+      <textarea id="ans5_ref" style="width:100%;height:80px;margin-top:10px;padding:8px;border:1px solid #ddd;border-radius:4px;" placeholder="Typ je gedachten..."></textarea>
+    </div>
+
+    <button class="sr-btn g" onclick="completeModule(5)" style="margin-top: 20px;">✅ Module 5 Voltooid</button>
+  </div>
+</div>
+
+<!-- ════════════ MODULE 6: AI IN MAATSCHAPPIJ ════════════ -->
+<div class="view" id="view-mod6">
+  <div class="mh">
+    <button class="bk" onclick="sv('home')">← Terug</button>
+    <div class="mh-info"><div class="mh-num">Module 6 · Slot</div><div class="mh-title">AI in Maatschappij</div></div>
+    <div class="dots" id="sd6"></div>
+  </div>
+  <div class="mc-content" style="padding: 20px;">
+    <h2>🌍 AI in de Echte Wereld</h2>
+    <p>AI wordt steeds sterker. Wat gebeurt er in de samenleving? Goed? Slecht? Beide?</p>
+
+    <h3>Stelling 1: "AI Zal Alle Banen Doen Verdwijnen"</h3>
+    <div class="discussion">
+      <strong>❓ Is deze angst realistisch?</strong><br>
+      • Welke banen zijn kwetsbaar? (repetitief werk, administratie)<br>
+      • Welke banen zijn NIET kwetsbaar? (creatief, menselijk, lichaam)<br>
+      • Wat gebeurt er met werkloze mensen?<br>
+      • Moeten we nieuwe regels maken? (UBI, retraining?)<br><br>
+      <strong>Waarschijnlijk:</strong> Banen verschuiven meer dan verdwijnen. Sommige weg, veel nieuwe.
+    </div>
+
+    <h3>Stelling 2: "Er Zijn Grenzen aan Waar AI NIET Hoort"</h3>
+    <div class="discussion">
+      <strong>❓ Waar Kan AI Helpen? Waar Niet?</strong><br>
+      • AI voor routinewerk (e-mails sorteren): JA<br>
+      • AI voor medische diagnose (kanker detecteren): JA, MET VOORZICHTIGHEID<br>
+      • AI voor rechtspraak (wie is schuldig?): VOORZICHTIG, juridisch complex<br>
+      • AI voor vriendschappen / psychologische hulp: NEE<br>
+      • AI voor militaire wapens: NEE (internationaal voorboden)<br>
+    </div>
+
+    <h3>Stelling 3: "AI Zal Nooit Zo Creatief Zijn als Mensen"</h3>
+    <div class="discussion">
+      <strong>❓ Wat Betekent Creativiteit Eigenlijk?</strong><br>
+      • Kan AI origineel zijn? (ja, maar: voortbouw op bestaande data)<br>
+      • Kan AI muziek/kunst maken? (ja, maar: imiterend)<br>
+      • Is AI-kunst echt "kunst"? (filosofische vraag!)<br>
+      • Waar ligt de grens tussen "inspratie" en "plagiaat"?<br>
+    </div>
+
+    <div class="video-box">
+      <strong>📹 Video 6A:</strong> "AI & Creativiteit: Vijandschap of Samenwerking?" (10 min) — <a href="https://www.youtube.com/embed/LlWqSQJNJ8s" target="_blank">Bekijk</a>
+    </div>
+
+    <h3>De Toekomst: 5, 10, 50 Jaar van Nu</h3>
+    <div style="background: #f0e6ff; padding: 12px; border-radius: 6px; margin: 10px 0;">
+      <strong>🔮 Korte termijn (5 jaar):</strong><br>
+      • AI in elke app / tool<br>
+      • Veel banen veranderen, sommige verdwijnen<br>
+      • Regulering begint (EU AI Act, etc.)<br>
+      • Deepfakes worden moeilijker om te herkennen
+    </div>
+
+    <div style="background: #f0e6ff; padding: 12px; border-radius: 6px; margin: 10px 0;">
+      <strong>🔮 Medium termijn (10-20 jaar):</strong><br>
+      • AI is normaal (je werkt dagelijks ermee)<br>
+      • Veel baanwisselingen nodig (retraining)<br>
+      • "AI-proof" banen zijn premium<br>
+      • Privacy-regels veel strikter
+    </div>
+
+    <div style="background: #f0e6ff; padding: 12px; border-radius: 6px; margin: 10px 0;">
+      <strong>🔮 Lange termijn (50+ jaar):</strong><br>
+      • ??? Niemand weet het echt<br>
+      • Mogelijk General AI (AI dat alles kan)<br>
+      • Economie transformeert radicaal<br>
+      • Ethische vragen nog veel erger
+    </div>
+
+    <div class="quiz-q">
+      <strong>❓ Quiz vraag 6.1:</strong> Welk probleem van AI vindt jij het meest urgent in JOUW leven?<br>
+      <div class="quiz-opt"><input type="radio" name="q6_1" value="a"> Privacy / data-opslag</div>
+      <div class="quiz-opt"><input type="radio" name="q6_1" value="b"> Bias / discriminatie</div>
+      <div class="quiz-opt"><input type="radio" name="q6_1" value="c"> Deepfakes / desinformatie</div>
+      <div class="quiz-opt"><input type="radio" name="q6_1" value="d"> Werkloosheid</div>
+      <div class="quiz-opt"><input type="radio" name="q6_1" value="e"> Milieu / energie</div>
+      <div style="margin-top:10px;">
+        <button onclick="saveAnswer('q6_1', 'quiz')" class="sr-btn g" style="font-size:12px;">Opslaan</button>
+        <span id="feedback6_1" style="margin-left:10px;"></span>
+      </div>
+    </div>
+
+    <h3>GROTE Reflectie: Je AI-Visie</h3>
+    <div class="oefening">
+      <strong>✏️ Reflectie 6 (BELANGRIJK!):</strong> Nu je alles weet, hoe ziet JOUW ideale AI-toekomst eruit? Wat wil je wel/niet zien gebeuren?
+      <textarea id="ans6_ref" style="width:100%;height:150px;margin-top:10px;padding:8px;border:1px solid #ddd;border-radius:4px;" placeholder="Schrijf je dromen / angsten / hoop voor AI..."></textarea>
+    </div>
+
+    <div style="background: #fff9e6; padding: 16px; border-radius: 6px; margin: 20px 0; border-left: 4px solid #ffa500;">
+      <strong>💭 Slotgedachte:</strong><br>
+      AI wordt steeds slimmer. JOUW kritische denken moet ook meegroeien. Niet bang zijn, maar WÉL voorzichtig. Geen experts nodig — je bent al voorbij veel volwassenen die AI niet begrijpen! 🎯
+    </div>
+
+    <button class="sr-btn g" onclick="completeModule(6)" style="margin-top: 20px; margin-bottom: 20px;">✅ Module 6 Voltooid 🏆</button>
+  </div>
+</div>
+
+<!-- ════════════ CERTIFICAAT ════════════ -->
+<div id="cert-view" style="display:none; padding: 20px;">
+  <div class="cert-wrap">
+    <div class="cert-intro">
+      <div class="cert-fire">🎉</div>
+      <h2 style="font-family:'Archivo Black';font-size:26px;color:var(--blue);text-transform:uppercase;margin-bottom:7px">Gefeliciteerd!</h2>
+      <p style="color:var(--muted);font-weight:700;margin-bottom:28px">Je hebt alle 6 modules voltooid! Je bent nu AI-geletterd! Download je certificaat + antwoorden hieronder in ÉÉN PDF.</p>
+    </div>
+
+    <div class="ss-box" style="text-align:left;margin-bottom:20px">
+      <div class="ss-title">📥 Download Je Certificaat</div>
+      <p style="font-size:14px;color:var(--text);line-height:1.6;margin:0;">
+        Dit PDF-bestand bevat:
+        <br>✓ Je certificaat met je naam
+        <br>✓ Al je quiz-antwoorden
+        <br>✓ Je reflecties op alle modules
+        <br>✓ Datum van voltooiing
+        <br><br>
+        Alle gegevens zijn ingebouwd. Je hoeft niets anders meer te downloaden!
+      </p>
+    </div>
+
+    <div style="text-align: center; margin: 30px 0;">
+      <button class="sr-btn g" onclick="downloadCompletePDF()" style="font-size:16px;padding:16px 32px;">
+        📥 Download Certificaat + Alle Antwoorden (PDF)
+      </button>
+    </div>
+
+    <div class="cert-box">
+      <div class="cert-wm">SINT-REMBERT</div>
+      <div class="cert-school">Scholengroep Sint-Rembert</div>
+      <div class="cert-title">Certificaat <em>AI-Skills voor Leerlingen</em></div>
+      <div class="cert-dec">Dit certificaat bevestigt dat</div>
+      <div class="cert-name" id="cert-name">Leerling</div>
+      <div class="cert-desc">alle 6 modules van de <strong>AI-Skills voor Leerlingen</strong> cursus succesvol heeft voltooid. Deze leerling begrijpt AI, kan kritisch nadenken, en zal AI verantwoord gebruiken.</div>
+      <div class="cert-comps">
+        <div class="cert-comp"><span class="ck">✓</span>Wat is AI? (overal, 3 elementen)</div>
+        <div class="cert-comp"><span class="ck">✓</span>Hoe werkt AI? (Machine Learning, Deep Learning)</div>
+        <div class="cert-comp"><span class="ck">✓</span>Generatieve AI & Prompting</div>
+        <div class="cert-comp"><span class="ck">✓</span>Ethiek, Bias, Deepfakes</div>
+        <div class="cert-comp"><span class="ck">✓</span>AI in school verantwoord gebruiken</div>
+        <div class="cert-comp"><span class="ck">✓</span>Kritisch denken over AI-toekomst</div>
+      </div>
+      <div class="cert-sr"><span>Sint-</span><em>Rembert</em></div>
+      <div class="cert-meta">
+        <div class="cm-i"><div class="cm-lbl">Datum</div><div class="cm-val" id="cert-date">—</div></div>
+        <div class="cm-i"><div class="cm-lbl">Niveau</div><div class="cm-val">Secundair Onderwijs</div></div>
+        <div class="cm-i"><div class="cm-lbl">Geldigheid</div><div class="cm-val">2 jaar</div></div>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px; gap: 12px;">
+      <button class="sr-btn g" onclick="downloadCompletePDF()" style="margin-right: 10px;">📥 Download PDF</button>
+      <button class="sr-btn" onclick="sv('home')">← Terug naar Home</button>
+    </div>
+  </div>
+</div>
+
+<footer style="font-size: 11px; color: #666; margin-top: 60px; padding: 30px 20px; border-top: 1px solid #ddd; background: #f9f9f9;">
+  <div style="max-width: 1200px; margin: 0 auto;">
+    <p><strong>Sint-Rembert AI-Skills voor Leerlingen</strong><br>
+    Gebaseerd op de EDUbox Artificiële Intelligentie (BENEDMO)<br>
+    VRT NWS KLAAR-pakket, VRT-archieven, en Sint-Rembert Beleidskader
+    </p>
+  </div>
+</footer>
+
+</main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="leerlingen.js"></script>
+</body>
+</html>
