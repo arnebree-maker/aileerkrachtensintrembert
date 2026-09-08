@@ -18,9 +18,11 @@
 
   <div class="nav-sec">
     <div class="nav-lbl">Navigatie</div>
-    <div class="ni active" onclick="goHome()" id="nav-home"><div class="ni-icon">🏠</div><div class="ni-info"><div class="ni-title">Startpagina</div><div class="ni-sub">Welkom & routes</div></div></div>
+    <div class="ni active" onclick="sv('home')" id="nav-home"><div class="ni-icon">🏠</div><div class="ni-info"><div class="ni-title">Startpagina</div><div class="ni-sub">Welkom & routes</div></div></div>
     <div class="ni available" onclick="goTeacher()"><div class="ni-icon">👨‍🏫</div><div class="ni-info"><div class="ni-title">Leerkrachten</div><div class="ni-sub">Professionalisering</div></div></div>
     <div class="ni available" onclick="goStudent()"><div class="ni-icon">👨‍🎓</div><div class="ni-info"><div class="ni-title">Leerlingen</div><div class="ni-sub">AI-Skills training</div></div></div>
+    <div class="ni available" onclick="sv('docs')" id="nav-docs"><div class="ni-icon">📁</div><div class="ni-info"><div class="ni-title">Documenten</div><div class="ni-sub">Beleid & bronnen</div></div></div>
+    <div class="ni available" onclick="sv('news')" id="nav-news"><div class="ni-icon">📰</div><div class="ni-info"><div class="ni-title">Nieuws</div><div class="ni-sub">AI in de actualiteit</div></div></div>
   </div>
 
   <div class="sb-bot">
@@ -146,6 +148,157 @@
   </div>
 </div>
 
+<!-- ════════ DOCUMENTEN ════════ -->
+<div class="view" id="view-docs">
+  <div class="sw" style="margin-top: 40px;">
+    <div class="sw-title">📁 <em>Documenten</em> & Beleid</div>
+    <div class="sw-sub">Het centrale referentiemateriaal van Sint-Rembert rond AI, en de bronnen waarop onze trainingen gebaseerd zijn.</div>
+
+    <div style="background: #f9f9f9; border-left: 4px solid var(--blue); padding: 20px; border-radius: 4px; margin: 20px 0;">
+      <div style="font-weight: 700; color: var(--blue); margin-bottom: 8px;">📋 Beleidskader Artificiële Intelligentie</div>
+      <p style="margin: 0; font-size: 14px; color: #666; line-height: 1.6;">
+        Het centrale referentiedocument voor verantwoord AI-gebruik binnen Scholengroep Sint-Rembert. Vraag de meest actuele versie op bij de pedagogische begeleiding of via de directie van je school.
+      </p>
+    </div>
+
+    <div class="sw-title" style="margin-top:32px;font-size:20px">Voorbeeld<em>documenten</em></div>
+    <p style="font-size: 14px; color: #666; margin-bottom: 16px;">Klik op een document om het voorbeeld uit te vouwen.</p>
+
+    <details style="background: white; border: 1px solid #e0e4f5; border-radius: 8px; margin: 12px 0; overflow: hidden;">
+      <summary style="cursor: pointer; padding: 16px; font-weight: 700; color: var(--blue); list-style: none; display: flex; align-items: center; justify-content: space-between;">
+        <span>🏷️ AI-labels — voorbeelddocument</span>
+        <span style="font-size: 12px; color: #999; font-weight: 400;">uitvouwen ▾</span>
+      </summary>
+      <div style="padding: 0 16px 20px 16px; border-top: 1px solid #eee;">
+        <p style="font-size: 13px; color: #666; margin: 14px 0;">De 5 AI-labels die Sint-Rembert gebruikt om per opdracht duidelijk te maken wat wel en niet mag:</p>
+        <table style="width:100%; border-collapse: collapse; font-size: 13px;">
+          <tr style="background:#f0f2f5;"><td style="padding:8px 10px; font-weight:700; width:36px;">1</td><td style="padding:8px 10px; font-weight:700;">Geen AI</td><td style="padding:8px 10px; color:#666;">Volledig verboden — handschrift, eigen denken, geen digitale hulp (toetsen, examens)</td></tr>
+          <tr><td style="padding:8px 10px; font-weight:700;">2</td><td style="padding:8px 10px; font-weight:700;">Ideeën</td><td style="padding:8px 10px; color:#666;">AI mag voor brainstorm; het werk zelf schrijf je helemaal zelf</td></tr>
+          <tr style="background:#f0f2f5;"><td style="padding:8px 10px; font-weight:700;">3</td><td style="padding:8px 10px; font-weight:700;">Bewerking</td><td style="padding:8px 10px; color:#666;">AI mag helpen met stijl/grammatica op jouw eigen tekst</td></tr>
+          <tr><td style="padding:8px 10px; font-weight:700;">4</td><td style="padding:8px 10px; font-weight:700;">Aanvulling</td><td style="padding:8px 10px; color:#666;">AI mag delen aanvullen (bv. illustraties); jij integreert kritisch</td></tr>
+          <tr style="background:#f0f2f5;"><td style="padding:8px 10px; font-weight:700;">5</td><td style="padding:8px 10px; font-weight:700;">Vrij</td><td style="padding:8px 10px; color:#666;">AI mag volledig vrij ingezet worden, mits je je keuzes kan verantwoorden</td></tr>
+        </table>
+      </div>
+    </details>
+
+    <details style="background: white; border: 1px solid #e0e4f5; border-radius: 8px; margin: 12px 0; overflow: hidden;">
+      <summary style="cursor: pointer; padding: 16px; font-weight: 700; color: var(--blue); list-style: none; display: flex; align-items: center; justify-content: space-between;">
+        <span>💬 Voorbeeldprompts</span>
+        <span style="font-size: 12px; color: #999; font-weight: 400;">uitvouwen ▾</span>
+      </summary>
+      <div style="padding: 0 16px 20px 16px; border-top: 1px solid #eee;">
+        <p style="font-size: 13px; color: #666; margin: 14px 0 6px 0; font-weight: 700;">Voor tekst:</p>
+        <p style="font-size: 13px; color: #666; background: #f5f5f5; padding: 12px; border-radius: 6px; font-style: italic; margin: 0 0 14px 0;">"Wat zijn de voordelen van regelmatig hardlopen voor de mentale gezondheid? Schrijf een artikel van ongeveer 150 woorden dat jongeren van 16 jaar moeten begrijpen."</p>
+        <p style="font-size: 13px; color: #666; margin: 0 0 6px 0; font-weight: 700;">Voor een afbeelding:</p>
+        <p style="font-size: 13px; color: #666; background: #f5f5f5; padding: 12px; border-radius: 6px; font-style: italic; margin: 0;">"Maak een tekening van een fietsend paard met een pilotenmuts, dat een sigaret rookt, in de stijl van het surrealisme."</p>
+      </div>
+    </details>
+
+    <details style="background: white; border: 1px solid #e0e4f5; border-radius: 8px; margin: 12px 0; overflow: hidden;">
+      <summary style="cursor: pointer; padding: 16px; font-weight: 700; color: var(--blue); list-style: none; display: flex; align-items: center; justify-content: space-between;">
+        <span>📋 AI-beleidskader — voorbeelddocument</span>
+        <span style="font-size: 12px; color: #999; font-weight: 400;">uitvouwen ▾</span>
+      </summary>
+      <div style="padding: 0 16px 20px 16px; border-top: 1px solid #eee;">
+        <p style="font-size: 13px; color: #666; margin: 14px 0;">De 6 principes uit het Beleidskader Artificiële Intelligentie van Sint-Rembert:</p>
+        <ul style="font-size: 13px; color: #666; line-height: 2; padding-left: 20px; margin: 0;">
+          <li><strong>De mens blijft centraal</strong> — AI is ondersteuning, geen vervanging</li>
+          <li><strong>Meerwaarde is vereist</strong> — enkel inzetten waar het echt bijdraagt</li>
+          <li><strong>Transparantie & eigenaarschap</strong> — wie AI gebruikt, blijft verantwoordelijk</li>
+          <li><strong>Leeftijdsgeschikt</strong> — afgestemd op maturiteit en ontwikkelingsfase</li>
+          <li><strong>Deskundigheid</strong> — basisniveau AI-geletterdheid voor iedereen</li>
+          <li><strong>Wet- & regelgeving</strong> — conform AVG en de EU AI Act</li>
+        </ul>
+        <p style="font-size: 12px; color: #999; font-style: italic; margin: 14px 0 0 0;">Dit is een verkorte preview. Het volledige document vraag je op bij de pedagogische begeleiding of directie.</p>
+      </div>
+    </details>
+
+    <div class="sw-title" style="margin-top:32px;font-size:20px">Voor <em>leerlingen</em></div>
+    <div style="background: white; border-left: 4px solid var(--green); border-radius: 8px; padding: 16px; margin: 16px 0;">
+      <strong style="color: var(--green);">📘 Invulcursus AI-Skills (papieren versie)</strong>
+      <p style="margin: 8px 0 0 0; font-size: 14px; color: #666; line-height: 1.6;">Een afdrukbare versie van de leerlingencursus met invulvakken. Te downloaden via de Documenten-pagina op <a href="leerlingen.html">de leerlingenmodule</a>, of vraag ze aan je leerkracht.</p>
+    </div>
+
+    <div class="sw-title" style="margin-top:32px;font-size:20px">Externe <em>bronnen</em></div>
+    <ul style="font-size: 14px; color: #666; line-height: 2.2; padding-left: 22px;">
+      <li><strong>EDUbox Artificiële Intelligentie</strong> — VRT, imec, Mediawijs, Kenniscentrum Data & Maatschappij, Brightlab, am/ai, BENEDMO</li>
+      <li><a href="https://www.elementsofai.com/" target="_blank">Elements of AI</a> — gratis online cursus (Universiteit van Helsinki, TU Delft)</li>
+      <li><a href="https://www.vrt.be/vrtnws/nl/2024/03/15/klaar-artificiele-intelligentie/" target="_blank">KLAAR — Artificiële Intelligentie</a> — VRT NWS project voor jongeren</li>
+      <li><a href="https://www.vrt.be/vrtmax/a-z/het-digitale-dilemma/" target="_blank">Het Digitale Dilemma</a> — Tim Verheyden (VRT MAX)</li>
+      <li>EU AI Act (2024) — Europese wetgeving rond artificiële intelligentie</li>
+      <li>Schoolmakers AI-gebruiksschaal — Leon Furze, Universiteit van Melbourne</li>
+    </ul>
+
+    <div class="sw-title" style="margin-top:32px;font-size:20px">Specifiek per <em>doelgroep</em></div>
+    <div class="routes-grid" style="margin-top: 16px;">
+      <div class="route-card teacher-route">
+        <div class="rc-header">
+          <div class="rc-icon">👨‍🏫</div>
+          <div class="rc-title">Leerkrachten</div>
+        </div>
+        <div class="rc-body">
+          <p>Ga naar de leerkrachtenmodule voor het volledige AI-beleid, de 5 AI-labels en praktische Copilot-tips.</p>
+        </div>
+        <button class="route-btn teacher" onclick="goTeacher()">Naar leerkrachten →</button>
+      </div>
+      <div class="route-card student-route">
+        <div class="rc-header">
+          <div class="rc-icon">👨‍🎓</div>
+          <div class="rc-title">Leerlingen</div>
+        </div>
+        <div class="rc-body">
+          <p>Ga naar de leerlingenmodule voor de Documenten-pagina met de invulcursus en extra leermateriaal.</p>
+        </div>
+        <button class="route-btn student" onclick="goStudent()">Naar leerlingen →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ NIEUWS ════════ -->
+<div class="view" id="view-news">
+  <div class="sw" style="margin-top: 40px;">
+    <div class="sw-title">📰 AI in de <em>Actualiteit</em></div>
+    <div class="sw-sub">Nieuws, updates en tips rond artificiële intelligentie — relevant voor de hele scholengroep.</div>
+
+    <div style="background: linear-gradient(135deg, #4B53BC 0%, #6264A7 100%); border-radius: 8px; padding: 20px; margin: 20px 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+      <div style="flex: 1; min-width: 240px;">
+        <div style="font-size:11px;font-weight:700;color:#D6D8F5;text-transform:uppercase;margin-bottom:6px;">💬 Blijf verbonden</div>
+        <h3 style="margin:0 0 6px 0; font-size:17px; color: white;">Word lid van ons Teams-kanaal</h3>
+        <p style="font-size:13px;color:#E4E5F7;line-height:1.6;margin:0;">Stel vragen, deel interessante AI-vondsten en blijf op de hoogte tussen collega's en klasgenoten — alles rond AI op Sint-Rembert komt hier samen.</p>
+      </div>
+      <a href="#" target="_blank" style="background: white; color: #4B53BC; font-weight: 700; font-size: 13px; padding: 12px 22px; border-radius: 6px; text-decoration: none; white-space: nowrap;">Word lid →</a>
+    </div>
+    <p style="margin: -10px 0 20px 0; font-size: 11px; color: #999; font-style: italic;">De link naar het Teams-kanaal wordt binnenkort aangevuld door de school.</p>
+
+    <div style="background: white; border-left: 4px solid var(--blue); border-radius: 8px; padding: 16px; margin: 20px 0;">
+      <div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;margin-bottom:6px;">📅 Schooljaar 2026-2027</div>
+      <h3 style="margin:0 0 8px 0; font-size:16px;">Vernieuwde AI-trainingen voor leerkrachten én leerlingen</h3>
+      <p style="font-size:14px;color:#666;line-height:1.7;margin:0;">Sint-Rembert lanceert dit schooljaar volledig herwerkte trajecten voor zowel personeel als leerlingen, gebaseerd op de EDUbox Artificiële Intelligentie (VRT/imec/Mediawijs) en het eigen beleidskader.</p>
+    </div>
+
+    <div style="background: white; border-left: 4px solid var(--orange); border-radius: 8px; padding: 16px; margin: 16px 0;">
+      <div style="font-size:11px;font-weight:700;color:var(--orange);text-transform:uppercase;margin-bottom:6px;">⚖️ EU AI Act</div>
+      <h3 style="margin:0 0 8px 0; font-size:16px;">Europese AI-wetgeving stap voor stap in werking</h3>
+      <p style="font-size:14px;color:#666;line-height:1.7;margin:0;">De EU AI Act treedt gefaseerd in werking en verplicht organisaties — ook scholen — om hun personeel en leerlingen voldoende "AI-geletterd" te maken. Precies daarom bestaan onze trainingstrajecten.</p>
+    </div>
+
+    <div style="background: white; border-left: 4px solid var(--green); border-radius: 8px; padding: 16px; margin: 16px 0;">
+      <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;margin-bottom:6px;">💡 Tip van de maand</div>
+      <h3 style="margin:0 0 8px 0; font-size:16px;">Twijfel je aan een video of foto? Check de bron</h3>
+      <p style="font-size:14px;color:#666;line-height:1.7;margin:0;">Deepfakes worden steeds overtuigender. De beste vuistregel blijft: kijk niet enkel naar het beeld zelf, maar check wie het deelde en of betrouwbare media hetzelfde melden.</p>
+    </div>
+
+    <div style="background: white; border-left: 4px solid #9C27B0; border-radius: 8px; padding: 16px; margin: 16px 0;">
+      <div style="font-size:11px;font-weight:700;color:#9C27B0;text-transform:uppercase;margin-bottom:6px;">🔬 Tool-update</div>
+      <h3 style="margin:0 0 8px 0; font-size:16px;">Google NotebookLM breidt functies verder uit</h3>
+      <p style="font-size:14px;color:#666;line-height:1.7;margin:0;">Een gratis, betrouwbare studiehulp die antwoordt op basis van je eigen geüploade documenten — met bronvermelding. Zeker het proberen waard, zowel voor leerkrachten als leerlingen.</p>
+    </div>
+
+    <p style="margin-top: 24px; font-size: 12px; color: #999; font-style: italic;">Deze pagina wordt periodiek bijgewerkt door de pedagogische begeleiding. Laatst bijgewerkt: september 2026.</p>
+  </div>
+</div>
+
 <footer style="font-size: 11px; color: #666; margin-top: 60px; padding: 30px 20px; border-top: 1px solid #ddd; background: #f9f9f9; line-height: 1.8;">
   <div style="max-width: 1200px; margin: 0 auto;">
     <p style="margin: 0 0 12px 0;"><strong>Over dit platform</strong></p>
@@ -165,8 +318,17 @@ function goTeacher() {
 function goStudent() {
   window.location.href = 'leerlingen.html';
 }
-function goHome() {
+function sv(id) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
+  document.getElementById('view-' + id).classList.add('active');
+  const ni = document.getElementById('nav-' + id);
+  if (ni) ni.classList.add('active');
   document.querySelector('#main').scrollTop = 0;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function goHome() {
+  sv('home');
 }
 </script>
 </body>
