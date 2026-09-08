@@ -383,6 +383,17 @@ function m1s1(c){
 <h3 class="ch3">📜 Een korte tijdlijn</h3>
 <p class="cp">Wetenschappers zijn al even bezig met deze technologie. Er werd voor het eerst over gesproken in de jaren '50. AI heeft ondertussen vele evoluties meegemaakt, en heeft gouden en donkere tijden gekend. Op dit moment leven we in een periode waarin AI enorm aan het groeien is.</p>
 
+<h3 class="ch3">🕵️ Hoe weet je of iets écht "intelligent" is?</h3>
+<p class="cp">Al in de jaren '50 bedacht een wiskundige een simpele test om deze vraag te beantwoorden: laat een mens via een tekstscherm chatten met iets — soms een mens, soms een machine — zonder te weten met wie hij praat. Kan hij na een tijdje niet meer zeggen wie of wat er aan de andere kant zit? Dan gedraagt die machine zich, voor de buitenwereld, "intelligent". Merk op: dit zegt niets over wat er écht in de machine omgaat, enkel over hoe overtuigend ze zich naar buiten toe gedraagt.</p>
+
+<div style="background: rgba(10,31,168,0.08); border-radius: 8px; padding: 16px; margin: 16px 0;">
+<p style="font-size: 13px; color: #3d4f8a; line-height: 1.8; margin: 0;">
+<strong>💭 Denkoefening: de kamer vol Chinese symbolen</strong><br>
+Stel je een gesloten kamer voor met daarin een persoon die geen woord Chinees kent. Via een gleuf in de deur krijgt hij briefjes met Chinese tekens naar binnen geschoven. Hij heeft een dik handboek met regels: "als je dít teken ziet, schrijf dan dát teken terug." Door dat boek perfect te volgen, stuurt hij foutloze Chinese antwoorden naar buiten — voor de mensen buiten de kamer lijkt het alsof daarbinnen iemand vloeiend Chinees spreekt en begrijpt. Maar de persoon zelf begrijpt er geen snars van; hij volgt gewoon regels.<br><br>
+Deze denkoefening laat zien waarom het lastig is om te zeggen of een AI-systeem écht "begrijpt" wat het zegt, of gewoon (razendsnel en heel overtuigend) patronen en regels volgt zonder enig besef van betekenis. Een goede vraag om in je achterhoofd te houden telkens ChatGPT of een andere AI-tool een vlot antwoord geeft.
+</p>
+</div>
+
 <h3 class="ch3">🎯 Meer voorbeelden van AI-impact</h3>
 <div style="background: rgba(127,224,0,0.1); border-radius: 8px; padding: 16px; margin: 16px 0;">
 <p style="font-size: 13px; color: #3d4f8a; line-height: 1.9; margin: 0;">
@@ -644,6 +655,10 @@ function m2s1(c){
 </div>
 </div>
 
+<h3 class="ch3">♟️ Hoe "denkt" een schaakcomputer vooruit?</h3>
+<p class="cp">Een klassieke schaakcomputer is een mooi voorbeeld van procedurele AI in actie. Voor elke zet die hij overweegt, tekent hij in gedachten een soort boompje: "als ik hier zet, kan mijn tegenstander daarop reageren met A, B of C — en op elk van die reacties kan ík dan weer reageren met..." Dat boompje van mogelijke zetten en tegenzetten wordt al snel enorm groot.</p>
+<p class="cp">De computer doorloopt dat hele boompje en kent aan elke uiteindelijke stelling een score toe: goed voor hem, of goed voor de tegenstander. Vervolgens redeneert hij terug: hij gaat ervan uit dat hijzelf steeds de beste zet voor zichzelf kiest, en dat zijn tegenstander steeds de beste zet vóór zichzelf (dus de slechtste voor de computer) zal kiezen. Zo rolt er, helemaal volgens vaste regels, één beste zet uit — geen giswerk, puur stap-voor-stap doorrekenen. Bij eenvoudige spelletjes zoals boter-kaas-en-eieren kan een computer op deze manier zelfs nooit meer verliezen.</p>
+
 <h3 class="ch3">🧟 Doe-opdracht: onderscheid zombie van mens</h3>
 <p class="cp">Stel je voor: je moet een computer leren om zombies van mensen te onderscheiden <strong>volgens een vaste procedure</strong> — dus met vaste vragen in een vaste volgorde, zoals een beslisboom:</p>
 
@@ -707,6 +722,18 @@ Je geeft duizenden foto's van een zombie en zegt: "Dit is een zombie." Je geeft 
 
 <h3 class="ch3">📸 Een voorbeeld dat je al gebruikt hebt</h3>
 <p class="cp">Gezichtsherkenning. De foto-app van jouw smartphone heeft de optie om specifieke personen in je foto's te benoemen, waarna het algoritme op zoek gaat naar andere foto's met dezelfde persoon en deze groepeert. <strong>Maar helemaal zeker is het systeem nooit.</strong></p>
+
+<h3 class="ch3">👥 Eén van de simpelste manieren: kijk naar je "buren"</h3>
+<p class="cp">Een van de makkelijkst te begrijpen technieken achter gesuperviseerd leren is verrassend simpel: vergelijk het nieuwe geval gewoon met de voorbeelden die je al kent, en kijk welke het meest gelijken. Stel dat je duizenden gelabelde zombie- en mensfoto's hebt, elk beschreven aan de hand van een paar kenmerken (bijvoorbeeld: hoe bleek de huid is, hoe leeg de ogen staan). Een nieuwe, ongelabelde foto plaats je dan denkbeeldig tussen al die andere foto's. Welke gelabelde foto's liggen het dichtst in de buurt — qua kenmerken — bij deze nieuwe foto? Als de 5 dichtste "buren" allemaal zombies waren, is de kans groot dat deze nieuwe foto ook een zombie is. Geen ingewikkelde formules nodig: gewoon "wie lijkt het meest op wie".</p>
+
+<h3 class="ch3">📧 En hoe berekent een spamfilter dan een kans?</h3>
+<p class="cp">Spamfilters (zie ook Module 1) werken vaak met eenzelfde soort denkwijze, maar dan gebaseerd op hoe vaak bepaalde woorden voorkomen. Stel je onderstaand voorbeeld voor, met ronde getallen om het simpel te houden:</p>
+<div style="background: white; border-radius: 8px; padding: 14px; margin: 12px 0; border: 1px solid #e0e4f5; font-size:12px; color:#3d4f8a; line-height:1.9;">
+📊 Van elke 100 e-mails met het woord "GRATIS" zijn er 90 spam en 10 niet.<br>
+📊 Van elke 100 e-mails zónder dat woord zijn er maar 5 spam.<br>
+📬 Komt er een nieuwe e-mail binnen met het woord "GRATIS"? Dan weet het systeem: dit lijkt sterk op de groep waarin 90% spam bleek te zijn — dus hoge kans dat dit er ook één is.
+</div>
+<p class="cp">Zo'n filter combineert dit voor tientallen woorden tegelijk, en telt alles samen op tot één eindkans. Simpel om te begrijpen, en toch verrassend krachtig in de praktijk.</p>
 
 <h3 class="ch3">🧪 Doe-opdracht</h3>
 <p class="cp">De computer onderscheidt zombies van mensen door <strong>gelabelde data</strong>: hij leert categorieën herkennen aan de hand van voorbeelden. Na genoeg input kan hij zelfstandig voorspellen.</p>
