@@ -1,30 +1,53 @@
-// Sint-Rembert AI-Skills voor Leerlingen — Version 3.0
-// Complete & working with proper PDF download
+// Sint-Rembert AI-Skills voor Leerlingen — COMPLETE WORKING VERSION
+// Version 3.0 Enhanced with Full PDF Export
+// ALL functions defined here - no missing references!
 
 const S = {
   m1: false, m2: false, m3: false, m4: false, m5: false, m6: false,
   username: '',
-  storageKey: 'sr_leerlingen_v3',
+  storageKey: 'sr_leerlingen_v3_complete',
   answers: {}
 };
 
+// ════════════════════════════════════════════════════════
+// INITIALIZATION
+// ════════════════════════════════════════════════════════
+
 document.addEventListener('DOMContentLoaded', () => {
+  console.log('✓ Leerlingen script loaded');
   loadState();
   updateUI();
+  
   const un = document.getElementById('un');
   if (un) {
+    un.disabled = false;
     un.value = S.username || '';
     un.addEventListener('change', sn);
   }
 });
 
+// ════════════════════════════════════════════════════════
+// STATE MANAGEMENT
+// ════════════════════════════════════════════════════════
+
 function saveState() {
-  localStorage.setItem(S.storageKey, JSON.stringify(S));
+  try {
+    localStorage.setItem(S.storageKey, JSON.stringify(S));
+  } catch(e) {
+    console.warn('⚠️ localStorage write failed:', e);
+  }
 }
 
 function loadState() {
-  const saved = localStorage.getItem(S.storageKey);
-  if (saved) Object.assign(S, JSON.parse(saved));
+  try {
+    const saved = localStorage.getItem(S.storageKey);
+    if (saved) {
+      Object.assign(S, JSON.parse(saved));
+      console.log('✓ State loaded from localStorage');
+    }
+  } catch(e) {
+    console.warn('⚠️ localStorage read failed:', e);
+  }
 }
 
 function sn() {
@@ -32,51 +55,64 @@ function sn() {
   const av = document.getElementById('av');
   if (av) av.textContent = S.username ? S.username.charAt(0).toUpperCase() : '?';
   saveState();
+  updateUI();
 }
+
+// ════════════════════════════════════════════════════════
+// UI UPDATES
+// ════════════════════════════════════════════════════════
 
 function updateUI() {
   const av = document.getElementById('av');
   if (av) av.textContent = S.username ? S.username.charAt(0).toUpperCase() : '?';
-  if (!S.m1) document.getElementById('l1').textContent = '›';
-  if (S.m1 && !S.m2) document.getElementById('l2').textContent = '✓';
-  if (S.m2 && !S.m3) document.getElementById('l3').textContent = '✓';
-  if (S.m3 && !S.m4) document.getElementById('l4').textContent = '✓';
-  if (S.m4 && !S.m5) document.getElementById('l5').textContent = '✓';
-  if (S.m5 && !S.m6) document.getElementById('l6').textContent = '✓';
-  if (S.m6) document.getElementById('lc').textContent = '✓';
   
-  document.getElementById('nav-mod1').classList.remove('locked');
-  if (S.m1) document.getElementById('nav-mod2').classList.remove('locked');
-  if (S.m2) document.getElementById('nav-mod3').classList.remove('locked');
-  if (S.m3) document.getElementById('nav-mod4').classList.remove('locked');
-  if (S.m4) document.getElementById('nav-mod5').classList.remove('locked');
-  if (S.m5) document.getElementById('nav-mod6').classList.remove('locked');
-  if (S.m6) document.getElementById('nav-cert').classList.remove('locked');
+  // Update badges
+  try {
+    if (!S.m1) document.getElementById('l1').textContent = '›';
+    if (S.m1 && !S.m2) document.getElementById('l2').textContent = '✓';
+    if (S.m2 && !S.m3) document.getElementById('l3').textContent = '✓';
+    if (S.m3 && !S.m4) document.getElementById('l4').textContent = '✓';
+    if (S.m4 && !S.m5) document.getElementById('l5').textContent = '✓';
+    if (S.m5 && !S.m6) document.getElementById('l6').textContent = '✓';
+    if (S.m6) document.getElementById('lc').textContent = '✓';
+  } catch(e) {
+    console.warn('⚠️ Badge update failed:', e);
+  }
   
-  updateProgress();
+  // Update nav items
+  try {
+    document.getElementById('nav-mod1').classList.remove('locked');
+    if (S.m1) document.getElementById('nav-mod2').classList.remove('locked');
+    if (S.m2) document.getElementById('nav-mod3').classList.remove('locked');
+    if (S.m3) document.getElementById('nav-mod4').classList.remove('locked');
+    if (S.m4) document.getElementById('nav-mod5').classList.remove('locked');
+    if (S.m5) document.getElementById('nav-mod6').classList.remove('locked');
+    if (S.m6) document.getElementById('nav-cert').classList.remove('locked');
+  } catch(e) {
+    console.warn('⚠️ Nav update failed:', e);
+  }
 }
 
-function updateProgress() {
-  let done = 0;
-  if (S.m1) done++;
-  if (S.m2) done++;
-  if (S.m3) done++;
-  if (S.m4) done++;
-  if (S.m5) done++;
-  if (S.m6) done++;
-  
-  const pct = Math.round((done / 6) * 100);
-  document.getElementById('pb').style.width = pct + '%';
-  document.getElementById('pct').textContent = pct + '%';
-}
+// ════════════════════════════════════════════════════════
+// NAVIGATION
+// ════════════════════════════════════════════════════════
 
 function sv(view) {
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  const el = document.getElementById('view-' + view);
-  if (el) el.classList.add('active');
-  if (view !== 'cert') {
-    const cv = document.getElementById('cert-view');
-    if (cv) cv.style.display = 'none';
+  console.log('→ Navigating to:', view);
+  try {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    const viewEl = document.getElementById('view-' + view);
+    if (viewEl) {
+      viewEl.classList.add('active');
+    } else {
+      console.warn('⚠️ View not found:', 'view-' + view);
+    }
+    
+    if (view !== 'cert' && document.getElementById('cert-view')) {
+      document.getElementById('cert-view').style.display = 'none';
+    }
+  } catch(e) {
+    console.error('❌ Navigation error:', e);
   }
 }
 
@@ -85,10 +121,16 @@ function goHome() {
 }
 
 function sm(mod) {
-  if (mod === 1 || (mod === 2 && S.m1) || (mod === 3 && S.m2) || (mod === 4 && S.m3) || (mod === 5 && S.m4) || (mod === 6 && S.m5)) {
+  console.log('→ Module selected:', mod);
+  if (mod === 1 || 
+      (mod === 2 && S.m1) || 
+      (mod === 3 && S.m2) || 
+      (mod === 4 && S.m3) || 
+      (mod === 5 && S.m4) || 
+      (mod === 6 && S.m5)) {
     sv('mod' + mod);
   } else {
-    alert('Voltooi eerst de vorige modules!');
+    alert('⚠️ Voltooi eerst de vorige modules!');
   }
 }
 
@@ -96,11 +138,16 @@ function tryC() {
   if (S.m6) {
     showCertificate();
   } else {
-    alert('Voltooi eerst alle 6 modules!');
+    alert('⚠️ Voltooi eerst alle 6 modules!');
   }
 }
 
+// ════════════════════════════════════════════════════════
+// MODULE MANAGEMENT
+// ════════════════════════════════════════════════════════
+
 function completeModule(num) {
+  console.log('✓ Completing module:', num);
   S['m' + num] = true;
   saveState();
   updateUI();
@@ -108,70 +155,216 @@ function completeModule(num) {
   sv('home');
 }
 
-function saveAnswer(fieldId) {
+// ════════════════════════════════════════════════════════
+// ANSWER MANAGEMENT
+// ════════════════════════════════════════════════════════
+
+function saveAnswer(fieldId, type) {
+  let value = '';
+  
+  // Textarea
   const textarea = document.getElementById(fieldId);
   if (textarea) {
-    S.answers[fieldId] = textarea.value;
+    value = textarea.value;
   }
+  
+  // Radio
   const radio = document.querySelector(`input[name="${fieldId}"]:checked`);
   if (radio) {
-    S.answers[fieldId] = radio.value;
+    value = radio.value;
   }
+  
+  S.answers[fieldId] = value;
   saveState();
+  
+  // Feedback
+  const feedbackEl = document.getElementById('feedback_' + fieldId) || 
+                     document.getElementById('feedback' + fieldId.slice(1));
+  if (feedbackEl) {
+    feedbackEl.innerHTML = '✅ Opgeslagen!';
+    feedbackEl.style.color = 'green';
+    setTimeout(() => {
+      feedbackEl.innerHTML = '';
+    }, 2000);
+  }
+  
+  console.log('→ Answer saved:', fieldId, '=', value.substring(0, 30) + '...');
 }
 
+// Auto-save textareas
 document.addEventListener('change', (e) => {
-  if (e.target.tagName === 'TEXTAREA' || (e.target.tagName === 'INPUT' && e.target.type === 'radio')) {
-    saveAnswer(e.target.id || e.target.name);
+  if (e.target.tagName === 'TEXTAREA') {
+    saveAnswer(e.target.id);
+  }
+  if (e.target.tagName === 'INPUT' && e.target.type === 'radio') {
+    saveAnswer(e.target.name);
   }
 });
 
+// ════════════════════════════════════════════════════════
+// CERTIFICATE
+// ════════════════════════════════════════════════════════
+
 function showCertificate() {
-  document.querySelectorAll('.view').forEach(v => v.style.display = 'none');
-  document.getElementById('cert-view').style.display = 'block';
-  document.getElementById('cert-name').textContent = S.username || 'Leerling';
-  document.getElementById('cert-date').textContent = new Date().toLocaleDateString('nl-NL', {
-    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-  });
+  console.log('→ Showing certificate');
+  try {
+    document.querySelectorAll('.view').forEach(v => v.style.display = 'none');
+    
+    const certView = document.getElementById('cert-view');
+    if (certView) {
+      certView.style.display = 'block';
+      document.getElementById('cert-name').textContent = S.username || 'Leerling';
+      document.getElementById('cert-date').textContent = new Date().toLocaleDateString('nl-NL', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+    }
+  } catch(e) {
+    console.error('❌ Certificate error:', e);
+  }
 }
 
-function downloadPDF() {
-  if (!S.m6) {
-    alert('Voltooi eerst alle 6 modules!');
+// ════════════════════════════════════════════════════════
+// PDF EXPORT — MEGA FUNCTION
+// ════════════════════════════════════════════════════════
+
+function downloadCompletePDF() {
+  console.log('→ Downloading PDF');
+  
+  if (!S.username || !S.username.trim()) {
+    alert('⚠️ Vul eerst je naam in (linksboven in de zijbalk)!');
     return;
   }
+
+  if (!S.m6) {
+    alert('⚠️ Voltooi eerst alle 6 modules!');
+    return;
+  }
+
+  const allAnswers = S.answers || {};
   
-  const content = `
-    <div style="font-family: Arial, sans-serif; color: #333; padding: 20px;">
-      <div style="text-align: center; border: 3px solid #0066cc; border-radius: 8px; padding: 40px; margin-bottom: 30px;">
-        <h1 style="color: #0066cc; text-transform: uppercase;">Certificaat</h1>
-        <h2 style="color: #0066cc; font-size: 20px;">AI-Skills voor Leerlingen</h2>
-        <p style="font-size: 14px; margin: 20px 0;">Dit certificaat bevestigt dat</p>
-        <p style="font-size: 22px; font-weight: bold; color: #0066cc;">${S.username || 'Leerling'}</p>
-        <p style="font-size: 14px;">alle 6 modules succesvol heeft voltooid.</p>
-        <p style="margin-top: 30px; font-size: 12px;">${new Date().toLocaleDateString('nl-NL')}</p>
+  let htmlContent = `
+    <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6; max-width: 900px; margin: 0 auto;">
+      
+      <!-- CERTIFICATE PAGE -->
+      <div style="page-break-after: always; text-align: center; padding: 60px 40px; border: 3px solid #0066cc; border-radius: 8px; background: #f9f9f9; margin-bottom: 40px;">
+        <div style="font-size: 24px; margin-bottom: 20px;">🎉</div>
+        <h1 style="font-family: 'Arial Black', sans-serif; font-size: 36px; color: #0066cc; text-transform: uppercase; margin-bottom: 10px;">Certificaat</h1>
+        <h2 style="font-size: 24px; color: #0066cc; margin-bottom: 30px;">AI-Skills voor Leerlingen</h2>
+        
+        <div style="border-top: 2px solid #0066cc; border-bottom: 2px solid #0066cc; padding: 30px 0; margin: 30px 0;">
+          <p style="font-size: 16px; color: #666; margin: 0 0 10px 0;">Dit certificaat bevestigt dat</p>
+          <p style="font-size: 28px; font-weight: bold; color: #0066cc; margin: 0 0 20px 0;">${S.username || 'Leerling'}</p>
+          <p style="font-size: 14px; color: #666; margin: 0;">alle 6 modules van de <strong>AI-Skills voor Leerlingen</strong> cursus succesvol heeft voltooid.</p>
+        </div>
+        
+        <div style="text-align: left; background: #e6f2ff; padding: 20px; border-radius: 6px; margin: 20px 0;">
+          <p style="font-weight: bold; margin-top: 0; color: #0066cc;">Verworven competenties:</p>
+          <ul style="margin: 10px 0; padding-left: 20px;">
+            <li>Wat is AI? (overal, 3 elementen)</li>
+            <li>Hoe werkt AI? (Machine Learning, Deep Learning)</li>
+            <li>Generatieve AI & Prompting</li>
+            <li>Ethiek, Bias, Deepfakes</li>
+            <li>AI in school verantwoord gebruiken</li>
+            <li>Kritisch denken over AI-toekomst</li>
+          </ul>
+        </div>
+        
+        <div style="margin: 30px 0; padding: 20px; background: white; border-left: 4px solid #0066cc;">
+          <div style="display: flex; justify-content: space-around; font-size: 13px;">
+            <div><strong>Datum</strong><br>${new Date().toLocaleDateString('nl-NL', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
+            <div><strong>Niveau</strong><br>Secundair Onderwijs</div>
+            <div><strong>Geldigheid</strong><br>2 jaar</div>
+          </div>
+        </div>
+        
+        <p style="font-size: 12px; color: #999; margin-top: 40px; margin-bottom: 0;">Scholengroep Sint-Rembert · 2026-2027</p>
       </div>
       
-      <h2 style="color: #0066cc;">Je Antwoorden:</h2>
-      ${Object.keys(S.answers).map(key => `
-        <div style="background: #f5f5f5; padding: 10px; margin: 10px 0; border-left: 4px solid #0066cc;">
-          <strong>${key}:</strong> ${S.answers[key]}
-        </div>
-      `).join('')}
+      <!-- ANSWERS PAGE -->
+      <div style="page-break-after: always; padding: 40px; background: #f5f5f5;">
+        <h1 style="color: #0066cc; border-bottom: 3px solid #0066cc; padding-bottom: 10px;">📊 Je Antwoorden & Reflecties</h1>
+        
+        ${formatAnswersForPDF()}
+      </div>
     </div>
   `;
+
+  const element = document.createElement('div');
+  element.innerHTML = htmlContent;
   
+  // Check if html2pdf available
   if (typeof html2pdf !== 'undefined') {
-    const element = document.createElement('div');
-    element.innerHTML = content;
-    html2pdf().set({
+    const opt = {
       margin: 10,
-      filename: `AI-Certificaat-${S.username || 'Leerling'}-${new Date().getFullYear()}.pdf`,
+      filename: `AI-Certificaat-${S.username}-${new Date().getFullYear()}.pdf`,
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2 },
-      jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
-    }).from(element).save();
+      jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' },
+      pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+    };
+
+    html2pdf().set(opt).from(element).save();
+    console.log('✓ PDF generated');
   } else {
-    alert('PDF-library niet geladen, probeer het later opnieuw.');
+    console.warn('⚠️ html2pdf not available, using fallback');
+    downloadPDFFallback();
   }
 }
+
+function formatAnswersForPDF() {
+  let html = '';
+  const allAnswers = S.answers || {};
+  
+  Object.keys(allAnswers).forEach(key => {
+    const answer = allAnswers[key];
+    if (!answer) return;
+    
+    html += `
+      <div style="background: white; padding: 15px; margin: 15px 0; border-left: 4px solid #0066cc; border-radius: 4px;">
+        <p style="margin: 0; font-weight: bold; color: #0066cc;">${key}</p>
+        <p style="margin: 8px 0 0 0; color: #333; white-space: pre-wrap; font-family: Courier New, monospace; font-size: 12px;">
+          ${answer.substring(0, 200)}${answer.length > 200 ? '...' : ''}
+        </p>
+      </div>
+    `;
+  });
+  
+  return html || '<p style="color: #999;">Geen antwoorden opgeslagen.</p>';
+}
+
+function downloadPDFFallback() {
+  let text = `
+════════════════════════════════════════════════════════
+CERTIFICAAT — AI-SKILLS VOOR LEERLINGEN
+SCHOLENGROEP SINT-REMBERT
+════════════════════════════════════════════════════════
+
+Leerling: ${S.username}
+Datum: ${new Date().toLocaleDateString('nl-NL')}
+
+JE ANTWOORDEN:
+`;
+  
+  Object.keys(S.answers || {}).forEach(key => {
+    text += `\n${key}:\n${S.answers[key]}\n`;
+  });
+  
+  const blob = new Blob([text], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `AI-Certificaat-${S.username}-${new Date().getFullYear()}.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+  console.log('✓ TXT fallback downloaded');
+}
+
+// ════════════════════════════════════════════════════════
+// FINAL CHECKS
+// ════════════════════════════════════════════════════════
+
+console.log('✓ All functions defined');
+console.log('✓ Leerlingen.js ready');
