@@ -6,6 +6,30 @@
 <title>AI-Cursus — Scholengroep Sint-Rembert</title>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+/* Stellingen styling */
+.stellingen-box { background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 16px 0; }
+.stellingen-item { background: white; padding: 16px; margin: 12px 0; border-left: 4px solid var(--blue); border-radius: 4px; }
+.stellingen-label { font-weight: 700; color: var(--blue); font-size: 13px; margin-bottom: 8px; }
+.stellingen-text { font-size: 14px; color: #333; margin-bottom: 10px; line-height: 1.5; }
+.stellingen-opts { display: flex; gap: 12px; flex-wrap: wrap; }
+.stellingen-opt { flex: 1; min-width: 120px; }
+.stellingen-opt label { display: block; padding: 8px; border-radius: 4px; cursor: pointer; font-size: 13px; }
+.stellingen-opt input[type="radio"] { margin-right: 6px; }
+
+.video-box { background: #e6f3ff; padding: 14px; border-radius: 6px; margin: 12px 0; border-left: 4px solid #667eea; }
+.reflectie-box { background: #fff9e6; padding: 14px; border-radius: 6px; margin: 12px 0; border-left: 4px solid var(--orange); }
+.quiz-q { background: white; padding: 14px; border-radius: 6px; margin: 12px 0; border-left: 4px solid var(--blue); }
+
+/* PDF Export */
+@media print {
+  #sidebar { display: none; }
+  #main { margin: 0; width: 100%; }
+  .view { page-break-after: always; }
+  .mh { display: none; }
+}
+</style>
 </head>
 <body>
 <div id="app">
@@ -13,390 +37,393 @@
   <div class="sb-logo">
     <div class="sb-badge"><span>Sint-Rembert</span></div>
     <div class="sb-title">AI-<em>Cursus</em><br>Leerkrachten</div>
-    <div class="sb-sub">Scholengroep Sint-Rembert · schooljaar 2026-2027</div>
+    <div class="sb-sub">Scholengroep Sint-Rembert · 2026-2027</div>
   </div>
+  
   <div class="prog-wrap">
-    <div class="prog-label">Startest <span id="st-status">Nog te starten</span></div>
-    <div class="prog-label" style="margin-top:10px">Voortgang verplicht <span id="pct">0%</span></div>
+    <div class="prog-label">Module Status <span id="st-status">Start hier</span></div>
+    <div class="prog-label" style="margin-top:10px">Voortgang <span id="pct">0%</span></div>
     <div class="prog-track"><div class="prog-fill" id="pb" style="width:0%"></div></div>
   </div>
+  
   <div class="nav-sec">
     <div class="nav-lbl">Menu</div>
-    <div class="ni active" onclick="goHome()" id="nav-home"><div class="ni-icon">🏠</div><div class="ni-info"><div class="ni-title">Overzicht</div><div class="ni-sub">Startpagina & visie</div></div></div>
+    <div class="ni active" onclick="goHome()" id="nav-home"><div class="ni-icon">🏠</div><div class="ni-info"><div class="ni-title">Overzicht</div><div class="ni-sub">Startpagina</div></div></div>
   </div>
+  
   <div class="nav-sec">
-    <div class="nav-lbl">Verplichte modules</div>
-    <div class="ni available" onclick="sm(1)" id="nav-mod1"><div class="ni-icon">🤖</div><div class="ni-info"><div class="ni-title">Wat is AI?</div><div class="ni-sub">Module 1 · Verplicht</div></div><span class="ni-badge" id="l1">›</span></div>
-    <div class="ni locked" onclick="sm(2)" id="nav-mod2"><div class="ni-icon">🛡️</div><div class="ni-info"><div class="ni-title">Beleid & Leerlingen</div><div class="ni-sub">Module 2 · Verplicht</div></div><span class="ni-badge" id="l2">🔒</span></div>
+    <div class="nav-lbl">Verplichte Modules</div>
+    <div class="ni available" onclick="sm(1)" id="nav-mod1"><div class="ni-icon">🤖</div><div class="ni-info"><div class="ni-title">Module 1: Wat is AI?</div><div class="ni-sub">Verplicht</div></div><span class="ni-badge" id="l1">›</span></div>
+    <div class="ni locked" onclick="sm(2)" id="nav-mod2"><div class="ni-icon">🛡️</div><div class="ni-info"><div class="ni-title">Module 2: Beleid & Leerlingen</div><div class="ni-sub">Verplicht</div></div><span class="ni-badge" id="l2">🔒</span></div>
     <div class="ni locked" onclick="tryC()" id="nav-cert"><div class="ni-icon">🏆</div><div class="ni-info"><div class="ni-title">Certificaat</div><div class="ni-sub">Na modules 1 & 2</div></div><span class="ni-badge" id="lc">🔒</span></div>
   </div>
+  
   <div class="nav-sec">
     <div class="nav-lbl">Optioneel · Verdieping</div>
-    <div class="ni optional" onclick="sm(3)" id="nav-mod3"><div class="ni-icon">✨</div><div class="ni-info"><div class="ni-title">Copilot in de praktijk</div><div class="ni-sub">Verdieping op eigen tempo</div></div><span class="ni-badge" id="l3">›</span></div>
+    <div class="ni optional" onclick="sm(3)" id="nav-mod3"><div class="ni-icon">✨</div><div class="ni-info"><div class="ni-title">Module 3: Copilot in Praktijk</div></div><span class="ni-badge" id="l3">›</span></div>
   </div>
+  
   <div class="sb-bot">
     <div class="uc">
       <div class="av" id="av">?</div>
-      <div style="flex:1"><input class="un-inp" id="un" placeholder="Vul je naam in" disabled readonly><div class="eh">Voortgang lokaal bijgehouden</div></div>
+      <div style="flex:1"><input class="un-inp" id="un" placeholder="Je naam" onchange="sn()"><div class="eh">Voortgang lokaal opgeslagen</div></div>
     </div>
   </div>
 </aside>
 
 <main id="main">
 
-<!-- ════════ STARTTEST (verplichte poort, 1 kans) ════════ -->
-<div class="view active" id="view-starttest">
-  <div class="mc-content" id="st-content"></div>
-</div>
-
 <!-- ════════ HOME ════════ -->
-<div class="view" id="view-home">
+<div class="view active" id="view-home">
   <div class="hero">
     <div class="hero-ey"><span>Scholengroep Sint-Rembert × EU AI Act × Digisprong</span></div>
-    <h1 class="hero-h1">Word <span class="g">AI-Geletterd</span><br>als leerkracht</h1>
-    <p class="hero-p">AI verandert het onderwijs fundamenteel — ook bij ons. Deze cursus maakt je wegwijs in wat AI is, hoe je leerlingen begeleidt bij verantwoord gebruik, en wat onze schoolregels zeggen. Twee verplichte modules, één certificaat conform de EU AI Act. Wie verder wil, kan daarna optioneel verdiepen in Copilot.<br><br>
-    <strong>⭐ Plus:</strong> Gratis <a href="https://course.elementsofai.com/nl" target="_blank" rel="noopener" style="color: #ffd700; text-decoration: underline;">Elements of AI cursus</a> (TU Delft) — de Europese standaard voor AI-geletterdheid. 2+ miljoen deelnemers, 6 hoofdstukken, certificaat.</p>
+    <h1 class="hero-h1">Word <span class="g">AI-Geletterd</span><br>als Leerkracht</h1>
+    <p class="hero-p">AI verandert onderwijs fundamenteel. Deze cursus maakt je wegwijs in hoe AI werkt, hoe je leerlingen begeleidt bij verantwoord gebruik, en wat je schoolregels zeggen. 2 verplichte modules, 1 certificaat (EU AI Act), optionele verdieping in Copilot. Download alles in ÉÉN PDF!</p>
     <div class="hero-stats">
-      <div class="hs"><div class="hs-num">🧪</div><div class="hs-lbl">Startest · 1 kans</div></div>
-      <div class="hs"><div class="hs-num">2</div><div class="hs-lbl">Verplichte modules</div></div>
-      <div class="hs"><div class="hs-num">5</div><div class="hs-lbl">AI-labels</div></div>
-      <div class="hs"><div class="hs-num">+1</div><div class="hs-lbl">Optionele verdieping</div></div>
-      <div class="hs"><div class="hs-num">🏆</div><div class="hs-lbl">Certificaat</div></div>
+      <div class="hs"><div class="hs-num">2</div><div class="hs-lbl">Verplichte Modules</div></div>
+      <div class="hs"><div class="hs-num">📊</div><div class="hs-lbl">Met Videos & Quiz</div></div>
+      <div class="hs"><div class="hs-num">🎯</div><div class="hs-lbl">Praktisch Gericht</div></div>
+      <div class="hs"><div class="hs-num">🏆</div><div class="hs-lbl">1 Certificaat-PDF</div></div>
     </div>
   </div>
 
   <div class="sw">
-    <!-- VISIE -->
-    <div class="sw-title">Onze <em>visie</em> op AI</div>
-    <div class="sw-sub">Waarom investeert Sint-Rembert in AI-geletterdheid voor elk personeelslid?</div>
+    <div class="sw-title">Onze <em>Visie</em> op AI</div>
+    <div class="sw-sub">Waarom investeert Sint-Rembert in AI-geletterdheid voor leerkrachten?</div>
     <div class="vision-box">
       <div class="vision-title">🎯 Wat willen wij bereiken?</div>
-      <div class="vision-text">Sint-Rembert gelooft in <strong>AI als een kans</strong>, niet als een BEDREIGING. We willen dat elke leerkracht — van SMIK tot VTI, van ASO tot BSO — <strong>zelfzeker en verantwoord</strong> omgaat met AI-tools. Niet om leerkrachten te vervangen, maar om hen te <strong>versterken</strong>: meer tijd voor de leerling, minder administratieve last, betere differentiatie.<br><br>
-      Twee kernprincipes sturen onze aanpak: <strong>alleen meerwaarde</strong> — gebruik AI enkel als het écht bijdraagt aan goed onderwijs — en <strong>transparantie</strong> — wie AI gebruikt, blijft altijd verantwoordelijk voor het proces en de output. De leerkracht blijft de expert.<br><br>
-      De <strong>EU AI Act</strong> (artikel 4, van toepassing sinds 2 februari 2025) verwacht van organisaties — ook scholen — dat ze zorgen voor voldoende AI-geletterdheid bij hun personeel. Het voltooien van de twee verplichte modules is onze invulling van die verplichting. We sluiten daarbij aan op het werk van het <strong>Kenniscentrum Digisprong</strong> (Vlaamse overheid), het <strong>Kenniscentrum Data & Maatschappij</strong> en <strong>Kennisnet</strong>.<br><br>
+      <div class="vision-text">Sint-Rembert ziet AI als een <strong>kans</strong>, niet als bedreiging. We willen dat jij als leerkracht <strong>zelfzeker en verantwoord</strong> omgaat met AI-tools. Niet om jou te vervangen, maar om je te <strong>versterken</strong>: meer tijd voor leerlingen, minder administratie, betere differentiatie.<br><br>
       
-      <strong>🎓 Aanvulling:</strong> Deze cursus sluit aan bij <a href="https://www.elementsofai.nl" target="_blank" rel="noopener" style="color: #ffd700; text-decoration: underline;"><strong>Elements of AI</strong></a> — de internationale standaard voor AI-basiskennis (TU Delft versie). Leerkrachten die ook de Elements of AI cursus volgen krijgen een extra certificaat en versterken hun expertise.</div>
+      <strong>Twee kernprincipes:</strong><br>
+      ✓ <strong>Alleen meerwaarde</strong> — AI enkel als het écht bijdraagt aan goed onderwijs<br>
+      ✓ <strong>Transparantie</strong> — jij blijft verantwoordelijk voor proces en output<br><br>
+      
+      De <strong>EU AI Act (artikel 4)</strong> verwacht van organisaties dat personeel voldoende AI-geletterd is. Deze 2 modules voldoen aan die verplichting.<br><br>
+      
+      ⭐ <strong>Bonus:</strong> <a href="https://course.elementsofai.com/nl" target="_blank" rel="noopener" style="color: #ffd700; text-decoration: underline;"><strong>Elements of AI</strong></a> (gratis TU Delft cursus) — als je beide doet krijg je dubbel certificaat.
+      </div>
     </div>
 
-    <!-- SPELREGELS -->
     <div class="sw-title" style="margin-top:28px">De <em>AI-Spelregels</em></div>
-    <div class="sw-sub">Geldend voor alle leerkrachten en leerlingen van de scholengroep.</div>
+    <div class="sw-sub">Geldend voor leerkrachten en leerlingen.</div>
     <div class="sr-row">
       <div class="sr-box wel">
         <div class="sr-box-title">✅ Wat mag wel?</div>
-        <div class="sri"><div class="sr-chk">✓</div>Anonieme tekst ingeven in een goedgekeurde AI-tool</div>
-        <div class="sri"><div class="sr-chk">✓</div>Documenten uploaden naar een goedgekeurde tool (Copilot M365)</div>
-        <div class="sri"><div class="sr-chk">✓</div>Copilot M365 gebruiken met je schoolaccount</div>
-        <div class="sri"><div class="sr-chk">✓</div>AI inzetten voor lesvoorbereiding en feedback</div>
+        <div class="sri"><div class="sr-chk">✓</div>Anonieme tekst ingeven in goedgekeurde AI (Copilot M365)</div>
+        <div class="sri"><div class="sr-chk">✓</div>Documenten uploaden naar Copilot M365</div>
+        <div class="sri"><div class="sr-chk">✓</div>AI voor lesvoorbereiding & feedback</div>
         <div class="sri"><div class="sr-chk">✓</div>AI-output kritisch gebruiken als vertrekpunt</div>
+        <div class="sri"><div class="sr-chk">✓</div>Leerlingen begeleiding geven bij AI-gebruik</div>
       </div>
       <div class="sr-box niet">
         <div class="sr-box-title">❌ Wat mag niet?</div>
-        <div class="sri sr-x-item"><div class="sr-x">✕</div>Persoonsgegevens ingeven in niet-goedgekeurde AI-tools</div>
-        <div class="sri sr-x-item"><div class="sr-x">✕</div>Schooldocumenten uploaden naar gratis tools (ChatGPT, Gemini...)</div>
-        <div class="sri sr-x-item"><div class="sr-x">✕</div>AI-output kritiekloos overnemen zonder controle</div>
-        <div class="sri sr-x-item"><div class="sr-x">✕</div>Rapporten met leerlingennamen uploaden naar AI</div>
-        <div class="sri sr-x-item"><div class="sr-x">✕</div>Leerlingen laten werken met niet-goedgekeurde tools</div>
+        <div class="sri sr-x-item"><div class="sr-x">✕</div>Persoonsgegevens in niet-goedgekeurde tools</div>
+        <div class="sri sr-x-item"><div class="sr-x">✕</div>Schooldocumenten naar gratis tools</div>
+        <div class="sri sr-x-item"><div class="sr-x">✕</div>AI-output kritiekloos gebruiken</div>
+        <div class="sri sr-x-item"><div class="sr-x">✕</div>Leerlinggegevens uploaden</div>
+        <div class="sri sr-x-item"><div class="sr-x">✕</div>Leerlingen niet-goedgekeurde tools geven</div>
       </div>
     </div>
 
-    <!-- ELEMENTS OF AI BANNER -->
-    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px; padding: 28px; margin: 28px 0; color: white; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);">
-      <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 12px;">
-        <span style="font-size: 24px;">⭐</span>
-        <div style="font-weight: 700; color: rgba(255,255,255,0.9);">GRATIS: Elements of AI Cursus</div>
-      </div>
-      <p style="margin: 0 0 14px 0; font-size: 14px; line-height: 1.6;">
-        De <strong>Europese standaard</strong> voor AI-geletterdheid (TU Delft + Universiteit van Helsinki). 6 interactieve hoofdstukken, geen programmering nodig, gratis certificaat. 
-        <br>• 2+ miljoen deelnemers in 170 landen
-        <br>• Aansluitend op je Sint-Rembert training
-        <br>• Je krijgt <strong>dubbel certificaat</strong> als je beide cursussen doet
-      </p>
-      <a href="https://course.elementsofai.com/nl" target="_blank" rel="noopener" style="display: inline-block; background: white; color: #667eea; padding: 10px 18px; border-radius: 6px; font-weight: 600; text-decoration: none; font-size: 13px;">
-        → Start Elements of AI (Nederlands)
-      </a>
-    </div>
-
-    <!-- PROFESSIONALISERING PROMO -->
-    <div class="promo-box">
-      <div class="promo-ey"><span>Professionaliseringsplan Sint-Rembert</span></div>
-      <div class="promo-title">Deze cursus is nog maar <em>het begin</em></div>
-      <div class="promo-sub">AI-geletterdheid stopt niet bij een certificaat. Volgend schooljaar gaan we samen verder — met een topspreker over de ethische kant van AI en een praktisch sporenaanbod waarin je op jouw niveau aan de slag gaat. Plaatsen zijn beperkt, dus schrijf je nu al in.</div>
-      <div class="promo-grid">
-        <div class="promo-card">
-          <div class="promo-icon">🎤</div>
-          <div class="promo-date">📅 18 november</div>
-          <div class="promo-card-title">Keynote: Orhan Agirdag</div>
-          <div class="promo-card-desc">Professor onderwijswetenschappen (KU Leuven) en auteur over AI in het onderwijs. Hij neemt ons mee in de <strong style="color:white">ethische kant van AI</strong>: gelijke kansen, bias en wat AI doet met de kern van ons lesgeven. Een must voor elke leerkracht van de scholengroep.</div>
-        </div>
-        <div class="promo-card">
-          <div class="promo-icon">🛠️</div>
-          <div class="promo-date">Doorheen het schooljaar</div>
-          <div class="promo-card-title">Sporenaanbod met Howest</div>
-          <div class="promo-card-desc">Praktische workshops in samenwerking met <strong style="color:white">Howest</strong>, opgebouwd in sporen op jouw niveau: van eerste stappen met Copilot tot gevorderd werken met agents en AI in jouw vakgebied. Hands-on, meteen toepasbaar in je klas.</div>
-        </div>
-      </div>
-      <a class="promo-btn" href="https://apps.powerapps.com/play/e/a6565af8-ceef-e6fa-abee-2fc82d974843/a/05835e22-d992-431c-b608-0f9b6756afe6?tenantId=e285dc48-b92b-4e97-9ea5-bdaed06bbb77&hint=67663972-1038-4a71-9d66-1bdbb7f7e205&sourcetime=1765461892598#">✍️ Schrijf je meteen in</a>
-    </div>
-
-    <!-- MODULES -->
-    <div class="sw-title" style="margin-top:28px">De <em>modules</em></div>
-    <div class="sw-sub">Modules 1 en 2 zijn verplicht en geven recht op je certificaat. "Copilot in de praktijk" is een optionele verdieping — warm aanbevolen, maar niet verplicht.</div>
+    <div class="sw-title" style="margin-top:28px">De <em>Modules</em></div>
+    <div class="sw-sub">Modules 1 en 2 zijn verplicht. Module 3 is optioneel.</div>
     <div class="mods-grid">
-      <div class="mc" id="cm1" onclick="sm(1)">
+      <div class="mc" onclick="sm(1)">
         <div class="mc-badge">Module 1 · Verplicht</div>
         <div class="mc-icon">🤖</div>
         <div class="mc-title">Wat is AI?</div>
-        <div class="mc-desc">Van machine learning tot deepfakes — je begrijpt hoe AI werkt, herkent het in je omgeving en kent de risico's voor jouw lespraktijk.</div>
-        <div class="mc-meta"><div class="mc-dur">Eigen tempo</div><div class="mc-stat" id="ps1">Beschikbaar</div></div>
-        <button class="sr-btn g" id="bm1">▶ Start</button>
+        <div class="mc-desc">Hoe AI werkt, waar het risico's biedt, en hoe je dit in je klas inzet.</div>
+        <button class="sr-btn g">▶ Start</button>
       </div>
-      <div class="mc locked" id="cm2" onclick="sm(2)">
+      <div class="mc" onclick="sm(2)">
         <div class="mc-badge">Module 2 · Verplicht</div>
         <div class="mc-icon">🛡️</div>
-        <div class="mc-title">Beleid & Leerlingen begeleiden</div>
-        <div class="mc-desc">De AI-spelregels, de EU AI Act, the 5 AI-labels, leerlingen begeleiden én je eigen opdrachten AI-bestendig maken. Essentieel voor elke leerkracht.</div>
-        <div class="mc-meta"><div class="mc-dur">Eigen tempo</div><div class="mc-stat locked" id="ps2">🔒 Na module 1</div></div>
-        <button class="sr-btn" id="bm2" disabled>🔒 Voltooi module 1</button>
+        <div class="mc-title">Beleid & Leerlingen</div>
+        <div class="mc-desc">EU AI Act, veilig omgaan met AI, leerlingen begeleiden.</div>
+        <button class="sr-btn">▶ Start</button>
       </div>
-      <div class="mc optional-mod" id="cm3" onclick="sm(3)">
-        <div class="mc-badge">Optioneel · Verdieping</div>
-        <div class="mc-icon">🎯</div>
-        <div class="mc-title">AI in Jouw Vak</div>
-        <div class="mc-desc">Praktische cases per vakgebied. Nederlands? Taalvakken? Techniek? Ontdek concrete voorbeelden hoe AI meerwaarde toevoegt in jouw lespraktijk — en waar de valkuilen zitten.</div>
-        <div class="mc-meta"><div class="mc-dur">Eigen tempo</div><div class="mc-stat opt" id="ps3">⭐ Optioneel</div></div>
-        <button class="sr-btn o" id="bm3">▶ Start verdieping</button>
+      <div class="mc" onclick="sm(3)">
+        <div class="mc-badge">Module 3 · Optioneel</div>
+        <div class="mc-icon">✨</div>
+        <div class="mc-title">Copilot in Praktijk</div>
+        <div class="mc-desc">Hands-on: prompts, agents, praktische les-voorbeelden.</div>
+        <button class="sr-btn">▶ Start</button>
       </div>
     </div>
-
-    <!-- CASE STUDIES PER VAKGEBIED -->
-    <div class="sw-title" style="margin-top:40px">Case Studies <em>per vakgebied</em></div>
-    <div class="sw-sub">Praktische voorbeelden hoe AI in je lespraktijk kan helpen — gebaseerd op ons beleidskader.</div>
-    
-    <div class="cases-container">
-      <!-- NEDERLANDS CASES -->
-      <div class="case-section">
-        <div class="case-header">📖 NEDERLANDS</div>
-        
-        <div class="case-box">
-          <div class="case-num">Case 1</div>
-          <div class="case-title">Schrijven met AI-assistentie</div>
-          <div class="case-scenario"><strong>Scenario:</strong> Je leerling gebruikt ChatGPT voor zijn essay.</div>
-          <div class="case-content">
-            <strong>Beleidskader:</strong> "De mens blijft centraal" + "Transparantie"<br><br>
-            ✅ JA, ALS leerling:<br>
-            • Het AI-antwoord kritisch leest en aanpast<br>
-            • Zijn eigen stem behoudt<br>
-            • Transparant maakt: "Met AI-assistentie"<br><br>
-            ❌ NEE, ALS leerling:<br>
-            • Alles kritiekloos overneemt<br>
-            • Niet controleert op hallucinaties<br>
-            • Als eigen werk voordoet<br><br>
-            <strong>Je rol als leerkracht:</strong> Leg uit dat AI een sparringpartner is, niet een vervanger. Check of leerling zelf nadenkt.
-          </div>
-        </div>
-
-        <div class="case-box">
-          <div class="case-num">Case 2</div>
-          <div class="case-title">Bias in taal herkennen</div>
-          <div class="case-scenario"><strong>Scenario:</strong> ChatGPT schrijft karakter-beschrijving.</div>
-          <div class="case-content">
-            <strong>Beleidskader:</strong> "Kritisch nadenken" + "Hallucinaties herkennen"<br><br>
-            PROMPT: "Schrijf over een succesvolle zakenman die hardvochtig is."<br>
-            AI OUTPUT: "John, een man van 55, gedreven..."<br><br>
-            <strong>Wat valt op?</strong> Stereotype: man + zakenman = hardvochtig.<br>
-            Dit laat zien: <strong>AI leert van data met vooroordelen erin.</strong><br><br>
-            <strong>Activiteit voor je klas:</strong><br>
-            Laat leerlingen dezelfde prompt met variaties geven (vrouw, anders beroep). 
-            Vergelijk outputs. Discussie: "Wie traingt AI? Wat zijn hun vooroordelen?"
-          </div>
-        </div>
-
-        <div class="case-box">
-          <div class="case-num">Case 3</div>
-          <div class="case-title">Deepfakes & vertrouwen in media</div>
-          <div class="case-scenario"><strong>Scenario:</strong> "Is dit plaatje van je favoriete acteur echt?"</div>
-          <div class="case-content">
-            <strong>Beleidskader:</strong> "Kritisch denken" + "Transparantie"<br><br>
-            AI kan nu heel overtuigende beelden, video's en audio's maken. 
-            "Zien is geloven" werkt niet meer.<br><br>
-            <strong>Praktisch:</strong><br>
-            • Reverse image search leren<br>
-            • Metadata checken<br>
-            • Bronnen verifiëren<br><br>
-            <strong>Activiteit:</strong> Toon AI-gegenereerde vs. echte afbeeldingen. 
-            Laat leerlingen raden. Discuss: "Hoe vertrouwen we media in 2026?"
-          </div>
-        </div>
-      </div>
-
-      <!-- TECHNISCHE VAKKEN CASES -->
-      <div class="case-section">
-        <div class="case-header">🔧 TECHNISCHE VAKKEN (Loodgieter, Timmeren, Elektriciteit)</div>
-        
-        <div class="case-box">
-          <div class="case-num">Case 4</div>
-          <div class="case-title">Projectplanning met AI</div>
-          <div class="case-scenario"><strong>Scenario:</strong> Groot project met 100+ taken. Hoe plannen?</div>
-          <div class="case-content">
-            <strong>Beleidskader:</strong> "Meerwaarde is vereist"<br><br>
-            ZONDER AI: Handmatig spreadsheet → 4-5 uur, veel fouten<br>
-            MET AI: Copilot krijgt project-spec → 30 minuten, logische volgorde<br><br>
-            AI GENEREERT:<br>
-            • Takenlijst (logisch georderd)<br>
-            • Resource allocation<br>
-            • Timeline realistisch?<br><br>
-            <strong>KRITISCH CHECKEN:</strong><br>
-            • Mist AI iets? (regelgeving, leveranciers?)<br>
-            • Wie controleert en verandert? (JIJ)<br>
-            • Wat voegt AI écht toe? (Snelheid + structuur)
-          </div>
-        </div>
-
-        <div class="case-box">
-          <div class="case-num">Case 5</div>
-          <div class="case-title">Video-tutorials maken</div>
-          <div class="case-scenario"><strong>Scenario:</strong> Hoe leg je ingewikkelde techniek uit?</div>
-          <div class="case-content">
-            <strong>Beleidskader:</strong> "Meerwaarde" + "Transparantie"<br><br>
-            KLASSIEK: Zelf filmen + bewerken → 3-4 uur<br>
-            MET AI: Grof filmen + AI edit/ondertitels → 1-2 uur<br><br>
-            <strong>VOORDEEL:</strong> Sneller, professioneler<br>
-            <strong>RISICO:</strong> AI mist technische nuances, waarschuwingen<br><br>
-            <strong>Activiteit voor je klas:</strong><br>
-            Procedure opnemen → AI laten bewerken → 
-            Critical review: "Snapt een newbie dit? Miste AI wat?"
-          </div>
-        </div>
-
-        <div class="case-box">
-          <div class="case-num">Case 6</div>
-          <div class="case-title">Diagnose & troubleshooting</div>
-          <div class="case-scenario"><strong>Scenario:</strong> Motor start niet. Hoe begin je?</div>
-          <div class="case-content">
-            <strong>Beleidskader:</strong> "Kritisch nadenken"<br><br>
-            KLASSIEK: Ervaring + checklist in je hoofd<br>
-            MET AI: "Mijn boormachine werkt niet, LED knippert" → systematisch plan<br><br>
-            AI OUTPUT:<br>
-            1. Batterij controleren<br>
-            2. Reset button<br>
-            3. Contact schoonmaken<br>
-            4. Motor test<br>
-            5. Warranty check<br><br>
-            <strong>VOORDEEL:</strong> Systematisch, geen stappen gemist<br>
-            <strong>RISICO:</strong> AI ziet veiligheid niet, kan model-specifiek missen<br><br>
-            <strong>Les:</strong> "AI = sparringpartner, niet vervanger"
-          </div>
-        </div>
-      </div>
-
-      <!-- UNIVERSEEL -->
-      <div class="case-section">
-        <div class="case-header">🧠 ALLE VAKKEN</div>
-        
-        <div class="case-box">
-          <div class="case-num">Case 7</div>
-          <div class="case-title">Prompts verfijnen (meta-vaardigheid)</div>
-          <div class="case-scenario"><strong>Scenario:</strong> "Leg AI uit" → generiek antwoord</div>
-          <div class="case-content">
-            SLECHT PROMPT: "Leg AI uit"<br>
-            GOED PROMPT: "Leg AI uit in één paragraaf, begrijpelijk voor 14-jarigen, met voetbal-voorbeeld"<br>
-            SUPER GOED: "Je bent leraar Nederlands. Leg AI uit zodat Havo-3 hallucinaties begrijpt. Voetbal-voorbeeld. Toon goed + slecht prompt."<br><br>
-            <strong>Key insight:</strong> JIJ stuurt AI, niet andersom.<br><br>
-            <strong>Activiteit:</strong> Leerling stelt slechte prompt → AI slechter antwoord → 
-            Verfijnt prompt → AI beter antwoord. 
-            Aha!-moment: Hoe je vraagt bepaalt wat je krijgt.
-          </div>
-        </div>
-
-        <div class="case-box">
-          <div class="case-num">Case 8</div>
-          <div class="case-title">Fake vs. Real werk herkennen</div>
-          <div class="case-scenario"><strong>Scenario:</strong> "Gaat dit werkstuk van AI of leerling?"</div>
-          <div class="case-content">
-            ECHT LEERLINGWERK:<br>
-            • Persoonlijke fouten (typefoutten, oneven zinnen)<br>
-            • Onvolkomenheden (niet alles perfect)<br>
-            • Unieke gedachte (weird angle, eigen mening)<br>
-            • Groeisporen (verbetering t.o.v. vorige week)<br><br>
-            AI-GEGENEREERD:<br>
-            • Te glad, teveel perfectie<br>
-            • Generiek (zou voor iedereen werken)<br>
-            • Geen persoonlijke stem<br>
-            • Te snel klaar (geen twijfels)<br>
-            • "ChatGPT-speak" (bepaalde frases, structuur)<br><br>
-            <strong>Activiteit:</strong> Toon 3 werkstukken, leerlingen raden. 
-            Reveal + discuss: "AI heeft een stem. Leer die herkennen."
-          </div>
-        </div>
-      </div>
-    </div>
-
   </div>
 </div>
 
-<!-- ════════ MODULE 1 ════════ -->
+<!-- ════════ MODULE 1: WAT IS AI? ════════ -->
 <div class="view" id="view-mod1">
   <div class="mh">
     <button class="bk" onclick="sv('home')">← Terug</button>
-    <div class="mh-info"><div class="mh-num">Module 1 · Verplicht</div><div class="mh-title">Wat is AI? — Van regels naar generatieve AI</div></div>
+    <div class="mh-info"><div class="mh-num">Module 1 · Verplicht</div><div class="mh-title">Wat is AI?</div></div>
     <div class="dots" id="sd1"></div>
   </div>
-  <div class="mc-content" id="m1c"></div>
+  <div class="mc-content" style="padding: 20px;">
+    <h2>🤖 Wat is Artificiële Intelligentie?</h2>
+    <p>AI is niet één ding. Het gaat van eenvoudige regels tot complexe neurale netwerken. Wat moet jij als leerkracht ervan weten?</p>
+
+    <h3>De 3 Essentiële Elementen</h3>
+    <div style="background: #f0f2f5; padding: 14px; border-radius: 6px; margin: 12px 0;">
+      <strong>1️⃣ Sterk Computersysteem</strong><br>
+      Hardware en software die miljarden berekeningen doet.
+    </div>
+    <div style="background: #f0f2f5; padding: 14px; border-radius: 6px; margin: 12px 0;">
+      <strong>2️⃣ HEEL VEEL Data</strong><br>
+      Miljoenen tot miljarden voorbeelden om patronen in te vinden.
+    </div>
+    <div style="background: #f0f2f5; padding: 14px; border-radius: 6px; margin: 12px 0;">
+      <strong>3️⃣ Algoritmes</strong><br>
+      Wiskundige formules die patronen herkennen en toepassen.
+    </div>
+
+    <div class="video-box">
+      <strong>📹 Video 1:</strong> "AI in Onderwijs — Impact en Risico's" (8 min) → <a href="https://www.youtube.com/embed/JfIgo1hLaFI" target="_blank">Bekijk</a>
+    </div>
+
+    <h3>AI in je Klas?</h3>
+    <p>Je gebruikt waarschijnlijk al AI zonder het te weten:</p>
+    <ul>
+      <li><strong>📧 Automatische e-mail-filtering</strong> (spam-filter)</li>
+      <li><strong>🔍 Autocorrect in Word</strong> (spelling/grammatica)</li>
+      <li><strong>🎯 Leerling-aanbevelingen in LMS</strong></li>
+      <li><strong>📊 Geautomatiseerde cijferberekening</strong></li>
+      <li><strong>🎤 Speech-to-text in meetingtools</strong></li>
+    </ul>
+
+    <div class="reflectie-box">
+      <strong>💭 Reflectie M1.1:</strong> Waar zie JIJ AI in jouw dagelijkse werk als leerkracht? Wat maakt het beter/moeilijker?
+      <textarea id="ans_m1_1" style="width:100%;height:80px;margin-top:10px;padding:8px;border:1px solid #ddd;border-radius:4px;font-family:Arial;font-size:13px;" placeholder="Typ je gedachten..." onchange="saveAnswer('ans_m1_1')"></textarea>
+    </div>
+
+    <h3>Machine Learning & Deep Learning</h3>
+    <p>AI "leert" niet echt. Het herkent patronen. Verschil:</p>
+    <ul>
+      <li><strong>Machine Learning:</strong> "E-mail met 'KLIK HIER' is 95% spam"</li>
+      <li><strong>Deep Learning:</strong> "Dit gezicht is 99% waarschijnlijk een huiswerk-foto (plagiaatcheck)"</li>
+    </ul>
+
+    <div class="quiz-q">
+      <strong>❓ Quiz M1.1:</strong> ChatGPT kan zo goed schrijven omdat:<br>
+      <div class="quiz-opt"><input type="radio" name="q_m1_1" value="a"> Het miljarden tekstvoorbeelden heeft gezien</div>
+      <div class="quiz-opt"><input type="radio" name="q_m1_1" value="b"> Het echt kan denken</div>
+      <div class="quiz-opt"><input type="radio" name="q_m1_1" value="c"> Het verbonden is met internet</div>
+      <button onclick="saveAnswer('q_m1_1', 'quiz')" class="sr-btn g" style="font-size:12px;margin-top:10px;">✓ Opslaan</button>
+      <span id="feedback_q_m1_1" style="margin-left:10px;"></span>
+    </div>
+
+    <h3>Risico's in Onderwijs</h3>
+    <ul>
+      <li><strong>⚠️ Hallucinations:</strong> AI verzint dingen (false facts)</li>
+      <li><strong>⚠️ Bias:</strong> AI leert vooroordelen uit data</li>
+      <li><strong>⚠️ Plagiarism:</strong> AI herkent gestolen content niet altijd</li>
+      <li><strong>⚠️ Privacy:</strong> Leerlingdata kan gelekt worden</li>
+    </ul>
+
+    <button class="sr-btn g" onclick="completeModule(1)" style="margin-top: 20px;">✅ Module 1 Voltooid</button>
+  </div>
 </div>
 
-<!-- ════════ MODULE 2 ════════ -->
+<!-- ════════ MODULE 2: BELEID & LEERLINGEN ════════ -->
 <div class="view" id="view-mod2">
   <div class="mh">
     <button class="bk" onclick="sv('home')">← Terug</button>
-    <div class="mh-info"><div class="mh-num">Module 2 · Verplicht</div><div class="mh-title">Beleid & Leerlingen begeleiden</div></div>
+    <div class="mh-info"><div class="mh-num">Module 2 · Verplicht</div><div class="mh-title">Beleid & Leerlingen Begeleiden</div></div>
     <div class="dots" id="sd2"></div>
   </div>
-  <div class="mc-content" id="m2c"></div>
-</div>
+  <div class="mc-content" style="padding: 20px;">
+    <h2>🛡️ Veilig AI-Gebruik in Je Klas</h2>
+    <p>Hoe bescherm je leerlingen? Hoe zeg je nee op de juiste manier? Hoe leer je ze verantwoord omgaan?</p>
 
-<!-- ════════ MODULE 3 (OPTIONEEL — ROLE-AWARE VERDIEPING) ════════ -->
-<div class="view" id="view-mod3">
-  <div class="mh opt-mh">
-    <button class="bk" onclick="sv('home')">← Terug</button>
-    <div class="mh-info">
-      <div class="mh-num">Optionele verdieping · Copilot op jouw maat</div>
-      <div class="mh-title" id="mod3-title">Copilot in de praktijk</div>
-    </div>
-    <div class="dots" id="sd3"></div>
-  </div>
-  <div class="mc-content" id="m3c"></div>
-</div>
+    <h3>EU AI Act — Wat Betekent Dit voor Mij?</h3>
+    <p>Artikel 4 van de <strong>EU AI Act (geldig sinds feb 2025)</strong> zegt:</p>
+    <blockquote style="background: #e8f4f8; padding: 14px; border-left: 4px solid var(--blue); margin: 12px 0; font-size: 14px;">
+      Organisaties die AI gebruiken moeten zorgen dat hun personeel <strong>voldoende geletterd</strong> is.
+    </blockquote>
+    <p>Dat is waarom je deze cursus volgt! Je draagt nu bij aan schoolbrede AI-veiligheid.</p>
 
-<!-- ════════ CERTIFICAAT ════════ -->
-<div id="cert-view">
-  <div class="cert-wrap">
-    <div class="cert-intro">
-      <div class="cert-fire">🎉</div>
-      <h2 style="font-family:'Archivo Black',sans-serif;font-size:26px;color:var(--blue);text-transform:uppercase;margin-bottom:7px">Gefeliciteerd!</h2>
-      <p style="color:var(--muted);font-weight:700;margin-bottom:28px">Je hebt de 2 verplichte modules voltooid. Sla je reflectieverslag op en download je certificaat hieronder.</p>
+    <div class="video-box">
+      <strong>📹 Video 2:</strong> "EU AI Act Begrijpen" (6 min) → <a href="https://www.youtube.com/embed/eKXPfM_T8q4" target="_blank">Bekijk</a>
     </div>
 
-    <div class="ss-box" style="text-align:left;margin-bottom:20px">
-      <div class="ss-title">📤 Voltooiing & Portfolio stappen</div>
-      <div class="ss-steps">
-        <div class="ss-step"><div class="ss-step-num">1</div><div class="ss-step-text">Controleer eerst dat <strong>je naam correct ingevuld is</strong> (links onderaan in de zijbalk). Die komt op het certificaat.</div></div>
-        <div class="ss-step"><div class="ss-step-num">2</div><div class="ss-step-text">Klik op <strong>"💾 Download Reflectieverslag (TXT)"</strong> om je ingevulde antwoorden en reflecties op te slaan voor je eigen portfolio.</div></div>
-        <div class="ss-step"><div class="ss-step-num">3</div><div class="ss-step-text">Klik op <strong>"🖨️ Download certificaat (PDF)"</strong>. Kies in je printermenu <strong>"Opslaan als PDF"</strong> en bewaar het bestand goed — je hebt dit nodig voor stap 4.</div></div>
-        <div class="ss-step"><div class="ss-step-num">4</div><div class="ss-step-text"><strong>Upload je certificaat PDF</strong> in <strong>Rembert Academy</strong> onder het onderdeel "AI-Geletterdheid — Certificaat 2026-2027". Voeg ook je reflectieverslag toe.</div></div>
+    <h3>Leerlingen Begeleiden bij AI-Gebruik</h3>
+    <p><strong>✅ MOG WEL:</strong></p>
+    <ul>
+      <li>ChatGPT gebruiken om een concept uit te leggen</li>
+      <li>AI-feedback krijgen op hun eigen essay</li>
+      <li>Brainstorming doen met AI</li>
+      <li>AI gebruiken als hulpmiddel, met kritische blik</li>
+    </ul>
+
+    <p><strong>❌ MAG NIET (Plagiaat!):</strong></p>
+    <ul>
+      <li>ChatGPT-essay direct inleveren als eigen werk</li>
+      <li>AI gebruiken in toets (tenzij uitdrukkelijk toegestaan)</li>
+      <li>AI-output kritiekloos overnemen</li>
+      <li>Zeggen dat ze het zelf schreven (transparantie!)</li>
+    </ul>
+
+    <h3>Sint-Rembert AI-Charter: Regels voor je Klas</h3>
+    <p>Jij gaat MET je leerlingen afspraken maken. Voorbeeld:</p>
+    <div style="background: #fff0e6; padding: 14px; border-radius: 6px; margin: 12px 0; border-left: 4px solid var(--orange);">
+      <strong>Onze AI-Afspraken:</strong><br>
+      • Zeg ALTIJD wanneer je AI gebruikt<br>
+      • AI is een hulpmiddel, niet vervanging<br>
+      • Je bent VERANTWOORDELIJK voor het resultaat<br>
+      • Je moet BEGRIJPEN wat AI doet<br>
+      • Delen van AI-output mag, volledig kopieëren niet
+    </div>
+
+    <div class="reflectie-box">
+      <strong>💭 Reflectie M2.1:</strong> Welke AI-afspraken zou JIJ willen maken met je leerlingen? Waarom deze?
+      <textarea id="ans_m2_1" style="width:100%;height:100px;margin-top:10px;padding:8px;border:1px solid #ddd;border-radius:4px;" placeholder="Typ je charter-ideeën..." onchange="saveAnswer('ans_m2_1')"></textarea>
+    </div>
+
+    <h3>Stellingen — Wat Vind JIJ?</h3>
+    <p>Geef je mening (geen goed/fout antwoord!):</p>
+
+    <div class="stellingen-box">
+      <div class="stellingen-item">
+        <div class="stellingen-label">Stelling 1</div>
+        <div class="stellingen-text">"AI zal er binnen 10 jaar voor zorgen dat leerlingen minder goed zelfstandig kunnen schrijven."</div>
+        <div class="stellingen-opts">
+          <div class="stellingen-opt">
+            <label><input type="radio" name="stel_m2_1" value="sterk_eens" onchange="saveAnswer('stel_m2_1')"> Sterk eens</label>
+          </div>
+          <div class="stellingen-opt">
+            <label><input type="radio" name="stel_m2_1" value="eens" onchange="saveAnswer('stel_m2_1')"> Eens</label>
+          </div>
+          <div class="stellingen-opt">
+            <label><input type="radio" name="stel_m2_1" value="neutraal" onchange="saveAnswer('stel_m2_1')"> Neutraal</label>
+          </div>
+          <div class="stellingen-opt">
+            <label><input type="radio" name="stel_m2_1" value="oneens" onchange="saveAnswer('stel_m2_1')"> Oneens</label>
+          </div>
+          <div class="stellingen-opt">
+            <label><input type="radio" name="stel_m2_1" value="sterk_oneens" onchange="saveAnswer('stel_m2_1')"> Sterk oneens</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="stellingen-item">
+        <div class="stellingen-label">Stelling 2</div>
+        <div class="stellingen-text">"Als leerkracht moet ik AI-output ALTIJD controleren, zelfs als het er overtuigend uitziet."</div>
+        <div class="stellingen-opts">
+          <div class="stellingen-opt">
+            <label><input type="radio" name="stel_m2_2" value="sterk_eens" onchange="saveAnswer('stel_m2_2')"> Sterk eens</label>
+          </div>
+          <div class="stellingen-opt">
+            <label><input type="radio" name="stel_m2_2" value="eens" onchange="saveAnswer('stel_m2_2')"> Eens</label>
+          </div>
+          <div class="stellingen-opt">
+            <label><input type="radio" name="stel_m2_2" value="neutraal" onchange="saveAnswer('stel_m2_2')"> Neutraal</label>
+          </div>
+          <div class="stellingen-opt">
+            <label><input type="radio" name="stel_m2_2" value="oneens" onchange="saveAnswer('stel_m2_2')"> Oneens</label>
+          </div>
+          <div class="stellingen-opt">
+            <label><input type="radio" name="stel_m2_2" value="sterk_oneens" onchange="saveAnswer('stel_m2_2')"> Sterk oneens</label>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="ss-box ss-highlight">
-      <div class="ss-title">✨ Volgende stap: Verdiep je in Copilot</div>
-      <p style="font-size:14px;color:var(--text);line-height:1.6;margin:0">
-        Je certificaat is rond, maar dit is nog niet het einde van je AI-reis! 🚀 Module 3 "<strong>Copilot in de praktijk</strong>" helpt je dieper in te gaan: 
-        <br>💬 <strong>Praktische prompts</strong> voor je les (differentiatie, feedback, oudersmails)
-        <br>🎯 <strong>Agents bouwen</strong> in Copilot
-        <br>🛠️ <strong>Maak- & evaluatietools</strong> 
-        <br>📚 <strong>Nascholing</strong> — wie verder wil kan deelnemen aan de keynote van Prof. Agirdag op 18 november.
-        <br><br><strong>Optioneel, maar we raden het aan!</strong> Dit maakt je echt een AI-expert in je klas.
-      </p>
+    <div class="reflectie-box">
+      <strong>💭 Reflectie M2.2:</strong> Concrete actiestap: Wat ga JIJ in de komende maand uitproberen met AI in je les?
+      <textarea id="ans_m2_2" style="width:100%;height:80px;margin-top:10px;padding:8px;border:1px solid #ddd;border-radius:4px;" placeholder="Bijv: 'Ik ga ChatGPT testen voor lesvoorbereiding'..." onchange="saveAnswer('ans_m2_2')"></textarea>
+    </div>
+
+    <button class="sr-btn g" onclick="completeModule(2)" style="margin-top: 20px;">✅ Module 2 Voltooid</button>
+  </div>
+</div>
+
+<!-- ════════ MODULE 3: COPILOT IN PRAKTIJK ════════ -->
+<div class="view" id="view-mod3">
+  <div class="mh">
+    <button class="bk" onclick="sv('home')">← Terug</button>
+    <div class="mh-info"><div class="mh-num">Module 3 · Optioneel</div><div class="mh-title">Copilot in de Praktijk</div></div>
+    <div class="dots" id="sd3"></div>
+  </div>
+  <div class="mc-content" style="padding: 20px;">
+    <h2>✨ Copilot: Praktische Toepassingen</h2>
+    <p>Nu je begrijpt WAT AI is en HOE je het veilig inzet, gaan we DOEN. Copilot M365 is je hulpmiddel!</p>
+
+    <h3>5 Praktische Gebruik-Casos</h3>
+    <div style="background: #e6ffe6; padding: 12px; border-radius: 6px; margin: 10px 0; border-left: 4px solid var(--green);">
+      <strong>1️⃣ Lesvoorbereiding</strong><br>
+      "Copilot, maak 5 meerkeuzevragen voor 'fotosynthese' op niveau havo 4"
+    </div>
+    <div style="background: #e6ffe6; padding: 12px; border-radius: 6px; margin: 10px 0; border-left: 4px solid var(--green);">
+      <strong>2️⃣ Differentiatiemat</strong><br>
+      "Herschrijf deze tekst op A1-niveau Nederlands"
+    </div>
+    <div style="background: #e6ffe6; padding: 12px; border-radius: 6px; margin: 10px 0; border-left: 4px solid var(--green);">
+      <strong>3️⃣ Feedback aan Leerlingen</strong><br>
+      "Geef feedback op deze essay (sterken en verbeterpunten)"
+    </div>
+    <div style="background: #e6ffe6; padding: 12px; border-radius: 6px; margin: 10px 0; border-left: 4px solid var(--green);">
+      <strong>4️⃣ Oudersmails</strong><br>
+      "Schrijf een professionele mail naar ouders over gedrag Jan"
+    </div>
+    <div style="background: #e6ffe6; padding: 12px; border-radius: 6px; margin: 10px 0; border-left: 4px solid var(--green);">
+      <strong>5️⃣ Agenten Bouwen</strong><br>
+      "Maak een AI-agent die 'taalcoach' is voor mijn leerlingen"
+    </div>
+
+    <div class="video-box">
+      <strong>📹 Video 3:</strong> "Copilot Agents Bouwen" (10 min) → <a href="https://www.youtube.com/embed/test" target="_blank">Bekijk</a>
+    </div>
+
+    <h3>De Kunst van Prompting</h3>
+    <p>Goede prompts geven beter resultaat:</p>
+    <div style="background: #fff3e0; padding: 12px; border-radius: 6px; margin: 10px 0;">
+      <strong>❌ Slechte prompt:</strong> "Schrijf iets over Nederlands"<br><br>
+      <strong>✅ Goede prompt:</strong> "Schrijf een 100-woords samenvatting van 'Nacht' van Gerlach, voor vwo-3 Nederlands, waarbij je 5 literaire technieken uitlegt"
+    </div>
+
+    <div class="reflectie-box">
+      <strong>💭 Reflectie M3.1:</strong> Welke prompt zou JIJ willen uitproberen? Schrijf hem compleet uit.
+      <textarea id="ans_m3_1" style="width:100%;height:100px;margin-top:10px;padding:8px;border:1px solid #ddd;border-radius:4px;" placeholder="Typ je ideale prompt voor je vak..." onchange="saveAnswer('ans_m3_1')"></textarea>
+    </div>
+
+    <h3>Stellingen — Copilot in je Vakgebied</h3>
+    <div class="stellingen-box">
+      <div class="stellingen-item">
+        <div class="stellingen-label">Stelling 3</div>
+        <div class="stellingen-text">"Few-shot prompting (voorbeelden in je prompt geven) gaat mij echt tijd besparen bij het maken van toetsvragen."</div>
+        <div class="stellingen-opts">
+          <div class="stellingen-opt"><label><input type="radio" name="stel_m3_1" value="sterk_eens" onchange="saveAnswer('stel_m3_1')"> Sterk eens</label></div>
+          <div class="stellingen-opt"><label><input type="radio" name="stel_m3_1" value="eens" onchange="saveAnswer('stel_m3_1')"> Eens</label></div>
+          <div class="stellingen-opt"><label><input type="radio" name="stel_m3_1" value="neutraal" onchange="saveAnswer('stel_m3_1')"> Neutraal</label></div>
+          <div class="stellingen-opt"><label><input type="radio" name="stel_m3_1" value="oneens" onchange="saveAnswer('stel_m3_1')"> Oneens</label></div>
+          <div class="stellingen-opt"><label><input type="radio" name="stel_m3_1" value="sterk_oneens" onchange="saveAnswer('stel_m3_1')"> Sterk oneens</label></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reflectie-box">
+      <strong>💭 Reflectie M3.2:</strong> Je evaluatie: Hoe zie jij Copilot op lange termijn in je onderwijs? Positief/voorzichtig?
+      <textarea id="ans_m3_2" style="width:100%;height:100px;margin-top:10px;padding:8px;border:1px solid #ddd;border-radius:4px;" placeholder="Je persoonlijke visie op Copilot..." onchange="saveAnswer('ans_m3_2')"></textarea>
+    </div>
+
+    <button class="sr-btn" onclick="completeModule(3)" style="margin-top: 20px;">✅ Module 3 Voltooid (Optioneel)</button>
+  </div>
+</div>
+
+<!-- ════════ CERTIFICAAT ════════ -->
+<div id="cert-view" style="display:none; padding: 20px;">
+  <div class="cert-wrap">
+    <div class="cert-intro">
+      <div class="cert-fire">🎉</div>
+      <h2 style="font-family:'Archivo Black';font-size:26px;color:var(--blue);text-transform:uppercase;margin-bottom:7px">Gefeliciteerd!</h2>
+      <p style="color:var(--muted);font-weight:700;margin-bottom:28px">Je hebt modules 1 & 2 voltooid! Download je certificaat + antwoorden in ÉÉN PDF.</p>
+    </div>
+
+    <div style="text-align: center; margin: 30px 0;">
+      <button class="sr-btn g" onclick="downloadCompletePDF()" style="font-size:16px;padding:16px 32px;">
+        📥 Download Certificaat + Alle Antwoorden (PDF)
+      </button>
     </div>
 
     <div class="cert-box">
@@ -405,68 +432,44 @@
       <div class="cert-title">Certificaat <em>AI-Geletterdheid</em></div>
       <div class="cert-dec">Dit certificaat bevestigt dat</div>
       <div class="cert-name" id="cert-name">Leerkracht</div>
-      <div class="cert-desc">de cursus <strong>AI-Spelregels & AI-Geletterdheid voor Leerkrachten</strong> succesvol heeft voltooid, in het kader van <strong>artikel 4 van de EU AI Act</strong>, het <strong>DigCompEdu-kader</strong> en de <strong>AI-spelregels van Scholengroep Sint-Rembert</strong>, aansluitend bij het Digisprong-beleid van de Vlaamse overheid.</div>
+      <div class="cert-desc">de cursus <strong>AI-Spelregels & AI-Geletterdheid voor Leerkrachten</strong> succesvol heeft voltooid, in het kader van <strong>artikel 4 van de EU AI Act</strong>, het <strong>DigCompEdu-kader</strong> en de <strong>AI-spelregels van Scholengroep Sint-Rembert</strong>.</div>
       <div class="cert-comps">
         <div class="cert-comp"><span class="ck">✓</span>AI begrijpen & herkennen</div>
-        <div class="cert-comp"><span class="ck">✓</span>GenAI & deepfakes kennen</div>
-        <div class="cert-comp"><span class="ck">✓</span>Hallucinaties & bias herkennen</div>
-        <div class="cert-comp"><span class="ck">✓</span>Privacy & AI-spelregels</div>
-        <div class="cert-comp"><span class="ck">✓</span>EU AI Act (art. 4) kennen</div>
-        <div class="cert-comp"><span class="ck">✓</span>Leerlingen begeleiden</div>
-        <div class="cert-comp"><span class="ck">✓</span>AI-labels toepassen</div>
-        <div class="cert-comp"><span class="ck">✓</span>Transparantie bewaken</div>
-        <div class="cert-comp"><span class="ck">✓</span>Kritisch AI-gebruik</div>
+        <div class="cert-comp"><span class="ck">✓</span>Machine Learning & Deep Learning</div>
+        <div class="cert-comp"><span class="ck">✓</span>EU AI Act (artikel 4) kennen</div>
+        <div class="cert-comp"><span class="ck">✓</span>Leerlingen veilig begeleiden</div>
+        <div class="cert-comp"><span class="ck">✓</span>AI-Spelregels toepassen</div>
+        <div class="cert-comp"><span class="ck">✓</span>Verantwoord AI-gebruik</div>
+        <div class="cert-comp"><span class="ck">✓</span>Praktische Copilot-toepassingen</div>
       </div>
       <div class="cert-sr"><span>Sint-</span><em>Rembert</em><span>Scholengroep</span></div>
       <div class="cert-meta">
         <div class="cm-i"><div class="cm-lbl">Datum</div><div class="cm-val" id="cert-date">—</div></div>
-        <div class="cm-i"><div class="cm-lbl">Platform</div><div class="cm-val">ReLearn · Sint-Rembert</div></div>
+        <div class="cm-i"><div class="cm-lbl">Kader</div><div class="cm-val">EU AI Act</div></div>
         <div class="cm-i"><div class="cm-lbl">Geldigheid</div><div class="cm-val">2 jaar</div></div>
-        <div class="cm-i"><div class="cm-lbl">Kader</div><div class="cm-val">EU AI Act + Digisprong</div></div>
       </div>
     </div>
 
-    <div id="cert-dl-info"></div>
-    <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
-      <button class="print-btn" id="print-cert-btn" onclick="doCertPrint()">🖨️ Download certificaat (PDF)</button>
-      <button class="summary-btn" id="download-summary-btn" onclick="downloadSummary()">💾 Download Reflectieverslag (TXT)</button>
+    <div style="text-align: center; margin-top: 20px; gap: 12px;">
+      <button class="sr-btn g" onclick="downloadCompletePDF()" style="margin-right: 10px;">📥 Download PDF</button>
+      <button class="sr-btn" onclick="sv('home')">← Terug naar Home</button>
     </div>
-    <div class="cert-warn">✅ Je certificaat is gereed! Download het als PDF en upload het in Rembert Academy. Bewaar ook je reflectieverslag voor je portfolio.</div>
   </div>
 </div>
 
-<footer style="font-size: 11px; color: #666; margin-top: 60px; padding: 30px 20px; border-top: 1px solid #ddd; background: #f9f9f9; line-height: 1.8;">
+<footer style="font-size: 11px; color: #666; margin-top: 60px; padding: 30px 20px; border-top: 1px solid #ddd; background: #f9f9f9;">
   <div style="max-width: 1200px; margin: 0 auto;">
-    <p style="margin: 0 0 12px 0;"><strong>Over deze cursus</strong></p>
-    <p style="margin: 0 0 8px 0;">
-      Sint-Rembert AI-geletterdheid cursus — Versie 2.0 (2026)<br>
-      Interactieve training voor leerkrachten secundair onderwijs
-    </p>
-    
-    <p style="margin: 12px 0 8px 0;"><strong>Bronvermelding & Inspiratie</strong></p>
-    <p style="margin: 0;">
-      Deze cursus is ontwikkeld met inspiratie van pedagogische frameworks en onderwijs-best practices, waaronder:<br>
-      <br>
-      • <strong>Elements of AI</strong> (Universiteit van Helsinki, TU Delft, Reaktor) | <a href="https://www.elementsofai.com/" target="_blank" style="color: #0066cc;">elementsofai.com</a><br>
-      • <strong>E-licentie: AI-geletterdheid</strong><br>
-      &nbsp;&nbsp;E-AI | ISBN: 9789400241947 (Druk 2) | Serie: Modules<br>
-      &nbsp;&nbsp;Uitgeversgroep | <a href="https://www.uitgeversgroep.nl/9789400241947-e-licentie-ai-geletterdheid" target="_blank" style="color: #0066cc;">Meer info</a><br>
-      <br>
-      • Schoolmakers AI-gebruiksschaal (Leon Furze, Universiteit Melbourne)<br>
-      • Microsoft Responsible AI frameworks<br>
-      • EU AI Act (2024)<br>
-      • Sint-Rembert Beleidskader AI<br>
-      • Kennisnet, Digisprong, Vernieuwenderwijs
-    </p>
-    
-    <p style="margin: 12px 0 0 0; font-style: italic; color: #999;">
-      Podcasts gegenereerd via Google NotebookLM | Certificaten downloadbaar als PDF
+    <p><strong>Sint-Rembert AI-Geletterdheid Cursus — Leerkrachten</strong><br>
+    Version 3.0 Enhanced (2026)<br>
+    Interactieve training met geïntegreerde PDF-export
     </p>
   </div>
 </footer>
 
 </main>
 </div>
-<script src="script.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="teacher-enhanced.js"></script>
 </body>
 </html>
