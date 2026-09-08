@@ -669,7 +669,10 @@ function sRef1(){
 }
 
 /* ════════════════════════════════════════════
+
+/* ════════════════════════════════════════════
    MODULE 2 — HOE WERKT AI? (11 stappen)
+   Herwerkt: minder neurale netwerken, meer NotebookLM & zelf-prompten
    ════════════════════════════════════════════ */
 
 const m2 = [m2s0, m2s1, m2s2, m2s3, m2s4, m2s5, m2s6, m2s7, m2s8, m2s9, m2s10];
@@ -683,12 +686,12 @@ function m2s0(c){
   c.innerHTML = `
 <div class="s-badge">⚙️ Stap 1 van 11 · De motor achter AI</div>
 <h2 class="ch2">Hoe werkt AI <em>écht</em> onder de motorkap?</h2>
-<p class="cp">In Module 1 leerde je dat AI patronen herkent in data. Maar hóé doet het dat precies? In deze module ga je van simpele IF-THEN regels, via machine learning, tot diep in de neurale netwerken die ChatGPT en DALL-E laten werken.</p>
-<p class="cp">Geen zorgen: je hoeft geen wiskundeknobbel te hebben. We leggen alles uit met voorbeelden die je herkent.</p>
+<p class="cp">In Module 1 leerde je dat AI patronen herkent in data. Maar hóé doet het dat precies? In deze module ga je van simpele IF-THEN regels naar machine learning — en ga je vooral zelf aan de slag: met NotebookLM en met je eigen prompts.</p>
+<p class="cp">Geen zorgen: je hoeft geen wiskundeknobbel te hebben. We houden het praktisch.</p>
 
 <div class="ib warn">
   <div class="ib-t">🎯 Wat ga je leren?</div>
-  <div class="ib-b">Het verschil tussen <strong>procedurele</strong> software (vaste regels), <strong>machine learning</strong> (AI leert uit voorbeelden) en <strong>deep learning</strong> (neurale netwerken met veel lagen) — de drie stappen die samen tot moderne AI leidden.</div>
+  <div class="ib-b">Het verschil tussen <strong>procedurele</strong> software (vaste regels) en <strong>machine learning</strong> (AI leert uit voorbeelden) — én hoe je zelf aan de slag gaat met AI-tools zoals NotebookLM en Copilot.</div>
 </div>
 
 <div class="nw">
@@ -778,7 +781,7 @@ function m2s3(c){
 
 <div class="nw">
   <button class="sr-btn b" onclick="p2()">← Vorige</button>
-  <button class="sr-btn g" onclick="n2()">Volgende: deep learning →</button>
+  <button class="sr-btn g" onclick="n2()">Volgende: van ML naar ChatGPT →</button>
   <span class="nh">Stap 4/11</span>
 </div>`;
   renderMLTypeCards();
@@ -786,115 +789,136 @@ function m2s3(c){
 
 function m2s4(c){
   c.innerHTML = `
-<div class="s-badge">🕸️ Stap 5 van 11 · Deep Learning</div>
-<h2 class="ch2">Stap 3: <em>Deep Learning</em> — neurale netwerken</h2>
-<p class="cp">Machine learning werkt goed voor simpele patronen, maar bij complexe taken (gezichten herkennen, taal begrijpen) is er een krachtiger aanpak nodig: <strong>deep learning</strong>, gebaseerd op <strong>neurale netwerken</strong>.</p>
-
-<h3 class="ch3">🧠 Wat is een neuraal netwerk?</h3>
-<p class="cp">Een neuraal netwerk is losjes geïnspireerd op hoe je hersenen werken: miljoenen kleine "neuronen" die met elkaar verbonden zijn in lagen. Elke laag herkent iets complexers dan de vorige.</p>
+<div class="s-badge">🕸️ Stap 5 van 11 · Van machine learning naar ChatGPT</div>
+<h2 class="ch2">Hoe raakt dit alles <em>ChatGPT</em>?</h2>
+<p class="cp">ChatGPT en gelijkaardige tools zijn een heel geavanceerde vorm van machine learning, met een systeem dat een <strong>neuraal netwerk</strong> heet — losjes geïnspireerd op hoe je hersenen werken. Je hoeft de technische details niet te kennen; het belangrijkste om te onthouden is dit:</p>
 
 <div style="background: rgba(127,224,0,0.12); border-radius: 8px; padding: 16px; margin: 16px 0;">
 <p style="font-size: 13px; color: #3d4f8a; line-height: 1.8; margin: 0;">
-<strong>Voorbeeld: een foto van een kat herkennen</strong><br>
-<strong>Laag 1 (input):</strong> Ziet enkel pixels — lichte en donkere vlekjes<br>
-<strong>Laag 2:</strong> Herkent randen en lijnen (contouren)<br>
-<strong>Laag 3:</strong> Herkent vormen (rond oor, driehoekige neus)<br>
-<strong>Laag 4:</strong> Herkent delen (gezicht, poten, staart)<br>
-<strong>Output:</strong> "Dit is met 97% zekerheid een kat"
+<strong>ChatGPT heeft géén "begrip" zoals jij.</strong> Het heeft miljarden teksten gelezen tijdens zijn training, en daaruit geleerd welke woorden statistisch vaak na elkaar komen. Als jij een vraag stelt, "raadt" het systeem — heel goed onderbouwd, maar toch een gok — wat het beste volgende woord is. Woord na woord, tot een volledig antwoord ontstaat.
 </p>
 </div>
 
-<p class="cp">Hoe meer lagen ("deep" = diep), hoe complexer de patronen die het netwerk kan herkennen. Moderne taalmodellen zoals ChatGPT hebben <strong>honderden lagen</strong> en miljarden verbindingen tussen neuronen.</p>
+<p class="cp">Dat verklaart meteen waarom AI soms fouten maakt (het "raadt" fout) en waarom het altijd zelfverzekerd klinkt, ook als het fout zit (herinner je de hallucinaties uit Module 1!).</p>
 
-<h3 class="ch3">⚡ Hoe "leert" een neuraal netwerk?</h3>
-<ol style="font-size: 13px; color: #3d4f8a; line-height: 1.8; padding-left: 20px;">
-<li>Het netwerk krijgt een voorbeeld te zien (bijv. een foto van een hond, gelabeld "hond")</li>
-<li>Het netwerk raadt: "70% kat, 30% hond" — dat is FOUT</li>
-<li>Het systeem past de verbindingen tussen neuronen lichtjes aan (dit heet <strong>backpropagation</strong>)</li>
-<li>Bij de volgende foto raadt het iets beter</li>
-<li>Herhaal dit miljoenen keren met miljoenen foto's → het netwerk wordt steeds preciezer</li>
-</ol>
+<h3 class="ch3">💡 Waarom is dit nuttig om te weten?</h3>
+<ul style="font-size: 13px; color: #3d4f8a; line-height: 1.8; padding-left: 20px;">
+<li>Je begrijpt nu waarom je AI-antwoorden altijd moet controleren</li>
+<li>Je begrijpt waarom een goede, duidelijke vraag (prompt) een beter antwoord oplevert — hoe duidelijker de vraag, hoe beter het systeem kan "raden" wat je bedoelt</li>
+<li>Je begrijpt waarom AI soms "vergeet" wat je eerder in het gesprek zei — het kan maar een beperkte hoeveelheid tekst tegelijk "onthouden"</li>
+</ul>
 
 <div class="nw">
   <button class="sr-btn b" onclick="p2()">← Vorige</button>
-  <button class="sr-btn g" onclick="n2()">Volgende: video →</button>
+  <button class="sr-btn g" onclick="n2()">Volgende: NotebookLM →</button>
   <span class="nh">Stap 5/11</span>
 </div>`;
 }
 
 function m2s5(c){
   c.innerHTML = `
-<div class="s-badge">🎬 Stap 6 van 11 · Video: neurale netwerken</div>
-<h2 class="ch2">Bekijk: <em>hoe leert een machine?</em></h2>
-<div class="yt-wrap"><iframe src="https://www.youtube.com/embed/aircAruvnKk" allowfullscreen loading="lazy" title="But what is a neural network?"></iframe></div>
-<div class="ib warn">
-  <div class="ib-t">📝 Samenvatting</div>
-  <div class="ib-b">Deze video (3Blue1Brown) toont visueel hoe een neuraal netwerk cijfers leert herkennen — laag per laag, neuron per neuron. Je ziet hoe abstracte patronen (randen → vormen → cijfers) ontstaan puur door het netwerk te trainen op duizenden voorbeelden.</div>
+<div class="s-badge">📓 Stap 6 van 11 · NotebookLM ontdekken</div>
+<h2 class="ch2">Google <em>NotebookLM</em>: jouw AI-studiehulp</h2>
+<p class="cp">NotebookLM is een gratis AI-tool van Google die speciaal ontworpen is om je te helpen studeren. In tegenstelling tot ChatGPT baseert NotebookLM zich <strong>enkel op documenten die JIJ zelf uploadt</strong> — dus veel minder kans op hallucinaties, omdat het niet "uit het niets" antwoordt.</p>
+
+<h3 class="ch3">📋 Stap voor stap: hoe gebruik je NotebookLM?</h3>
+<div style="background: white; border-left: 4px solid var(--blue); border-radius: 8px; padding: 16px; margin: 16px 0;">
+<p style="font-size: 13px; color: #3d4f8a; line-height: 2; margin: 0;">
+<strong>Stap 1:</strong> Ga naar <strong>notebooklm.google.com</strong> en log in met een Google-account.<br>
+<strong>Stap 2:</strong> Klik op "Nieuwe notebook" en geef die een naam (bijv. "Geschiedenis — Hoofdstuk 4").<br>
+<strong>Stap 3:</strong> Upload je bronnen: een PDF van je cursus, je eigen nota's, een link naar een artikel, of zelfs een YouTube-video.<br>
+<strong>Stap 4:</strong> NotebookLM leest alles en maakt automatisch een samenvatting.<br>
+<strong>Stap 5:</strong> Stel vragen in de chat — bijvoorbeeld "Wat waren de 3 belangrijkste oorzaken van dit event volgens mijn cursus?" Het antwoord komt <strong>met bronvermelding</strong> naar de exacte pagina in je document!<br>
+<strong>Stap 6:</strong> Gebruik de handige extra's: laat een studiegids, quizvragen, of zelfs een gesproken samenvatting (podcast) genereren van je cursus.
+</p>
 </div>
 
-<h3 class="ch3">🔤 Van beeld naar taal: hoe ChatGPT "praat"</h3>
-<p class="cp">Bij tekst werkt het net zo, maar dan met woorden in plaats van pixels. Een taalmodel zoals ChatGPT (GPT = Generative Pre-trained Transformer) gebruikt een speciale architectuur genaamd de <strong>Transformer</strong>, die goed is in het onthouden welke woorden in een zin het belangrijkst zijn voor elkaar — dit heet "attention" (aandacht).</p>
+<div class="ib warn">
+  <div class="ib-t">✅ Waarom is dit veiliger dan gewoon ChatGPT gebruiken?</div>
+  <div class="ib-b">Omdat NotebookLM antwoordt op basis van JOUW geüploade bronnen (je cursus, je nota's), in plaats van "uit het geheugen" van het hele internet te antwoorden, is de kans op hallucinaties veel kleiner. Je krijgt bovendien telkens te zien uit welk stuk van je document het antwoord komt — heel handig om te controleren!</div>
+</div>
 
 <div class="nw">
   <button class="sr-btn b" onclick="p2()">← Vorige</button>
-  <button class="sr-btn g" onclick="n2()">Volgende: transformers →</button>
+  <button class="sr-btn g" onclick="n2()">Volgende: probeer het zelf →</button>
   <span class="nh">Stap 6/11</span>
 </div>`;
 }
 
 function m2s6(c){
   c.innerHTML = `
-<div class="s-badge">🔀 Stap 7 van 11 · De Transformer</div>
-<h2 class="ch2">De <em>Transformer</em>: het geheim achter ChatGPT</h2>
-<p class="cp">In 2017 publiceerden Google-onderzoekers een baanbrekend artikel: "Attention Is All You Need". Dit introduceerde de <strong>Transformer</strong>-architectuur, die de basis vormt van bijna elk modern taalmodel (GPT, Gemini, Claude, Llama...).</p>
-
-<h3 class="ch3">🎯 Wat maakt de Transformer speciaal?</h3>
-<div style="background: rgba(10,31,168,0.08); border-radius: 8px; padding: 16px; margin: 16px 0;">
-<p style="font-size: 13px; color: #3d4f8a; line-height: 1.8; margin: 0;">
-<strong>Het probleem met oudere modellen:</strong> Ze lazen tekst woord voor woord, van links naar rechts, en "vergaten" vaak wat eerder in de zin stond bij lange teksten.<br><br>
-<strong>De oplossing — Attention:</strong> De Transformer kijkt naar ALLE woorden in de zin tegelijk, en berekent hoe belangrijk elk woord is voor elk ander woord.<br><br>
-<strong>Voorbeeld:</strong> "De bank aan de rivier was begroeid met mos." Het woord "bank" hangt hier samen met "rivier" — niet met geld! De Transformer "let op" die relatie om de juiste betekenis te kiezen.
-</p>
-</div>
-
-<h3 class="ch3">🔢 Tokens: hoe AI woorden "ziet"</h3>
-<p class="cp">AI leest geen letters zoals wij. Tekst wordt eerst opgeknipt in stukjes, <strong>tokens</strong> genoemd — soms een heel woord, soms een deel van een woord. "Onvoorstelbaar" kan bijvoorbeeld worden opgesplitst in "on" + "voorstel" + "baar". Elk token krijgt een reeks getallen (een "vector") die de betekenis ervan representeert.</p>
+<div class="s-badge">🧪 Stap 7 van 11 · Doe-opdracht: aan de slag!</div>
+<h2 class="ch2">Probeer het <em>zelf</em>: jouw eerste prompt</h2>
+<p class="cp">Tijd om zelf te experimenteren! Open in een nieuw tabblad <strong>Copilot</strong> (met je schoolaccount), <strong>NotebookLM</strong>, of een andere toegestane AI-tool, en probeer onderstaande opdracht uit.</p>
 
 <div class="ib warn">
-  <div class="ib-t">💡 Waarom is dit belangrijk om te weten?</div>
-  <div class="ib-b">AI-tools zoals ChatGPT hebben vaak een limiet op hoeveel tokens ze tegelijk kunnen "onthouden" (het "context window"). Dat is waarom een AI-chat soms "vergeet" wat je 20 berichten geleden zei — het valt buiten het venster dat het model kan zien.</div>
+  <div class="ib-t">⚠️ Vergeet dit niet!</div>
+  <div class="ib-b">Vermeld <strong>altijd</strong> of je toestemming had om AI te gebruiken voor een bepaalde taak (zie het AI-label van je leerkracht, Module 5). Voor deze oefening mag je vrij experimenteren — maar train jezelf om dit elke keer opnieuw af te checken voor je AI gebruikt bij echt schoolwerk!</div>
 </div>
+
+<h3 class="ch3">🎯 De opdracht</h3>
+<p class="cp">Kies één van deze twee taken en probeer ze uit in een AI-tool naar keuze:</p>
+<ul style="font-size: 13px; color: #3d4f8a; line-height: 1.8; padding-left: 20px;">
+<li><strong>Optie A:</strong> Laat AI een vak-onderwerp uitleggen dat je momenteel lastig vindt, in maximaal 5 zinnen, met een voorbeeld erbij.</li>
+<li><strong>Optie B:</strong> Als je NotebookLM gebruikt: upload een korte tekst of je nota's, en stel er een vraag over.</li>
+</ul>
+
+<h3 class="ch3">✍️ Noteer hieronder wat er gebeurde</h3>
+<p class="cp"><strong>Welke prompt (vraag/opdracht) heb je precies getypt?</strong></p>
+<textarea class="sr-ta" id="promptused" style="min-height:70px;" placeholder="Ik typte precies: ..."></textarea>
+
+<p class="cp" style="margin-top:16px;"><strong>Wat kwam eruit? Vat samen wat de AI antwoordde.</strong></p>
+<textarea class="sr-ta" id="promptresult" style="min-height:70px;" placeholder="De AI antwoordde dat..."></textarea>
+
+<p class="cp" style="margin-top:16px;"><strong>Was je tevreden met het antwoord? Waarom wel/niet?</strong></p>
+<textarea class="sr-ta" id="promptsatisfied" style="min-height:70px;" placeholder="Ik was wel/niet tevreden omdat..."></textarea>
 
 <div class="nw">
   <button class="sr-btn b" onclick="p2()">← Vorige</button>
-  <button class="sr-btn g" onclick="n2()">Volgende: training →</button>
+  <button class="sr-btn g" id="promptbtn" onclick="sPromptExercise()">Volgende: training →</button>
   <span class="nh">Stap 7/11</span>
 </div>`;
+  const ta1 = document.getElementById('promptused');
+  const ta2 = document.getElementById('promptresult');
+  const ta3 = document.getElementById('promptsatisfied');
+  ta1.value = localStorage.getItem('sr_l_prompt_used_m2') || '';
+  ta2.value = localStorage.getItem('sr_l_prompt_result_m2') || '';
+  ta3.value = localStorage.getItem('sr_l_prompt_satisfied_m2') || '';
+  ta1.oninput = ()=>localStorage.setItem('sr_l_prompt_used_m2', ta1.value);
+  ta2.oninput = ()=>localStorage.setItem('sr_l_prompt_result_m2', ta2.value);
+  ta3.oninput = ()=>localStorage.setItem('sr_l_prompt_satisfied_m2', ta3.value);
+}
+
+function sPromptExercise(){
+  const v1 = (document.getElementById('promptused').value||'').trim();
+  const v2 = (document.getElementById('promptresult').value||'').trim();
+  const v3 = (document.getElementById('promptsatisfied').value||'').trim();
+  if(v1.length < 5 || v2.length < 5 || v3.length < 5){ alert('Vul alle 3 velden in — dit is een echte doe-opdracht, dus probeer het écht zelf uit!'); return; }
+  n2();
 }
 
 function m2s7(c){
   c.innerHTML = `
-<div class="s-badge">🏋️ Stap 8 van 11 · Training: van ruw model tot ChatGPT</div>
-<h2 class="ch2">Hoe wordt een taalmodel <em>getraind</em>?</h2>
-<p class="cp">Het bouwen van een model zoals ChatGPT gebeurt in meerdere fases. Elke fase maakt het model bruikbaarder en veiliger.</p>
+<div class="s-badge">🏋️ Stap 8 van 11 · Hoe wordt een taalmodel getraind?</div>
+<h2 class="ch2">Van ruw model tot <em>bruikbare chatbot</em></h2>
+<p class="cp">Het bouwen van een model zoals ChatGPT gebeurt in een paar fases. Kort samengevat:</p>
 
 <div style="background: white; border-left: 4px solid var(--blue); border-radius: 8px; padding: 16px; margin: 16px 0;">
-<strong style="color: var(--blue); font-size: 12px; text-transform: uppercase;">Fase 1: Pre-training (voorafgaande training)</strong>
-<p style="font-size: 13px; color: #3d4f8a; margin-top: 8px; line-height: 1.7;">Het model leest een enorme hoeveelheid tekst van het internet — boeken, artikelen, websites, forums. Het leert simpelweg: "welk woord volgt hier waarschijnlijk?" Dit kost enorm veel rekenkracht en duurt weken tot maanden op duizenden supercomputers.</p>
+<strong style="color: var(--blue); font-size: 12px; text-transform: uppercase;">Fase 1: Pre-training</strong>
+<p style="font-size: 13px; color: #3d4f8a; margin-top: 8px; line-height: 1.7;">Het model leest een enorme hoeveelheid tekst van het internet en leert welk woord waarschijnlijk volgt op een ander. Dit duurt weken op duizenden supercomputers.</p>
 </div>
 
 <div style="background: white; border-left: 4px solid var(--green); border-radius: 8px; padding: 16px; margin: 16px 0;">
-<strong style="color: var(--green); font-size: 12px; text-transform: uppercase;">Fase 2: Fine-tuning (verfijnen)</strong>
-<p style="font-size: 13px; color: #3d4f8a; margin-top: 8px; line-height: 1.7;">Mensen geven voorbeelden van goede vraag-antwoord-paren. Het model leert hierdoor niet enkel tekst aan te vullen, maar écht behulpzaam te antwoorden op vragen.</p>
+<strong style="color: var(--green); font-size: 12px; text-transform: uppercase;">Fase 2: Fine-tuning</strong>
+<p style="font-size: 13px; color: #3d4f8a; margin-top: 8px; line-height: 1.7;">Mensen geven voorbeelden van goede vraag-antwoord-paren, zodat het model écht behulpzaam leert antwoorden op vragen.</p>
 </div>
 
 <div style="background: white; border-left: 4px solid var(--orange); border-radius: 8px; padding: 16px; margin: 16px 0;">
-<strong style="color: var(--orange); font-size: 12px; text-transform: uppercase;">Fase 3: RLHF (leren van menselijke feedback)</strong>
-<p style="font-size: 13px; color: #3d4f8a; margin-top: 8px; line-height: 1.7;">Mensen beoordelen meerdere AI-antwoorden op dezelfde vraag: welk antwoord is beter? Het model leert hiervan om antwoorden te geven die mensen écht nuttig en veilig vinden — en om schadelijke verzoeken te weigeren.</p>
+<strong style="color: var(--orange); font-size: 12px; text-transform: uppercase;">Fase 3: Menselijke feedback</strong>
+<p style="font-size: 13px; color: #3d4f8a; margin-top: 8px; line-height: 1.7;">Mensen beoordelen welke van meerdere AI-antwoorden beter is. Het model leert hiervan om nuttige, veilige antwoorden te geven — en schadelijke verzoeken te weigeren.</p>
 </div>
 
-<h3 class="ch3">💰 Waarom is dit zo duur?</h3>
-<p class="cp">Het trainen van een groot taalmodel kost tientallen tot honderden miljoenen euro's aan rekenkracht en elektriciteit. Dat is waarom slechts een handvol grote techbedrijven (OpenAI, Google, Meta, Anthropic) dit soort modellen kunnen bouwen.</p>
+<p class="cp">Het trainen van zo'n model kost tientallen tot honderden miljoenen euro's aan rekenkracht. Dat is waarom slechts een handvol grote techbedrijven (OpenAI, Google, Meta, Anthropic) dit kunnen bouwen.</p>
 
 <div class="nw">
   <button class="sr-btn b" onclick="p2()">← Vorige</button>
@@ -921,10 +945,10 @@ function m2s8(c){
 function m2s9(c){
   const quiz = [
     {q: 'Wat is het grootste verschil tussen procedurele software en machine learning?', o: ['Procedurele software is altijd sneller.','Bij machine learning ontdekt het systeem zelf patronen uit data, in plaats van vaste regels te volgen.','Machine learning heeft geen computer nodig.','Er is geen verschil, het is hetzelfde.'], a: 1, f: 'Procedurele software volgt exact wat een programmeur schreef; ML-systemen leren patronen uit voorbeelden.' },
-    {q: 'Wat is een neuraal netwerk?', o: ['Een netwerk van wifi-routers in een schoolgebouw.','Lagen van kunstmatige "neuronen" die samen patronen leren herkennen, losjes geïnspireerd op hersenen.','Een soort internetkabel.','Een beveiligingssysteem tegen hackers.'], a: 1, f: 'Neurale netwerken bestaan uit verbonden lagen die stap voor stap complexere patronen herkennen.' },
-    {q: 'Wat doet de "Transformer"-architectuur die ChatGPT gebruikt zo bijzonder?', o: ['Het kan van vorm veranderen zoals een robot uit een film.','Het kijkt naar alle woorden in een zin tegelijk en berekent hun onderlinge belang (attention).','Het werkt volledig zonder trainingsdata.','Het kan enkel Engelse tekst verwerken.'], a: 1, f: 'Attention laat het model relaties tussen woorden in de hele zin tegelijk afwegen, in plaats van enkel links-naar-rechts te lezen.' },
-    {q: 'Wat is een "token" bij een taalmodel?', o: ['Een soort digitale munt om AI te betalen.','Een stukje tekst (woord of deel van een woord) waarin tekst wordt opgeknipt voor het model.','Een wachtwoord om in te loggen.','Een beveiligingscode.'], a: 1, f: 'Tekst wordt eerst in tokens opgeknipt; elk token krijgt een numerieke representatie die het model kan verwerken.' },
-    {q: 'Waarom is RLHF (leren van menselijke feedback) een belangrijke trainingsfase?', o: ['Het maakt het model goedkoper om te trainen.','Mensen beoordelen AI-antwoorden, waardoor het model leert nuttige en veilige antwoorden te geven.','Het zorgt ervoor dat het model nooit meer fouten maakt.','Het is de eerste stap in het hele trainingsproces.'], a: 1, f: 'RLHF (Reinforcement Learning from Human Feedback) traint het model op basis van menselijke voorkeuren tussen antwoorden — cruciaal voor bruikbaarheid en veiligheid.' }
+    {q: 'Waarom klinkt ChatGPT altijd zelfverzekerd, ook als het een fout antwoord geeft?', o: ['Omdat het speciaal geprogrammeerd is om arrogant te klinken.','Omdat het telkens het meest waarschijnlijke volgende woord "raadt", zonder een besef te hebben van goed of fout.','Omdat het altijd de waarheid checkt voor het antwoordt.','Dat klopt niet, ChatGPT twijfelt altijd zichtbaar.'], a: 1, f: 'Het model voorspelt op basis van kansberekening — het "weet" niet of iets waar is, het genereert enkel een plausibel antwoord.' },
+    {q: 'Wat maakt NotebookLM anders (en vaak betrouwbaarder) dan gewoon ChatGPT?', o: ['NotebookLM is sneller.','NotebookLM baseert zijn antwoorden enkel op de documenten die jij zelf uploadt, met bronvermelding.','NotebookLM is gratis en ChatGPT niet.','Er is geen verschil.'], a: 1, f: 'Omdat het antwoordt op basis van jouw eigen bronnen (in plaats van het hele internet "uit het geheugen"), is de kans op hallucinaties veel kleiner.' },
+    {q: 'Wat moet je ALTIJD doen voor je AI gebruikt bij een schooltaak?', o: ['Niets, AI mag altijd overal gebruikt worden.','Checken welk AI-label van toepassing is / of je toestemming hebt.','Enkel je ouders om toestemming vragen.','Wachten tot je leerkracht het zelf vraagt.'], a: 1, f: 'Transparantie en het AI-label checken is de basisregel — zie Module 5 voor de details.' },
+    {q: 'Wat is RLHF (leren van menselijke feedback) en waarom is het belangrijk?', o: ['Een fout in het systeem die per ongeluk optreedt.','Een trainingsfase waarbij mensen AI-antwoorden beoordelen, zodat het model nuttiger en veiliger wordt.','Een manier om AI-modellen goedkoper te maken.','De allereerste stap van het hele trainingsproces.'], a: 1, f: 'RLHF traint het model op basis van menselijke voorkeuren tussen antwoorden — cruciaal voor bruikbaarheid en veiligheid.' }
   ];
   rQuiz(c, quiz, 2, 'mod2', n2, 60);
 }
@@ -933,13 +957,13 @@ function m2s10(c){
   c.innerHTML = `
 <div class="s-badge">✍️ Stap 11 van 11 · Jouw reflectie</div>
 <h2 class="ch2">Wat vind <em>jij</em> hiervan?</h2>
-<p class="cp">Je begrijpt nu hoe AI technisch in elkaar zit: van vaste regels, via machine learning, tot de neurale netwerken en Transformers die ChatGPT laten werken.</p>
+<p class="cp">Je begrijpt nu hoe AI technisch in elkaar zit: van vaste regels, via machine learning, tot hoe ChatGPT antwoorden "raadt" — en je hebt zelf al geëxperimenteerd met een AI-tool!</p>
 
 <h3 class="ch3">💭 Stellingen</h3>
 <div id="stl-m2"></div>
 
-<p class="cp">Noteer je reflectie: Wat vond je het meest verrassend aan hoe AI écht werkt? En verandert dit hoe je AI-antwoorden zal bekijken in de toekomst?</p>
-<textarea class="sr-ta" id="ref2" placeholder="Het meest verrassende vond ik... Dit verandert hoe ik AI zal gebruiken omdat..."></textarea>
+<p class="cp">Noteer je reflectie: Wat vond je het meest verrassend aan hoe AI écht werkt? En hoe was het om zelf een prompt uit te proberen — ging het zoals verwacht?</p>
+<textarea class="sr-ta" id="ref2" placeholder="Het meest verrassende vond ik... Toen ik zelf een prompt probeerde, merkte ik..."></textarea>
 
 <div class="nw">
   <button class="sr-btn b" onclick="p2()">← Vorige</button>
@@ -949,7 +973,7 @@ function m2s10(c){
   const ta = document.getElementById('ref2');
   ta.value = localStorage.getItem('sr_l_ref2') || '';
   ta.oninput = ()=>localStorage.setItem('sr_l_ref2', ta.value);
-  renderStellingenLeerling('stl-m2', 'l_m2', ['Het is verontrustend dat niemand precies weet waarom een neuraal netwerk een bepaald antwoord geeft.','Ik zou zelf willen leren hoe je een simpel AI-model bouwt.']);
+  renderStellingenLeerling('stl-m2', 'l_m2', ['NotebookLM lijkt mij nuttiger om voor te studeren dan gewoon ChatGPT gebruiken.','Ik zou zelf vaker AI willen gebruiken om moeilijke onderwerpen uitgelegd te krijgen.']);
 }
 
 function sRef2(){
@@ -958,11 +982,13 @@ function sRef2(){
   n2();
 }
 
+
 /* ════════════════════════════════════════════
    MODULE 3 — GENERATIEVE AI (11 stappen)
    ════════════════════════════════════════════ */
 
-const m3 = [m3s0, m3s1, m3s2, m3s3, m3s4, m3s5, m3s6, m3s7, m3s8, m3s9, m3s10];
+
+const m3 = [m3s0, m3s1, m3s2, m3s3, m3s4, m3s5, m3s6, m3s7, m3s8, m3s9, m3s10, m3s11];
 
 function rm3(){ const c=document.getElementById('m3c'); c.innerHTML=''; rDots(3,m3.length,S.mod3.step); m3[S.mod3.step](c); lockNextButtons(c); }
 function n3(){ S.mod3.step++; ss(); S.mod3.step>=m3.length ? d3() : rm3(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); }
@@ -971,10 +997,10 @@ function d3(){ S.mod3.done=true; S.mod3.step=0; ss(); up(); rmc(); sv('home'); s
 
 function m3s0(c){
   c.innerHTML = `
-<div class="s-badge">✨ Stap 1 van 11 · Welkom bij Generatieve AI</div>
+<div class="s-badge">✨ Stap 1 van 12 · Welkom bij Generatieve AI</div>
 <h2 class="ch2">ChatGPT, DALL-E & co: <em>Generatieve AI</em></h2>
 <p class="cp">Je hebt vast al ChatGPT gebruikt, of AI-afbeeldingen gezien op Instagram/TikTok gemaakt met Midjourney of DALL-E. Dit alles heet <strong>generatieve AI</strong> (GenAI): AI die volledig nieuwe content maakt — tekst, beeld, muziek, video, code.</p>
-<p class="cp">In deze module duik je dieper in: hoe maakt AI een tekst die nog nooit bestond? Hoe "tekent" een AI een afbeelding? En hoe zorg je dat je er zelf het meeste uit haalt met goede prompts?</p>
+<p class="cp">In deze module duik je dieper in: hoe maakt AI een tekst die nog nooit bestond? Hoe schrijf je een goede prompt? En je gaat er zelf mee aan de slag — twee keer zelfs!</p>
 
 <div class="ib warn">
   <div class="ib-t">🎬 EDUbox: generatieve AI in de praktijk</div>
@@ -983,13 +1009,13 @@ function m3s0(c){
 
 <div class="nw">
   <button class="sr-btn g" onclick="n3()">Volgende: hoe ChatGPT schrijft →</button>
-  <span class="nh">Stap 1/11</span>
+  <span class="nh">Stap 1/12</span>
 </div>`;
 }
 
 function m3s1(c){
   c.innerHTML = `
-<div class="s-badge">📝 Stap 2 van 11 · Hoe ChatGPT tekst genereert</div>
+<div class="s-badge">📝 Stap 2 van 12 · Hoe ChatGPT tekst genereert</div>
 <h2 class="ch2">Woord voor woord: hoe ChatGPT <em>schrijft</em></h2>
 <p class="cp">Wanneer je ChatGPT een vraag stelt, "denkt" het niet zoals jij. Het genereert het antwoord <strong>één token (woordstukje) tegelijk</strong>, en kiest telkens het meest waarschijnlijke volgende stukje tekst — gebaseerd op alles wat het geleerd heeft uit miljarden teksten.</p>
 
@@ -1001,22 +1027,19 @@ Bij élke stap berekent het model kansen voor duizenden mogelijke volgende woord
 </p>
 </div>
 
-<h3 class="ch3">🎲 Waarom geeft ChatGPT niet altijd hetzelfde antwoord?</h3>
-<p class="cp">Er zit bewust een beetje willekeur (een instelling genaamd "temperature") in het kiezen van het volgende woord. Daardoor krijg je bij dezelfde vraag soms een net iets ander antwoord — net zoals jij een verhaal ook niet elke keer identiek zou navertellen.</p>
-
 <h3 class="ch3">🖼️ En hoe maakt AI dan afbeeldingen?</h3>
 <p class="cp">Beeld-AI zoals DALL-E of Midjourney werkt anders, met een techniek genaamd <strong>diffusion</strong>: het systeem start met willekeurige "ruis" (zoals tv-sneeuw) en "ontruist" dit stap voor stap richting een afbeelding die bij jouw tekst-beschrijving past. Dit gebeurt in tientallen stappen, elke stap iets duidelijker.</p>
 
 <div class="nw">
   <button class="sr-btn b" onclick="p3()">← Vorige</button>
   <button class="sr-btn g" onclick="n3()">Volgende: video →</button>
-  <span class="nh">Stap 2/11</span>
+  <span class="nh">Stap 2/12</span>
 </div>`;
 }
 
 function m3s2(c){
   c.innerHTML = `
-<div class="s-badge">🎬 Stap 3 van 11 · GenAI in de praktijk</div>
+<div class="s-badge">🎬 Stap 3 van 12 · GenAI in de praktijk</div>
 <h2 class="ch2">Bekijk: <em>DJ ImAIne</em></h2>
 <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/UD0a-i2EBdE" allowfullscreen loading="lazy" title="EDUbox Artificiële Intelligentie — MNM DJ ImAIne"></iframe></div>
 <div class="ib warn">
@@ -1047,13 +1070,13 @@ function m3s2(c){
 <div class="nw">
   <button class="sr-btn b" onclick="p3()">← Vorige</button>
   <button class="sr-btn g" onclick="n3()">Volgende: prompting →</button>
-  <span class="nh">Stap 3/11</span>
+  <span class="nh">Stap 3/12</span>
 </div>`;
 }
 
 function m3s3(c){
   c.innerHTML = `
-<div class="s-badge">💬 Stap 4 van 11 · De kunst van prompting</div>
+<div class="s-badge">💬 Stap 4 van 12 · De kunst van prompting</div>
 <h2 class="ch2">Prompting: hoe vraag je het <em>goed</em>?</h2>
 <p class="cp">Een "prompt" is gewoon je vraag of opdracht aan AI. Maar de kwaliteit van het antwoord hangt sterk af van hoe goed je die prompt schrijft. Dit heet <strong>prompt engineering</strong> — en het is een vaardigheid die je kan trainen.</p>
 
@@ -1083,14 +1106,62 @@ function m3s3(c){
 
 <div class="nw">
   <button class="sr-btn b" onclick="p3()">← Vorige</button>
-  <button class="sr-btn g" onclick="n3()">Volgende: probeer zelf →</button>
-  <span class="nh">Stap 4/11</span>
+  <button class="sr-btn g" onclick="n3()">Volgende: probeer het zelf →</button>
+  <span class="nh">Stap 4/12</span>
 </div>`;
 }
 
 function m3s4(c){
   c.innerHTML = `
-<div class="s-badge">🧩 Stap 5 van 11 · Doe-opdracht</div>
+<div class="s-badge">🧪 Stap 5 van 12 · Doe-opdracht: schrijf zelf een prompt</div>
+<h2 class="ch2">Aan de slag: <em>jouw eigen prompt</em></h2>
+<p class="cp">Nu jij! Open een toegestane AI-tool (Copilot, ChatGPT, ...) in een nieuw tabblad en gebruik de 5 bouwstenen van de vorige stap om zelf een goede prompt te schrijven.</p>
+
+<div class="ib warn">
+  <div class="ib-t">⚠️ Vergeet dit niet!</div>
+  <div class="ib-b">Check altijd eerst of je AI mag gebruiken voor de taak die je uitvoert (het AI-label van je leerkracht, zie Module 5). Voor deze les-oefening mag je vrij oefenen — maar vermeld dit steeds bij echt schoolwerk!</div>
+</div>
+
+<h3 class="ch3">🎯 De opdracht</h3>
+<p class="cp">Kies een onderwerp (van school of iets dat je interesseert) en schrijf een prompt met minstens <strong>3 van de 5 bouwstenen</strong> (rol, doel, context, bron/beperking, vorm). Probeer hem uit in je AI-tool.</p>
+
+<h3 class="ch3">✍️ Noteer hieronder wat er gebeurde</h3>
+<p class="cp"><strong>Welke prompt heb je precies geschreven?</strong></p>
+<textarea class="sr-ta" id="promptused3" style="min-height:80px;" placeholder="Mijn prompt was: ..."></textarea>
+
+<p class="cp" style="margin-top:16px;"><strong>Welke bouwstenen gebruikte je? (rol / doel / context / bron / vorm)</strong></p>
+<textarea class="sr-ta" id="promptblocks3" style="min-height:50px;" placeholder="Ik gebruikte: doel, context en vorm..."></textarea>
+
+<p class="cp" style="margin-top:16px;"><strong>Wat kwam eruit, en was je tevreden? Zou je de prompt nog aanpassen?</strong></p>
+<textarea class="sr-ta" id="promptresult3" style="min-height:80px;" placeholder="De AI antwoordde... Ik was wel/niet tevreden omdat... Volgende keer zou ik..."></textarea>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p3()">← Vorige</button>
+  <button class="sr-btn g" id="prompt3btn" onclick="sPromptExercise3()">Volgende: herken de betere prompt →</button>
+  <span class="nh">Stap 5/12</span>
+</div>`;
+  const ta1 = document.getElementById('promptused3');
+  const ta2 = document.getElementById('promptblocks3');
+  const ta3 = document.getElementById('promptresult3');
+  ta1.value = localStorage.getItem('sr_l_prompt_used_m3') || '';
+  ta2.value = localStorage.getItem('sr_l_prompt_blocks_m3') || '';
+  ta3.value = localStorage.getItem('sr_l_prompt_result_m3') || '';
+  ta1.oninput = ()=>localStorage.setItem('sr_l_prompt_used_m3', ta1.value);
+  ta2.oninput = ()=>localStorage.setItem('sr_l_prompt_blocks_m3', ta2.value);
+  ta3.oninput = ()=>localStorage.setItem('sr_l_prompt_result_m3', ta3.value);
+}
+
+function sPromptExercise3(){
+  const v1 = (document.getElementById('promptused3').value||'').trim();
+  const v2 = (document.getElementById('promptblocks3').value||'').trim();
+  const v3 = (document.getElementById('promptresult3').value||'').trim();
+  if(v1.length < 5 || v2.length < 3 || v3.length < 5){ alert('Vul alle 3 velden in — probeer het écht zelf uit voor je verdergaat!'); return; }
+  n3();
+}
+
+function m3s5(c){
+  c.innerHTML = `
+<div class="s-badge">🧩 Stap 6 van 12 · Doe-opdracht</div>
 <h2 class="ch2">Herken de <em>betere prompt</em></h2>
 <p class="cp">Bij elk paar prompts: welke zou een beter, bruikbaarder antwoord opleveren? Klik je keuze aan.</p>
 <div id="promptcompare"></div>
@@ -1098,14 +1169,14 @@ function m3s4(c){
 <div class="nw">
   <button class="sr-btn b" onclick="p3()">← Vorige</button>
   <button class="sr-btn g" onclick="n3()">Volgende: risico's →</button>
-  <span class="nh">Stap 5/11</span>
+  <span class="nh">Stap 6/12</span>
 </div>`;
   renderPromptCompareLeerling();
 }
 
-function m3s5(c){
+function m3s6(c){
   c.innerHTML = `
-<div class="s-badge">⚠️ Stap 6 van 11 · Risico's van Generatieve AI</div>
+<div class="s-badge">⚠️ Stap 7 van 12 · Risico's van Generatieve AI</div>
 <h2 class="ch2">De <em>keerzijde</em> van generatieve AI</h2>
 <p class="cp">Generatieve AI is krachtig, maar brengt specifieke risico's met zich mee die je moet kennen — zeker als je het voor schoolwerk gebruikt.</p>
 
@@ -1133,32 +1204,43 @@ function m3s5(c){
 
 <div class="nw">
   <button class="sr-btn b" onclick="p3()">← Vorige</button>
-  <button class="sr-btn g" onclick="n3()">Volgende: video →</button>
-  <span class="nh">Stap 6/11</span>
+  <button class="sr-btn g" onclick="n3()">Volgende: een echt voorbeeld →</button>
+  <span class="nh">Stap 7/12</span>
 </div>`;
 }
 
-function m3s6(c){
+function m3s7(c){
   c.innerHTML = `
-<div class="s-badge">🎬 Stap 7 van 11 · Kritisch kijken naar AI-content</div>
+<div class="s-badge">🔍 Stap 8 van 12 · Een echt voorbeeld bekijken</div>
 <h2 class="ch2">Hoe herken je <em>AI-gegenereerde content</em>?</h2>
-<p class="cp">Met de toename van AI-content op sociale media wordt het steeds belangrijker om kritisch te kijken naar wat je online ziet.</p>
+<p class="cp">Met de toename van AI-content op sociale media wordt het steeds belangrijker om kritisch te kijken naar wat je online ziet. Bekijk eerst dit <strong>echte voorbeeld</strong> van AI-gegenereerde tekst, zodat je weet waar je op moet letten.</p>
 
-<h3 class="ch3">🔍 Signalen van AI-gegenereerde tekst</h3>
+<div style="background: white; border: 2px dashed var(--blue); border-radius: 8px; padding: 18px; margin: 16px 0;">
+  <div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;margin-bottom:10px;">📄 Voorbeeld — prompt: "Leg uit hoe bijen honing maken, voor een leerling van het 2de middelbaar"</div>
+  <p style="font-size:13px;color:#333;line-height:1.8;font-style:italic;margin:0;">
+  "Bijen maken honing via een fascinerend proces dat begint bij het verzamelen van nectar. Bovendien speelt de bijenmaag hierbij een cruciale rol: enzymen zetten de suikers in de nectar om. Daarnaast brengen werkbijen de nectar terug naar de korf, waar ze die doorgeven aan andere bijen via mondopening tot mondopening. Vervolgens wordt het vocht in honingraten opgeslagen en door het wapperen met vleugels ingedikt. Kortom, honing is het resultaat van een nauwkeurig samenspel tussen verzamelen, verwerken en indikken."
+  </p>
+</div>
+
+<h3 class="ch3">🔍 Wat valt op in dit voorbeeld?</h3>
 <ul style="font-size: 13px; color: #3d4f8a; line-height: 1.8; padding-left: 20px;">
-<li>Erg gestructureerd met veel opsommingen, zelfs waar dat niet nodig is</li>
-<li>Herhaaldelijk gebruik van bepaalde overgangswoorden ("Bovendien", "Daarnaast", "Kortom")</li>
-<li>Té perfect en "glad" geschreven, weinig persoonlijke stem of anekdotes</li>
-<li>Feiten die kloppen maar geen echte bronvermelding hebben</li>
+<li>De overgangswoorden <strong>"Bovendien", "Daarnaast", "Vervolgens", "Kortom"</strong> — typisch AI-patroon om alles netjes te structureren</li>
+<li>Elke zin heeft ongeveer dezelfde lengte en opbouw — erg "glad", weinig natuurlijke variatie</li>
+<li>Geen persoonlijke stem, geen "ik vond het gek toen ik ontdekte dat..." — puur feitelijk en afstandelijk</li>
+<li>Inhoudelijk klopt het wel — AI-tekst is niet per se fout, enkel herkenbaar in <em>stijl</em></li>
 </ul>
 
-<h3 class="ch3">🖼️ Signalen van AI-gegenereerde afbeeldingen</h3>
-<ul style="font-size: 13px; color: #3d4f8a; line-height: 1.8; padding-left: 20px;">
-<li>Handen met een verkeerd aantal vingers (wordt wel steeds beter)</li>
-<li>Tekst in de afbeelding die onleesbaar of onzinnig is</li>
-<li>Vreemde, onlogische achtergronddetails</li>
-<li>Een té perfecte, "glossy" uitstraling</li>
-</ul>
+<h3 class="ch3">🔍 Andere signalen om op te letten</h3>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0;">
+<div style="background: white; border-left: 4px solid var(--blue); border-radius: 8px; padding: 12px;">
+<strong style="color: var(--blue); font-size: 12px;">📝 Bij tekst</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 6px;">Veel opsommingen zelfs waar niet nodig, feiten zonder bronvermelding, té perfecte grammatica</p>
+</div>
+<div style="background: white; border-left: 4px solid var(--orange); border-radius: 8px; padding: 12px;">
+<strong style="color: var(--orange); font-size: 12px;">🖼️ Bij afbeeldingen</strong>
+<p style="font-size: 12px; color: #3d4f8a; margin-top: 6px;">Handen met verkeerd aantal vingers, onleesbare tekst in beeld, vreemde achtergronddetails</p>
+</div>
+</div>
 
 <div class="ib warn">
   <div class="ib-t">💡 De beste tip</div>
@@ -1168,28 +1250,28 @@ function m3s6(c){
 <div class="nw">
   <button class="sr-btn b" onclick="p3()">← Vorige</button>
   <button class="sr-btn g" onclick="n3()">Volgende: doe-opdracht →</button>
-  <span class="nh">Stap 7/11</span>
+  <span class="nh">Stap 8/12</span>
 </div>`;
 }
 
-function m3s7(c){
+function m3s8(c){
   c.innerHTML = `
-<div class="s-badge">🧩 Stap 8 van 11 · Doe-opdracht</div>
+<div class="s-badge">🧩 Stap 9 van 12 · Doe-opdracht</div>
 <h2 class="ch2">Echt of <em>AI-gegenereerd</em>?</h2>
 <p class="cp">Bekijk elke beschrijving en beslis: is dit waarschijnlijk een teken van AI-gegenereerde content, of niet?</p>
 <div id="airealcheck"></div>
 
 <div class="nw">
   <button class="sr-btn b" onclick="p3()">← Vorige</button>
-  <button class="sr-btn g" onclick="n3()">Volgende: reflectie →</button>
-  <span class="nh">Stap 8/11</span>
+  <button class="sr-btn g" onclick="n3()">Volgende: discussie →</button>
+  <span class="nh">Stap 9/12</span>
 </div>`;
   renderAIRealCheck();
 }
 
-function m3s8(c){
+function m3s9(c){
   c.innerHTML = `
-<div class="s-badge">💬 Stap 9 van 11 · Discussie</div>
+<div class="s-badge">💬 Stap 10 van 12 · Discussie</div>
 <h2 class="ch2">Waar ligt <em>de grens</em>?</h2>
 <div class="disc-card">
   <div class="disc-q">1. Je gebruikt AI om ideeën te brainstormen voor een opstel, maar schrijft de tekst zelf. Is dat "vals spelen"?</div>
@@ -1207,26 +1289,26 @@ function m3s8(c){
 <div class="nw">
   <button class="sr-btn b" onclick="p3()">← Vorige</button>
   <button class="sr-btn g" onclick="n3()">Volgende: kennischeck →</button>
-  <span class="nh">Stap 9/11</span>
+  <span class="nh">Stap 10/12</span>
 </div>`;
 }
 
-function m3s9(c){
+function m3s10(c){
   const quiz = [
     {q: 'Hoe genereert ChatGPT een antwoord?', o: ['Het zoekt live op internet en kopieert het beste resultaat.','Het genereert token voor token, gebaseerd op wat statistisch waarschijnlijk is.','Een team van mensen typt live de antwoorden.','Het gebruikt altijd exact dezelfde vaste antwoorden.'], a: 1, f: 'Het model voorspelt telkens het volgende token op basis van kansberekening uit zijn training.' },
     {q: 'Wat is "prompt engineering"?', o: ['Het programmeren van een AI-model vanaf nul.','De vaardigheid om goede, doeltreffende vragen/opdrachten aan AI te formuleren.','Het repareren van AI-software.','Een technisch beroep in de bouwsector.'], a: 1, f: 'Een goed geformuleerde prompt (met rol, doel, context, vorm) geeft veel betere resultaten.' },
     {q: 'Waarom is auteursrecht een discussiepunt bij AI-beeldgeneratie?', o: ['Omdat AI-beelden altijd illegaal zijn.','Omdat AI-modellen getraind zijn op bestaand werk van kunstenaars, vaak zonder hun toestemming.','Omdat AI-beelden nooit gebruikt mogen worden.','Omdat er geen discussie is, iedereen is het erover eens.'], a: 1, f: 'De vraag of trainen op auteursrechtelijk beschermd werk toegestaan is (zonder toestemming/betaling), is een actueel juridisch debat.' },
-    {q: 'Wat is een betrouwbaar signaal dat content mogelijk AI-gegenereerd is?', o: ['De tekst bevat spelfouten.','Té perfecte, gladde tekst met weinig persoonlijke stem, of vreemde details in beelden.','De tekst is erg kort.','Er staat een foto bij.'], a: 1, f: 'Dit zijn signalen, geen garanties — AI wordt steeds beter. Bronchecken blijft de beste aanpak.' },
+    {q: 'In het voorbeeld-tekstje over bijen dat je bekeek, wat was een herkenbaar AI-signaal?', o: ['De tekst bevatte veel spelfouten.','Het herhaaldelijk gebruik van overgangswoorden zoals "Bovendien", "Daarnaast", "Kortom".','De tekst was te kort.','Er stond een emoji in.'], a: 1, f: 'Dit soort overgangswoorden en een erg "gladde", gestructureerde stijl zijn typische AI-kenmerken.' },
     {q: 'Wat is de beste manier om te controleren of iets online echt is?', o: ['Vertrouwen op je gevoel.','De bron checken en vergelijken met andere betrouwbare bronnen.','Altijd geloven wat veel likes heeft.','Nooit iets controleren, dat kost te veel tijd.'], a: 1, f: 'Bronkritiek — wie deelt dit, waarom, en kan je het elders bevestigen — blijft de meest betrouwbare methode.' }
   ];
   rQuiz(c, quiz, 3, 'mod3', n3, 60);
 }
 
-function m3s10(c){
+function m3s11(c){
   c.innerHTML = `
-<div class="s-badge">✍️ Stap 11 van 11 · Jouw reflectie</div>
+<div class="s-badge">✍️ Stap 12 van 12 · Jouw reflectie</div>
 <h2 class="ch2">Generatieve AI in <em>jouw leven</em></h2>
-<p class="cp">Je begrijpt nu hoe ChatGPT en DALL-E werken, hoe je goede prompts schrijft, en welke risico's erbij horen.</p>
+<p class="cp">Je begrijpt nu hoe ChatGPT en DALL-E werken, hoe je goede prompts schrijft (en hebt dit 2 keer zelf uitgeprobeerd!), en welke risico's erbij horen.</p>
 
 <h3 class="ch3">💭 Stellingen</h3>
 <div id="stl-m3"></div>
@@ -1237,7 +1319,7 @@ function m3s10(c){
 <div class="nw">
   <button class="sr-btn b" onclick="p3()">← Vorige</button>
   <button class="sr-btn g" id="ref3btn" onclick="sRef3()">✅ Module 3 afronden →</button>
-  <span class="nh">Stap 11/11</span>
+  <span class="nh">Stap 12/12</span>
 </div>`;
   const ta = document.getElementById('ref3');
   ta.value = localStorage.getItem('sr_l_ref3') || '';
@@ -1250,6 +1332,7 @@ function sRef3(){
   if(v.length < 20){ alert('Vul eerst je reflectie in (minstens een paar zinnen).'); return; }
   n3();
 }
+
 
 /* ════════════════════════════════════════════
    MODULE 4 — ETHIEK & BIAS (10 stappen)
