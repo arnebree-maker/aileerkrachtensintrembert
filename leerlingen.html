@@ -3,118 +3,148 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI-Skills voor Leerlingen — Sint-Rembert</title>
+<title>AI-Cursus — Scholengroep Sint-Rembert</title>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
 <div id="app">
 <aside id="sidebar">
   <div class="sb-logo">
     <div class="sb-badge"><span>Sint-Rembert</span></div>
-    <div class="sb-title">AI-<em>Skills</em><br>Leerlingen</div>
+    <div class="sb-title">AI-<em>Cursus</em><br>Leerlingen</div>
     <div class="sb-sub">Scholengroep Sint-Rembert · schooljaar 2026-2027</div>
   </div>
-
   <div class="prog-wrap">
-    <div class="prog-label">Status <span id="st-status">Start hier</span></div>
+    <div class="prog-label">Startest <span id="st-status">Nog te starten</span></div>
     <div class="prog-label" style="margin-top:10px">Voortgang <span id="pct">0%</span></div>
     <div class="prog-track"><div class="prog-fill" id="pb" style="width:0%"></div></div>
   </div>
-
   <div class="nav-sec">
     <div class="nav-lbl">Menu</div>
-    <div class="ni active" onclick="goHome()" id="nav-home"><div class="ni-icon">🏠</div><div class="ni-info"><div class="ni-title">Startpagina</div><div class="ni-sub">Overzicht</div></div></div>
+    <div class="ni active" onclick="goHome()" id="nav-home"><div class="ni-icon">🏠</div><div class="ni-info"><div class="ni-title">Overzicht</div><div class="ni-sub">Startpagina</div></div></div>
   </div>
-
   <div class="nav-sec">
-    <div class="nav-lbl">6 Modules</div>
-    <div class="ni available" onclick="sm(1)" id="nav-mod1"><div class="ni-icon">🤔</div><div class="ni-info"><div class="ni-title">Wat is AI?</div></div><span class="ni-badge" id="l1">›</span></div>
-    <div class="ni locked" onclick="sm(2)" id="nav-mod2"><div class="ni-icon">⚙️</div><div class="ni-info"><div class="ni-title">Hoe Werkt AI?</div></div><span class="ni-badge" id="l2">🔒</span></div>
-    <div class="ni locked" onclick="sm(3)" id="nav-mod3"><div class="ni-icon">✨</div><div class="ni-info"><div class="ni-title">Generatieve AI</div></div><span class="ni-badge" id="l3">🔒</span></div>
-    <div class="ni locked" onclick="sm(4)" id="nav-mod4"><div class="ni-icon">⚠️</div><div class="ni-info"><div class="ni-title">Ethiek & Bias</div></div><span class="ni-badge" id="l4">🔒</span></div>
-    <div class="ni locked" onclick="sm(5)" id="nav-mod5"><div class="ni-icon">📚</div><div class="ni-info"><div class="ni-title">AI in School</div></div><span class="ni-badge" id="l5">🔒</span></div>
-    <div class="ni locked" onclick="sm(6)" id="nav-mod6"><div class="ni-icon">🌍</div><div class="ni-info"><div class="ni-title">AI in Maatschappij</div></div><span class="ni-badge" id="l6">🔒</span></div>
-    <div class="ni locked" onclick="tryC()" id="nav-cert"><div class="ni-icon">🏆</div><div class="ni-info"><div class="ni-title">Certificaat</div></div><span class="ni-badge" id="lc">🔒</span></div>
+    <div class="nav-lbl">Modules</div>
+    <div class="ni locked" onclick="sm(1)" id="nav-mod1"><div class="ni-icon">🤔</div><div class="ni-info"><div class="ni-title">Wat is AI?</div><div class="ni-sub">Module 1</div></div><span class="ni-badge" id="l1">🔒</span></div>
+    <div class="ni locked" onclick="sm(2)" id="nav-mod2"><div class="ni-icon">⚙️</div><div class="ni-info"><div class="ni-title">Hoe werkt AI?</div><div class="ni-sub">Module 2</div></div><span class="ni-badge" id="l2">🔒</span></div>
+    <div class="ni locked" onclick="sm(3)" id="nav-mod3"><div class="ni-icon">✨</div><div class="ni-info"><div class="ni-title">Generatieve AI</div><div class="ni-sub">Module 3</div></div><span class="ni-badge" id="l3">🔒</span></div>
+    <div class="ni locked" onclick="sm(4)" id="nav-mod4"><div class="ni-icon">⚠️</div><div class="ni-info"><div class="ni-title">Ethiek & Bias</div><div class="ni-sub">Module 4</div></div><span class="ni-badge" id="l4">🔒</span></div>
+    <div class="ni locked" onclick="sm(5)" id="nav-mod5"><div class="ni-icon">📚</div><div class="ni-info"><div class="ni-title">AI in School</div><div class="ni-sub">Module 5</div></div><span class="ni-badge" id="l5">🔒</span></div>
+    <div class="ni locked" onclick="sm(6)" id="nav-mod6"><div class="ni-icon">🌍</div><div class="ni-info"><div class="ni-title">AI in Maatschappij</div><div class="ni-sub">Module 6</div></div><span class="ni-badge" id="l6">🔒</span></div>
+    <div class="ni locked" onclick="tryC()" id="nav-cert"><div class="ni-icon">🏆</div><div class="ni-info"><div class="ni-title">Certificaat</div><div class="ni-sub">Na alle modules</div></div><span class="ni-badge" id="lc">🔒</span></div>
   </div>
-
   <div class="sb-bot">
     <div class="uc">
       <div class="av" id="av">?</div>
-      <div style="flex:1"><input class="un-inp" id="un" placeholder="Je naam" onchange="sn()"><div class="eh">Voortgang lokaal opgeslagen</div></div>
+      <div style="flex:1"><input class="un-inp" id="un" placeholder="Vul je naam in" disabled readonly><div class="eh">Voortgang lokaal bijgehouden</div></div>
     </div>
   </div>
 </aside>
 
 <main id="main">
 
+<!-- ════════ STARTTEST ════════ -->
+<div class="view active" id="view-starttest">
+  <div class="mc-content" id="st-content"></div>
+</div>
+
 <!-- ════════ HOME ════════ -->
-<div class="view active" id="view-home">
+<div class="view" id="view-home">
   <div class="hero">
-    <div class="hero-ey"><span>Sint-Rembert AI-Skills</span></div>
-    <h1 class="hero-h1">Leer AI <span class="g">echt begrijpen</span></h1>
-    <p class="hero-p">Je gebruikt ChatGPT misschien al. Maar weet je HOE het werkt? In deze 6 modules leer je AI van de grond af op — en begrijp je echt wat er gebeurt. Quiz, video's, reflecties. En aan het einde: een certificaat met al je antwoorden!</p>
+    <div class="hero-ey"><span>Scholengroep Sint-Rembert × AI-Skills</span></div>
+    <h1 class="hero-h1">Leer AI <span class="g">Echt Begrijpen</span></h1>
+    <p class="hero-p">Je gebruikt ChatGPT misschien al. Maar weet je hoe het écht werkt? Deze 6 modules leren je AI van de grond af op begrijpen — kritisch, veilig en verantwoord. Elke module heeft video's, doe-opdrachten en een korte kennischeck. Aan het einde krijg je een certificaat!</p>
     <div class="hero-stats">
-      <div class="hs"><div class="hs-num">6</div><div class="hs-lbl">Modules · Interactief</div></div>
-      <div class="hs"><div class="hs-num">📹</div><div class="hs-lbl">Met video's</div></div>
-      <div class="hs"><div class="hs-num">🎯</div><div class="hs-lbl">Praktisch gericht</div></div>
-      <div class="hs"><div class="hs-num">🏆</div><div class="hs-lbl">1 Certificaat</div></div>
+      <div class="hs"><div class="hs-num">🧪</div><div class="hs-lbl">Startest · 1 kans</div></div>
+      <div class="hs"><div class="hs-num">6</div><div class="hs-lbl">Modules</div></div>
+      <div class="hs"><div class="hs-num">5</div><div class="hs-lbl">AI-labels</div></div>
+      <div class="hs"><div class="hs-num">📹</div><div class="hs-lbl">Video's & quizzen</div></div>
+      <div class="hs"><div class="hs-num">🏆</div><div class="hs-lbl">Certificaat</div></div>
     </div>
   </div>
 
   <div class="sw">
-    <div class="sw-title">6 <em>Modules</em> Over AI</div>
-    <div class="sw-sub">Je leert stap voor stap hoe AI werkt, welke risico's het heeft, en hoe je het verantwoord inzet.</div>
+    <div class="sw-title">Waarom deze <em>cursus</em>?</div>
+    <div class="sw-sub">AI is overal — in TikTok, in je telefoon, op school. Dit leer je.</div>
+    <div class="vision-box">
+      <div class="vision-title">🎯 Wat ga je leren?</div>
+      <div class="vision-text">Je hoeft geen programmeur te worden, maar je moet wél begrijpen wat AI is, hoe het werkt, en waar de risico's zitten. Deze cursus maakt je <strong>AI-geletterd</strong>: je herkent AI, gebruikt het kritisch, en weet wanneer je het wel of niet mag inzetten op school.<br><br>
+      Zes modules, van basis tot verdieping: wat AI is, hoe het technisch werkt, wat generatieve AI (ChatGPT, DALL-E) bijzonder maakt, welke ethische risico's er zijn, wat de regels op school zijn, en wat AI betekent voor de maatschappij van morgen. Aan het einde ben je slimmer over AI dan de meeste volwassenen! 🚀</div>
+    </div>
 
-    <div class="mods-grid">
-      <div class="mc" onclick="sm(1)">
-        <div class="mc-badge">Module 1 · Start</div>
-        <div class="mc-icon">🤔</div>
-        <div class="mc-title">Wat is AI?</div>
-        <div class="mc-desc">AI overal. De 3 elementen. Wat je al kent.</div>
-        <button class="sr-btn g">▶ Start</button>
+    <div class="sw-title" style="margin-top:28px">De <em>AI-Spelregels</em></div>
+    <div class="sw-sub">Geldend voor alle leerlingen van de scholengroep.</div>
+    <div class="sr-row">
+      <div class="sr-box wel">
+        <div class="sr-box-title">✅ Wat mag wel?</div>
+        <div class="sri"><div class="sr-chk">✓</div>AI gebruiken voor brainstorm en ideeën</div>
+        <div class="sri"><div class="sr-chk">✓</div>Feedback vragen op je eigen tekst</div>
+        <div class="sri"><div class="sr-chk">✓</div>Uitleg vragen over moeilijke onderwerpen</div>
+        <div class="sri"><div class="sr-chk">✓</div>AI gebruiken als het label dat toelaat</div>
+        <div class="sri"><div class="sr-chk">✓</div>Zeggen dat je AI hebt gebruikt (eerlijkheid!)</div>
       </div>
-      <div class="mc" onclick="sm(2)">
-        <div class="mc-badge">Module 2</div>
-        <div class="mc-icon">⚙️</div>
-        <div class="mc-title">Hoe Werkt AI?</div>
-        <div class="mc-desc">Machine Learning, Deep Learning, Neurale Netwerken</div>
-        <button class="sr-btn">▶ Start</button>
-      </div>
-      <div class="mc" onclick="sm(3)">
-        <div class="mc-badge">Module 3</div>
-        <div class="mc-icon">✨</div>
-        <div class="mc-title">Generatieve AI</div>
-        <div class="mc-desc">ChatGPT, DALL-E, prompting, hallucinaties</div>
-        <button class="sr-btn">▶ Start</button>
-      </div>
-      <div class="mc" onclick="sm(4)">
-        <div class="mc-badge">Module 4</div>
-        <div class="mc-icon">⚠️</div>
-        <div class="mc-title">Ethiek & Problemen</div>
-        <div class="mc-desc">Bias, deepfakes, privacy, energie</div>
-        <button class="sr-btn">▶ Start</button>
-      </div>
-      <div class="mc" onclick="sm(5)">
-        <div class="mc-badge">Module 5</div>
-        <div class="mc-icon">📚</div>
-        <div class="mc-title">AI in School</div>
-        <div class="mc-desc">Wat mag? Hoe gebruik je het verantwoord?</div>
-        <button class="sr-btn">▶ Start</button>
-      </div>
-      <div class="mc" onclick="sm(6)">
-        <div class="mc-badge">Module 6 · Finale</div>
-        <div class="mc-icon">🌍</div>
-        <div class="mc-title">AI in Maatschappij</div>
-        <div class="mc-desc">De toekomst van AI. Jouw visie.</div>
-        <button class="sr-btn">▶ Start</button>
+      <div class="sr-box niet">
+        <div class="sr-box-title">❌ Wat mag niet?</div>
+        <div class="sri sr-x-item"><div class="sr-x">✕</div>AI-tekst inleveren als eigen werk zonder het te zeggen</div>
+        <div class="sri sr-x-item"><div class="sr-x">✕</div>AI gebruiken tijdens een toets (tenzij het mag)</div>
+        <div class="sri sr-x-item"><div class="sr-x">✕</div>AI-output blindelings overnemen zonder controle</div>
+        <div class="sri sr-x-item"><div class="sr-x">✕</div>Persoonsgegevens van anderen in AI-tools invoeren</div>
+        <div class="sri sr-x-item"><div class="sr-x">✕</div>Een AI-label negeren dat je leerkracht heeft gegeven</div>
       </div>
     </div>
 
-    <div class="vision-box" style="margin-top: 28px;">
-      <div class="vision-title">💭 Waarom Deze Cursus?</div>
-      <div class="vision-text">AI is OVERAL. In TikTok, in je telefoon, in school. Je hoeft niet programmeur te zijn, maar je MOET begrijpen hoe het werkt. Niet bang zijn, maar WÉL voorzichtig. Deze 6 modules maken je AI-geletterd — je begrijpt risico's, kansen, en je kunt er verantwoord mee omgaan. Dat maakt je slimmer dan 90% van de volwassenen! 🚀</div>
+    <div class="sw-title" style="margin-top:28px">De <em>6 Modules</em></div>
+    <div class="sw-sub">Doorloop ze in volgorde — elke module ontgrendelt de volgende.</div>
+    <div class="mods-grid">
+      <div class="mc" id="cm1" onclick="sm(1)">
+        <div class="mc-badge">Module 1</div>
+        <div class="mc-icon">🤔</div>
+        <div class="mc-title">Wat is AI?</div>
+        <div class="mc-desc">AI is overal — ook al zie je het niet. Van simpele regels tot generatieve AI, hallucinaties en AI-agents.</div>
+        <button class="sr-btn g" id="bm1">▶ Start</button>
+        <div class="mc-stat" id="ps1">Nog niet gestart</div>
+      </div>
+      <div class="mc locked" id="cm2">
+        <div class="mc-badge">Module 2</div>
+        <div class="mc-icon">⚙️</div>
+        <div class="mc-title">Hoe Werkt AI?</div>
+        <div class="mc-desc">Machine learning, deep learning en neurale netwerken — de motor achter elke AI-tool.</div>
+        <button class="sr-btn" id="bm2" disabled>🔒 Vergrendeld</button>
+        <div class="mc-stat" id="ps2">Voltooi Module 1 eerst</div>
+      </div>
+      <div class="mc locked" id="cm3">
+        <div class="mc-badge">Module 3</div>
+        <div class="mc-icon">✨</div>
+        <div class="mc-title">Generatieve AI</div>
+        <div class="mc-desc">ChatGPT, DALL-E en prompting: hoe maak je AI aan het werk voor jou?</div>
+        <button class="sr-btn" id="bm3" disabled>🔒 Vergrendeld</button>
+        <div class="mc-stat" id="ps3">Voltooi Module 2 eerst</div>
+      </div>
+      <div class="mc locked" id="cm4">
+        <div class="mc-badge">Module 4</div>
+        <div class="mc-icon">⚠️</div>
+        <div class="mc-title">Ethiek & Bias</div>
+        <div class="mc-desc">Deepfakes, discriminatie, privacy en energieverbruik — de donkere kant van AI.</div>
+        <button class="sr-btn" id="bm4" disabled>🔒 Vergrendeld</button>
+        <div class="mc-stat" id="ps4">Voltooi Module 3 eerst</div>
+      </div>
+      <div class="mc locked" id="cm5">
+        <div class="mc-badge">Module 5</div>
+        <div class="mc-icon">📚</div>
+        <div class="mc-title">AI in School</div>
+        <div class="mc-desc">De 5 AI-labels van Sint-Rembert: wat mag wel, wat mag niet, en waarom.</div>
+        <button class="sr-btn" id="bm5" disabled>🔒 Vergrendeld</button>
+        <div class="mc-stat" id="ps5">Voltooi Module 4 eerst</div>
+      </div>
+      <div class="mc locked" id="cm6">
+        <div class="mc-badge">Module 6 · Finale</div>
+        <div class="mc-icon">🌍</div>
+        <div class="mc-title">AI in Maatschappij</div>
+        <div class="mc-desc">Jobs, toekomst, en jouw eigen visie op AI over 10 jaar.</div>
+        <button class="sr-btn" id="bm6" disabled>🔒 Vergrendeld</button>
+        <div class="mc-stat" id="ps6">Voltooi Module 5 eerst</div>
+      </div>
     </div>
   </div>
 </div>
@@ -122,364 +152,146 @@
 <!-- ════════ MODULE 1 ════════ -->
 <div class="view" id="view-mod1">
   <div class="mh">
-    <button class="bk" onclick="goHome()">← Terug</button>
+    <button class="bk" onclick="sv('home')">← Terug</button>
     <div class="mh-info"><div class="mh-num">Module 1</div><div class="mh-title">Wat is AI?</div></div>
+    <div class="dots" id="sd1"></div>
   </div>
-  <div class="mc-content" style="padding: 20px;">
-    <h2>🤔 Wat Is Artificiële Intelligentie?</h2>
-    <p>AI klinkt geheimzinnig. Maar het is eigenlijk best simpel. Lees verder!</p>
-
-    <h3>De 3 Essentiële Elementen van AI</h3>
-    <div style="background: #f0f2f5; padding: 14px; border-radius: 6px; margin: 12px 0;">
-      <strong>1️⃣ Sterk Computersysteem</strong><br>
-      Hardware en software die miljarden berekeningen doet per seconde.
-    </div>
-    <div style="background: #f0f2f5; padding: 14px; border-radius: 6px; margin: 12px 0;">
-      <strong>2️⃣ HEEL VEEL Data</strong><br>
-      Miljoenen tot miljarden voorbeelden om patronen in te vinden.
-    </div>
-    <div style="background: #f0f2f5; padding: 14px; border-radius: 6px; margin: 12px 0;">
-      <strong>3️⃣ Algoritmes</strong><br>
-      Wiskundige formules die patronen herkennen en toepassen.
-    </div>
-
-    <div style="background: #e6f3ff; padding: 14px; border-radius: 6px; margin: 12px 0; border-left: 4px solid #667eea;">
-      <strong>📹 Video 1:</strong> "What is AI?" (5 min) → <a href="https://www.youtube.com/watch?v=JfIgo1hLaFI" target="_blank">Bekijk</a>
-    </div>
-
-    <h3>AI Om Je Heen (Zonder Dat Je Het Wist!)</h3>
-    <ul>
-      <li><strong>📧 Gmail spam-filter</strong> → filtert automatisch spam</li>
-      <li><strong>🎵 Spotify</strong> → weet welke muziek jij leuk vindt</li>
-      <li><strong>📸 Instagram filter</strong> → herkent gezichten</li>
-      <li><strong>🚗 Tesla zelfrijdende auto</strong> → ziet voetgangers</li>
-      <li><strong>🎮 Game-tegenstanders</strong> → gedragen zich "intelligent"</li>
-      <li><strong>💬 Google Translate</strong> → vertaalt je tekst</li>
-    </ul>
-
-    <h3>Quiz — Vraag 1</h3>
-    <div style="background: white; padding: 14px; border-radius: 6px; margin: 12px 0; border-left: 4px solid #0066cc;">
-      <strong>❓ AI kan:</strong><br>
-      <div style="margin: 8px 0;"><label><input type="radio" name="q1_1" value="1"> Denken en voelen</label></div>
-      <div style="margin: 8px 0;"><label><input type="radio" name="q1_1" value="2"> Patronen herkennen in data</label></div>
-      <div style="margin: 8px 0;"><label><input type="radio" name="q1_1" value="3"> Bewustzijn hebben</label></div>
-      <div style="margin: 8px 0;"><label><input type="radio" name="q1_1" value="4"> Spontane beslissingen nemen</label></div>
-      <div style="margin: 8px 0;"><label><input type="radio" name="q1_1" value="5"> Zelf nieuwe doelen kiezen</label></div>
-      <button onclick="saveAnswer('q1_1')" class="sr-btn g" style="margin-top: 10px;">✓ Opslaan</button>
-    </div>
-
-    <h3>Reflectie</h3>
-    <div style="background: #fff9e6; padding: 14px; border-radius: 6px; margin: 12px 0; border-left: 4px solid #ff9800;">
-      <strong>💭 Waar Zie JIJ AI In Je Leven?</strong><br>
-      <textarea id="ans1_ref" style="width:100%;height:80px;margin-top:10px;padding:8px;border:1px solid #ddd;border-radius:4px;" placeholder="Bijvoorbeeld: TikTok weet wat mij interesseert..."></textarea>
-    </div>
-
-    <button class="sr-btn g" onclick="completeModule(1)" style="margin-top: 20px;">✅ Module 1 Voltooid</button>
-  </div>
+  <div class="mc-content" id="m1c"></div>
 </div>
 
 <!-- ════════ MODULE 2 ════════ -->
 <div class="view" id="view-mod2">
   <div class="mh">
-    <button class="bk" onclick="goHome()">← Terug</button>
+    <button class="bk" onclick="sv('home')">← Terug</button>
     <div class="mh-info"><div class="mh-num">Module 2</div><div class="mh-title">Hoe Werkt AI?</div></div>
+    <div class="dots" id="sd2"></div>
   </div>
-  <div class="mc-content" style="padding: 20px;">
-    <h2>⚙️ Hoe Werkt Artificiële Intelligentie Echt?</h2>
-
-    <h3>Van Regels Naar Machine Learning</h3>
-    <p><strong>Stap 1: Procedureel (Heel Oud)</strong></p>
-    <div style="background: #f5f5f5; padding: 12px; margin: 10px 0; border-left: 4px solid #999;">
-      IF temperatuur &lt; 0°C THEN "Rood waarschuwingslicht"<br>
-      Gewoon IF-THEN regels. Computer voert uit.
-    </div>
-
-    <p><strong>Stap 2: Machine Learning (Modern)</strong></p>
-    <p>Computer LEERT zelf regels uit data.</p>
-    <ul>
-      <li>Voorbeeld: 10.000 foto's van "kat" vs "hond"</li>
-      <li>AI zoekt patronen (snuit, oren, kleur)</li>
-      <li>AI LEERT: "Spitse oren = waarschijnlijk kat"</li>
-      <li>Volgende keer: AI herkent katten zelf!</li>
-    </ul>
-
-    <p><strong>Stap 3: Deep Learning (Super Modern)</strong></p>
-    <p>Neurale netwerken — geïnspireerd op hersenen!</p>
-
-    <div style="background: #e6f3ff; padding: 14px; border-radius: 6px; margin: 12px 0; border-left: 4px solid #667eea;">
-      <strong>📹 Video 2:</strong> "Machine Learning Explained" (7 min) → <a href="https://www.youtube.com/watch?v=aircAruvnKk" target="_blank">Bekijk</a>
-    </div>
-
-    <h3>Quiz — Vraag 2</h3>
-    <div style="background: white; padding: 14px; border-radius: 6px; margin: 12px 0; border-left: 4px solid #0066cc;">
-      <strong>❓ Machine Learning Betekent:</strong><br>
-      <div style="margin: 8px 0;"><label><input type="radio" name="q2_1" value="1"> De computer leert zelf patronen uit data</label></div>
-      <div style="margin: 8px 0;"><label><input type="radio" name="q2_1" value="2"> Een persoon voert regels in</label></div>
-      <div style="margin: 8px 0;"><label><input type="radio" name="q2_1" value="3"> De computer kopieert wat het ziet</label></div>
-      <div style="margin: 8px 0;"><label><input type="radio" name="q2_1" value="4"> AI bestuurt robots</label></div>
-      <div style="margin: 8px 0;"><label><input type="radio" name="q2_1" value="5"> Mensen worden slim van AI</label></div>
-      <button onclick="saveAnswer('q2_1')" class="sr-btn g" style="margin-top: 10px;">✓ Opslaan</button>
-    </div>
-
-    <h3>Reflectie</h3>
-    <div style="background: #fff9e6; padding: 14px; border-radius: 6px; margin: 12px 0; border-left: 4px solid #ff9800;">
-      <strong>💭 Machine Learning in Jouw Leven?</strong><br>
-      <textarea id="ans2_ref" style="width:100%;height:80px;margin-top:10px;padding:8px;border:1px solid #ddd;border-radius:4px;" placeholder="Welke app leert van jou?"></textarea>
-    </div>
-
-    <button class="sr-btn g" onclick="completeModule(2)" style="margin-top: 20px;">✅ Module 2 Voltooid</button>
-  </div>
+  <div class="mc-content" id="m2c"></div>
 </div>
 
 <!-- ════════ MODULE 3 ════════ -->
 <div class="view" id="view-mod3">
   <div class="mh">
-    <button class="bk" onclick="goHome()">← Terug</button>
+    <button class="bk" onclick="sv('home')">← Terug</button>
     <div class="mh-info"><div class="mh-num">Module 3</div><div class="mh-title">Generatieve AI</div></div>
+    <div class="dots" id="sd3"></div>
   </div>
-  <div class="mc-content" style="padding: 20px;">
-    <h2>✨ ChatGPT, DALL-E: Generatieve AI</h2>
-
-    <h3>Hoe ChatGPT Werkt</h3>
-    <p>ChatGPT is getraind op MILJARDEN woorden uit het internet.</p>
-    <ul>
-      <li>Jij: "Schrijf een gedicht over pizza"</li>
-      <li>ChatGPT: Zoekt patronen in miljarden gedichten</li>
-      <li>ChatGPT: Genereer woord voor woord</li>
-      <li>Result: NIEUW gedicht, niet gekopieerd!</li>
-    </ul>
-
-    <div style="background: #e6f3ff; padding: 14px; border-radius: 6px; margin: 12px 0; border-left: 4px solid #667eea;">
-      <strong>📹 Video 3:</strong> "How ChatGPT Works" (6 min) → <a href="https://www.youtube.com/watch?v=JfIgo1hLaFI" target="_blank">Bekijk</a>
-    </div>
-
-    <h3>Quiz — Vraag 3</h3>
-    <div style="background: white; padding: 14px; border-radius: 6px; margin: 12px 0; border-left: 4px solid #0066cc;">
-      <strong>❓ ChatGPT Kopieert NIET, Omdat:</strong><br>
-      <div style="margin: 8px 0;"><label><input type="radio" name="q3_1" value="1"> Het te veel data zou zijn</label></div>
-      <div style="margin: 8px 0;"><label><input type="radio" name="q3_1" value="2"> Het patronen herkent en NIEUWE tekst genereert</label></div>
-      <div style="margin: 8px 0;"><label><input type="radio" name="q3_1" value="3"> Het internet-verbinding niet heeft</label></div>
-      <div style="margin: 8px 0;"><label><input type="radio" name="q3_1" value="4"> Het is geprogrammeerd om anders te zijn</label></div>
-      <div style="margin: 8px 0;"><label><input type="radio" name="q3_1" value="5"> Dat is niet waar, het DOET kopieëren</label></div>
-      <button onclick="saveAnswer('q3_1')" class="sr-btn g" style="margin-top: 10px;">✓ Opslaan</button>
-    </div>
-
-    <button class="sr-btn g" onclick="completeModule(3)" style="margin-top: 20px;">✅ Module 3 Voltooid</button>
-  </div>
+  <div class="mc-content" id="m3c"></div>
 </div>
 
 <!-- ════════ MODULE 4 ════════ -->
 <div class="view" id="view-mod4">
   <div class="mh">
-    <button class="bk" onclick="goHome()">← Terug</button>
-    <div class="mh-info"><div class="mh-num">Module 4</div><div class="mh-title">Ethiek & Problemen</div></div>
+    <button class="bk" onclick="sv('home')">← Terug</button>
+    <div class="mh-info"><div class="mh-num">Module 4</div><div class="mh-title">Ethiek & Bias</div></div>
+    <div class="dots" id="sd4"></div>
   </div>
-  <div class="mc-content" style="padding: 20px;">
-    <h2>⚠️ Ethiek, Bias, Problemen</h2>
-
-    <h3>Bias: AI Discrimineert</h3>
-    <p><strong>Voorbeeld:</strong> AI sortiert CV's (wie krijgt aangenomen?). Trainings-data bevat meer mannen in IT. AI leert: "man in IT = beter". RESULTAAT: Vrouwen worden afgewezen!</p>
-
-    <h3>Deepfakes: Nep-Video's</h3>
-    <p>AI kan video's FAKEn. Je gezicht, iemand anders' stem. Volkomen echt-lijkend, maar fake!</p>
-
-    <div style="background: #e6f3ff; padding: 14px; border-radius: 6px; margin: 12px 0; border-left: 4px solid #667eea;">
-      <strong>📹 Video 4:</strong> "The Dark Side of AI" (8 min) → <a href="https://www.youtube.com/watch?v=JfIgo1hLaFI" target="_blank">Bekijk</a>
-    </div>
-
-    <h3>Quiz — Vraag 4</h3>
-    <div style="background: white; padding: 14px; border-radius: 6px; margin: 12px 0; border-left: 4px solid #0066cc;">
-      <strong>❓ Bias in AI Gebeurt Omdat:</strong><br>
-      <div style="margin: 8px 0;"><label><input type="radio" name="q4_1" value="1"> Programmeurs slecht zijn</label></div>
-      <div style="margin: 8px 0;"><label><input type="radio" name="q4_1" value="2"> De trainings-data zelf vooroordelen bevat</label></div>
-      <div style="margin: 8px 0;"><label><input type="radio" name="q4_1" value="3"> AI is per definitie racistisch</label></div>
-      <div style="margin: 8px 0;"><label><input type="radio" name="q4_1" value="4"> Het internet vol lies is</label></div>
-      <div style="margin: 8px 0;"><label><input type="radio" name="q4_1" value="5"> Dat is onmogelijk</label></div>
-      <button onclick="saveAnswer('q4_1')" class="sr-btn g" style="margin-top: 10px;">✓ Opslaan</button>
-    </div>
-
-    <button class="sr-btn g" onclick="completeModule(4)" style="margin-top: 20px;">✅ Module 4 Voltooid</button>
-  </div>
+  <div class="mc-content" id="m4c"></div>
 </div>
 
 <!-- ════════ MODULE 5 ════════ -->
 <div class="view" id="view-mod5">
   <div class="mh">
-    <button class="bk" onclick="goHome()">← Terug</button>
+    <button class="bk" onclick="sv('home')">← Terug</button>
     <div class="mh-info"><div class="mh-num">Module 5</div><div class="mh-title">AI in School</div></div>
+    <div class="dots" id="sd5"></div>
   </div>
-  <div class="mc-content" style="padding: 20px;">
-    <h2>📚 AI in de Klas: Regels!</h2>
-
-    <h3>Sint-Rembert Regels</h3>
-    <div style="background: #e6ffe6; padding: 14px; border-radius: 6px; margin: 12px 0; border-left: 4px solid #4caf50;">
-      <strong>✅ MAG JE WEL:</strong><br>
-      • ChatGPT gebruiken voor brainstormen<br>
-      • Feedback krijgen op je essay<br>
-      • AI gebruiken MET KRITISCHE BLIK<br>
-      • Zeggen dat je AI hebt gebruikt
-    </div>
-
-    <div style="background: #ffe6e6; padding: 14px; border-radius: 6px; margin: 12px 0; border-left: 4px solid #f44336;">
-      <strong>❌ MAG JE NIET (PLAGIAAT!):</strong><br>
-      • ChatGPT-essay inleveren als eigen werk<br>
-      • AI-output kritiekloos overnemen<br>
-      • Zeggen dat JIJ het zelf schreef
-    </div>
-
-    <div style="background: #e6f3ff; padding: 14px; border-radius: 6px; margin: 12px 0; border-left: 4px solid #667eea;">
-      <strong>📹 Video 5:</strong> "AI & Integrity" (5 min) → <a href="https://www.youtube.com/watch?v=JfIgo1hLaFI" target="_blank">Bekijk</a>
-    </div>
-
-    <h3>Quiz — Vraag 5</h3>
-    <div style="background: white; padding: 14px; border-radius: 6px; margin: 12px 0; border-left: 4px solid #0066cc;">
-      <strong>❓ Een Essay Met ChatGPT Is OK Als:</strong><br>
-      <div style="margin: 8px 0;"><label><input type="radio" name="q5_1" value="1"> Je het zelf hebt geschreven</label></div>
-      <div style="margin: 8px 0;"><label><input type="radio" name="q5_1" value="2"> Je je leraar zegt dat je AI hebt gebruikt</label></div>
-      <div style="margin: 8px 0;"><label><input type="radio" name="q5_1" value="3"> Je het heel voorzichtig doet</label></div>
-      <div style="margin: 8px 0;"><label><input type="radio" name="q5_1" value="4"> Niemand het merkt</label></div>
-      <div style="margin: 8px 0;"><label><input type="radio" name="q5_1" value="5"> Het kan nooit OK zijn</label></div>
-      <button onclick="saveAnswer('q5_1')" class="sr-btn g" style="margin-top: 10px;">✓ Opslaan</button>
-    </div>
-
-    <button class="sr-btn g" onclick="completeModule(5)" style="margin-top: 20px;">✅ Module 5 Voltooid</button>
-  </div>
+  <div class="mc-content" id="m5c"></div>
 </div>
 
 <!-- ════════ MODULE 6 ════════ -->
 <div class="view" id="view-mod6">
   <div class="mh">
-    <button class="bk" onclick="goHome()">← Terug</button>
-    <div class="mh-info"><div class="mh-num">Module 6</div><div class="mh-title">AI in Maatschappij</div></div>
+    <button class="bk" onclick="sv('home')">← Terug</button>
+    <div class="mh-info"><div class="mh-num">Module 6 · Finale</div><div class="mh-title">AI in Maatschappij</div></div>
+    <div class="dots" id="sd6"></div>
   </div>
-  <div class="mc-content" style="padding: 20px;">
-    <h2>🌍 AI in De Toekomst</h2>
-
-    <h3>Wat Gaat Gebeuren?</h3>
-    <p><strong>5 Jaar (2031):</strong> AI werkt je huiswerk uit.</p>
-    <p><strong>10 Jaar (2036):</strong> Robots doen 50% van alle jobs.</p>
-    <p><strong>50 Jaar (2076):</strong> Nobody knows! Utopia of dystopia?</p>
-
-    <div style="background: #e6f3ff; padding: 14px; border-radius: 6px; margin: 12px 0; border-left: 4px solid #667eea;">
-      <strong>📹 Video 6:</strong> "The Future of AI" (8 min) → <a href="https://www.youtube.com/watch?v=JfIgo1hLaFI" target="_blank">Bekijk</a>
-    </div>
-
-    <h3>Quiz — Vraag 6</h3>
-    <div style="background: white; padding: 14px; border-radius: 6px; margin: 12px 0; border-left: 4px solid #0066cc;">
-      <strong>❓ Het Grootste Risico Van AI Lijkt:</strong><br>
-      <div style="margin: 8px 0;"><label><input type="radio" name="q6_1" value="1"> Privacy / data-opslag</label></div>
-      <div style="margin: 8px 0;"><label><input type="radio" name="q6_1" value="2"> Bias / discriminatie</label></div>
-      <div style="margin: 8px 0;"><label><input type="radio" name="q6_1" value="3"> Werkloosheid</label></div>
-      <div style="margin: 8px 0;"><label><input type="radio" name="q6_1" value="4"> Deepfakes / desinformatie</label></div>
-      <div style="margin: 8px 0;"><label><input type="radio" name="q6_1" value="5"> Energie / milieu</label></div>
-      <button onclick="saveAnswer('q6_1')" class="sr-btn g" style="margin-top: 10px;">✓ Opslaan</button>
-    </div>
-
-    <h3>GROTE Reflectie</h3>
-    <div style="background: #fff9e6; padding: 14px; border-radius: 6px; margin: 12px 0; border-left: 4px solid #ff9800;">
-      <strong>✏️ Jouw AI-Toekomst:</strong><br>
-      Hoe wil JIJ dat AI er over 10 jaar uitziet? Wat is goed? Wat is eng?<br>
-      <textarea id="ans6_ref" style="width:100%;height:150px;margin-top:10px;padding:8px;border:1px solid #ddd;border-radius:4px;" placeholder="Schrijf je dromen / angsten..."></textarea>
-    </div>
-
-    <button class="sr-btn g" onclick="completeModule(6)" style="margin-top: 20px; margin-bottom: 40px;">✅ Module 6 Voltooid 🏆</button>
-  </div>
+  <div class="mc-content" id="m6c"></div>
 </div>
 
 <!-- ════════ CERTIFICAAT ════════ -->
-<div id="cert-view" style="display:none; padding: 40px 20px;">
-  <div style="max-width: 900px; margin: 0 auto;">
-    <div style="text-align: center; margin-bottom: 40px;">
-      <div style="font-size: 48px; margin-bottom: 20px;">🎉</div>
-      <h2 style="font-family:'Archivo Black';font-size:28px;color:var(--blue);text-transform:uppercase;margin-bottom:10px">GEFELICITEERD!</h2>
-      <p style="font-size:16px;color:var(--muted);font-weight:700;">Je hebt alle 6 modules voltooid!</p>
+<div id="cert-view">
+  <div class="cert-wrap">
+    <div class="cert-intro">
+      <div class="cert-fire">🎉</div>
+      <h2 style="font-family:'Archivo Black',sans-serif;font-size:26px;color:var(--blue);text-transform:uppercase;margin-bottom:7px">Gefeliciteerd!</h2>
+      <p style="color:var(--muted);font-weight:700;margin-bottom:28px">Je hebt alle 6 modules voltooid. Download hieronder je certificaat.</p>
     </div>
 
-    <div style="background: white; border: 3px solid var(--blue); border-radius: 8px; padding: 40px; text-align: center; margin-bottom: 30px;">
-      <div style="font-size: 24px; color: var(--blue); font-weight: bold; margin-bottom: 20px;">CERTIFICAAT</div>
-      <div style="font-size: 18px; color: #666; margin-bottom: 20px;">AI-Skills voor Leerlingen</div>
-      
-      <div style="border-top: 2px solid var(--blue); border-bottom: 2px solid var(--blue); padding: 30px 0; margin: 30px 0;">
-        <p style="font-size: 14px; color: #666;">Dit certificaat bevestigt dat</p>
-        <p style="font-size: 24px; font-weight: bold; color: var(--blue); margin: 15px 0;" id="cert-name">Leerling</p>
-        <p style="font-size: 14px; color: #666;">alle 6 modules van de <strong>AI-Skills voor Leerlingen</strong> cursus succesvol heeft voltooid.</p>
+    <div class="ss-box" style="text-align:left;margin-bottom:20px">
+      <div class="ss-title">📤 Hoe download ik mijn certificaat?</div>
+      <div class="ss-steps">
+        <div class="ss-step"><div class="ss-step-num">1</div><div class="ss-step-text">Controleer dat <strong>je naam correct ingevuld is</strong> (links onderaan in de zijbalk). Die komt op het certificaat.</div></div>
+        <div class="ss-step"><div class="ss-step-num">2</div><div class="ss-step-text">Klik op <strong>"🖨️ Download certificaat (PDF)"</strong> hieronder.</div></div>
+        <div class="ss-step"><div class="ss-step-num">3</div><div class="ss-step-text">Kies in het afdrukvenster <strong>"Opslaan als PDF"</strong> (niet een echte printer!) en bewaar het bestand.</div></div>
+        <div class="ss-step"><div class="ss-step-num">4</div><div class="ss-step-text">Lever het certificaat in bij je leerkracht zoals gevraagd.</div></div>
       </div>
+    </div>
 
-      <div style="background: #f0f2f5; padding: 20px; border-radius: 6px; margin: 20px 0; text-align: left;">
-        <p style="font-weight: bold; margin-top: 0; color: var(--blue);">Jij begrijpt nu:</p>
-        <ul style="margin: 10px 0; padding-left: 20px; font-size: 13px;">
-          <li>Wat AI is (3 elementen)</li>
-          <li>Hoe AI werkt (Machine Learning, Deep Learning)</li>
-          <li>Generatieve AI (ChatGPT, DALL-E)</li>
-          <li>Risico's (Bias, Deepfakes)</li>
-          <li>AI in school (Regels, Ethiek)</li>
-          <li>AI in de maatschappij</li>
-        </ul>
+    <div class="cert-box">
+      <div class="cert-wm">SINT-REMBERT</div>
+      <div class="cert-school">Scholengroep Sint-Rembert</div>
+      <div class="cert-title">Certificaat <em>AI-Skills</em></div>
+      <div class="cert-dec">Dit certificaat bevestigt dat</div>
+      <div class="cert-name" id="cert-name">Leerling</div>
+      <div class="cert-desc">alle 6 modules van de cursus <strong>AI-Skills voor Leerlingen</strong> succesvol heeft voltooid, en daarmee kritisch, veilig en verantwoord kan omgaan met artificiële intelligentie.</div>
+      <div class="cert-comps">
+        <div class="cert-comp"><span class="ck">✓</span>AI begrijpen & herkennen</div>
+        <div class="cert-comp"><span class="ck">✓</span>Machine learning & deep learning</div>
+        <div class="cert-comp"><span class="ck">✓</span>Generatieve AI & prompting</div>
+        <div class="cert-comp"><span class="ck">✓</span>Hallucinaties & bias herkennen</div>
+        <div class="cert-comp"><span class="ck">✓</span>Ethiek & deepfakes</div>
+        <div class="cert-comp"><span class="ck">✓</span>AI-labels op school toepassen</div>
+        <div class="cert-comp"><span class="ck">✓</span>Kritisch & verantwoord AI-gebruik</div>
+        <div class="cert-comp"><span class="ck">✓</span>Visie op AI & de toekomst</div>
       </div>
-
-      <div style="margin: 30px 0; padding: 15px; background: white; border-left: 4px solid var(--blue);">
-        <div style="display: flex; justify-content: space-around; font-size: 12px;">
-          <div><strong>Datum</strong><br><span id="cert-date">—</span></div>
-          <div><strong>Niveau</strong><br>Secundair</div>
-          <div><strong>Geldigheid</strong><br>2 jaar</div>
-        </div>
+      <div class="cert-sr"><span>Sint-</span><em>Rembert</em><span>Scholengroep</span></div>
+      <div class="cert-meta">
+        <div class="cm-i"><div class="cm-lbl">Datum</div><div class="cm-val" id="cert-date">—</div></div>
+        <div class="cm-i"><div class="cm-lbl">Platform</div><div class="cm-val">ReLearn · Sint-Rembert</div></div>
+        <div class="cm-i"><div class="cm-lbl">Niveau</div><div class="cm-val">Secundair onderwijs</div></div>
+        <div class="cm-i"><div class="cm-lbl">Geldigheid</div><div class="cm-val">2 jaar</div></div>
       </div>
-
-      <p style="font-size: 11px; color: #999; margin-top: 30px;">Scholengroep Sint-Rembert · 2026-2027</p>
     </div>
 
-    <div style="background: #fff3cd; border: 2px solid #ffc107; border-radius: 8px; padding: 20px; margin-bottom: 30px;">
-      <p style="margin: 0; font-weight: bold; color: #856404;">💡 HOE DOWNLOADEN?</p>
-      <p style="margin: 10px 0 0 0; color: #856404; font-size: 14px;">
-        1. Klik de knop "Afdrukken" hieronder<br>
-        2. Kies: <strong>"Opslaan als PDF"</strong> (niet echte printer!)<br>
-        3. Klaar! Je certificaat is opgeslagen.
-      </p>
+    <div id="cert-dl-info"></div>
+    <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+      <button class="print-btn" id="print-cert-btn" onclick="doCertPrint()">🖨️ Download certificaat (PDF)</button>
+      <button class="summary-btn" id="download-summary-btn" onclick="downloadSummary()">💾 Download Antwoorden (TXT)</button>
     </div>
-
-    <div style="text-align: center;">
-      <button class="sr-btn g" onclick="downloadPDF()" style="font-size:16px;padding:14px 32px;margin-right:10px;">
-        🖨️ Afdrukken / Opslaan als PDF
-      </button>
-      <button class="sr-btn" onclick="goHome()" style="font-size:16px;padding:14px 32px;">
-        ← Terug naar Home
-      </button>
-    </div>
+    <div class="cert-warn">✅ Je certificaat is gereed! Kies in het afdrukvenster "Opslaan als PDF".</div>
   </div>
 </div>
 
-<!-- ════════ FOOTER (Credits - Onderaan) ════════ -->
-<footer style="margin-top: 100px; padding: 60px 20px 40px; background: #f9f9f9; border-top: 1px solid #ddd; font-size: 12px; color: #666; line-height: 1.8;">
-  <div style="max-width: 1000px; margin: 0 auto;">
-    <div style="margin-bottom: 30px;">
-      <h4 style="color: var(--blue); margin-top: 0;">Over Deze Cursus</h4>
-      <p><strong>Sint-Rembert AI-Skills Cursus — Versie 3.0</strong> (2026)<br>
-      Interactieve training voor leerlingen over artificiële intelligentie.</p>
-    </div>
+<footer style="font-size: 11px; color: #666; margin-top: 60px; padding: 30px 20px; border-top: 1px solid #ddd; background: #f9f9f9; line-height: 1.8;">
+  <div style="max-width: 1200px; margin: 0 auto;">
+    <p style="margin: 0 0 12px 0;"><strong>Over deze cursus</strong></p>
+    <p style="margin: 0 0 8px 0;">
+      Sint-Rembert AI-Skills cursus voor leerlingen — Versie 3.0 (2026)<br>
+      Interactieve training voor leerlingen secundair onderwijs
+    </p>
 
-    <div style="margin-bottom: 30px;">
-      <h4 style="color: var(--blue); margin-top: 0;">Bronnen & Inspiratie</h4>
-      <ul style="margin: 0; padding-left: 20px;">
-        <li><strong><a href="https://course.elementsofai.com/nl" target="_blank" style="color: var(--blue);">Elements of AI</a></strong> (Universiteit van Helsinki, TU Delft)</li>
-        <li><strong><a href="https://www.edubox.nl" target="_blank" style="color: var(--blue);">EDUbox AI</a></strong> (Nederlands onderwijs)</li>
-        <li><strong>Schoolmakers AI</strong> (Leon Furze, Universiteit Melbourne)</li>
-        <li><strong><a href="https://www.microsoft.com/en-us/ai/responsible-ai" target="_blank" style="color: var(--blue);">Microsoft Responsible AI</a></strong></li>
-        <li><strong><a href="https://ec.europa.eu/info/business-economy-euro/doing-business-eu/contract-rules/ai-act_en" target="_blank" style="color: var(--blue);">EU AI Act</a></strong> (2024)</li>
-      </ul>
-    </div>
+    <p style="margin: 12px 0 8px 0;"><strong>Bronvermelding & Inspiratie</strong></p>
+    <p style="margin: 0;">
+      Deze cursus is ontwikkeld met inspiratie van pedagogische frameworks en onderwijs-best practices, waaronder:<br>
+      <br>
+      • <strong>Elements of AI</strong> (Universiteit van Helsinki, TU Delft, Reaktor) | <a href="https://www.elementsofai.com/" target="_blank" style="color: #0066cc;">elementsofai.com</a><br>
+      • EDUbox Artificiële Intelligentie (VRT NWS)<br>
+      • Schoolmakers AI-gebruiksschaal (Leon Furze, Universiteit Melbourne)<br>
+      • Microsoft Responsible AI frameworks<br>
+      • EU AI Act (2024)<br>
+      • Sint-Rembert Beleidskader AI<br>
+      • Kennisnet, Digisprong, Vernieuwenderwijs
+    </p>
 
-    <div style="border-top: 1px solid #ddd; padding-top: 20px;">
-      <p style="margin: 0; font-size: 11px; color: #999;">
-        🔒 Voortgang lokaal opgeslagen — geen gegevens naar server<br>
-        📱 Werkt offline | 🎓 Conform DigCompEdu & EU AI Act
-      </p>
-    </div>
+    <p style="margin: 12px 0 0 0; font-style: italic; color: #999;">
+      Certificaten downloadbaar als PDF
+    </p>
   </div>
 </footer>
 
 </main>
 </div>
-
 <script src="leerlingen.js"></script>
 </body>
 </html>
