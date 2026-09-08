@@ -1995,6 +1995,7 @@ function m3s0(c){
 
 <h3 class="ch3">🎛️ Copilot op jouw maat</h3>
 <p class="cp">Via <strong>Instellingen → Personalisation → Custom instructions</strong> kan je Copilot vragen om voortaan rekening te houden met jouw stijl of voorkeuren — bijvoorbeeld: "Schrijf aangepaste instructies voor Copilot zodat die helder mijn manier van communiceren omschrijft, gebaseerd op onze eerdere gesprekken" of gebaseerd op een bijgevoegd document met teksten die je zelf schreef. Eén keer instellen, en elk volgend gesprek sluit daar automatisch op aan.</p>
+<img src="img/copilot-personalisatie.png" alt="Copilot personalisatie-instellingen" style="width:100%;max-width:600px;display:block;margin:16px auto;border-radius:10px;border:1px solid #e0e4f5;box-shadow:0 2px 10px rgba(10,31,168,0.08);">
 
 <div class="nw">
   <button class="sr-btn g" onclick="n3()">Volgende: prompts schrijven →</button>
@@ -2027,12 +2028,15 @@ function m3s2(c){
 <div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">🎨 Stap 3 van 8 · Maakmodule</span></div>
 <h2 class="ch2">Een poster of beeld <em>ontwerpen</em></h2>
 <p class="cp">Via de Maak- of Designer-module van Copilot kan je snel een visueel ontwerp genereren: een poster voor een klasproject, een infographic bij een les, of een uitnodiging voor een ouderavond. Klik op <strong>Create</strong> en kies wat je wil maken — een afbeelding, infographic, poster, verhaal of formulier.</p>
+<img src="img/copilot-create-overzicht.png" alt="Overzicht van de Copilot Create-module" style="width:100%;max-width:600px;display:block;margin:16px auto;border-radius:10px;border:1px solid #e0e4f5;box-shadow:0 2px 10px rgba(10,31,168,0.08);">
 <p class="cp">Beschrijf gewoon wat je nodig hebt ("een poster over recyclage, vriendelijke kleuren, voor leerlingen van het 1ste jaar") en kies daarna een stijl uit de galerij — van fotorealistisch tot doodle of vlakke illustratie.</p>
+<img src="img/copilot-create-stijlen.png" alt="Stijlgalerij binnen Copilot Create" style="width:100%;max-width:600px;display:block;margin:16px auto;border-radius:10px;border:1px solid #e0e4f5;box-shadow:0 2px 10px rgba(10,31,168,0.08);">
 
 <div class="ib warn">
   <div class="ib-t">✏️ Let op: tekst in beelden klopt vaak niet</div>
   <div class="ib-b">AI-beeldgeneratoren maken regelmatig spelfouten in tekst die op een afbeelding staat. Controleer dit altijd, en gebruik de optie <strong>Edit Text</strong> om de tekst handmatig te corrigeren vóór je het beeld effectief gebruikt in de klas — zoals hieronder, waar een infographic over generatieve AI achteraf wordt bewerkt.</div>
 </div>
+<img src="img/copilot-beeld-bewerken.png" alt="Tekst in een AI-gegenereerd beeld bewerken" style="width:100%;max-width:600px;display:block;margin:16px auto;border-radius:10px;border:1px solid #e0e4f5;box-shadow:0 2px 10px rgba(10,31,168,0.08);">
 
 <div class="nw">
   <button class="sr-btn b" onclick="p3()">← Vorige</button>
@@ -2255,6 +2259,7 @@ function m3s3(c){
 <div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">📚 Stap 4 van 8 · Differentiëren</span></div>
 <h2 class="ch2">Lesmateriaal <em>differentiëren</em> op leesniveau</h2>
 <p class="cp">Heb je een goede basistekst, maar leerlingen met heel uiteenlopende leesvaardigheden? Gebruik de <strong>Teach-module</strong> binnen Copilot: kies "Modify existing content" en daarna "Modify reading level". Copilot herschrijft je tekst dan automatisch op een eenvoudiger of net uitdagender taalniveau, terwijl de inhoud hetzelfde blijft.</p>
+<img src="img/copilot-teach-tools.png" alt="Overzicht van de Copilot Teach-module" style="width:100%;max-width:600px;display:block;margin:16px auto;border-radius:10px;border:1px solid #e0e4f5;box-shadow:0 2px 10px rgba(10,31,168,0.08);">
 <p class="cp">Dit is bijzonder nuttig bij gemengde klasgroepen of taalheterogene klassen (bv. een grote instroom van anderstalige nieuwkomers). Werk wel altijd met dezelfde leerdoelen: enkel het taalniveau verandert, niet de kern van wat een leerling moet kennen of kunnen.</p>
 <div class="ib warn">
   <div class="ib-t">🔍 Controleer altijd de feitelijke inhoud</div>
@@ -2286,6 +2291,7 @@ function m3s5(c){
 <h2 class="ch2">Bouw je eigen <em>agent</em></h2>
 <p class="cp">Een <strong>agent</strong> in Copilot M365 is een aangepaste, afgebakende assistent: je geeft hem specifieke instructies en eventueel eigen documenten of bronnen, en hij gedraagt zich vervolgens enkel binnen die afgesproken grenzen. Denk aan een "studiebuddy" die leerlingen enkel binnen jouw lesmateriaal helpt oefenen, zonder af te dwalen naar andere onderwerpen of het antwoord meteen weg te geven.</p>
 <p class="cp">Je maakt een agent aan via "Agents → New agent": beschrijf in gewone taal wat je nodig hebt, en Copilot bouwt de basis voor je op. Je geeft hem een naam, een duidelijke taakomschrijving ("Help leerlingen oefenen op onregelmatige werkwoorden, geef hints, geen volledige antwoorden"), en eventueel relevante documenten als kennisbasis.</p>
+<img src="img/copilot-agent-builder.png" alt="Copilot Agent Builder" style="width:100%;max-width:600px;display:block;margin:16px auto;border-radius:10px;border:1px solid #e0e4f5;box-shadow:0 2px 10px rgba(10,31,168,0.08);">
 <div class="ib warn">
   <div class="ib-t">⚠️ Voorzichtig met agents die leerlingen zelf gebruiken</div>
   <div class="ib-b">Test een agent altijd grondig zelf vóór je hem aan leerlingen voorstelt: probeer hem "uit te lokken" buiten zijn bedoeld gebruik, en controleer of hij binnen de schoolomgeving (met het schild-icoon) blijft werken. Bij twijfel overleg je met je pedagogisch ICT-coördinator vóór je een agent klasbreed inzet.</div>
@@ -2357,6 +2363,18 @@ function m3s_nascholingsideen_teacher(c){
   <div style="font-family: 'Archivo Black', sans-serif; font-size: 14px; color: #9333EA; text-transform: uppercase; margin-bottom: 8px;">🤝 5. Leren van collega's: communities of practice</div>
   <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7;">Velen van je collega's experimenteren nu ook met AI in de klas. Wat doe jij? Wat lukt hen? Regelmatige uitwisselingssessies helpen om van elkaar te leren. Sint-Rembert organiseert dit doorheen het schooljaar.</p>
   <div style="font-size: 12px; color: var(--muted); margin-top: 8px; font-weight: 600;">💡 Tipje: Volgende bijeenkomst: TBA. Meld je interesse!</div>
+</div>
+
+<div style="background: white; border: 2px solid #0284C7; border-radius: 12px; padding: 20px; margin: 16px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 14px; color: #0284C7; text-transform: uppercase; margin-bottom: 8px;">🎓 6. Nationale bijscholing: Elements of AI</div>
+  <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7;">De Universiteit van Helsinki lanceerde een gratis toegankelijke cursus om een groot deel van de bevolking — waaronder nadrukkelijk leerkrachten — de basis van AI te leren. Het programma focust op het begrijpen van AI-mechanismen en ethiek, zonder dat er enige programmeerkennis nodig is.</p>
+  <div style="font-size: 12px; color: var(--muted); margin-top: 8px; font-weight: 600;">💡 Tipje: volg dit in eigen tempo, ideaal als aanvulling op deze cursus — <a href="https://www.elementsofai.com/" target="_blank" style="color:#0284C7;">elementsofai.com</a></div>
+</div>
+
+<div style="background: white; border: 2px solid #EA580C; border-radius: 12px; padding: 20px; margin: 16px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 14px; color: #EA580C; text-transform: uppercase; margin-bottom: 8px;">🛠️ 7. Praktische tools zonder drempels: Generation AI</div>
+  <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7;">Dit overheidsproject levert kant-en-klare, privacyvriendelijke applicaties voor in de klas. Met tools als een "Teachable Machine" of "Social Media Simulator" kunnen leerkrachten complexe concepten zoals algoritmes en dataverzameling op een visuele manier tastbaar maken voor leerlingen.</p>
+  <div style="font-size: 12px; color: var(--muted); margin-top: 8px; font-weight: 600;">💡 Tipje: ideaal voor een eerste, laagdrempelige kennismaking met AI-concepten in de klas, zonder installatie of technische voorkennis</div>
 </div>
 
 <div style="background: linear-gradient(135deg, rgba(10,31,168,0.08), rgba(127,224,0,0.08)); border-radius: 12px; padding: 20px; border-left: 4px solid var(--blue); margin: 20px 0;">
