@@ -30,6 +30,7 @@ let S = {
   mod4: {step:0, done:false},
   mod5: {step:0, done:false},
   mod6: {step:0, done:false},
+  mod7: {step:0, done:false},
   certPrinted: false
 };
 
@@ -91,6 +92,8 @@ function up(){
       const nav = document.getElementById('nav-mod'+i); if(nav) nav.className='ni locked';
       const l = document.getElementById('l'+i); if(l) l.textContent='🔒';
     }
+    const nav7 = document.getElementById('nav-mod7'); if(nav7) nav7.className='ni locked';
+    const l7 = document.getElementById('l7'); if(l7) l7.textContent='🔒';
     return;
   }
 
@@ -100,6 +103,9 @@ function up(){
     const prevDone = S['mod'+(i-1)].done;
     setModuleNavState(i, prevDone);
   }
+
+  // Module 7 (optioneel · Copilot) is altijd beschikbaar, los van de verplichte volgorde
+  setModuleNavState(7, true);
 
   if(S.mod6.done){
     const navCert = document.getElementById('nav-cert'); if(navCert){ navCert.className='ni available'; }
@@ -137,6 +143,25 @@ function rmc(){
       ps.textContent='Voltooi Module '+(i-1)+' eerst';
     }
   }
+
+  // Module 7 (optioneel · Copilot) — altijd beschikbaar, geen vergrendeling
+  const cm7 = document.getElementById('cm7');
+  if(cm7){
+    const bm7 = document.getElementById('bm7');
+    const ps7 = document.getElementById('ps7');
+    const done7 = S.mod7.done;
+    cm7.classList.remove('locked');
+    if(done7){
+      cm7.classList.add('done');
+      bm7.textContent='↺ Herhalen';
+      ps7.className='mc-stat ok'; ps7.textContent='✓ Voltooid';
+    } else {
+      bm7.textContent='▶ Start';
+      ps7.className='mc-stat'; ps7.textContent='Altijd beschikbaar';
+    }
+    bm7.disabled=false;
+    bm7.onclick=()=>{ if(!S.starttest.taken){goStartTest();return;} rm7(); sv('mod7'); };
+  }
 }
 
 function sv(id){
@@ -152,6 +177,7 @@ function sv(id){
 function sm(n){
   if(!S.starttest.taken){ goStartTest(); return; }
   if(n===1){ rm1(); sv('mod1'); return; }
+  if(n===7){ rm7(); sv('mod7'); return; }
   const prevDone = S['mod'+(n-1)].done;
   if(prevDone){ window['rm'+n](); sv('mod'+n); }
   else { alert('Voltooi eerst Module '+(n-1)+'.'); }
@@ -2089,6 +2115,214 @@ function m6s10(c){
   <button class="sr-btn b" onclick="p6()">← Vorige</button>
   <button class="sr-btn g" onclick="n6()">🏆 Bekijk mijn certificaat →</button>
   <span class="nh">Stap 11/11</span>
+</div>`;
+}
+
+/* ════════════════════════════════════════════
+   MODULE 7 — COPILOT ONTDEKKEN (optioneel, 7 stappen)
+   Vrije verdieping: zelf experimenteren en dingen maken.
+   Geen AI-label nodig — dit is een oefenzone, geen schoolopdracht.
+   ════════════════════════════════════════════ */
+
+const m7 = [m7s0, m7s1, m7s2, m7s3, m7s4, m7s5, m7s6];
+
+function rm7(){ const c=document.getElementById('m7c'); c.innerHTML=''; rDots(7,m7.length,S.mod7.step); m7[S.mod7.step](c); lockNextButtons(c); }
+function n7(){ S.mod7.step++; ss(); S.mod7.step>=m7.length ? d7() : rm7(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); }
+function p7(){ if(S.mod7.step > 0){ S.mod7.step--; ss(); rm7(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); } }
+function d7(){ S.mod7.done=true; S.mod7.step=0; ss(); up(); rmc(); sv('home'); setTimeout(()=>alert('🎉 Copilot Ontdekken voltooid! Je kan dit altijd herhalen om verder te experimenteren.'),300); }
+
+function m7s0(c){
+  c.innerHTML = `
+<div><span class="opt-badge">🎨 Optioneel</span><span class="s-badge">✨ Stap 1 van 7 · Welkom</span></div>
+<h2 class="ch2">Copilot: <em>ontdek het zelf</em></h2>
+<p class="cp">Je hebt nu geleerd wat AI is, hoe het werkt, en wat de regels op school zijn. Tijd om zelf aan de slag te gaan! In deze module ga je écht dingen <strong>maken</strong> met Copilot: een afbeelding, een tekst, een studiehulpmiddel — jij kiest.</p>
+
+<div class="ib warn">
+  <div class="ib-t">🆓 Dit is een vrije oefenzone</div>
+  <div class="ib-b">In tegenstelling tot een echte schoolopdracht hoort hier <strong>geen AI-label</strong> bij (zie Module 5) — dit is bedoeld om vrij te experimenteren en de tool te leren kennen. Gebruik wat je hier maakt gerust voor jezelf, maar lever het niet zomaar in als een "echte" opdracht zonder dat je leerkracht dat heeft goedgekeurd.</div>
+</div>
+
+<h3 class="ch3">🛡️ Voor je begint: log veilig in</h3>
+<p class="cp">Open Copilot via je schoolaccount (bijvoorbeeld via office.com of de Copilot-app). Check bovenaan het scherm of je een klein <strong>schild-icoon</strong> ziet — dat betekent dat je binnen de beveiligde schoolomgeving werkt en je gegevens niet gebruikt worden om het AI-model te trainen. Zie je geen schild? Meld je dan opnieuw aan met je schoolaccount.</p>
+
+<div class="nw">
+  <button class="sr-btn g" onclick="n7()">Volgende: goed prompten →</button>
+  <span class="nh">Stap 1/7</span>
+</div>`;
+}
+
+function m7s1(c){
+  c.innerHTML = `
+<div><span class="opt-badge">🎨 Optioneel</span><span class="s-badge">💬 Stap 2 van 7 · Prompten opfrissen</span></div>
+<h2 class="ch2">Snel <em>opgefrist</em>: een goede prompt</h2>
+<p class="cp">Je leerde dit al in Module 3, maar hier een snelle opfrisser voor je begint te experimenteren:</p>
+
+<div style="background: rgba(10,31,168,0.08); border-radius: 8px; padding: 16px; margin: 16px 0;">
+<p style="font-size: 13px; color: #3d4f8a; line-height: 1.9; margin: 0;">
+<strong>1. Wees specifiek</strong> — "maak een poster" is vaag, "maak een poster over plastic in de oceaan, felle kleuren, voor 12-jarigen" is duidelijk<br>
+<strong>2. Geef context</strong> — waarvoor is het bedoeld? Voor wie?<br>
+<strong>3. Zeg wat je verwacht</strong> — lengte, stijl, vorm<br>
+<strong>4. Niet tevreden? Vraag door</strong> — "maak het korter", "gebruik felle kleuren" — Copilot onthoudt het gesprek
+</p>
+</div>
+
+<p class="cp">Nu jij! In de volgende stappen ga je 3 dingen zelf maken. Neem er de tijd voor — hoe beter je prompt, hoe leuker het resultaat.</p>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p7()">← Vorige</button>
+  <button class="sr-btn g" onclick="n7()">Volgende: maak een beeld →</button>
+  <span class="nh">Stap 2/7</span>
+</div>`;
+}
+
+function m7s2(c){
+  c.innerHTML = `
+<div><span class="opt-badge">🎨 Optioneel</span><span class="s-badge">🖼️ Stap 3 van 7 · Doe-opdracht: maak een beeld</span></div>
+<h2 class="ch2">Maak <em>zelf</em> een afbeelding of poster</h2>
+<p class="cp">Open Copilot en zoek de <strong>Create</strong>-functie (soms "Designer" genoemd). Kies iets dat je écht zou kunnen gebruiken:</p>
+<ul style="font-size: 13px; color: #3d4f8a; line-height: 1.8; padding-left: 20px;">
+<li>Een poster voor een schoolproject of -event</li>
+<li>Een illustratie bij een verhaal dat je schrijft</li>
+<li>Een uitnodiging voor een verjaardag of activiteit</li>
+<li>Gewoon iets grappigs of creatiefs dat je zelf verzint</li>
+</ul>
+<p class="cp">Probeer minstens 2 keer een andere prompt of stijl, en kies je favoriete resultaat.</p>
+
+<div class="ib warn">
+  <div class="ib-t">✏️ Let op tekst in het beeld</div>
+  <div class="ib-b">Staat er tekst op je afbeelding? AI maakt daar vaak spelfouten in. Gebruik de "Edit Text"-optie om dit zelf te corrigeren.</div>
+</div>
+
+<h3 class="ch3">✍️ Noteer hieronder wat je maakte</h3>
+<p class="cp"><strong>Welke prompt gebruikte je (uiteindelijke versie)?</strong></p>
+<textarea class="sr-ta" id="m7img_prompt" style="min-height:60px;" placeholder="Mijn prompt was: ..."></textarea>
+<p class="cp" style="margin-top:14px;"><strong>Wat maakte je, en ben je tevreden met het resultaat?</strong></p>
+<textarea class="sr-ta" id="m7img_result" style="min-height:60px;" placeholder="Ik maakte een... Ik vond het resultaat..."></textarea>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p7()">← Vorige</button>
+  <button class="sr-btn g" id="m7img_btn" onclick="sM7Img()">Volgende: schrijf iets creatiefs →</button>
+  <span class="nh">Stap 3/7</span>
+</div>`;
+  const ta1 = document.getElementById('m7img_prompt');
+  const ta2 = document.getElementById('m7img_result');
+  ta1.value = localStorage.getItem('sr_l_m7_img_prompt') || '';
+  ta2.value = localStorage.getItem('sr_l_m7_img_result') || '';
+  ta1.oninput = ()=>localStorage.setItem('sr_l_m7_img_prompt', ta1.value);
+  ta2.oninput = ()=>localStorage.setItem('sr_l_m7_img_result', ta2.value);
+}
+
+function sM7Img(){
+  const v1 = (document.getElementById('m7img_prompt').value||'').trim();
+  const v2 = (document.getElementById('m7img_result').value||'').trim();
+  if(v1.length < 5 || v2.length < 5){ alert('Vul beide velden in — probeer het écht zelf uit voor je verdergaat!'); return; }
+  n7();
+}
+
+function m7s3(c){
+  c.innerHTML = `
+<div><span class="opt-badge">🎨 Optioneel</span><span class="s-badge">✍️ Stap 4 van 7 · Doe-opdracht: schrijf iets creatiefs</span></div>
+<h2 class="ch2">Schrijf <em>iets</em> met Copilot</h2>
+<p class="cp">Open de chat in Copilot en laat je creativiteit los. Kies één optie (of verzin je eigen idee):</p>
+<ul style="font-size: 13px; color: #3d4f8a; line-height: 1.8; padding-left: 20px;">
+<li>Een kort verhaal (max. 200 woorden) over een onderwerp dat jij kiest</li>
+<li>Een gedicht of rap over iets dat je bezighoudt</li>
+<li>Een grappige dialoog tussen twee onwaarschijnlijke personages</li>
+<li>Een idee voor een script voor een kort filmpje</li>
+</ul>
+<p class="cp">Vraag gerust door: "maak het spannender", "voeg een plottwist toe", "schrijf het opnieuw in een andere stijl" — dat is precies hoe je met AI leert samenwerken.</p>
+
+<h3 class="ch3">✍️ Noteer hieronder wat je maakte</h3>
+<p class="cp"><strong>Wat liet je schrijven, en wat vond je van het resultaat?</strong></p>
+<textarea class="sr-ta" id="m7txt_result" style="min-height:80px;" placeholder="Ik liet Copilot... schrijven. Het resultaat vond ik..."></textarea>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p7()">← Vorige</button>
+  <button class="sr-btn g" id="m7txt_btn" onclick="sM7Txt()">Volgende: personaliseren →</button>
+  <span class="nh">Stap 4/7</span>
+</div>`;
+  const ta = document.getElementById('m7txt_result');
+  ta.value = localStorage.getItem('sr_l_m7_txt_result') || '';
+  ta.oninput = ()=>localStorage.setItem('sr_l_m7_txt_result', ta.value);
+}
+
+function sM7Txt(){
+  const v = (document.getElementById('m7txt_result').value||'').trim();
+  if(v.length < 10){ alert('Vul dit veld in — probeer het écht zelf uit voor je verdergaat!'); return; }
+  n7();
+}
+
+function m7s4(c){
+  c.innerHTML = `
+<div><span class="opt-badge">🎨 Optioneel</span><span class="s-badge">🎛️ Stap 5 van 7 · Copilot op jouw maat</span></div>
+<h2 class="ch2">Personaliseer <em>Copilot</em></h2>
+<p class="cp">Wist je dat je Copilot kan vragen om voortaan rekening te houden met jouw voorkeuren? Via <strong>Instellingen → Personalisation → Custom instructions</strong> kan je bijvoorbeeld vragen: "Antwoord voortaan altijd kort en bondig" of "Leg dingen uit alsof ik 14 jaar ben, met concrete voorbeelden."</p>
+<p class="cp">Eén keer instellen, en elk volgend gesprek houdt daar automatisch rekening mee — handig als je Copilot regelmatig gebruikt om te studeren.</p>
+
+<h3 class="ch3">🧪 Probeer het uit</h3>
+<p class="cp">Stel minstens 1 custom instruction in, en test even of Copilot zich er echt aan houdt in een nieuw gesprek.</p>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p7()">← Vorige</button>
+  <button class="sr-btn g" onclick="n7()">Volgende: maak een studiehulp →</button>
+  <span class="nh">Stap 5/7</span>
+</div>`;
+}
+
+function m7s5(c){
+  c.innerHTML = `
+<div><span class="opt-badge">🎨 Optioneel</span><span class="s-badge">📚 Stap 6 van 7 · Doe-opdracht: maak een studiehulp</span></div>
+<h2 class="ch2">Maak een <em>studiehulpmiddel</em></h2>
+<p class="cp">Tot slot: gebruik Copilot om iets te maken dat je écht kan helpen bij het studeren. Kies bijvoorbeeld:</p>
+<ul style="font-size: 13px; color: #3d4f8a; line-height: 1.8; padding-left: 20px;">
+<li>Een korte quiz (5 vragen) over een onderwerp dat je aan het studeren bent</li>
+<li>Een samenvatting van een moeilijk hoofdstuk, in je eigen woorden herschreven</li>
+<li>Ezelsbruggetjes om iets beter te onthouden</li>
+<li>Een overzichtelijk schema van een proces of tijdlijn</li>
+</ul>
+<p class="cp">Controleer daarna altijd zelf: klopt de inhoud? Mist er iets belangrijks? AI is een startpunt, geen eindpunt.</p>
+
+<h3 class="ch3">✍️ Noteer hieronder wat je maakte</h3>
+<textarea class="sr-ta" id="m7study_result" style="min-height:80px;" placeholder="Ik liet Copilot een... maken over... Het hielp mij omdat..."></textarea>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p7()">← Vorige</button>
+  <button class="sr-btn g" id="m7study_btn" onclick="sM7Study()">Volgende: afronden →</button>
+  <span class="nh">Stap 6/7</span>
+</div>`;
+  const ta = document.getElementById('m7study_result');
+  ta.value = localStorage.getItem('sr_l_m7_study_result') || '';
+  ta.oninput = ()=>localStorage.setItem('sr_l_m7_study_result', ta.value);
+}
+
+function sM7Study(){
+  const v = (document.getElementById('m7study_result').value||'').trim();
+  if(v.length < 10){ alert('Vul dit veld in — probeer het écht zelf uit voor je verdergaat!'); return; }
+  n7();
+}
+
+function m7s6(c){
+  c.innerHTML = `
+<div><span class="opt-badge">🎨 Optioneel</span><span class="s-badge">🎉 Stap 7 van 7 · Klaar!</span></div>
+<h2 class="ch2">Je hebt <em>3 dingen</em> gemaakt!</h2>
+<p class="cp">Goed bezig — je hebt zelf een afbeelding, een tekst, en een studiehulpmiddel gemaakt met Copilot. Dat is precies hoe je AI-vaardig wordt: niet door erover te lezen, maar door het zelf te doen.</p>
+
+<div style="background: rgba(127,224,0,0.1); border-radius: 12px; padding: 20px; margin: 16px 0;">
+<p style="font-size: 14px; color: #3d4f8a; line-height: 1.9; margin: 0;">
+✅ Je logde veilig in met je schoolaccount<br>
+✅ Je maakte een AI-gegenereerd beeld<br>
+✅ Je schreef een creatieve tekst samen met AI<br>
+✅ Je personaliseerde Copilot naar jouw voorkeuren<br>
+✅ Je maakte een studiehulpmiddel
+</p>
+</div>
+
+<p class="cp">Je kan deze module altijd opnieuw doorlopen om verder te experimenteren — hoe meer je oefent, hoe beter je prompts worden!</p>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p7()">← Vorige</button>
+  <button class="sr-btn g" onclick="n7()">✅ Afronden →</button>
+  <span class="nh">Stap 7/7</span>
 </div>`;
 }
 
