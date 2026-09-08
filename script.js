@@ -2362,7 +2362,14 @@ function m3s_nascholingsideen_teacher(c){
 <div style="background: white; border: 2px solid #9333EA; border-radius: 12px; padding: 20px; margin: 16px 0;">
   <div style="font-family: 'Archivo Black', sans-serif; font-size: 14px; color: #9333EA; text-transform: uppercase; margin-bottom: 8px;">🤝 5. Leren van collega's: communities of practice</div>
   <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7;">Velen van je collega's experimenteren nu ook met AI in de klas. Wat doe jij? Wat lukt hen? Regelmatige uitwisselingssessies helpen om van elkaar te leren. Sint-Rembert organiseert dit doorheen het schooljaar.</p>
-  <div style="font-size: 12px; color: var(--muted); margin-top: 8px; font-weight: 600;">💡 Tipje: Volgende bijeenkomst: TBA. Meld je interesse!</div>
+  <div style="background: linear-gradient(135deg, #4B53BC 0%, #6264A7 100%); border-radius: 8px; padding: 16px; margin-top: 14px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+    <div style="flex: 1; min-width: 200px;">
+      <div style="font-size:10px;font-weight:700;color:#D6D8F5;text-transform:uppercase;margin-bottom:4px;">💬 Blijf verbonden</div>
+      <div style="font-size:13px; color: white; font-weight: 600;">Word lid van ons Teams-kanaal "AI op Sint-Rembert"</div>
+    </div>
+    <a href="#" target="_blank" style="background: white; color: #4B53BC; font-weight: 700; font-size: 12px; padding: 10px 18px; border-radius: 6px; text-decoration: none; white-space: nowrap;">Word lid →</a>
+  </div>
+  <div style="font-size: 11px; color: #999; font-style: italic; margin-top: 8px;">De link naar het Teams-kanaal wordt binnenkort aangevuld door de school.</div>
 </div>
 
 <div style="background: white; border: 2px solid #0284C7; border-radius: 12px; padding: 20px; margin: 16px 0;">
