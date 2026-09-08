@@ -36,6 +36,11 @@
     <div class="ni locked" onclick="sm(6)" id="nav-mod6"><div class="ni-icon">🌍</div><div class="ni-info"><div class="ni-title">AI in Maatschappij</div><div class="ni-sub">Module 6</div></div><span class="ni-badge" id="l6">🔒</span></div>
     <div class="ni locked" onclick="tryC()" id="nav-cert"><div class="ni-icon">🏆</div><div class="ni-info"><div class="ni-title">Certificaat</div><div class="ni-sub">Na alle modules</div></div><span class="ni-badge" id="lc">🔒</span></div>
   </div>
+
+  <div class="nav-sec">
+    <div class="nav-lbl">Optioneel · Verdieping</div>
+    <div class="ni available" onclick="sm(7)" id="nav-mod7"><div class="ni-icon">🎨</div><div class="ni-info"><div class="ni-title">Copilot Ontdekken</div><div class="ni-sub">Experimenteer vrij</div></div><span class="ni-badge" id="l7">›</span></div>
+  </div>
   <div class="sb-bot">
     <div class="uc">
       <div class="av" id="av">?</div>
@@ -146,6 +151,19 @@
         <div class="mc-desc">Jobs, toekomst, en jouw eigen visie op AI over 10 jaar.</div>
         <button class="sr-btn" id="bm6" disabled>🔒 Vergrendeld</button>
         <div class="mc-stat" id="ps6">Voltooi Module 5 eerst</div>
+      </div>
+    </div>
+
+    <div class="sw-title" style="margin-top:32px">Optioneel · <em>Verdieping</em></div>
+    <div class="sw-sub">Altijd beschikbaar, geen voorwaarden — gewoon zelf experimenteren.</div>
+    <div class="mods-grid">
+      <div class="mc" id="cm7" onclick="sm(7)">
+        <div class="mc-badge">Optioneel</div>
+        <div class="mc-icon">🎨</div>
+        <div class="mc-title">Copilot Ontdekken</div>
+        <div class="mc-desc">Ga zelf aan de slag met Copilot: schrijf, teken, ontwerp — leer door te doen.</div>
+        <button class="sr-btn g" id="bm7">▶ Start</button>
+        <div class="mc-stat" id="ps7">Altijd beschikbaar</div>
       </div>
     </div>
   </div>
@@ -314,6 +332,16 @@
     <div class="dots" id="sd6"></div>
   </div>
   <div class="mc-content" id="m6c"></div>
+</div>
+
+<!-- ════════ MODULE 7 — OPTIONEEL ════════ -->
+<div class="view" id="view-mod7">
+  <div class="mh opt-mh">
+    <button class="bk" onclick="sv('home')">← Terug</button>
+    <div class="mh-info"><div class="mh-num">Optioneel · Verdieping</div><div class="mh-title">Copilot Ontdekken</div></div>
+    <div class="dots" id="sd7"></div>
+  </div>
+  <div class="mc-content" id="m7c"></div>
 </div>
 
 <!-- ════════ CERTIFICAAT ════════ -->
