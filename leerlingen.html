@@ -24,6 +24,7 @@
     <div class="nav-lbl">Menu</div>
     <div class="ni active" onclick="goHome()" id="nav-home"><div class="ni-icon">🏠</div><div class="ni-info"><div class="ni-title">Overzicht</div><div class="ni-sub">Startpagina</div></div></div>
     <div class="ni available" onclick="sv('docs')" id="nav-docs"><div class="ni-icon">📁</div><div class="ni-info"><div class="ni-title">Documenten</div><div class="ni-sub">Bronnen & materiaal</div></div></div>
+    <div class="ni available" onclick="sv('news')" id="nav-news"><div class="ni-icon">📰</div><div class="ni-info"><div class="ni-title">Nieuws</div><div class="ni-sub">AI in de actualiteit</div></div></div>
   </div>
   <div class="nav-sec">
     <div class="nav-lbl">Modules</div>
@@ -194,6 +195,63 @@
     <footer style="margin-top: 60px; padding-top: 20px; border-top: 1px solid #ddd; font-size: 11px; color: #999;">
       Deze cursus is ontwikkeld met inspiratie van pedagogische frameworks en onderwijs-best practices, waaronder de EDUbox Artificiële Intelligentie (VRT, imec, Mediawijs, Kenniscentrum Data & Maatschappij, Brightlab, am/ai, BENEDMO — mede gefinancierd door de Europese Unie), Elements of AI, Schoolmakers AI-gebruiksschaal (Leon Furze), Microsoft Responsible AI frameworks, de EU AI Act (2024), en het Sint-Rembert Beleidskader AI.
     </footer>
+
+  </div>
+</div>
+
+<!-- ════════ NIEUWS ════════ -->
+<div class="view" id="view-news">
+  <div class="mh">
+    <button class="bk" onclick="sv('home')">← Terug</button>
+    <div class="mh-info"><div class="mh-num">Actualiteit</div><div class="mh-title">AI in het Nieuws</div></div>
+  </div>
+  <div class="mc-content" style="padding: 20px;">
+
+    <h2>📰 Blijf op de hoogte</h2>
+    <p class="cp">AI evolueert razendsnel. Op deze pagina verzamelt je school af en toe interessante nieuwsberichten, tips en updates rond artificiële intelligentie — zowel voor in de klas als daarbuiten.</p>
+
+    <div style="background: linear-gradient(135deg, #4B53BC 0%, #6264A7 100%); border-radius: 8px; padding: 20px; margin: 20px 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+      <div style="flex: 1; min-width: 240px;">
+        <div style="font-size:11px;font-weight:700;color:#D6D8F5;text-transform:uppercase;margin-bottom:6px;">💬 Blijf verbonden</div>
+        <h3 style="margin:0 0 6px 0; font-size:17px; color: white;">Word lid van ons Teams-kanaal</h3>
+        <p style="font-size:13px;color:#E4E5F7;line-height:1.6;margin:0;">Stel vragen, deel interessante AI-vondsten en blijf op de hoogte tussen klasgenoten — alles rond AI op Sint-Rembert komt hier samen.</p>
+      </div>
+      <a href="#" target="_blank" style="background: white; color: #4B53BC; font-weight: 700; font-size: 13px; padding: 12px 22px; border-radius: 6px; text-decoration: none; white-space: nowrap;">Word lid →</a>
+    </div>
+    <p style="margin: -10px 0 20px 0; font-size: 11px; color: #999; font-style: italic;">De link naar het Teams-kanaal wordt binnenkort aangevuld door de school.</p>
+
+    <div class="ib warn">
+      <div class="ib-t">🔔 Deze pagina wordt regelmatig bijgewerkt</div>
+      <div class="ib-b">Je leerkrachten vullen dit overzicht aan met relevante nieuwtjes. Mis je iets, of zag je zelf interessant AI-nieuws? Meld het gerust aan je leerkracht.</div>
+    </div>
+
+    <h2 style="margin-top:32px;">🗞️ Recente berichten</h2>
+
+    <div style="background: white; border-left: 4px solid var(--blue); border-radius: 8px; padding: 16px; margin: 16px 0;">
+      <div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;margin-bottom:6px;">📅 Schooljaar 2026-2027</div>
+      <h3 style="margin:0 0 8px 0; font-size:16px;">Sint-Rembert lanceert vernieuwde AI-Skills cursus</h3>
+      <p style="font-size:13px;color:#3d4f8a;line-height:1.7;margin:0;">Deze volledig herwerkte cursus, gebaseerd op de EDUbox Artificiële Intelligentie (VRT/imec/Mediawijs), leert je stap voor stap wat AI is, hoe het werkt, en hoe je er verantwoord mee omgaat op school. Je bent er nu middenin bezig!</p>
+    </div>
+
+    <div style="background: white; border-left: 4px solid var(--orange); border-radius: 8px; padding: 16px; margin: 16px 0;">
+      <div style="font-size:11px;font-weight:700;color:var(--orange);text-transform:uppercase;margin-bottom:6px;">⚖️ EU AI Act</div>
+      <h3 style="margin:0 0 8px 0; font-size:16px;">Europese AI-wetgeving stap voor stap in werking</h3>
+      <p style="font-size:13px;color:#3d4f8a;line-height:1.7;margin:0;">De EU AI Act (zie Module 6) treedt gefaseerd in werking. Een van de verplichtingen: organisaties die AI gebruiken — ook scholen — moeten zorgen dat hun personeel en leerlingen voldoende "AI-geletterd" zijn. Precies daarom bestaat deze cursus.</p>
+    </div>
+
+    <div style="background: white; border-left: 4px solid var(--green); border-radius: 8px; padding: 16px; margin: 16px 0;">
+      <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;margin-bottom:6px;">💡 Tip van de maand</div>
+      <h3 style="margin:0 0 8px 0; font-size:16px;">Twijfel je aan een video of foto? Check de bron</h3>
+      <p style="font-size:13px;color:#3d4f8a;line-height:1.7;margin:0;">Deepfakes worden steeds overtuigender (zie Module 4). De beste vuistregel blijft: kijk niet enkel naar het beeld zelf, maar check wie het deelde. VRT NWS maakte hierover korte, handige filmpjes — te vinden bij Documenten.</p>
+    </div>
+
+    <div style="background: white; border-left: 4px solid #9C27B0; border-radius: 8px; padding: 16px; margin: 16px 0;">
+      <div style="font-size:11px;font-weight:700;color:#9C27B0;text-transform:uppercase;margin-bottom:6px;">🔬 Tool-update</div>
+      <h3 style="margin:0 0 8px 0; font-size:16px;">NotebookLM breidt functies verder uit</h3>
+      <p style="font-size:13px;color:#3d4f8a;line-height:1.7;margin:0;">Google werkt voortdurend aan NotebookLM (zie Module 2), met nieuwe manieren om je eigen cursusmateriaal te doorzoeken en samen te vatten. Zeker het proberen waard als studiehulp!</p>
+    </div>
+
+    <p class="cp" style="margin-top: 24px; font-size: 12px; color: #999; font-style: italic;">Laatst bijgewerkt: september 2026</p>
 
   </div>
 </div>
