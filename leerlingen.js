@@ -205,7 +205,8 @@ function playPodcastL1(){
   card.innerHTML = `
     <h3 style="color: white; margin-top: 0; margin-bottom: 8px;">🎧 AI-Skills Podcast</h3>
     <p style="font-size: 13px; color: rgba(255,255,255,0.95); margin-bottom: 16px; font-weight: 600;">Een audio-introductie bij deze cursus</p>
-    <iframe src="https://drive.google.com/file/d/1FD8iLx6313brXRIo2uQXNgtTMKplO6kq/preview" width="100%" height="80" style="border:none; border-radius: 8px; margin-bottom: 20px; background: white;" allow="autoplay"></iframe>
+    <iframe src="https://drive.google.com/file/d/1FD8iLx6313brXRIo2uQXNgtTMKplO6kq/preview" width="100%" height="80" style="border:none; border-radius: 8px; margin-bottom: 12px; background: white;" allow="autoplay"></iframe>
+    <a href="https://drive.google.com/file/d/1FD8iLx6313brXRIo2uQXNgtTMKplO6kq/view" target="_blank" style="display:block; font-size: 11px; color: rgba(255,255,255,0.85); margin-bottom: 16px; text-decoration: underline;">Hoor je niets hierboven? Open de podcast rechtstreeks in Google Drive →</a>
     <p style="font-size: 11px; color: rgba(255,255,255,0.9); margin-bottom: 16px; line-height: 1.4;">💡 Luister gerust meerdere keren. Je kan op elk moment stoppen en zelf verderlezen.</p>
     <button onclick="closeModal('podcast-overlay-l1');" style="background: rgba(255,255,255,0.9); color: #9C27B0; border: none; border-radius: 8px; padding: 12px 24px; font-weight: 700; cursor: pointer;">✓ Sluiten</button>
   `;
