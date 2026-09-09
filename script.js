@@ -240,6 +240,31 @@ function up(){
   else document.getElementById('l2').textContent = '🔒';
   if(S.mod3.done) document.getElementById('l3').innerHTML = '<span style="color:var(--green)">✓</span>';
   
+  // Update Module 2 label + homepage-kaart op basis van rol
+  const mod2NavEl = document.getElementById('nav-mod2');
+  if(mod2NavEl){
+    const mod2NameEl = mod2NavEl.querySelector('.ni-title');
+    const mod2SubEl = mod2NavEl.querySelector('.ni-sub');
+    const cm2Title = document.getElementById('cm2-title');
+    const cm2Desc = document.getElementById('cm2-desc');
+    if(S.userRole === 'admin'){
+      if(mod2NameEl) mod2NameEl.textContent = 'AI-spelregels';
+      if(mod2SubEl) mod2SubEl.textContent = 'Verplicht · 4 stappen';
+      if(cm2Title) cm2Title.textContent = 'AI-spelregels voor administratie';
+      if(cm2Desc) cm2Desc.textContent = 'Kort en praktisch: privacy, doelbinding en wat wel/niet mag in je dagelijkse administratieve werk.';
+    } else if(S.userRole === 'management'){
+      if(mod2NameEl) mod2NameEl.textContent = 'Bestuurlijke verantwoordelijkheid';
+      if(mod2SubEl) mod2SubEl.textContent = 'Verplicht · 5 stappen';
+      if(cm2Title) cm2Title.textContent = 'Bestuurlijke verantwoordelijkheid & AI Act';
+      if(cm2Desc) cm2Desc.textContent = 'Artikel 4, risicoclassificatie, en jouw concrete actiepunten als leidinggevende.';
+    } else {
+      if(mod2NameEl) mod2NameEl.textContent = 'Beleid & Leerlingen begeleiden';
+      if(mod2SubEl) mod2SubEl.textContent = 'Verplicht · 12 stappen';
+      if(cm2Title) cm2Title.textContent = 'Beleid & Leerlingen begeleiden';
+      if(cm2Desc) cm2Desc.textContent = 'De AI-spelregels, de EU AI Act, the 5 AI-labels, leerlingen begeleiden én je eigen opdrachten AI-bestendig maken. Essentieel voor elke leerkracht.';
+    }
+  }
+
   // Update Module 3 label op basis van rol
   const mod3NavEl = document.getElementById('nav-mod3');
   if(mod3NavEl) {
@@ -402,86 +427,118 @@ function doCertPrint(){
   if(!S.name || !S.name.trim()){
     if(!confirm('Je naam is nog niet ingevuld (links onderaan in de zijbalk). Het certificaat vermeldt dan "Leerkracht".\n\nToch doorgaan?')) return;
   } else {
-    if(!confirm('Certificaat downloaden?\n\nNaam op certificaat: ' + S.name + '\n\nKies in het afdrukvenster "Opslaan als PDF" en bewaar het bestand. Je kan dit altijd opnieuw doen.')) return;
+    if(!confirm('Certificaat + reflecties downloaden?\n\nNaam op certificaat: ' + S.name + '\n\nKies in het afdrukvenster "Opslaan als PDF" en bewaar het bestand. Je kan dit altijd opnieuw doen.')) return;
   }
   rc();
+  buildAnswersReportTeacher();
   window.print();
 }
 
-function fmtStellingen(groupKey, stellingenTekst){
+window.addEventListener('afterprint', () => {
+  const target = document.getElementById('cert-answers-print');
+  if(target){ target.style.display = 'none'; target.innerHTML = ''; }
+});
+
+function fmtStellingenHTML(groupKey, stellingenTekst){
   let saved = {};
   try{ saved = JSON.parse(localStorage.getItem('sr_stellingen_'+groupKey)||'{}'); }catch(e){}
-  if(Object.keys(saved).length===0) return 'Nog geen stellingen beantwoord.\n';
+  if(!stellingenTekst || !stellingenTekst.length) return '';
   let out = '';
   stellingenTekst.forEach((s,i)=>{
-    out += `  ${i+1}. ${s}\n     → ${saved[i] || 'Niet beantwoord'}\n`;
+    const val = saved[i] || 'Niet beantwoord';
+    out += `<p style="font-size:12px; color:#333; margin:2px 0 2px 12px;">Stelling ${i+1}: "${escT(s)}"<br><strong>Jouw antwoord:</strong> ${escT(val)}</p>`;
   });
   return out;
 }
 
-function downloadSummary() {
-  const r1 = localStorage.getItem('sr_r1') || 'Geen reflectie ingevuld.';
-  const r3 = localStorage.getItem('sr_r3') || 'Geen reflectie ingevuld.';
-  const r2 = localStorage.getItem('sr_r2') || 'Geen reflectie ingevuld.';
-  const name = S.name || 'Anonieme Leerkracht';
+function escT(str){
+  return (str||'').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function buildAnswersReportTeacher(){
+  const name = S.name || 'Leerkracht';
+  const role = S.userRole || 'teacher';
+  const roleLabel = role==='admin' ? 'Administratie' : role==='management' ? 'Directie / Beleid' : 'Leerkracht';
 
   const stl_m1 = ['AI zal er binnen 10 jaar voor zorgen dat leerlingen minder goed zelfstandig kunnen schrijven.','Als leerkracht moet ik AI-output altijd controleren, ook als die er overtuigend uitziet.'];
   const stl_m2 = ['Een adaptieve toets gebruiken om leerlingen te oriënteren naar een studierichting zou toegelaten moeten zijn, zolang een leerkracht de uiteindelijke beslissing neemt.','Onze school heeft nood aan een duidelijker, korter overzicht van wat wel/niet mag volgens de AI Act dan wat er vandaag bestaat.'];
   const stl_m3 = ['Few-shot prompting (voorbeelden meegeven in je prompt) gaat mij echt tijd besparen bij het opstellen van toetsvragen.','Leerlingen hun prompts laten toevoegen aan hun werk is een haalbare manier van bronvermelding voor mijn vak.'];
 
-  let txt = `==================================================\n`;
-  txt += `AI-PROFESSIONALISERING SCHOLENGROEP SINT-REMBERT\n`;
-  txt += `PERSOONLIJK REFLECTIE- EN LOGVERSLAG\n`;
-  txt += `==================================================\n\n`;
-  txt += `Deelnemer: ${name}\n`;
-  txt += `Datum van export: ${new Date().toLocaleDateString('nl-BE')}\n\n`;
+  let html = `
+    <div style="page-break-before: always; padding: 20px 0;">
+      <h1 style="font-family:'Archivo Black',sans-serif; color: var(--blue); font-size: 22px; border-bottom: 3px solid var(--blue); padding-bottom: 10px; margin-bottom: 4px;">📋 Volledig Reflectie- en Antwoordenoverzicht</h1>
+      <p style="font-size: 12px; color: #666; margin-bottom: 24px;">${escT(name)} — ${roleLabel} — gegenereerd op ${new Date().toLocaleDateString('nl-BE',{day:'numeric',month:'long',year:'numeric'})}</p>
+  `;
 
-  txt += `--------------------------------------------------\n`;
-  txt += `STARTTEST\n`;
-  txt += `--------------------------------------------------\n`;
-  txt += S.starttest.taken
-    ? `Resultaat: ${S.starttest.score}% — ${S.starttest.passed ? 'Geslaagd: Module 1 overgeslagen' : 'Niet geslaagd: Module 1 gevolgd'}\n\n`
-    : `Nog niet afgelegd.\n\n`;
+  // Starttest
+  html += `<div style="margin-bottom:20px;"><h2 style="font-size:16px; color:var(--blue); background:#f0f2f5; padding:8px 12px; border-radius:6px;">Startest</h2>`;
+  html += S.starttest.taken
+    ? `<p style="font-size:12px; margin:8px 0;">Resultaat: <strong>${S.starttest.score}%</strong> — ${S.starttest.passed ? 'Geslaagd: Module 1 overgeslagen' : 'Niet geslaagd: Module 1 gevolgd'}</p>`
+    : `<p style="font-size:12px; margin:8px 0;">Nog niet afgelegd.</p>`;
+  html += `</div>`;
 
-  txt += `--------------------------------------------------\n`;
-  txt += `MODULE 1: WAT IS AI? — KENNIS EN REFLECTIE\n`;
-  txt += `--------------------------------------------------\n`;
-  txt += `Resultaat Kennischeck: ${S.mod1.quizScore || 'Nog niet behaald'}%\n\n`;
-  txt += `Stellingen — jouw mening:\n`;
-  txt += fmtStellingen('m1', stl_m1) + '\n';
-  txt += `Jouw inzicht / Vakspecifieke vertaalslag:\n`;
-  txt += `${r1}\n\n`;
+  // Module 1 (gedeeld voor alle rollen)
+  html += `<div style="margin-bottom:20px; page-break-inside: avoid;">
+    <h2 style="font-size:16px; color:var(--blue); background:#f0f2f5; padding:8px 12px; border-radius:6px;">Module 1 — Wat is AI? ${S.mod1.done?'✅':''}</h2>
+    <p style="font-size:12px; margin:8px 0;"><strong>Kennischeck-score:</strong> ${S.mod1.quizScore!==undefined ? S.mod1.quizScore+'%' : 'Nog niet behaald'}</p>
+    <p style="font-size:12px; font-weight:700; color:#3d4f8a; margin:10px 0 4px 0;">Stellingen — jouw mening:</p>
+    ${fmtStellingenHTML('m1', stl_m1)}
+    <p style="font-size:12px; font-weight:700; color:#3d4f8a; margin:10px 0 4px 0;">Jouw inzicht / vakspecifieke vertaalslag:</p>
+    <p style="font-size:12px; color:#333; white-space:pre-wrap; background:#f9f9f9; padding:8px; border-radius:4px;">${localStorage.getItem('sr_r1') ? escT(localStorage.getItem('sr_r1')) : '<em>Niet ingevuld.</em>'}</p>
+  </div>`;
 
-  txt += `--------------------------------------------------\n`;
-  txt += `MODULE 2: BELEID & LEERLINGEN BEGELEIDEN\n`;
-  txt += `--------------------------------------------------\n`;
-  txt += `Resultaat Kennischeck: ${S.mod2.quizScore || 'Nog niet behaald'}%\n\n`;
-  txt += `Stellingen — jouw mening:\n`;
-  txt += fmtStellingen('m2', stl_m2) + '\n';
-  txt += `Jouw concrete actiestap voor de komende maand:\n`;
-  txt += `${r3}\n\n`;
+  // Module 2 — role-aware
+  if(role === 'admin'){
+    html += `<div style="margin-bottom:20px; page-break-inside: avoid;">
+      <h2 style="font-size:16px; color:var(--blue); background:#f0f2f5; padding:8px 12px; border-radius:6px;">Module 2 — AI-spelregels voor administratie ${S.mod2.done?'✅':''}</h2>
+      <p style="font-size:12px; font-weight:700; color:#3d4f8a; margin:10px 0 4px 0;">Welke taak zou je willen proberen met AI:</p>
+      <p style="font-size:12px; color:#333; white-space:pre-wrap; background:#f9f9f9; padding:8px; border-radius:4px;">${localStorage.getItem('sr_r_admin_m2') ? escT(localStorage.getItem('sr_r_admin_m2')) : '<em>Niet ingevuld.</em>'}</p>
+    </div>`;
+  } else if(role === 'management'){
+    html += `<div style="margin-bottom:20px; page-break-inside: avoid;">
+      <h2 style="font-size:16px; color:var(--blue); background:#f0f2f5; padding:8px 12px; border-radius:6px;">Module 2 — Bestuurlijke verantwoordelijkheid & AI Act ${S.mod2.done?'✅':''}</h2>
+      <p style="font-size:12px; font-weight:700; color:#3d4f8a; margin:10px 0 4px 0;">Jouw grootste actiepunt als leidinggevende:</p>
+      <p style="font-size:12px; color:#333; white-space:pre-wrap; background:#f9f9f9; padding:8px; border-radius:4px;">${localStorage.getItem('sr_r_mgmt_actie') ? escT(localStorage.getItem('sr_r_mgmt_actie')) : '<em>Niet ingevuld.</em>'}</p>
+    </div>`;
+  } else {
+    html += `<div style="margin-bottom:20px; page-break-inside: avoid;">
+      <h2 style="font-size:16px; color:var(--blue); background:#f0f2f5; padding:8px 12px; border-radius:6px;">Module 2 — Beleid & Leerlingen begeleiden ${S.mod2.done?'✅':''}</h2>
+      <p style="font-size:12px; margin:8px 0;"><strong>Kennischeck-score:</strong> ${S.mod2.quizScore!==undefined ? S.mod2.quizScore+'%' : 'Nog niet behaald'}</p>
+      <p style="font-size:12px; font-weight:700; color:#3d4f8a; margin:10px 0 4px 0;">Stellingen — jouw mening:</p>
+      ${fmtStellingenHTML('m2', stl_m2)}
+      <p style="font-size:12px; font-weight:700; color:#3d4f8a; margin:10px 0 4px 0;">Jouw concrete actiestap voor de komende maand:</p>
+      <p style="font-size:12px; color:#333; white-space:pre-wrap; background:#f9f9f9; padding:8px; border-radius:4px;">${localStorage.getItem('sr_r3') ? escT(localStorage.getItem('sr_r3')) : '<em>Niet ingevuld.</em>'}</p>
+    </div>`;
+  }
 
-  txt += `--------------------------------------------------\n`;
-  txt += `MODULE 3: COPILOT IN DE PRAKTIJK (OPTIONEEL)\n`;
-  txt += `--------------------------------------------------\n`;
-  txt += `Resultaat Kennischeck: ${S.mod3.quizScore || 'Nog niet behaald'}%\n\n`;
-  txt += `Stellingen — jouw mening:\n`;
-  txt += fmtStellingen('m3', stl_m3) + '\n';
-  txt += `Jouw evaluatie & bibliotheekreflex:\n`;
-  txt += `${r2}\n\n`;
+  // Module 3 — role-aware (optioneel)
+  if(S.mod3.done){
+    let m3Titel = role==='admin' ? 'Copilot voor Administratie' : role==='management' ? 'Copilot voor Strategisch Beleid' : 'Copilot in de Praktijk';
+    let reflKey = role==='admin' ? 'sr_r2_admin' : role==='management' ? 'sr_r2_mgmt' : 'sr_r2';
+    html += `<div style="margin-bottom:20px; page-break-inside: avoid;">
+      <h2 style="font-size:16px; color:var(--orange); background:#fff3e0; padding:8px 12px; border-radius:6px;">Module 3 (optioneel) — ${escT(m3Titel)} ✅</h2>`;
+    if(role === 'teacher'){
+      html += `<p style="font-size:12px; font-weight:700; color:#3d4f8a; margin:10px 0 4px 0;">Stellingen — jouw mening:</p>${fmtStellingenHTML('m3', stl_m3)}`;
+      // Prompt builder
+      try{
+        const pb = JSON.parse(localStorage.getItem('sr_promptbuilder')||'{}');
+        if(pb.rol || pb.doel || pb.context || pb.bron || pb.verwachting){
+          html += `<p style="font-size:12px; font-weight:700; color:#3d4f8a; margin:10px 0 4px 0;">Jouw opgebouwde prompt:</p>
+            <p style="font-size:12px; color:#333; margin:2px 0;">${pb.rol?'<strong>Rol:</strong> '+escT(pb.rol)+'<br>':''}${pb.doel?'<strong>Doel:</strong> '+escT(pb.doel)+'<br>':''}${pb.context?'<strong>Context:</strong> '+escT(pb.context)+'<br>':''}${pb.bron?'<strong>Bron:</strong> '+escT(pb.bron)+'<br>':''}${pb.verwachting?'<strong>Verwachting:</strong> '+escT(pb.verwachting):''}</p>`;
+        }
+      }catch(e){}
+    }
+    html += `<p style="font-size:12px; font-weight:700; color:#3d4f8a; margin:10px 0 4px 0;">Jouw reflectie:</p>
+      <p style="font-size:12px; color:#333; white-space:pre-wrap; background:#f9f9f9; padding:8px; border-radius:4px;">${localStorage.getItem(reflKey) ? escT(localStorage.getItem(reflKey)) : '<em>Niet ingevuld.</em>'}</p>
+    </div>`;
+  }
 
-  txt += `==================================================\n`;
-  txt += `Gegenereerd via ReLearn Sint-Rembert platform — Bewaar als bewijslast.\n`;
-  txt += `==================================================`;
+  html += `<p style="font-size:10px; color:#999; margin-top:20px; border-top:1px solid #ddd; padding-top:10px;">Sint-Rembert AI-Cursus · Automatisch gegenereerd reflectierapport · ${new Date().toLocaleString('nl-BE')}</p>`;
+  html += `</div>`;
 
-  const blob = new Blob([txt], { type: 'text/plain;charset=utf-8' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `${name.replace(/[^a-zA-Z0-9]/g, '_')}_AI_Cursus_Verslag.txt`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
+  const target = document.getElementById('cert-answers-print');
+  target.innerHTML = html;
+  target.style.display = 'block';
 }
 
 /* ════════════════════════════════════════════
@@ -775,10 +832,7 @@ function playPodcast2(){
     <p style="font-size: 13px; color: rgba(255,255,255,0.95); margin-bottom: 16px; font-weight: 600;">
       <strong>De AI-aanpak van Sint-Rembert</strong>
     </p>
-    <audio style="width: 100%; max-width: 400px; margin-bottom: 20px; outline: none;" controls>
-      <source src="De_AI-aanpak_van_Scholengroep_Sint-Rembert.m4a" type="audio/mp4">
-      Je browser ondersteunt deze audio niet.
-    </audio>
+    <iframe src="https://drive.google.com/file/d/1LaMBbbr6YrdDiFcxOGCY7CPdtc6gSogH/preview" width="100%" height="80" style="border:none; border-radius: 8px; margin-bottom: 20px; background: white;" allow="autoplay"></iframe>
     <p style="font-size: 11px; color: rgba(255,255,255,0.9); margin-bottom: 16px; line-height: 1.4;">
       💡 Luister gerust meerdere keren. Je kan op elk moment stoppen en zelf lezen.
     </p>
@@ -1286,16 +1340,300 @@ function sR1(){
 }
 
 /* ════════════════════════════════════════════
-   MODULE 2 — BELEID & LEERLINGEN (met Casus!)
-   Nu 10 stappen (was 9) — Casus tussenvoegd
+   MODULE 2 — BELEID (ROLE-AWARE)
+   Teacher: volledig beleidskader + leerlingen begeleiden (12 stappen)
+   Admin: kort & praktisch — geen leerlingpedagogiek (4 stappen)
+   Management: bestuurlijke verantwoordelijkheid & EU AI Act art. 4 (5 stappen)
    ════════════════════════════════════════════ */
 
-const m2 = [m2s0, m2s1, m2s2, m2s_casus, m2s4, m2s_leeftijd, m2s_extra_casussen, m2s5, m2s6, m2s7, m2s8, m2s9];
+const m2_teacher = [m2s0, m2s1, m2s2, m2s_casus, m2s4, m2s_leeftijd, m2s_extra_casussen, m2s5, m2s6, m2s7, m2s8, m2s9];
+const m2_admin = [m2a0, m2a1, m2a2, m2a3];
+const m2_mgmt = [m2mg0, m2mg1, m2mg2, m2mg3, m2mg4];
 
-function rm2(){ const c=document.getElementById('m2c'); c.innerHTML=''; console.log('🔄 rm2: stap', S.mod2.step, 'van', m2.length); rDots(2,m2.length,S.mod2.step); m2[S.mod2.step](c); lockNextButtons(c); }
+let m2 = [];
+
+function rm2(){
+  if(S.userRole === 'teacher') m2 = m2_teacher;
+  else if(S.userRole === 'admin') m2 = m2_admin;
+  else if(S.userRole === 'management') m2 = m2_mgmt;
+  else m2 = m2_teacher; // fallback
+
+  const c = document.getElementById('m2c');
+  c.innerHTML='';
+  console.log('🔄 rm2: rol=' + S.userRole + ', stap ' + S.mod2.step + ' van ' + m2.length);
+
+  const titleEl = document.getElementById('mod2-title');
+  const numEl = document.getElementById('mod2-num');
+  if(titleEl){
+    if(S.userRole === 'admin'){ titleEl.textContent = 'AI-spelregels voor administratie'; if(numEl) numEl.textContent = 'Module 2 · Kort & praktisch'; }
+    else if(S.userRole === 'management'){ titleEl.textContent = 'Bestuurlijke verantwoordelijkheid & AI Act'; if(numEl) numEl.textContent = 'Module 2 · Governance'; }
+    else { titleEl.textContent = 'Beleid & Leerlingen begeleiden'; if(numEl) numEl.textContent = 'Module 2 · Verplicht'; }
+  }
+
+  rDots(2,m2.length,S.mod2.step);
+  m2[S.mod2.step](c);
+  lockNextButtons(c);
+}
+
 function n2(){ S.mod2.step++; ss(); S.mod2.step>=m2.length ? d2() : rm2(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); }
 function p2(){ if(S.mod2.step > 0){ lastNavDirection='back'; S.mod2.step--; ss(); rm2(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); } }
 function d2(){ S.mod2.done=true; S.mod2.step=0; ss(); up(); rmc(); sv('cert'); }
+
+/* ── ADMIN VERSIE — 4 stappen ── */
+
+function m2a0(c){
+  c.innerHTML = `
+<div class="s-badge">📋 Stap 1 van 4 · De kern in 1 minuut</div>
+<h2 class="ch2">Het AI-beleid van Sint-Rembert, <em>kort samengevat</em></h2>
+<p class="cp">Als administratief medewerker hoef je het volledige beleidskader niet uit het hoofd te kennen — dat is voor leerkrachten en directie. Voor jou volstaat de kern:</p>
+
+<div class="ib warn">
+  <div class="ib-t">🎯 De kern</div>
+  <div class="ib-b">AI wordt ingezet ter ondersteuning — <strong>nooit</strong> als vervanging van menselijke verantwoordelijkheid. Alles wat je met AI maakt of verwerkt, blijft jouw verantwoordelijkheid om te controleren.</div>
+</div>
+
+<p class="cp">Concreet voor jouw functie: gebruik Copilot M365 (met schild-icoon = schoolaccount) gerust voor mails, verslagen en documenten. Waar het om draait, is <strong>hoe je omgaat met gegevens</strong> — daar gaat de rest van deze korte module over.</p>
+
+<div class="nw">
+  <button class="sr-btn g" onclick="n2()">Volgende: privacy in je dagelijkse werk →</button>
+  <span class="nh">Stap 1/4</span>
+</div>`;
+}
+
+function m2a1(c){
+  c.innerHTML = `
+<div class="s-badge">🔒 Stap 2 van 4 · Privacy in je dagelijkse werk</div>
+<h2 class="ch2">Privacy: waar je écht op moet <em>letten</em></h2>
+<p class="cp">Jij verwerkt dagelijks persoonsgegevens: leerlingdossiers, contactgegevens van ouders, facturatiegegevens, medische attesten. Twee begrippen die er echt toe doen:</p>
+
+<div style="background: rgba(10,31,168,0.08); border-radius: 8px; padding: 16px; margin: 16px 0;">
+<p style="font-size: 13px; color: #3d4f8a; line-height: 1.9; margin: 0;">
+<strong>📌 Doelbinding:</strong> gebruik gegevens enkel voor het doel waarvoor je ze verzamelde. Leerlingdata die voor administratie werd verzameld, mag je niet zomaar in een AI-tool gebruiken voor een heel ander doeleinde.<br><br>
+<strong>📌 Dataminimalisatie:</strong> geef een AI-tool niet meer gegevens dan strikt nodig. Moet je een mail-template maken? Gebruik "een leerling" in plaats van de echte naam.
+</p>
+</div>
+
+<div class="ib warn">
+  <div class="ib-t">📚 Bron</div>
+  <div class="ib-b">Kennisnet, het Nederlandse kenniscentrum voor onderwijs en ict, benadrukt dat toetsen, dossiers en andere documenten met namen persoonsgegevens zijn zodra je ze in een AI-tool invoert — ook al lijkt het "gewoon een samenvatting maken".</div>
+</div>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p2()">← Vorige</button>
+  <button class="sr-btn g" onclick="n2()">Volgende: wel/niet lijst →</button>
+  <span class="nh">Stap 2/4</span>
+</div>`;
+}
+
+function m2a2(c){
+  c.innerHTML = `
+<div class="s-badge">✅❌ Stap 3 van 4 · Concreet voor jou</div>
+<h2 class="ch2">Wat mag <em>wel</em>, wat mag <em>niet</em>?</h2>
+
+<div class="sr-row">
+  <div class="sr-box wel">
+    <div class="sr-box-title">✅ Mag wel</div>
+    <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.8; margin:0;">
+      → Mailsjablonen genereren (zonder échte namen)<br>
+      → Verslagen en rapporten samenvatten binnen Copilot M365<br>
+      → Nieuwsbrieven en aankondigingen schrijven<br>
+      → Formulieren en checklists opstellen<br>
+      → Spelling en grammatica controleren
+    </p>
+  </div>
+  <div class="sr-box niet">
+    <div class="sr-box-title">❌ Mag niet</div>
+    <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.8; margin:0;">
+      → Leerlingdossiers of -foto's in gratis, publieke AI-tools<br>
+      → Excel met namen/adressen naar ChatGPT uploaden<br>
+      → Echte namen in prompts ("mail aan Jan uit 3A")<br>
+      → Gevoelige data buiten Copilot M365 (geen schild = niet veilig)
+    </p>
+  </div>
+</div>
+
+<div class="ib warn">
+  <div class="ib-t">💡 Vuistregel</div>
+  <div class="ib-b">Zie je bovenaan Copilot een klein schild-icoon? Dan werk je binnen de beveiligde schoolomgeving en is je data veilig. Geen schild zichtbaar? Meld je opnieuw aan met je schoolaccount voor je verdergaat.</div>
+</div>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p2()">← Vorige</button>
+  <button class="sr-btn g" onclick="n2()">Volgende: afronden →</button>
+  <span class="nh">Stap 3/4</span>
+</div>`;
+}
+
+function m2a3(c){
+  c.innerHTML = `
+<div class="s-badge">✍️ Stap 4 van 4 · Afronden</div>
+<h2 class="ch2">Kort <em>samengevat</em></h2>
+<div style="background: rgba(127,224,0,0.1); border-radius: 12px; padding: 20px; margin: 16px 0;">
+<p style="font-size: 14px; color: #3d4f8a; line-height: 1.9; margin: 0;">
+✅ AI ondersteunt, het vervangt jouw verantwoordelijkheid niet<br>
+✅ Doelbinding & dataminimalisatie — enkel gebruiken waarvoor het bedoeld is<br>
+✅ Gebruik altijd Copilot M365 met schild-icoon voor gevoelige data<br>
+✅ Nooit echte namen of dossiers in gratis, publieke AI-tools
+</p>
+</div>
+
+<h3 class="ch3">💭 Eén korte vraag</h3>
+<p class="cp">Welke administratieve taak zou jij, met deze regels in het achterhoofd, willen proberen met AI?</p>
+<textarea class="sr-ta" id="r_admin_m2" placeholder="Ik zou graag AI proberen voor..." style="height: 90px;"></textarea>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p2()">← Vorige</button>
+  <button class="sr-btn o" onclick="sR_admin_m2()">✅ Module 2 voltooid →</button>
+  <span class="nh">Stap 4/4</span>
+</div>`;
+  const ta = document.getElementById('r_admin_m2');
+  ta.value = localStorage.getItem('sr_r_admin_m2') || '';
+  ta.oninput = ()=>localStorage.setItem('sr_r_admin_m2', ta.value);
+}
+
+function sR_admin_m2(){
+  const v = (document.getElementById('r_admin_m2').value||'').trim();
+  if(v.length < 5){ alert('Vul dit veld even in.'); return; }
+  n2();
+}
+
+/* ── MANAGEMENT VERSIE — 5 stappen ── */
+
+function m2mg0(c){
+  c.innerHTML = `
+<div class="s-badge">🏛️ Stap 1 van 5 · Jouw rol</div>
+<h2 class="ch2">Bestuurlijke <em>verantwoordelijkheid</em></h2>
+<p class="cp">Als directie of beleidsverantwoordelijke draag jij een andere verantwoordelijkheid dan een leerkracht of administratief medewerker: <strong>de eindverantwoordelijkheid voor AI-gebruik binnen de school ligt uiteindelijk bij het bestuur</strong> — ook wanneer er een functionaris gegevensbescherming (FG/DPO) is aangesteld die ondersteunt.</p>
+
+<div class="ib warn">
+  <div class="ib-t">🎯 Waarom deze module anders is dan bij leerkrachten</div>
+  <div class="ib-b">Leerkrachten leren hoe ze AI toepassen in de klas. Jij hoeft dat niet in detail te kennen — jouw vraag is: hoe zorg ik dat de hele organisatie <strong>aantoonbaar</strong> voldoet aan de wet, en hoe verdeel ik die verantwoordelijkheid goed?</div>
+</div>
+
+<p class="cp">Deze module focust op precies dat: wat vraagt de wet van jou als bestuurder, en welke concrete stappen zet je?</p>
+
+<div class="nw">
+  <button class="sr-btn g" onclick="n2()">Volgende: artikel 4 →</button>
+  <span class="nh">Stap 1/5</span>
+</div>`;
+}
+
+function m2mg1(c){
+  c.innerHTML = `
+<div class="s-badge">⚖️ Stap 2 van 5 · EU AI Act artikel 4</div>
+<h2 class="ch2">Wat vraagt <em>artikel 4</em> concreet van jou?</h2>
+<p class="cp">Sinds 2 februari 2025 is artikel 4 van de EU AI Act van kracht: elke organisatie die AI gebruikt, moet zorgen dat haar personeel over voldoende <strong>AI-geletterdheid</strong> beschikt. Dit is geen vrijblijvend advies, maar een wettelijke verplichting — en vanaf 2026 controleren nationale toezichthouders hier ook actief op.</p>
+
+<h3 class="ch3">✅ Wat dit praktisch betekent</h3>
+<div style="background: rgba(10,31,168,0.08); border-radius: 8px; padding: 16px; margin: 16px 0;">
+<p style="font-size: 13px; color: #3d4f8a; line-height: 1.9; margin: 0;">
+<strong>1. Rollenmatrix opstellen</strong> — leg per functie vast welk niveau van AI-kennis nodig is (een leerkracht heeft andere kennis nodig dan een directielid)<br>
+<strong>2. Verantwoordelijke aanwijzen</strong> — iemand (bv. een AI-coördinator) die toeziet op AI-geletterdheid binnen de school<br>
+<strong>3. Inkoopvoorwaarden aanpassen</strong> — ook leveranciers en ingehuurd personeel moeten voldoen<br>
+<strong>4. Verankeren, niet eenmalig</strong> — AI-geletterdheid hoort in scholingsplannen en jaargesprekken, niet als losse workshop
+</p>
+</div>
+
+<div class="ib warn">
+  <div class="ib-t">📚 Bron</div>
+  <div class="ib-b">Dit is precies waarom deze cursus bestaat: ze is jullie concrete, aantoonbare invulling van artikel 4 — voor leerkrachten, administratie én directie elk op maat.</div>
+</div>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p2()">← Vorige</button>
+  <button class="sr-btn g" onclick="n2()">Volgende: risicoclassificatie →</button>
+  <span class="nh">Stap 2/5</span>
+</div>`;
+}
+
+function m2mg2(c){
+  c.innerHTML = `
+<div class="s-badge">🚦 Stap 3 van 5 · Risicoclassificatie</div>
+<h2 class="ch2">Wanneer is AI <em>"hoog risico"</em>?</h2>
+<p class="cp">De EU AI Act werkt met een risicogebaseerde aanpak. Voor jou als bestuurder is vooral relevant: <strong>welke AI-toepassingen in jouw school vallen onder de strengste regels?</strong></p>
+
+<div style="background: rgba(224,32,32,0.1); border-left: 4px solid var(--red); border-radius: 12px; padding: 20px; margin: 16px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 13px; color: var(--red); text-transform: uppercase; margin-bottom: 10px;">🔴 Hoog risico — strenge eisen</div>
+  <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7;">
+    Systemen die invloed hebben op <strong>beoordeling, selectie of besluitvorming</strong> over individuen: toelatingsprocedures, geautomatiseerde beoordelingssystemen, leerlingvolgsystemen die doorstroom-adviezen genereren. Deze vereisen transparantie, documentatie, menselijk toezicht en een DPIA (Data Protection Impact Assessment).
+  </p>
+</div>
+
+<div style="background: rgba(255,193,7,0.1); border-left: 4px solid var(--orange); border-radius: 12px; padding: 20px; margin: 16px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 13px; color: var(--orange); text-transform: uppercase; margin-bottom: 10px;">🟡 Verboden — let hier extra op</div>
+  <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7;">
+    Artikel 5 verbiedt expliciet <strong>emotieherkenning</strong> op school (bv. software die "betrokkenheid" of "frustratie" van leerlingen via camera detecteert). Check dit bij elke nieuwe tool die wordt aangeschaft.
+  </p>
+</div>
+
+<div style="background: rgba(127,224,0,0.1); border-left: 4px solid var(--green); border-radius: 12px; padding: 20px; margin: 16px 0;">
+  <div style="font-family: 'Archivo Black', sans-serif; font-size: 13px; color: var(--green); text-transform: uppercase; margin-bottom: 10px;">🟢 Beperkt risico — de meeste dagelijkse tools</div>
+  <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7;">
+    Copilot M365 voor mails, samenvattingen, lesvoorbereiding — dit valt onder beperkt risico. Wel nodig: transparantie (personeel weet dat ze AI gebruiken) en de AI-geletterdheid uit artikel 4.
+  </p>
+</div>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p2()">← Vorige</button>
+  <button class="sr-btn g" onclick="n2()">Volgende: doe-opdracht →</button>
+  <span class="nh">Stap 3/5</span>
+</div>`;
+}
+
+function m2mg3(c){
+  c.innerHTML = `
+<div class="s-badge">✅ Stap 4 van 5 · Doe-opdracht</div>
+<h2 class="ch2">Jouw <em>actiepunten</em> als leidinggevende</h2>
+<p class="cp">Loop onderstaande checklist door en vink aan wat er bij Sint-Rembert al geregeld is. Wat nog ontbreekt, is meteen je actielijst.</p>
+
+<div style="background: white; border-radius: 8px; padding: 16px; margin: 12px 0; border: 1px solid #e0e4f5; font-size:13px; color:#3d4f8a; line-height:2.2;">
+☐ Is er een rollenmatrix die per functie het vereiste AI-kennisniveau vastlegt?<br>
+☐ Is er een verantwoordelijke aangewezen voor AI-geletterdheid (AI-coördinator)?<br>
+☐ Weet je welke AI-toepassingen in gebruik zijn binnen de school (incl. via leveranciers)?<br>
+☐ Zijn inkoopvoorwaarden voor nieuwe software aangepast om AI-Act-conformiteit te checken?<br>
+☐ Is er een meldroute als iemand per ongeluk gevoelige data in een AI-tool invoert?<br>
+☐ Staat AI-geletterdheid in het scholingsplan, niet als eenmalige actie?
+</div>
+
+<h3 class="ch3">✍️ Noteer je grootste actiepunt</h3>
+<textarea class="sr-ta" id="r_mgmt_actie" placeholder="Het eerste wat ik ga regelen is..." style="height: 90px;"></textarea>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p2()">← Vorige</button>
+  <button class="sr-btn g" id="btn_mgmt_actie" onclick="sR_mgmt_actie()">Volgende: afronden →</button>
+  <span class="nh">Stap 4/5</span>
+</div>`;
+  const ta = document.getElementById('r_mgmt_actie');
+  ta.value = localStorage.getItem('sr_r_mgmt_actie') || '';
+  ta.oninput = ()=>localStorage.setItem('sr_r_mgmt_actie', ta.value);
+}
+
+function sR_mgmt_actie(){
+  const v = (document.getElementById('r_mgmt_actie').value||'').trim();
+  if(v.length < 5){ alert('Vul je actiepunt even in.'); return; }
+  n2();
+}
+
+function m2mg4(c){
+  c.innerHTML = `
+<div class="s-badge">🏁 Stap 5 van 5 · Afronden</div>
+<h2 class="ch2">Kort <em>samengevat</em></h2>
+<div style="background: rgba(127,224,0,0.1); border-radius: 12px; padding: 20px; margin: 16px 0;">
+<p style="font-size: 14px; color: #3d4f8a; line-height: 1.9; margin: 0;">
+✅ De eindverantwoordelijkheid voor AI blijft bij het bestuur, ook met een FG<br>
+✅ Artikel 4 verplicht een rollenmatrix, een verantwoordelijke, en structurele opvolging<br>
+✅ Systemen die beoordelen/selecteren = hoog risico → DPIA & extra waarborgen<br>
+✅ Emotieherkenning op school is uitdrukkelijk verboden (artikel 5)
+</p>
+</div>
+<p class="cp">Deze cursus zelf — met een track op maat voor leerkrachten, administratie én directie — is jullie concrete antwoord op de AI-geletterdheidsverplichting.</p>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p2()">← Vorige</button>
+  <button class="sr-btn o" onclick="n2()">✅ Module 2 voltooid →</button>
+  <span class="nh">Stap 5/5</span>
+</div>`;
+}
 
 function m2s0(c){
   c.innerHTML = `
@@ -2508,6 +2846,10 @@ function m3a1(c){
   <div style="font-size: 12px; font-weight: 700; color: var(--green); margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--gray);">💾 Kopieëren → opslaan als template in Outlook!</div>
 </div>
 
+<h3 class="ch3">🎛️ Tip: personaliseer de toon van Copilot</h3>
+<p class="cp">Via <strong>Instellingen → Personalisation → Custom instructions</strong> kan je Copilot vragen om voortaan een vaste, professionele schooltoon aan te houden — zodat elke mail die je genereert al meteen in de juiste stijl van Sint-Rembert klinkt, zonder dat je dit telkens opnieuw moet vragen.</p>
+<img src="img/copilot-personalisatie.png" alt="Copilot personalisatie-instellingen" style="width:100%;max-width:600px;display:block;margin:16px auto;border-radius:10px;border:1px solid #e0e4f5;box-shadow:0 2px 10px rgba(10,31,168,0.08);">
+
 <h3 class="ch3">📋 Use case 2: Lange documenten samenvatten</h3>
 <p class="cp">Een inspectieverslag, evaluatierapport of lange notitie doorspitten? Copilot haalt de kernpunten eruit — je leest niet meer 20 bladzijden.</p>
 
@@ -2557,6 +2899,13 @@ function m3a_prompts_admin(c){
   </div>
 </div>
 
+<div class="ib warn">
+  <div class="ib-t">🎨 En de visuele lay-out?</div>
+  <div class="ib-b">Zodra de tekst klaar is, kan je via <strong>Create</strong> ook meteen een bijpassende poster of infographic laten ontwerpen voor op het schoolbord of de website — beschrijf gewoon het onderwerp en kies een stijl uit de galerij.</div>
+</div>
+<img src="img/copilot-create-overzicht.png" alt="Overzicht van de Copilot Create-module" style="width:100%;max-width:600px;display:block;margin:16px auto;border-radius:10px;border:1px solid #e0e4f5;box-shadow:0 2px 10px rgba(10,31,168,0.08);">
+<img src="img/copilot-create-stijlen.png" alt="Stijlgalerij binnen Copilot Create" style="width:100%;max-width:600px;display:block;margin:16px auto;border-radius:10px;border:1px solid #e0e4f5;box-shadow:0 2px 10px rgba(10,31,168,0.08);">
+
 <div style="background: linear-gradient(135deg, rgba(10,31,168,0.08), rgba(127,224,0,0.08)); border-radius: 12px; padding: 20px; border-left: 4px solid var(--blue); margin: 20px 0;">
   <div style="font-family: 'Archivo Black', sans-serif; font-size: 13px; color: var(--blue); text-transform: uppercase; margin-bottom: 12px;">💡 Prompt 3: Vriendelijke herinneringsmails</div>
   <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7; font-style: italic;">
@@ -2576,6 +2925,12 @@ function m3a_prompts_admin(c){
     <strong style="color: var(--green); font-size: 11px;">✓ Wat je krijgt:</strong> Compleet projectplan voor groot evenement
   </div>
 </div>
+
+<div class="ib warn">
+  <div class="ib-t">✏️ Let op tekst op affiches</div>
+  <div class="ib-b">Laat je ook een affiche voor het evenement ontwerpen via Create? AI-beeldgeneratoren maken vaak spelfouten in tekst op een afbeelding. Gebruik altijd de optie <strong>Edit Text</strong> om dit zelf te corrigeren voor je de affiche verspreidt.</div>
+</div>
+<img src="img/copilot-beeld-bewerken.png" alt="Tekst in een AI-gegenereerd beeld bewerken" style="width:100%;max-width:600px;display:block;margin:16px auto;border-radius:10px;border:1px solid #e0e4f5;box-shadow:0 2px 10px rgba(10,31,168,0.08);">
 
 <div style="background: linear-gradient(135deg, rgba(10,31,168,0.08), rgba(127,224,0,0.08)); border-radius: 12px; padding: 20px; border-left: 4px solid var(--blue); margin: 20px 0;">
   <div style="font-family: 'Archivo Black', sans-serif; font-size: 13px; color: var(--blue); text-transform: uppercase; margin-bottom: 12px;">💡 Prompt 5: Stap-voor-stap handleidingen</div>
@@ -2639,6 +2994,11 @@ function m3a2(c){
     Copilot werkt snel, maar zeg altijd: "Dit is niet perfect, ik zal het nog controleren." Zaken die Copilot overloopt: nummerlogica, lastige contexten, inconsistenties. Jij blijft de "final check".
   </div>
 </div>
+
+<h3 class="ch3">🤖 Win 4: een FAQ-agent voor veelgestelde vragen</h3>
+<p class="cp">Krijg je vaak dezelfde vragen van ouders aan de balie of via mail ("Hoe schrijf ik mijn kind in?", "Wanneer zijn de openingsuren van het secretariaat?")? Via <strong>Agents → New agent</strong> kan je een eenvoudige informatie-agent bouwen die deze vragen zelf beantwoordt op basis van documenten die jij aanlevert — jij bespaart tijd, ouders krijgen meteen antwoord.</p>
+<img src="img/copilot-agent-builder.png" alt="Copilot Agent Builder" style="width:100%;max-width:600px;display:block;margin:16px auto;border-radius:10px;border:1px solid #e0e4f5;box-shadow:0 2px 10px rgba(10,31,168,0.08);">
+<p class="cp">Geef de agent een duidelijke naam en taakomschrijving ("Beantwoord vragen over inschrijvingen en openingsuren, gebaseerd op het onthaal-document"), en voeg het relevante document toe als kennisbasis.</p>
 
 <div class="nw">
   <button class="sr-btn b" onclick="p3()">← Vorige</button>
@@ -2830,6 +3190,12 @@ function m3m_prompts_mgmt(c){
   </div>
 </div>
 
+<div class="ib warn">
+  <div class="ib-t">📊 Ook visueel: een infographic bij je jaarverslag</div>
+  <div class="ib-b">Voor een jaarverslag of presentatie aan de raad van bestuur kan Copilot via <strong>Create</strong> ook meteen een overzichtelijke infographic ontwerpen — beschrijf welke cijfers of kernpunten je wil tonen en kies een professionele stijl.</div>
+</div>
+<img src="img/copilot-create-overzicht.png" alt="Overzicht van de Copilot Create-module" style="width:100%;max-width:600px;display:block;margin:16px auto;border-radius:10px;border:1px solid #e0e4f5;box-shadow:0 2px 10px rgba(10,31,168,0.08);">
+
 <div style="background: linear-gradient(135deg, rgba(127,224,0,0.08), rgba(10,31,168,0.08)); border-radius: 12px; padding: 20px; border-left: 4px solid var(--green); margin: 20px 0;">
   <div style="font-family: 'Archivo Black', sans-serif; font-size: 13px; color: var(--green); text-transform: uppercase; margin-bottom: 12px;">💡 Klaar gemaakte Copilot-templates</div>
   <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7; margin-bottom: 16px;">
@@ -2878,6 +3244,10 @@ function m3m2(c){
     <strong>Copilot geeft:</strong> Gestructureerde roadmap die je direct met team kan bespreken
   </div>
 </div>
+
+<h3 class="ch3">🤖 Waar je als bestuurder toezicht op houdt: agents</h3>
+<p class="cp">Personeel kan binnen Copilot eenvoudige "agents" bouwen — bijvoorbeeld een FAQ-hulp voor het onthaal, of een oefen-hulp voor leerlingen. Als bestuurder hoef je dit niet zelf te bouwen, maar is het nuttig om te weten hoe dit eruitziet, zodat je een goedkeuringsproces kan opzetten: welke agents zijn toegestaan, wie geeft toestemming, welke data mogen ze gebruiken?</p>
+<img src="img/copilot-agent-builder.png" alt="Copilot Agent Builder" style="width:100%;max-width:600px;display:block;margin:16px auto;border-radius:10px;border:1px solid #e0e4f5;box-shadow:0 2px 10px rgba(10,31,168,0.08);">
 
 <div class="nw">
   <button class="sr-btn b" onclick="p3()">← Vorige</button>
