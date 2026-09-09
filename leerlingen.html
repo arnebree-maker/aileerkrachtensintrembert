@@ -391,11 +391,13 @@
 
     <div id="cert-dl-info"></div>
     <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
-      <button class="print-btn" id="print-cert-btn" onclick="doCertPrint()">🖨️ Download certificaat (PDF)</button>
-      <button class="summary-btn" id="download-summary-btn" onclick="downloadSummary()">💾 Download Antwoorden (TXT)</button>
+      <button class="print-btn" id="print-cert-btn" onclick="doCertPrint()">🖨️ Download certificaat + antwoorden (PDF)</button>
     </div>
-    <div class="cert-warn">✅ Je certificaat is gereed! Kies in het afdrukvenster "Opslaan als PDF".</div>
+    <div class="cert-warn">✅ Je certificaat is gereed! Eén PDF met je certificaat én al je antwoorden. Kies in het afdrukvenster "Opslaan als PDF".</div>
   </div>
+
+  <!-- Onzichtbaar tenzij printen: volledig antwoordenoverzicht, komt na het certificaat in de PDF -->
+  <div id="cert-answers-print" style="display:none;"></div>
 </div>
 
 <footer style="font-size: 11px; color: #666; margin-top: 60px; padding: 30px 20px; border-top: 1px solid #ddd; background: #f9f9f9; line-height: 1.8;">
