@@ -189,6 +189,35 @@ function goHome(){
 }
 
 function goStartTest(){ showNameEntry(); renderStartTest(); sv('starttest'); }
+
+/* ════════════════════════════════════════════
+   PODCAST MODAL — Module 1
+   ════════════════════════════════════════════ */
+
+function playPodcastL1(){
+  const overlay = document.createElement('div');
+  overlay.id = 'podcast-overlay-l1';
+  overlay.style.cssText = `position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:9999;`;
+
+  const card = document.createElement('div');
+  card.style.cssText = `background:linear-gradient(135deg,#9C27B0 0%,#7B1FA2 100%);border-radius:12px;padding:32px;color:white;text-align:center;max-width:500px;max-height:80vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);`;
+
+  card.innerHTML = `
+    <h3 style="color: white; margin-top: 0; margin-bottom: 8px;">🎧 AI-Skills Podcast</h3>
+    <p style="font-size: 13px; color: rgba(255,255,255,0.95); margin-bottom: 16px; font-weight: 600;">Een audio-introductie bij deze cursus</p>
+    <iframe src="https://drive.google.com/file/d/1FD8iLx6313brXRIo2uQXNgtTMKplO6kq/preview" width="100%" height="80" style="border:none; border-radius: 8px; margin-bottom: 20px; background: white;" allow="autoplay"></iframe>
+    <p style="font-size: 11px; color: rgba(255,255,255,0.9); margin-bottom: 16px; line-height: 1.4;">💡 Luister gerust meerdere keren. Je kan op elk moment stoppen en zelf verderlezen.</p>
+    <button onclick="closeModal('podcast-overlay-l1');" style="background: rgba(255,255,255,0.9); color: #9C27B0; border: none; border-radius: 8px; padding: 12px 24px; font-weight: 700; cursor: pointer;">✓ Sluiten</button>
+  `;
+
+  overlay.appendChild(card);
+  document.body.appendChild(overlay);
+}
+
+function closeModal(id){
+  const modal = document.getElementById(id);
+  if(modal) modal.remove();
+}
 function tryC(){ S.mod6.done ? sv('cert') : alert('Voltooi eerst alle 6 modules.'); }
 
 function rDots(m,tot,cur){
@@ -229,43 +258,135 @@ function doCertPrint(){
   if(!S.name || !S.name.trim()){
     if(!confirm('Je naam is nog niet ingevuld (links onderaan in de zijbalk). Het certificaat vermeldt dan "Leerling".\n\nToch doorgaan?')) return;
   } else {
-    if(!confirm('Certificaat downloaden?\n\nNaam op certificaat: ' + S.name + '\n\nKies in het afdrukvenster "Opslaan als PDF" en bewaar het bestand.')) return;
+    if(!confirm('Certificaat + antwoorden downloaden?\n\nNaam op certificaat: ' + S.name + '\n\nKies in het afdrukvenster "Opslaan als PDF" en bewaar het bestand.')) return;
   }
   rc();
+  buildAnswersReport();
   window.print();
 }
 
-function downloadSummary(){
-  const name = S.name || 'Anonieme Leerling';
-  let txt = `==================================================\n`;
-  txt += `AI-SKILLS SCHOLENGROEP SINT-REMBERT\n`;
-  txt += `PERSOONLIJK ANTWOORDEN- EN REFLECTIEVERSLAG\n`;
-  txt += `==================================================\n\n`;
-  txt += `Leerling: ${name}\n`;
-  txt += `Datum van export: ${new Date().toLocaleDateString('nl-BE')}\n\n`;
+window.addEventListener('afterprint', () => {
+  const target = document.getElementById('cert-answers-print');
+  if(target){ target.style.display = 'none'; target.innerHTML = ''; }
+});
+
+/* ════════════════════════════════════════════
+   VOLLEDIG ANTWOORDENRAPPORT — wordt na het
+   certificaat afgedrukt in dezelfde PDF
+   ════════════════════════════════════════════ */
+
+const STELLING_LABELS = ['Sterk oneens','Oneens','Neutraal','Eens','Sterk eens'];
+
+const MODULE_NAMEN = {
+  1: 'Wat is AI?', 2: 'Hoe werkt AI?', 3: 'Generatieve AI',
+  4: 'Ethiek & Bias', 5: 'AI in School', 6: 'AI in Maatschappij', 7: 'Copilot Ontdekken'
+};
+
+const REFLECTIE_LABELS = {
+  1: 'Waar zie je AI in je dagelijkse leven?',
+  2: 'Wat vond je het meest verrassend over hoe AI werkt?',
+  3: 'Voor welke taak zou je generatieve AI het liefst gebruiken?',
+  4: 'Welk risico vind je het meest verontrustend?',
+  5: 'Welk AI-label vind je het makkelijkst/moeilijkst?',
+  6: 'Jouw grote afsluitende visie op AI'
+};
+
+function esc(str){
+  return (str||'').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function buildAnswersReport(){
+  const name = S.name || 'Leerling';
+  let html = `
+    <div style="page-break-before: always; padding: 20px 0;">
+      <h1 style="font-family:'Archivo Black',sans-serif; color: var(--blue); font-size: 22px; border-bottom: 3px solid var(--blue); padding-bottom: 10px; margin-bottom: 4px;">📋 Volledig Antwoordenoverzicht</h1>
+      <p style="font-size: 12px; color: #666; margin-bottom: 24px;">${esc(name)} — gegenereerd op ${new Date().toLocaleDateString('nl-BE',{day:'numeric',month:'long',year:'numeric'})}</p>
+  `;
 
   for(let i=1;i<=6;i++){
-    const key = 'sr_l_ref'+i;
-    const val = localStorage.getItem(key) || 'Geen antwoord ingevuld.';
-    txt += `--------------------------------------------------\n`;
-    txt += `MODULE ${i}\n`;
-    txt += `--------------------------------------------------\n`;
-    txt += `${val}\n\n`;
+    const modDone = S['mod'+i] && S['mod'+i].done;
+    const quizScore = (S['mod'+i] && S['mod'+i].quizScore !== undefined) ? S['mod'+i].quizScore + '%' : '—';
+
+    html += `<div style="margin-bottom: 28px; page-break-inside: avoid;">
+      <h2 style="font-size: 16px; color: var(--blue); background: #f0f2f5; padding: 8px 12px; border-radius: 6px; margin-bottom: 10px;">Module ${i} — ${MODULE_NAMEN[i]} ${modDone ? '✅' : ''}</h2>
+      <p style="font-size: 12px; color: #666; margin: 4px 0 12px 0;"><strong>Kennischeck-score:</strong> ${quizScore}</p>`;
+
+    // Stellingen (modules 1-5)
+    if(i <= 5){
+      try{
+        const raw = localStorage.getItem('sr_l_stellingen_l_m'+i);
+        if(raw){
+          const parsed = JSON.parse(raw);
+          const keys = Object.keys(parsed);
+          if(keys.length){
+            html += `<p style="font-size:12px; font-weight:700; color:#3d4f8a; margin:10px 0 4px 0;">Stellingen:</p>`;
+            keys.forEach(idx=>{
+              const val = STELLING_LABELS[parsed[idx]] || '—';
+              html += `<p style="font-size:12px; color:#333; margin:2px 0 2px 12px;">Stelling ${parseInt(idx)+1}: <strong>${esc(val)}</strong></p>`;
+            });
+          }
+        }
+      }catch(e){}
+    }
+
+    // Doe-opdracht prompt-oefeningen (module 2 & 3)
+    if(i===2){
+      const pUsed = localStorage.getItem('sr_l_prompt_used_m2');
+      const pResult = localStorage.getItem('sr_l_prompt_result_m2');
+      const pSat = localStorage.getItem('sr_l_prompt_satisfied_m2');
+      if(pUsed || pResult || pSat){
+        html += `<p style="font-size:12px; font-weight:700; color:#3d4f8a; margin:10px 0 4px 0;">Doe-opdracht — jouw prompt:</p>
+          <p style="font-size:12px; color:#333; margin:2px 0; white-space:pre-wrap;"><strong>Prompt:</strong> ${esc(pUsed)}</p>
+          <p style="font-size:12px; color:#333; margin:2px 0; white-space:pre-wrap;"><strong>Resultaat:</strong> ${esc(pResult)}</p>
+          <p style="font-size:12px; color:#333; margin:2px 0; white-space:pre-wrap;"><strong>Tevreden?</strong> ${esc(pSat)}</p>`;
+      }
+    }
+    if(i===3){
+      const pUsed = localStorage.getItem('sr_l_prompt_used_m3');
+      const pResult = localStorage.getItem('sr_l_prompt_result_m3');
+      if(pUsed || pResult){
+        html += `<p style="font-size:12px; font-weight:700; color:#3d4f8a; margin:10px 0 4px 0;">Doe-opdracht — jouw prompt:</p>
+          <p style="font-size:12px; color:#333; margin:2px 0; white-space:pre-wrap;"><strong>Prompt:</strong> ${esc(pUsed)}</p>
+          <p style="font-size:12px; color:#333; margin:2px 0; white-space:pre-wrap;"><strong>Resultaat:</strong> ${esc(pResult)}</p>`;
+      }
+    }
+    // Charter (module 5)
+    if(i===5){
+      const charter = localStorage.getItem('sr_l_charter1');
+      if(charter){
+        html += `<p style="font-size:12px; font-weight:700; color:#3d4f8a; margin:10px 0 4px 0;">Jouw klascharter-voorstel:</p>
+          <p style="font-size:12px; color:#333; margin:2px 0; white-space:pre-wrap;">${esc(charter)}</p>`;
+      }
+    }
+
+    // Reflectie
+    const ref = localStorage.getItem('sr_l_ref'+i);
+    html += `<p style="font-size:12px; font-weight:700; color:#3d4f8a; margin:10px 0 4px 0;">Reflectie — ${esc(REFLECTIE_LABELS[i]||'')}</p>
+      <p style="font-size:12px; color:#333; margin:2px 0 2px 0; white-space:pre-wrap; background:#f9f9f9; padding:8px; border-radius:4px;">${ref ? esc(ref) : '<em>Niet ingevuld.</em>'}</p>`;
+
+    html += `</div>`;
   }
 
-  txt += `==================================================\n`;
-  txt += `Gegenereerd via Sint-Rembert AI-Skills platform.\n`;
-  txt += `==================================================`;
+  // Module 7 (optioneel)
+  if(S.mod7 && S.mod7.done){
+    const m7img_p = localStorage.getItem('sr_l_m7_img_prompt');
+    const m7img_r = localStorage.getItem('sr_l_m7_img_result');
+    const m7txt = localStorage.getItem('sr_l_m7_txt_result');
+    const m7study = localStorage.getItem('sr_l_m7_study_result');
+    html += `<div style="margin-bottom: 28px; page-break-inside: avoid;">
+      <h2 style="font-size: 16px; color: var(--orange); background: #fff3e0; padding: 8px 12px; border-radius: 6px; margin-bottom: 10px;">Module 7 (optioneel) — Copilot Ontdekken ✅</h2>`;
+    if(m7img_p) html += `<p style="font-size:12px; margin:4px 0;"><strong>Afbeelding-prompt:</strong> ${esc(m7img_p)}</p><p style="font-size:12px; margin:4px 0 10px 0;"><strong>Resultaat:</strong> ${esc(m7img_r)}</p>`;
+    if(m7txt) html += `<p style="font-size:12px; margin:4px 0 10px 0;"><strong>Creatieve tekst:</strong> ${esc(m7txt)}</p>`;
+    if(m7study) html += `<p style="font-size:12px; margin:4px 0;"><strong>Studiehulpmiddel:</strong> ${esc(m7study)}</p>`;
+    html += `</div>`;
+  }
 
-  const blob = new Blob([txt], { type: 'text/plain;charset=utf-8' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `AI-Skills-Antwoorden-${name.replace(/\s+/g,'_')}.txt`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+  html += `<p style="font-size:10px; color:#999; margin-top:20px; border-top:1px solid #ddd; padding-top:10px;">Sint-Rembert AI-Skills · Automatisch gegenereerd antwoordenrapport · ${new Date().toLocaleString('nl-BE')}</p>`;
+  html += `</div>`;
+
+  const target = document.getElementById('cert-answers-print');
+  target.innerHTML = html;
+  target.style.display = 'block';
 }
 
 /* ════════════════════════════════════════════
@@ -372,6 +493,12 @@ function m1s0(c){
 <div class="s-badge">🤔 Stap 1 van 11 · AI is overal</div>
 <h2 class="ch2">AI is <em>overal</em> aanwezig</h2>
 <p class="cp">Geloof het of niet, maar je komt voortdurend in contact met AI. Apps zoals Waze of Google Maps, sociale media zoals Instagram en TikTok, streamingplatformen zoals Netflix en Spotify: ze maken allemaal gebruik van AI. En dat is nog maar het begin — AI wordt in nog veel meer toepassingen gebruikt.</p>
+
+<div style="background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%); border-radius: 12px; padding: 18px 20px; margin: 16px 0; text-align: center; color: white;">
+  <div style="font-size: 22px; margin-bottom: 8px;">🎧</div>
+  <p style="font-size: 13px; margin: 0 0 12px 0; font-weight: 600;">Liever luisteren dan lezen? Er is een podcast over deze cursus.</p>
+  <button onclick="playPodcastL1()" style="background: rgba(255,255,255,0.95); color: #9C27B0; border: none; border-radius: 8px; padding: 10px 20px; font-weight: 700; cursor: pointer; font-size: 13px;">▶ Beluister de podcast</button>
+</div>
 
 <div class="ib warn">
   <div class="ib-t">💭 Denk even na</div>
@@ -606,6 +733,7 @@ function m1s10(c){
 <div class="s-badge">✍️ Stap 11 van 11 · Jouw reflectie</div>
 <h2 class="ch2">Vertaal naar <em>jouw leven</em></h2>
 <p class="cp">Noteer hieronder je reflectie (minstens een paar zinnen): waar zie JIJ AI in jouw dagelijkse leven — bij dingen die je nu pas beseft dankzij deze module? En wat vond je van de voorbeelden (dj ImAIne, Instagram, de MrBeast-deepfake)?</p>
+<p style="font-size:11px;color:#999;font-style:italic;margin:-8px 0 12px 0;">📄 Werk je liever op papier? Deze samenvatting en reflectie staan ook op <strong>pagina 3-4</strong> van je invulcursus.</p>
 <textarea class="sr-ta" id="ref1" placeholder="Ik gebruik AI eigenlijk al bij... Het voorbeeld dat me het meest verraste was..."></textarea>
 
 <div class="nw">
@@ -986,6 +1114,7 @@ function m2s11(c){
 <div id="stl-m2"></div>
 
 <p class="cp">Noteer je reflectie: Welke van de 3 soorten machine learning (gesuperviseerd, ongesuperviseerd, versterkend) vond je het makkelijkst te begrijpen, en welke het moeilijkst? En hoe was het om zelf een prompt uit te proberen?</p>
+<p style="font-size:11px;color:#999;font-style:italic;margin:-8px 0 12px 0;">📄 Werk je liever op papier? Deze samenvatting, stellingen en reflectie staan ook op <strong>pagina 5-7</strong> van je invulcursus.</p>
 <textarea class="sr-ta" id="ref2" placeholder="Het makkelijkst te begrijpen vond ik... Toen ik zelf een prompt probeerde, merkte ik..."></textarea>
 
 <div class="nw">
@@ -1307,6 +1436,7 @@ function m3s12(c){
 <div id="stl-m3"></div>
 
 <p class="cp">Noteer je reflectie: Voor welke taak zou jij generatieve AI het liefst gebruiken (school of vrije tijd)? En wat vind je van de discussie rond AI-kunst en auteursrecht?</p>
+<p style="font-size:11px;color:#999;font-style:italic;margin:-8px 0 12px 0;">📄 Werk je liever op papier? Deze samenvatting, prompt-tips en reflectie staan ook op <strong>pagina 8-10</strong> van je invulcursus.</p>
 <textarea class="sr-ta" id="ref3" placeholder="Ik zou generatieve AI gebruiken voor... Over AI-kunst en auteursrecht denk ik..."></textarea>
 
 <div class="nw">
@@ -1567,6 +1697,7 @@ function m4s10(c){
 <div id="stl-m4"></div>
 
 <p class="cp">Noteer je reflectie: Welk risico vind jij het meest verontrustend, en waarom? Wat zou jij zelf doen om hier voorzichtig mee om te gaan?</p>
+<p style="font-size:11px;color:#999;font-style:italic;margin:-8px 0 12px 0;">📄 Werk je liever op papier? Deze samenvatting, stellingen en reflectie staan ook op <strong>pagina 11-12</strong> van je invulcursus.</p>
 <textarea class="sr-ta" id="ref4" placeholder="Het risico dat mij het meest zorgen baart is... Ik zou zelf..."></textarea>
 
 <div class="nw">
@@ -1715,19 +1846,25 @@ function m5s4(c){
   c.innerHTML = `
 <div class="s-badge">🛠️ Stap 5 van 11 · Welke tools mag je gebruiken?</div>
 <h2 class="ch2">Goedgekeurde <em>AI-tools</em></h2>
-<p class="cp">Sint-Rembert kiest bewust voor <strong>Microsoft Copilot</strong> als voornaamste AI-tool. Copilot is geïntegreerd in je schoolaccount, waardoor je gebruik binnen de beveiligde schoolomgeving blijft. Wat je intypt wordt <strong>niet</strong> gebruikt om AI-modellen mee te trainen.</p>
+<p class="cp">Sint-Rembert kiest bewust voor <strong>Microsoft Copilot</strong> als voornaamste AI-tool voor onderwijsdoeleinden. Copilot is geïntegreerd in je schoolaccount, waardoor je gebruik binnen de beveiligde schoolomgeving blijft. Wat je intypt wordt <strong>niet</strong> gebruikt om AI-modellen mee te trainen. Daarnaast staat het officiële beleidskader ook een aantal andere tools toe.</p>
 
 <div class="grid2">
   <div class="pane-ok lijst-ok">
     <div class="lijst-h-ok">✅ Toegestane AI-toepassingen</div>
-    <div>→ Microsoft Copilot (eerste keuze, met schoolaccount)</div>
+    <div>→ Microsoft Copilot for M365 (eerste keuze, met schoolaccount)</div>
+    <div>→ Microsoft Copilot Chat</div>
     <div>→ NotebookLM (zie Module 2)</div>
     <div>→ Bookwidgets AI</div>
+    <div>→ ChatGPT</div>
+    <div>→ Claude.ai</div>
+    <div>→ Google Gemini</div>
+    <div>→ Gamma.app</div>
   </div>
   <div class="pane-nok lijst-nok">
     <div class="lijst-h-nok">⚠️ Let op</div>
     <div>→ Bij twijfel: vraag het aan je leerkracht voor je een nieuwe tool gebruikt</div>
     <div>→ Gebruik nooit tools waarbij je moet betalen zonder toestemming van je ouders</div>
+    <div>→ Enkel Copilot M365 (met je schoolaccount) is volledig veilig voor gevoelige/persoonlijke informatie</div>
   </div>
 </div>
 
@@ -1826,6 +1963,7 @@ function m5s9(c){
 <div id="stl-m5"></div>
 
 <p class="cp">Noteer je reflectie: Welk AI-label vind jij het makkelijkst om je aan te houden, en welk het moeilijkst? Wat zou jij doen als een klasgenoot je vraagt om "gewoon zijn ChatGPT-tekst te kopiëren"?</p>
+<p style="font-size:11px;color:#999;font-style:italic;margin:-8px 0 12px 0;">📄 Werk je liever op papier? De labeltabel, stellingen en reflectie staan ook op <strong>pagina 13-14</strong> van je invulcursus.</p>
 <textarea class="sr-ta" id="ref5" placeholder="Het makkelijkste label vind ik... Als een klasgenoot me dat zou vragen, zou ik..."></textarea>
 
 <div class="nw">
@@ -2075,6 +2213,7 @@ function m6s9(c){
 <li>Wat vind je het meest hoopvol aan AI? Wat vind je het meest verontrustend?</li>
 <li>Wat ga je zelf anders doen na deze cursus?</li>
 </ul>
+<p style="font-size:11px;color:#999;font-style:italic;margin:0 0 12px 0;">📄 Werk je liever op papier? Deze grote afsluitende reflectie staat ook op <strong>pagina 15-16</strong> van je invulcursus.</p>
 
 <textarea class="sr-ta" id="ref6" style="min-height: 180px;" placeholder="Mijn visie op AI over 10 jaar is... Het meest hoopvolle vind ik... Het meest verontrustende vind ik... Na deze cursus ga ik zelf..."></textarea>
 
