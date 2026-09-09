@@ -154,8 +154,8 @@
       <div class="mc locked" id="cm2" onclick="sm(2)">
         <div class="mc-badge">Module 2 · Verplicht</div>
         <div class="mc-icon">🛡️</div>
-        <div class="mc-title">Beleid & Leerlingen begeleiden</div>
-        <div class="mc-desc">De AI-spelregels, de EU AI Act, the 5 AI-labels, leerlingen begeleiden én je eigen opdrachten AI-bestendig maken. Essentieel voor elke leerkracht.</div>
+        <div class="mc-title" id="cm2-title">Beleid & Leerlingen begeleiden</div>
+        <div class="mc-desc" id="cm2-desc">De AI-spelregels, de EU AI Act, the 5 AI-labels, leerlingen begeleiden én je eigen opdrachten AI-bestendig maken. Essentieel voor elke leerkracht.</div>
         <div class="mc-meta"><div class="mc-dur">Eigen tempo</div><div class="mc-stat locked" id="ps2">🔒 Na module 1</div></div>
         <button class="sr-btn" id="bm2" disabled>🔒 Voltooi module 1</button>
       </div>
@@ -349,7 +349,7 @@
 <div class="view" id="view-mod2">
   <div class="mh">
     <button class="bk" onclick="sv('home')">← Terug</button>
-    <div class="mh-info"><div class="mh-num">Module 2 · Verplicht</div><div class="mh-title">Beleid & Leerlingen begeleiden</div></div>
+    <div class="mh-info"><div class="mh-num" id="mod2-num">Module 2 · Verplicht</div><div class="mh-title" id="mod2-title">Beleid & Leerlingen begeleiden</div></div>
     <div class="dots" id="sd2"></div>
   </div>
   <div class="mc-content" id="m2c"></div>
@@ -428,11 +428,13 @@
 
     <div id="cert-dl-info"></div>
     <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
-      <button class="print-btn" id="print-cert-btn" onclick="doCertPrint()">🖨️ Download certificaat (PDF)</button>
-      <button class="summary-btn" id="download-summary-btn" onclick="downloadSummary()">💾 Download Reflectieverslag (TXT)</button>
+      <button class="print-btn" id="print-cert-btn" onclick="doCertPrint()">🖨️ Download certificaat + reflecties (PDF)</button>
     </div>
-    <div class="cert-warn">✅ Je certificaat is gereed! Download het als PDF en upload het in Rembert Academy. Bewaar ook je reflectieverslag voor je portfolio.</div>
+    <div class="cert-warn">✅ Je certificaat is gereed! Eén PDF met je certificaat én al je reflecties/antwoorden. Kies in het afdrukvenster "Opslaan als PDF" en upload het in Rembert Academy.</div>
   </div>
+
+  <!-- Onzichtbaar tenzij printen: volledig reflectieoverzicht, komt na het certificaat in de PDF -->
+  <div id="cert-answers-print" style="display:none;"></div>
 </div>
 
 <footer style="font-size: 11px; color: #666; margin-top: 60px; padding: 30px 20px; border-top: 1px solid #ddd; background: #f9f9f9; line-height: 1.8;">
