@@ -832,7 +832,8 @@ function playPodcast2(){
     <p style="font-size: 13px; color: rgba(255,255,255,0.95); margin-bottom: 16px; font-weight: 600;">
       <strong>De AI-aanpak van Sint-Rembert</strong>
     </p>
-    <iframe src="https://drive.google.com/file/d/1LaMBbbr6YrdDiFcxOGCY7CPdtc6gSogH/preview" width="100%" height="80" style="border:none; border-radius: 8px; margin-bottom: 20px; background: white;" allow="autoplay"></iframe>
+    <iframe src="https://drive.google.com/file/d/1LaMBbbr6YrdDiFcxOGCY7CPdtc6gSogH/preview" width="100%" height="80" style="border:none; border-radius: 8px; margin-bottom: 12px; background: white;" allow="autoplay"></iframe>
+    <a href="https://drive.google.com/file/d/1LaMBbbr6YrdDiFcxOGCY7CPdtc6gSogH/view" target="_blank" style="display:block; font-size: 11px; color: rgba(255,255,255,0.85); margin-bottom: 16px; text-decoration: underline;">Hoor je niets hierboven? Open de podcast rechtstreeks in Google Drive →</a>
     <p style="font-size: 11px; color: rgba(255,255,255,0.9); margin-bottom: 16px; line-height: 1.4;">
       💡 Luister gerust meerdere keren. Je kan op elk moment stoppen en zelf lezen.
     </p>
