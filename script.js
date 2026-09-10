@@ -2268,7 +2268,7 @@ function sR3(){
 
 // TEACHER VERSION (huidige)
 // TEACHER VERSION — 10 stappen (incl praktische prompts + nascholingsideeën)
-const m3_teacher = [m3s0, m3s1, m3s2, m3s_praktijkprompts_teacher, m3s3, m3s4, m3s5, m3s6, m3s_nascholingsideen_teacher, m3s7];
+const m3_teacher = [m3s0, m3s1, m3s2, m3s_praktijkprompts_teacher, m3s3, m3s4, m3s5, m3s6, m3s_casestudies_teacher, m3s_nascholingsideen_teacher, m3s7];
 
 // ADMIN VERSION (5 stappen: intro + 3 use cases + prompts + reflectie)
 const m3_admin = [m3a0, m3a1, m3a_prompts_admin, m3a2, m3a3];
@@ -2650,6 +2650,92 @@ function m3s6(c){
     {q: 'Je hebt een sterke basistekst maar leerlingen met uiteenlopende leesniveaus. Welke tool zet je in?', o: ['De functionaliteit Create waarmee je direct een grafische poster of infographic ontwerpt voor de klas.','De functionaliteit Teach -> Modify existing content -> Modify reading level om de tekst snel aan te passen.','De optie Agents -> New agent om een volledig op maat gemaakte virtuele coach op te zetten voor studenten.','De ingebouwde algemene Library om te zoeken naar reeds bestaande alternatieve teksten over dit thema.'], a: 1, f: 'Modify reading level herschrijft je tekst op maat voor verschillende leesvaardigheden.' }
   ];
   rQuiz(c, quiz, 3, 'mod3', n3, 70);
+}
+
+function m3s_casestudies_teacher(c){
+  c.innerHTML = `
+<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">📚 Case studies · per vakgebied</span></div>
+<h2 class="ch2">Praktijkvoorbeelden <em>per vakgebied</em></h2>
+<p class="cp">Acht concrete scenario's, gebaseerd op ons beleidskader — herkenbare situaties uit talen, technische vakken, en vakoverstijgend. Gebruik ze als inspiratie voor je eigen lespraktijk.</p>
+
+<h3 class="ch3">📖 Talen</h3>
+
+<div style="background:white;border:1px solid #e0e4f5;border-radius:10px;padding:16px;margin:12px 0;">
+  <div style="font-size:11px;font-weight:800;color:var(--blue);text-transform:uppercase;margin-bottom:6px;">Case 1 · Schrijven met AI-assistentie</div>
+  <p style="font-size:13px;color:#3d4f8a;margin:0 0 10px 0;"><strong>Scenario:</strong> een leerling gebruikt ChatGPT voor zijn essay.</p>
+  <p style="font-size:12px;color:#666;margin:0 0 8px 0;"><strong>Beleidskader:</strong> "de mens blijft centraal" + transparantie</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12px;color:#3d4f8a;">
+    <div style="background:rgba(127,224,0,0.08);border-radius:6px;padding:10px;">✅ <strong>Mag wel</strong> als leerling: kritisch leest & aanpast, eigen stem behoudt, transparant meldt "met AI-assistentie"</div>
+    <div style="background:rgba(224,32,32,0.08);border-radius:6px;padding:10px;">❌ <strong>Mag niet</strong> als leerling: kritiekloos overneemt, niet checkt op hallucinaties, als eigen werk voordoet</div>
+  </div>
+  <p style="font-size:12px;color:#666;margin:10px 0 0 0;"><strong>Jouw rol:</strong> leg uit dat AI een sparringpartner is, geen vervanger. Check of de leerling zelf nadenkt.</p>
+</div>
+
+<div style="background:white;border:1px solid #e0e4f5;border-radius:10px;padding:16px;margin:12px 0;">
+  <div style="font-size:11px;font-weight:800;color:var(--blue);text-transform:uppercase;margin-bottom:6px;">Case 2 · Bias in taal herkennen</div>
+  <p style="font-size:13px;color:#3d4f8a;margin:0 0 10px 0;"><strong>Scenario:</strong> je laat Copilot een karakterbeschrijving schrijven.</p>
+  <p style="font-size:12px;color:#666;margin:0 0 6px 0;"><strong>Prompt:</strong> "Schrijf over een succesvolle zakenman die hardvochtig is." → <strong>Output:</strong> "John, een man van 55, gedreven..."</p>
+  <p style="font-size:12px;color:#666;margin:0 0 8px 0;">Wat valt op? Het stereotype man + zakenman = hardvochtig. Dit toont hoe AI leert van data mét vooroordelen erin.</p>
+  <p style="font-size:12px;color:var(--blue);margin:0;"><strong>Klasactiviteit:</strong> laat leerlingen dezelfde prompt met variaties geven (vrouw, ander beroep) en vergelijk de output. Discussie: "Wie traint AI, en welke vooroordelen zitten daarin?"</p>
+</div>
+
+<div style="background:white;border:1px solid #e0e4f5;border-radius:10px;padding:16px;margin:12px 0;">
+  <div style="font-size:11px;font-weight:800;color:var(--blue);text-transform:uppercase;margin-bottom:6px;">Case 3 · Deepfakes & vertrouwen in media</div>
+  <p style="font-size:13px;color:#3d4f8a;margin:0 0 10px 0;"><strong>Scenario:</strong> "Is deze foto van die bekende acteur wel echt?"</p>
+  <p style="font-size:12px;color:#666;margin:0 0 8px 0;">AI maakt intussen heel overtuigende beelden, video's en audio. "Zien is geloven" volstaat niet meer.</p>
+  <p style="font-size:12px;color:var(--blue);margin:0;"><strong>Klasactiviteit:</strong> toon een reeks AI-gegenereerde vs. echte afbeeldingen en laat leerlingen raden. Bespreek nadien: reverse image search, metadata checken, bronnen verifiëren.</p>
+</div>
+
+<h3 class="ch3">🔧 Technische vakken</h3>
+
+<div style="background:white;border:1px solid #e0e4f5;border-radius:10px;padding:16px;margin:12px 0;">
+  <div style="font-size:11px;font-weight:800;color:var(--orange);text-transform:uppercase;margin-bottom:6px;">Case 4 · Projectplanning met AI</div>
+  <p style="font-size:13px;color:#3d4f8a;margin:0 0 10px 0;"><strong>Scenario:</strong> een groot project met 100+ taken — hoe plan je dat?</p>
+  <p style="font-size:12px;color:#666;margin:0 0 8px 0;">Zonder AI: handmatig in een spreadsheet, 4-5 uur werk, foutgevoelig. Met Copilot (projectomschrijving als input): een logisch geordende takenlijst en tijdlijn in een half uur.</p>
+  <p style="font-size:12px;color:var(--orange);margin:0;"><strong>Kritisch checken:</strong> mist AI iets (regelgeving, leveranciers)? Wie controleert en past aan? Jij blijft eindverantwoordelijk.</p>
+</div>
+
+<div style="background:white;border:1px solid #e0e4f5;border-radius:10px;padding:16px;margin:12px 0;">
+  <div style="font-size:11px;font-weight:800;color:var(--orange);text-transform:uppercase;margin-bottom:6px;">Case 5 · Video-tutorials maken</div>
+  <p style="font-size:13px;color:#3d4f8a;margin:0 0 10px 0;"><strong>Scenario:</strong> hoe leg je een complexe technische handeling uit?</p>
+  <p style="font-size:12px;color:#666;margin:0 0 8px 0;">Klassiek zelf filmen en monteren kost al snel 3-4 uur. Ruw filmen + AI voor montage/ondertitels: 1-2 uur, sneller en professioneler — maar AI mist soms technische nuances of veiligheidswaarschuwingen.</p>
+  <p style="font-size:12px;color:var(--orange);margin:0;"><strong>Klasactiviteit:</strong> neem een procedure op, laat AI monteren, en doe een kritische review: "Snapt een beginner dit? Is er iets belangrijks weggevallen?"</p>
+</div>
+
+<div style="background:white;border:1px solid #e0e4f5;border-radius:10px;padding:16px;margin:12px 0;">
+  <div style="font-size:11px;font-weight:800;color:var(--orange);text-transform:uppercase;margin-bottom:6px;">Case 6 · Diagnose & troubleshooting</div>
+  <p style="font-size:13px;color:#3d4f8a;margin:0 0 10px 0;"><strong>Scenario:</strong> een motor start niet — waar begin je?</p>
+  <p style="font-size:12px;color:#666;margin:0 0 8px 0;">"Mijn boormachine werkt niet, het LED-lampje knippert" → Copilot geeft een systematisch stappenplan (batterij, reset, contactpunten, motor testen, garantie checken).</p>
+  <p style="font-size:12px;color:var(--orange);margin:0;"><strong>Les voor de klas:</strong> systematisch en geen stappen vergeten — maar AI ziet veiligheidsrisico's niet altijd, en kan modelspecifieke details missen. "AI is een sparringpartner, geen vervanger."</p>
+</div>
+
+<h3 class="ch3">🧠 Vakoverstijgend</h3>
+
+<div style="background:white;border:1px solid #e0e4f5;border-radius:10px;padding:16px;margin:12px 0;">
+  <div style="font-size:11px;font-weight:800;color:#9333EA;text-transform:uppercase;margin-bottom:6px;">Case 7 · Prompts verfijnen (metavaardigheid)</div>
+  <p style="font-size:13px;color:#3d4f8a;margin:0 0 10px 0;"><strong>Scenario:</strong> "Leg AI uit" levert een generiek, weinig bruikbaar antwoord op.</p>
+  <p style="font-size:12px;color:#666;margin:0 0 8px 0; line-height:1.7;">
+    <strong>Zwak:</strong> "Leg AI uit"<br>
+    <strong>Beter:</strong> "Leg AI uit in één paragraaf, begrijpelijk voor 14-jarigen, met een voetbalvoorbeeld"<br>
+    <strong>Sterk:</strong> "Je bent leraar Nederlands. Leg AI uit zodat een leerling van het 3de middelbaar hallucinaties begrijpt, met een voetbalvoorbeeld. Toon een goed én een slecht voorbeeld van een prompt."
+  </p>
+  <p style="font-size:12px;color:#9333EA;margin:0;"><strong>Klasactiviteit:</strong> leerling stelt een zwakke prompt, ziet een zwak antwoord, verfijnt de prompt, ziet een beter antwoord. Het aha-moment: hoe je vraagt, bepaalt wat je krijgt.</p>
+</div>
+
+<div style="background:white;border:1px solid #e0e4f5;border-radius:10px;padding:16px;margin:12px 0;">
+  <div style="font-size:11px;font-weight:800;color:#9333EA;text-transform:uppercase;margin-bottom:6px;">Case 8 · Echt of AI-werk herkennen</div>
+  <p style="font-size:13px;color:#3d4f8a;margin:0 0 10px 0;"><strong>Scenario:</strong> "Is dit werkstuk van de leerling zelf, of van AI?"</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12px;color:#3d4f8a;">
+    <div style="background:rgba(127,224,0,0.08);border-radius:6px;padding:10px;"><strong>Echt leerlingwerk:</strong> persoonlijke schrijffouten, onvolkomenheden, een eigenzinnige invalshoek, zichtbare groei t.o.v. vorig werk</div>
+    <div style="background:rgba(224,32,32,0.08);border-radius:6px;padding:10px;"><strong>Vaak AI-gegenereerd:</strong> té glad en generiek, geen persoonlijke stem, opvallend snel "af", herkenbare vaste frases</div>
+  </div>
+  <p style="font-size:12px;color:#9333EA;margin:10px 0 0 0;"><strong>Klasactiviteit:</strong> toon 3 werkstukken, laat leerlingen raden, bespreek nadien: "AI heeft een herkenbare stem — leer die stem herkennen."</p>
+</div>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p3()">← Vorige</button>
+  <button class="sr-btn g" onclick="n3()">Volgende: nascholingsideeën →</button>
+</div>`;
 }
 
 function m3s_nascholingsideen_teacher(c){
