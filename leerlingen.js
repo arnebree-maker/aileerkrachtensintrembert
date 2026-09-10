@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-function ua(){ const n = (document.getElementById('un')?.value||'').trim(); const av=document.getElementById('av'); if(av) av.textContent = n ? n.charAt(0).toUpperCase() : '?'; }
+function ua(){ const n = (document.getElementById('un')?.value||'').trim(); const av=document.getElementById('av'); if(av) av.textContent = n ? n.charAt(0).toUpperCase() : '?'; const disp=document.getElementById('un-display'); if(disp) disp.textContent = n || 'Naam bij startest ingevuld'; }
 function sn(){ S.name = document.getElementById('un').value.trim(); ss(); ua(); }
 
 /* ════════════════════════════════════════════
@@ -424,33 +424,35 @@ function renderStartTestQuiz(c){
   nameInput.oninput = ()=>{ S.name = nameInput.value.trim(); ss(); ua(); };
 
   const quiz = [
-    {q:'Wat is artificiële intelligentie (AI) in de kern?', o:['Software die exact doet wat een programmeur letterlijk heeft voorgeschreven.','Software die patronen leert herkennen uit data en daarop voorspellingen maakt.','Een robot met een eigen bewustzijn en gevoelens.','Een supersnelle rekenmachine die enkel getallen verwerkt.'], a:1},
-    {q:'ChatGPT is een voorbeeld van:', o:['Generatieve AI','Een zoekmachine','Een virus','Een besturingssysteem'], a:0},
-    {q:'Wat is een "hallucinatie" bij AI?', o:['Wanneer de AI onverwacht crasht en herstart moet worden.','Wanneer AI met evenveel zekerheid iets verzint dat eigenlijk niet klopt.','Wanneer AI een kunstzinnige of grappige tekening maakt.','Wanneer de internetverbinding van de gebruiker plots wegvalt.'], a:1},
-    {q:'Wat is "bias" bij AI?', o:['Een AI-model dat merkbaar te traag reageert op vragen.','Vooroordelen die AI overneemt uit de data waarop het werd getraind.','Een technische fout die in de programmeercode is geslopen.','Een AI-systeem dat structureel te veel stroom verbruikt.'], a:1},
-    {q:'Mag je zomaar elke AI-tool gebruiken voor elke schooltaak?', o:['Ja, AI-gebruik is voor elke taak en elk vak altijd toegestaan.','Nee, het hangt af van het AI-label dat je leerkracht per opdracht geeft.','Nee, AI mag in geen enkel geval op school gebruikt worden.','Ja, maar dit mag enkel bij leerlingen uit de derde graad.'], a:1},
-    {q:'Wat is een deepfake?', o:['Een AI-gegenereerde, nagemaakte foto, video of audio die echt lijkt maar het niet is.','Een zeldzame diepzeevis die automatisch wordt herkend door gespecialiseerde AI-software.','Een extra veilige methode om je persoonlijke wachtwoorden te versleutelen en te beveiligen.','Een verouderde vorm van computervirus die dateert uit de allervroegste internetjaren.'], a:0},
-    {q:'Waarom verbruikt AI-gebruik (zoals ChatGPT) veel energie?', o:['Omdat de AI voortdurend achtergrondmuziek afspeelt tijdens het antwoorden.','Omdat grote rekencentra nodig zijn om de vele miljarden berekeningen uit te voeren.','Dat klopt eigenlijk niet: AI-gebruik verbruikt nauwelijks extra energie.','Omdat AI-systemen enkel gedurende de nacht actief mogen zijn van de leverancier.'], a:1},
-    {q:'Wat betekent het als een AI-model "getraind" is?', o:['Het heeft een intensief fysiek trainingsprogramma doorlopen.','Het heeft patronen geleerd uit grote hoeveelheden voorbeelddata.','Het is fysiek verplaatst naar een datacenter in een ander land.','Het heeft een officieel examen afgelegd bij de fabrikant.'], a:1},
-    {q:'Mag je een AI-detectietool (die beweert AI-tekst te herkennen) volledig vertrouwen?', o:['Ja, zulke detectietools zijn wetenschappelijk 100% betrouwbaar bevonden.','Nee, ze zijn onbetrouwbaar en geven soms valse beschuldigingen.','Ja, maar enkel wanneer de tekst volledig in het Engels is geschreven.','Nee, want dit soort detectietools bestaat momenteel nog niet.'], a:1},
-    {q:'Wat is het belangrijkste dat je zelf moet doen met AI-output?', o:['Niets, AI heeft altijd gelijk.','Ze kritisch controleren voor je ze gebruikt.','Ze meteen doorsturen naar vrienden.','Ze printen en inleveren.'], a:1}
+    {q:'Wat is artificiële intelligentie (AI) in de kern?', o:['Software die exact doet wat een programmeur letterlijk heeft voorgeschreven.','Software die patronen leert herkennen uit data en daarop voorspellingen maakt.','Een robot met een eigen bewustzijn en gevoelens.','Een supersnelle rekenmachine die enkel getallen verwerkt.'], a:1, f:'AI herkent patronen in data en gebruikt die om voorspellingen of beslissingen te maken — dat is het fundamentele verschil met gewone software die enkel vaste regels volgt.'},
+    {q:'ChatGPT is een voorbeeld van:', o:['Generatieve AI','Een zoekmachine','Een virus','Een besturingssysteem'], a:0, f:'ChatGPT genereert zelf nieuwe tekst op basis van je vraag — dat maakt het generatieve AI, in tegenstelling tot bijvoorbeeld een zoekmachine die enkel bestaande resultaten toont.'},
+    {q:'Wat is een "hallucinatie" bij AI?', o:['Wanneer de AI onverwacht crasht en herstart moet worden.','Wanneer AI met evenveel zekerheid iets verzint dat eigenlijk niet klopt.','Wanneer AI een kunstzinnige of grappige tekening maakt.','Wanneer de internetverbinding van de gebruiker plots wegvalt.'], a:1, f:'Een hallucinatie is verzonnen informatie die AI met evenveel overtuiging presenteert als correcte informatie — daarom is controleren zo belangrijk.'},
+    {q:'Wat is "bias" bij AI?', o:['Een AI-model dat merkbaar te traag reageert op vragen.','Vooroordelen die AI overneemt uit de data waarop het werd getraind.','Een technische fout die in de programmeercode is geslopen.','Een AI-systeem dat structureel te veel stroom verbruikt.'], a:1, f:'AI leert van bestaande data — en als die data vooroordelen bevat, neemt het systeem die vooroordelen onbewust over.'},
+    {q:'Mag je zomaar elke AI-tool gebruiken voor elke schooltaak?', o:['Ja, AI-gebruik is voor elke taak en elk vak altijd toegestaan.','Nee, het hangt af van het AI-label dat je leerkracht per opdracht geeft.','Nee, AI mag in geen enkel geval op school gebruikt worden.','Ja, maar dit mag enkel bij leerlingen uit de derde graad.'], a:1, f:'Sint-Rembert werkt met AI-labels per opdracht (zie Module 5) — dit bepaalt telkens exact wat wel en niet mag.'},
+    {q:'Wat is een deepfake?', o:['Een AI-gegenereerde, nagemaakte foto, video of audio die echt lijkt maar het niet is.','Een zeldzame diepzeevis die automatisch wordt herkend door gespecialiseerde AI-software.','Een extra veilige methode om je persoonlijke wachtwoorden te versleutelen en te beveiligen.','Een verouderde vorm van computervirus die dateert uit de allervroegste internetjaren.'], a:0, f:'Deepfakes gebruiken AI om iemands gezicht, stem of beeld overtuigend na te bootsen in content die niet echt gebeurde.'},
+    {q:'Waarom verbruikt AI-gebruik (zoals ChatGPT) veel energie?', o:['Omdat de AI voortdurend achtergrondmuziek afspeelt tijdens het antwoorden.','Omdat grote rekencentra nodig zijn om de vele miljarden berekeningen uit te voeren.','Dat klopt eigenlijk niet: AI-gebruik verbruikt nauwelijks extra energie.','Omdat AI-systemen enkel gedurende de nacht actief mogen zijn van de leverancier.'], a:1, f:'Elke AI-vraag vereist enorme rekenkracht in datacenters — dat kost merkbaar meer energie dan een gewone zoekopdracht.'},
+    {q:'Wat betekent het als een AI-model "getraind" is?', o:['Het heeft een intensief fysiek trainingsprogramma doorlopen.','Het heeft patronen geleerd uit grote hoeveelheden voorbeelddata.','Het is fysiek verplaatst naar een datacenter in een ander land.','Het heeft een officieel examen afgelegd bij de fabrikant.'], a:1, f:'Trainen betekent: het model kreeg enorme hoeveelheden voorbeelddata te zien en leerde daaruit patronen herkennen.'},
+    {q:'Mag je een AI-detectietool (die beweert AI-tekst te herkennen) volledig vertrouwen?', o:['Ja, zulke detectietools zijn wetenschappelijk 100% betrouwbaar bevonden.','Nee, ze zijn onbetrouwbaar en geven soms valse beschuldigingen.','Ja, maar enkel wanneer de tekst volledig in het Engels is geschreven.','Nee, want dit soort detectietools bestaat momenteel nog niet.'], a:1, f:'AI-detectietools zijn wetenschappelijk onvoldoende betrouwbaar bevonden — daarom gebruikt Sint-Rembert ze bewust niet (zie Module 5).'},
+    {q:'Wat is het belangrijkste dat je zelf moet doen met AI-output?', o:['Niets, AI heeft altijd gelijk.','Ze kritisch controleren voor je ze gebruikt.','Ze meteen doorsturen naar vrienden.','Ze printen en inleveren.'], a:1, f:'AI kan fouten maken (hallucinaties, bias) zonder dat te laten merken — dus blijf zelf altijd kritisch controleren.'}
   ];
 
   const box = document.getElementById('st-quiz-box');
-  const st = { ans: new Array(quiz.length).fill(null) };
+  const st = { ans: new Array(quiz.length).fill(null), submitted: false };
   let inner = '<div class="qc">';
   quiz.forEach((q,qi)=>{
     inner += '<div class="qb"><div class="qq">'+(qi+1)+'. '+q.q+'</div><div class="opts">';
     q.o.forEach((opt,oi)=>{
       inner += '<button class="opt" data-qi="'+qi+'" data-oi="'+oi+'" id="stq-o'+qi+'-'+oi+'"><span class="ol">'+String.fromCharCode(65+oi)+'</span>'+opt+'</button>';
     });
-    inner += '</div></div>';
+    inner += '</div><div class="fb" id="stq-f'+qi+'"></div></div>';
   });
+  inner += '<div id="st-result" style="text-align:center;margin-top:12px;"></div>';
   inner += '<div style="text-align:center;margin-top:20px;"><button class="sr-btn g" id="st-submit" disabled>Bevestig antwoorden →</button></div></div>';
   box.innerHTML = inner;
 
   box.querySelectorAll('.opt').forEach(b=>{
     b.onclick = ()=>{
+      if(st.submitted) return;
       const qi = +b.dataset.qi, oi = +b.dataset.oi;
       st.ans[qi] = oi;
       quiz[qi].o.forEach((_,i)=>{
@@ -463,18 +465,44 @@ function renderStartTestQuiz(c){
 
   document.getElementById('st-submit').onclick = ()=>{
     if(!S.name || !S.name.trim()){ alert('Vul eerst je naam in hierboven!'); return; }
+    if(st.submitted) return;
+    st.submitted = true;
+
     let correct = 0;
-    quiz.forEach((q,qi)=>{ if(st.ans[qi]===q.a) correct++; });
+    quiz.forEach((q,qi)=>{
+      const chosen = st.ans[qi];
+      const isCorrect = chosen === q.a;
+      if(isCorrect) correct++;
+      // Toon correct/fout per antwoordoptie
+      q.o.forEach((_,oi)=>{
+        const optEl = document.getElementById('stq-o'+qi+'-'+oi);
+        optEl.disabled = true;
+        optEl.classList.remove('cor');
+        if(oi === q.a) optEl.classList.add('cor');
+        else if(oi === chosen && !isCorrect) optEl.classList.add('wr');
+      });
+      // Toon uitleg
+      const fb = document.getElementById('stq-f'+qi);
+      fb.className = 'fb show ' + (isCorrect ? 'ok' : 'nok');
+      fb.textContent = (isCorrect ? '✅ ' : '❌ ') + q.f;
+    });
+
     const score = Math.round(correct/quiz.length*100);
     S.starttest = { taken:true, score, passed: score>=70 };
     ss(); up(); rmc();
-    // Zorg dat het naamveld in de zijbalk meteen de ingevulde naam toont
     const sidebarUn = document.getElementById('un');
     if(sidebarUn) sidebarUn.value = S.name;
     ua();
-    alert('✅ Startest voltooid! Score: '+score+'%.\n\nJe start nu bij Module 1: Wat is AI?');
-    rm1();
-    sv('mod1');
+
+    document.getElementById('st-result').innerHTML =
+      '<div style="font-size:15px;font-weight:800;color:var(--blue);margin-bottom:14px;">Score: '+score+'% ('+correct+'/'+quiz.length+' juist)</div>';
+
+    const submitBtn = document.getElementById('st-submit');
+    submitBtn.textContent = 'Ga verder naar Module 1 →';
+    submitBtn.disabled = false;
+    submitBtn.onclick = ()=>{ rm1(); sv('mod1'); };
+
+    document.getElementById('main').scrollTo({top:0, behavior:'smooth'});
   };
 }
 
