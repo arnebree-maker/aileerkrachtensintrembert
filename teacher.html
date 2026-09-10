@@ -37,8 +37,12 @@
   <div class="sb-bot">
     <div class="uc">
       <div class="av" id="av">?</div>
-      <div style="flex:1"><input class="un-inp" id="un" placeholder="Vul je naam in" disabled readonly><div class="eh">Voortgang lokaal bijgehouden</div></div>
+      <div style="flex:1">
+        <div id="un-display" style="font-size:13px;font-weight:700;color:var(--blue);">—</div>
+        <div class="eh">Voortgang lokaal bijgehouden</div>
+      </div>
     </div>
+    <input type="hidden" id="un">
   </div>
 </aside>
 
