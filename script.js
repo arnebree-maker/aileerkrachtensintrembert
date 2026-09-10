@@ -829,13 +829,14 @@ function playPodcast2(){
   
   card.innerHTML = `
     <h3 style="color: white; margin-top: 0; margin-bottom: 8px;">🎧 Module 2 Podcast</h3>
-    <p style="font-size: 13px; color: rgba(255,255,255,0.95); margin-bottom: 16px; font-weight: 600;">
+    <p style="font-size: 13px; color: rgba(255,255,255,0.95); margin-bottom: 20px; font-weight: 600;">
       <strong>De AI-aanpak van Sint-Rembert</strong>
     </p>
-    <iframe src="https://drive.google.com/file/d/1LaMBbbr6YrdDiFcxOGCY7CPdtc6gSogH/preview" width="100%" height="80" style="border:none; border-radius: 8px; margin-bottom: 12px; background: white;" allow="autoplay"></iframe>
-    <a href="https://drive.google.com/file/d/1LaMBbbr6YrdDiFcxOGCY7CPdtc6gSogH/view" target="_blank" style="display:block; font-size: 11px; color: rgba(255,255,255,0.85); margin-bottom: 16px; text-decoration: underline;">Hoor je niets hierboven? Open de podcast rechtstreeks in Google Drive →</a>
+    <a href="https://drive.google.com/file/d/1LaMBbbr6YrdDiFcxOGCY7CPdtc6gSogH/view" target="_blank" style="display:flex; align-items:center; justify-content:center; gap:10px; background: white; color: #9C27B0; border-radius: 10px; padding: 16px; margin-bottom: 16px; font-weight: 800; font-size: 15px; text-decoration: none;">
+      ▶ Beluister de podcast
+    </a>
     <p style="font-size: 11px; color: rgba(255,255,255,0.9); margin-bottom: 16px; line-height: 1.4;">
-      💡 Luister gerust meerdere keren. Je kan op elk moment stoppen en zelf lezen.
+      💡 Opent in een nieuw tabblad. Luister gerust meerdere keren — je kan op elk moment terugkeren en zelf lezen.
     </p>
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
       <button onclick="closeModal('podcast-overlay-2'); continueModule2();" style="background: rgba(255,255,255,0.9); color: #9C27B0; border: none; border-radius: 8px; padding: 12px; font-weight: 700; cursor: pointer;">
