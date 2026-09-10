@@ -92,7 +92,7 @@ function ss(){
 ld();
 
 document.getElementById('un').value = S.name || '';
-function ua(){ const n = (document.getElementById('un').value||'').trim(); document.getElementById('av').textContent = n ? n.charAt(0).toUpperCase() : '?'; }
+function ua(){ const n = (document.getElementById('un').value||'').trim(); document.getElementById('av').textContent = n ? n.charAt(0).toUpperCase() : '?'; const disp=document.getElementById('un-display'); if(disp) disp.textContent = n || 'Naam bij startest ingevuld'; }
 function sn(){ S.name = document.getElementById('un').value.trim(); ss(); ua(); }
 // ua(); up(); rmc(); — Worden aangeroepen in DOMContentLoaded
 
