@@ -428,5 +428,17 @@
 </main>
 </div>
 <script src="leerlingen.js"></script>
+
+<!-- ════════ HELPDESK BUTTON ════════ -->
+<a href="mailto:informaticadienst.pedagogisch@sint-rembert.be?subject=Vraag%20over%20de%20AI-cursus" 
+   id="helpdesk-btn" 
+   title="Vragen? Mail de pedagogische ICT-dienst"
+   style="position:fixed; bottom:24px; right:24px; z-index:9998; background:var(--blue); color:white; height:52px; min-width:52px; border-radius:26px; display:flex; align-items:center; justify-content:center; text-decoration:none; box-shadow:0 4px 16px rgba(10,31,168,0.35); transition:all 0.25s ease; overflow:hidden; padding:0;"
+   onmouseover="this.style.minWidth='250px'; this.style.paddingLeft='18px'; this.style.paddingRight='20px'; this.style.justifyContent='flex-start'; document.getElementById('helpdesk-text').style.maxWidth='200px'; document.getElementById('helpdesk-text').style.marginLeft='10px';"
+   onmouseout="this.style.minWidth='52px'; this.style.paddingLeft='0'; this.style.paddingRight='0'; this.style.justifyContent='center'; document.getElementById('helpdesk-text').style.maxWidth='0'; document.getElementById('helpdesk-text').style.marginLeft='0';">
+  <span style="font-size:22px; flex-shrink:0; line-height:1;">💬</span>
+  <span id="helpdesk-text" style="font-size:13px; font-weight:700; white-space:nowrap; overflow:hidden; max-width:0; transition:max-width 0.25s ease, margin-left 0.25s ease; display:inline-block;">Vragen? Mail ons</span>
+</a>
+
 </body>
 </html>
