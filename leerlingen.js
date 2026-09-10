@@ -2457,6 +2457,14 @@ function m7s6(c){
 </p>
 </div>
 
+<div class="ib warn">
+  <div class="ib-t">🖼️ Bonustip: kunst als promptbron</div>
+  <div class="ib-b">Volgende keer dat je een beeld genereert: bekijk eerst een bestaand schilderij of foto die je mooi vindt, en beschrijf in woorden wat je daaraan opvalt — de kleuren, de compositie, de sfeer. Gebruik die beschrijving als basis voor je prompt. Kunst kijken traint je oog voor detail, en dat maakt je meteen een betere prompter.</div>
+</div>
+
+<h3 class="ch3">💭 Nog even nadenken</h3>
+<p class="cp">Je liet AI meehelpen bij iets creatiefs (de afbeelding of tekst uit deze module). Vind jij dat dit nog steeds "van jou" is, of verandert AI iets aan wat jij als "eigen werk" beschouwt? Er is geen fout antwoord — het is een vraag waar zelfs professionele kunstenaars vandaag mee worstelen.</p>
+
 <p class="cp">Je kan deze module altijd opnieuw doorlopen om verder te experimenteren — hoe meer je oefent, hoe beter je prompts worden!</p>
 
 <div class="nw">
