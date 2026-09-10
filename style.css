@@ -2143,11 +2143,14 @@ button { font-family: inherit; cursor: pointer; border: none; }
 }
 
 @media print {
-  #sidebar, .mh, .nw, .sr-btn, .mods-grid, .promo-box { display: none; }
+  #sidebar, .mh, .nw, .sr-btn, .mods-grid, .promo-box { display: none !important; }
   .cert-box { border: none; box-shadow: none; page-break-inside: avoid; }
   body { background: white; }
-  #app { display: block; }
-  #main { background: white; }
+  #app { display: block !important; height: auto !important; overflow: visible !important; }
+  #main { background: white; display: block !important; height: auto !important; overflow: visible !important; }
+  .view { display: none !important; }
+  #cert-view { display: block !important; height: auto !important; overflow: visible !important; }
+  #cert-answers-print { overflow: visible !important; }
 }
 
 /* ════════════════════════════════════════════
