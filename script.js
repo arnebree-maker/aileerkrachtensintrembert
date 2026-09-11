@@ -261,7 +261,7 @@ function up(){
       if(mod2NameEl) mod2NameEl.textContent = 'Beleid & Leerlingen begeleiden';
       if(mod2SubEl) mod2SubEl.textContent = 'Verplicht · 12 stappen';
       if(cm2Title) cm2Title.textContent = 'Beleid & Leerlingen begeleiden';
-      if(cm2Desc) cm2Desc.textContent = 'De AI-spelregels, de EU AI Act, the 5 AI-labels, leerlingen begeleiden én je eigen opdrachten AI-bestendig maken. Essentieel voor elke leerkracht.';
+      if(cm2Desc) cm2Desc.textContent = 'De AI-spelregels, de EU AI Act, de 4 AI-labels, leerlingen begeleiden én je eigen opdrachten AI-bestendig maken. Essentieel voor elke leerkracht.';
     }
   }
 
@@ -1794,48 +1794,48 @@ function m2s4(c){
   c.innerHTML = `
 <div class="s-badge">🛡️ Stap 5 van 11 · Spelregels & AI-labels</div>
 <h2 class="ch2">Het AI-beleid van <em>Sint-Rembert</em></h2>
-<p class="cp">Niet elke opdracht leent zich tot AI-gebruik, en niet elke leerling zal vanzelf aanvoelen waar de grens ligt. Daarom werkt Sint-Rembert met <strong>5 duidelijke AI-labels</strong> die je aan een taak of opdracht koppelt, zodat voor leerlingen meteen helder is wat wel en niet mag.</p>
+<p class="cp">Niet elke opdracht leent zich tot AI-gebruik, en niet elke leerling zal vanzelf aanvoelen waar de grens ligt. Daarom werkt Sint-Rembert met <strong>4 duidelijke AI-labels</strong> die je aan een taak of opdracht koppelt, zodat voor leerlingen meteen helder is wat wel en niet mag.</p>
 <div class="labels-grid">
-  <div class="label-card l1"><div class="lc-num">1</div><div class="lc-name">Geen AI</div></div>
-  <div class="label-card l2"><div class="lc-num">2</div><div class="lc-name">Ideeën</div></div>
-  <div class="label-card l3"><div class="lc-num">3</div><div class="lc-name">Bewerking</div></div>
-  <div class="label-card l4"><div class="lc-num">4</div><div class="lc-name">Aanvulling</div></div>
-  <div class="label-card l5"><div class="lc-num">5</div><div class="lc-name">Vrij</div></div>
+  <div class="label-card l1"><div class="lc-num">1</div><div class="lc-name">Verboden</div></div>
+  <div class="label-card l2"><div class="lc-num">2</div><div class="lc-name">Als inspiratie</div></div>
+  <div class="label-card l3"><div class="lc-num">3</div><div class="lc-name">Als ondersteuning</div></div>
+  <div class="label-card l4"><div class="lc-num">4</div><div class="lc-name">Toegestaan</div></div>
 </div>
-<p class="cp">De labels lopen op van strikt verbod (label 1) tot volledig vrij AI-gebruik (label 5), met daartussen geleidelijk meer ruimte. Deze schaal is gebaseerd op de AI-gebruiksschaal die Schoolmakers ontwikkelde naar het model van onderzoeker Leon Furze (Universiteit van Melbourne), en sluit aan bij het beleidskader: <em>"als uitgangspunt geldt dat AI-gebruik niet is toegestaan, tenzij de leerkracht expliciet aangeeft dat AI geheel of gedeeltelijk gebruikt mag worden."</em></p>
+<p class="cp">De labels lopen op van geen AI (label 1) tot volledig toegestaan AI-gebruik (label 4), met daartussen geleidelijk meer ruimte. Deze schaal is <strong>De vier AI-labels van Lut De Jaegher (Sint-Jozefscollege Torhout)</strong>, en sluit aan bij het beleidskader: <em>"als uitgangspunt geldt dat AI-gebruik niet is toegestaan, tenzij de leerkracht expliciet aangeeft dat AI geheel of gedeeltelijk gebruikt mag worden."</em></p>
 
 <h3 class="ch3">📋 De labels uitgelegd</h3>
 <div class="grid2">
   <div class="pane-ok lijst-ok">
-    <div class="lijst-h-ok">Label 1: Geen AI</div>
-    <div style="font-size:13px; margin-top:8px;">AI is niet toegestaan. Handschrift, eigen denken, geen digitale hulp.</div>
+    <div class="lijst-h-ok">Label 1: Verboden</div>
+    <div style="font-size:13px; margin-top:8px;">Geen AI. De leerling maakt alles zelf.</div>
   </div>
   <div class="pane-ok lijst-ok">
-    <div class="lijst-h-ok">Label 2: Ideeën</div>
-    <div style="font-size:13px; margin-top:8px;">AI mag voor brainstorm en ideeëngeneratie. Het werk zelf is van de leerling.</div>
-  </div>
-</div>
-
-<div class="grid2">
-  <div class="pane-ok lijst-ok">
-    <div class="lijst-h-ok">Label 3: Bewerking</div>
-    <div style="font-size:13px; margin-top:8px;">AI mag helpen met schrijfstijl en grammatica. Inhoud blijft van de leerling.</div>
-  </div>
-  <div class="pane-ok lijst-ok">
-    <div class="lijst-h-ok">Label 4: Aanvulling</div>
-    <div style="font-size:13px; margin-top:8px;">AI mag delen van het werk aanvullen/genereren. Leerling integreert en werkt kritisch.</div>
+    <div class="lijst-h-ok">Label 2: Als inspiratie</div>
+    <div style="font-size:13px; margin-top:8px;">AI enkel om ideeën op te doen. Het werk zelf is van de leerling.</div>
   </div>
 </div>
 
 <div class="grid2">
   <div class="pane-ok lijst-ok" style="grid-column: span 2;">
-    <div class="lijst-h-ok">Label 5: Vrij</div>
-    <div style="font-size:13px; margin-top:8px;">AI mag volledig vrij ingezet. Leerling kan kiezen hoe en hoeveel. Leerling reflecteert op eigenaarschap en keuzes.</div>
+    <div class="lijst-h-ok">Label 3: Als ondersteuning</div>
+    <div style="font-size:13px; margin-top:8px;">AI mag helpen tijdens het proces (bv. schrijfstijl, grammatica, een illustratie aanvullen) — met transparantie over wat AI precies deed.</div>
   </div>
 </div>
 
+<div class="grid2">
+  <div class="pane-ok lijst-ok" style="grid-column: span 2;">
+    <div class="lijst-h-ok">Label 4: Toegestaan</div>
+    <div style="font-size:13px; margin-top:8px;">AI mag volop ingezet worden, zolang de leerling eerlijk is over het AI-gebruik en kan uitleggen welke keuzes werden gemaakt.</div>
+  </div>
+</div>
+
+<div class="ib warn">
+  <div class="ib-t">📋 Op examens en taken</div>
+  <div class="ib-b">Gebruik hiervoor de standaardhoofding met AI-label-vakje (zie het sjabloon bij Documenten), zodat leerlingen bij elk examen of elke taak in één oogopslag zien welk label van toepassing is.</div>
+</div>
+
 <h3 class="ch3">🧩 Doe-opdracht: Welk label hoort hier?</h3>
-<p class="cp">Bekijk elke opdrachtomschrijving en klik op het label (1 t.e.m. 5) dat er volgens jou het best bij past.</p>
+<p class="cp">Bekijk elke opdrachtomschrijving en klik op het label (1 t.e.m. 4) dat er volgens jou het best bij past.</p>
 <div id="lblmatch"></div>
 
 <div class="nw">
@@ -1920,7 +1920,7 @@ Controleer met deze drie vragen of het AI-gebruik passend is:
 </div>
 <div style="background: white; border-left: 4px solid var(--blue); padding: 12px; border-radius: 6px;">
 <strong style="color: var(--blue); font-size: 11px;">2. OPDRACHT-CHECK</strong>
-<p style="font-size: 11px; color: #3d4f8a; margin-top: 4px;">Heb ik duidelijk aangegeven welk AI-label (1-5) voor deze taak geldt?</p>
+<p style="font-size: 11px; color: #3d4f8a; margin-top: 4px;">Heb ik duidelijk aangegeven welk AI-label (1-4) voor deze taak geldt?</p>
 </div>
 <div style="background: white; border-left: 4px solid var(--orange); padding: 12px; border-radius: 6px;">
 <strong style="color: var(--orange); font-size: 11px;">3. REFLECTIE-CHECK</strong>
@@ -1958,21 +1958,21 @@ function m2s_extra_casussen(c){
 <div style="background: white; border-left: 4px solid var(--blue); border-radius: 8px; padding: 16px; margin: 16px 0;">
 <strong style="color: var(--blue); font-size: 12px; text-transform: uppercase;">Dilemma 1: Poster met AI-afbeeldingen</strong>
 <p style="font-size: 12px; color: #3d4f8a; line-height: 1.6; margin-top: 8px;"><strong>Situatie:</strong> Leerling (2de graad) maakt een poster over "Duurzaamheid". Ze wil AI gebruiken om mooie afbeeldingen te genereren.</p>
-<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6;"><strong>Juiste label:</strong> Label 4 (Aanvulling) — AI mag helpen bij illustraties, maar de tekst en concepten blijven van de leerling.</p>
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6;"><strong>Juiste label:</strong> Label 3 (Als ondersteuning) — AI mag helpen bij illustraties, maar de tekst en concepten blijven van de leerling.</p>
 <p style="font-size: 12px; color: var(--muted); margin-top: 8px;"><strong>Waarom:</strong> Visueel ontwerp ondersteunt leren; leerling moet wel kunnen uitleggen waarom deze afbeeldingen bij duurzaamheid horen.</p>
 </div>
 
 <div style="background: white; border-left: 4px solid var(--blue); border-radius: 8px; padding: 16px; margin: 16px 0;">
 <strong style="color: var(--blue); font-size: 12px; text-transform: uppercase;">Dilemma 2: Toetsvraag beantwoorden</strong>
 <p style="font-size: 12px; color: #3d4f8a; line-height: 1.6; margin-top: 8px;"><strong>Situatie:</strong> Leerling (3de graad) krijgt een toetstekst: "Beschrijf de oorzaken van WO1." Hij vraagt: mag ik ChatGPT gebruiken om punten te brainstormen?</p>
-<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6;"><strong>Juiste label:</strong> Label 1 (Geen AI) — dit is een toets. AI is niet toegestaan.</p>
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6;"><strong>Juiste label:</strong> Label 1 (Verboden) — dit is een toets. AI is niet toegestaan.</p>
 <p style="font-size: 12px; color: var(--muted); margin-top: 8px;"><strong>Waarom:</strong> Toetsen evalueren wat leerlingen WEL ZELF weten. Dit is een vaste regel.</p>
 </div>
 
 <div style="background: white; border-left: 4px solid var(--blue); border-radius: 8px; padding: 16px; margin: 16px 0;">
 <strong style="color: var(--blue); font-size: 12px; text-transform: uppercase;">Dilemma 3: Feedback op huiswerk</strong>
 <p style="font-size: 12px; color: #3d4f8a; line-height: 1.6; margin-top: 8px;"><strong>Situatie:</strong> Je gebruikt Copilot om automatisch feedback te geven op de huiswerkstukken van leerlingen (grammatica, structuur).</p>
-<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6;"><strong>Juiste label:</strong> Label 4 (Aanvulling) — AI geeft ondersteunende feedback, jij als leerkracht geeft nog altijd persoonlijke feedback.</p>
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6;"><strong>Juiste label:</strong> Label 3 (Als ondersteuning) — AI geeft ondersteunende feedback, jij als leerkracht geeft nog altijd persoonlijke feedback.</p>
 <p style="font-size: 12px; color: var(--muted); margin-top: 8px;"><strong>Waarom:</strong> AI bespaart jou tijd bij repetitieve taken. Persoonlijke feedback van jou blijft cruciaal.</p>
 </div>
 
@@ -1985,7 +1985,7 @@ function m2s_extra_casussen(c){
 
 <div style="background: white; border-left: 4px solid var(--blue); border-radius: 8px; padding: 16px; margin: 16px 0;">
 <strong style="color: var(--blue); font-size: 12px; text-transform: uppercase;">Dilemma 5: "Iedereen doet het"</strong>
-<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6; margin-top: 8px;"><strong>Situatie:</strong> Leerling zegt: "Alle andere leerlingen gebruiken ChatGPT voor hun verslag. Mag ik ook?" Jij hebt Label 2 aangegeven (alleen ideeën).</p>
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.6; margin-top: 8px;"><strong>Situatie:</strong> Leerling zegt: "Alle andere leerlingen gebruiken ChatGPT voor hun verslag. Mag ik ook?" Jij hebt Label 2 aangegeven (als inspiratie).</p>
 <p style="font-size: 12px; color: #3d4f8a; line-height: 1.6;"><strong>Juiste reactie:</strong> "Dat mag niet. Wat jij doet, zeg je tegen de klas — geen geheimen. Brainstorm met AI is OK, het verslag schrijven niet."</p>
 <p style="font-size: 12px; color: var(--muted); margin-top: 8px;"><strong>Waarom:</strong> Eerlijkheid en transparantie zijn de kern van vertrouwen op school.</p>
 </div>
@@ -2201,7 +2201,7 @@ function m2s7(c){
 
 function m2s8(c){
   const quiz = [
-    {q: 'Een leerling gebruikt AI bij een taak met label 1 ("Geen AI"). Wat doe je?', o: ['De situatie negeren noch de taak gewoon normaal verbeteren, aangezien bijna alle leerlingen AI gebruiken.','Dit behandelen als een onregelmatigheid conform het schoolreglement, net zoals bij klassiek afkijken of fraude.','Stilzwijgend en zonder communicatie een aantal punten aftrekken van het eindresultaat voor deze opdracht.','De leerling verplichten om vanaf nu alle toekomstige taken voor jouw vak verplicht met pen en papier in te dienen.'], a: 1, f: 'Label 1 = verbod. AI-gebruik is dan een onregelmatigheid conform het schoolreglement.' },
+    {q: 'Een leerling gebruikt AI bij een taak met label 1 ("Verboden"). Wat doe je?', o: ['De situatie negeren noch de taak gewoon normaal verbeteren, aangezien bijna alle leerlingen AI gebruiken.','Dit behandelen als een onregelmatigheid conform het schoolreglement, net zoals bij klassiek afkijken of fraude.','Stilzwijgend en zonder communicatie een aantal punten aftrekken van het eindresultaat voor deze opdracht.','De leerling verplichten om vanaf nu alle toekomstige taken voor jouw vak verplicht met pen en papier in te dienen.'], a: 1, f: 'Label 1 = verboden. AI-gebruik is dan een onregelmatigheid conform het schoolreglement.' },
     {q: 'Welke AI-tool kiest Sint-Rembert als primaire generatieve AI-tool?', o: ['ChatGPT, omdat dit de meest bekende en gebruikte tool wereldwijd is.','Microsoft Copilot, omdat het binnen de beveiligde Microsoft 365-schoolomgeving werkt.','Google Gemini, omdat dit gratis is voor alle leerlingen en personeelsleden.','Geen enkele tool specifiek; elke leerkracht kiest volledig vrij zijn eigen voorkeurstool.'], a: 1, f: 'Copilot is de bewuste eerste keuze omdat het binnen het bestaande identiteits- en toegangsbeheer van de scholengroep blijft.' },
     {q: 'Waarom gebruikt Sint-Rembert bewust GEEN AI-detectietools om leerlingenwerk te controleren?', o: ['Omdat detectietools te duur zijn in licentiekosten voor de volledige scholengroep.','Omdat de betrouwbaarheid onvoldoende onderbouwd is, met een grote kans op fout-positieve resultaten.','Omdat het schoolreglement het gebruik van enige vorm van software tijdens verbeteren verbiedt.','Omdat leerlingen wettelijk recht hebben op een volledig AI-vrije onderwijsomgeving binnen Europa.'], a: 1, f: 'Detectietools zijn onvoldoende betrouwbaar; dit staat haaks op zorgvuldig en rechtvaardig evalueren.' },
     {q: 'Wat is het "mens-machine-mens-principe" uit het beleidskader?', o: ['AI-output wordt automatisch goedgekeurd zodra een mens de oorspronkelijke prompt heeft ingetypt.','De inzet van AI vertrekt altijd vanuit een menselijke vraag en eindigt steeds met menselijke controle.','Twee personeelsleden moeten elke AI-output afzonderlijk goedkeuren voor ze gebruikt mag worden.','Machines nemen voortaan de eerste beoordeling op zich, waarna een mens enkel nog de eindscore zet.'], a: 1, f: 'AI kan input leveren of suggereren, maar het traject start en eindigt altijd bij menselijke verantwoordelijkheid.' },
@@ -2216,7 +2216,7 @@ function m2s9(c){
   c.innerHTML = `
 <div class="s-badge">🏁 Stap 12 van 12 · Praktijkscenario's & afronding</div>
 <h2 class="ch2">Jouw sluitende <em>actiestap</em></h2>
-<p class="cp">Je kent nu het beleidskader, de 5 AI-labels, weet hoe je leerlingen op een transparante manier begeleidt, en hoe je een opdracht AI-bestendig ontwerpt.</p>
+<p class="cp">Je kent nu het beleidskader, de 4 AI-labels, weet hoe je leerlingen op een transparante manier begeleidt, en hoe je een opdracht AI-bestendig ontwerpt.</p>
 
 <h3 class="ch3">⚖️ Wat mag (niet) volgens de wet?</h3>
 <p class="cp">Vincent Vanrusselt, onderzoekshoofd PXL Centrum Digitaal Leren, legt uit dat de EU AI Act sinds 1 augustus 2024 ook voor onderwijs geldt, en werkt met <strong>4 risiconiveaus</strong>: onaanvaardbaar risico (verboden, bv. emotieherkenning bij leerlingen — ook expliciet verboden in het Sint-Rembert beleidskader), hoog risico (strenge eisen, bv. systemen die leerresultaten evalueren of leerlingen toelaten/uitsluiten van een studierichting), beperkt risico (transparantieplicht) en minimaal risico. Generatieve AI zoals Copilot of ChatGPT valt voorlopig onder <strong>laag risico</strong>.</p>
@@ -2573,7 +2573,7 @@ Copilot kan DALL-E 3 gebruiken om afbeeldingen te maken. Vraag: "Maak een illust
 <li><strong>Geen echte gezichten:</strong> Vraag AI geen afbeeldingen van echte mensen te maken (privacy)</li>
 <li><strong>Label je afbeeldingen:</strong> Zeg tegen leerlingen "Dit is AI-gegenereerd" — transparantie!</li>
 <li><strong>Controleer op raar:</strong> AI maakt soms enge dingen. Check de output voordat je het gebruikt</li>
-<li><strong>NIET voor posters van leerlingen:</strong> Laat leerlingen hun eigen gezicht NIET laten AI-genereren (label 1: geen AI)</li>
+<li><strong>NIET voor posters van leerlingen:</strong> Laat leerlingen hun eigen gezicht NIET laten AI-genereren (label 1: verboden)</li>
 </ul>
 </div>
 
@@ -3538,9 +3538,9 @@ function renderLabelMatch(){
   const items = [
     { d:'Leerlingen schrijven een opstel over hun zomervakantie, volledig met de hand, zonder enige digitale hulp.', a:1 },
     { d:'Leerlingen mogen AI gebruiken om op ideeën te komen voor een werkstuk, maar moeten zelf de volledige tekst schrijven.', a:2 },
-    { d:'Leerlingen schrijven zelf een eerste versie en mogen AI enkel gebruiken om hun tekst grammaticaal te verbeteren.', a:3 },
-    { d:'Leerlingen maken een infographic en mogen AI gebruiken om een deel van de illustraties of tekstblokken aan te vullen, naast hun eigen werk.', a:4 },
-    { d:'Leerlingen mogen volledig vrij AI gebruiken om een marketingplan te schrijven, zolang ze achteraf kunnen uitleggen welke keuzes ze maakten.', a:5 }
+    { d:'Leerlingen schrijven zelf een eerste versie en mogen AI gebruiken om hun tekst grammaticaal te verbeteren, met vermelding van wat AI precies deed.', a:3 },
+    { d:'Leerlingen maken een infographic en mogen AI gebruiken om illustraties of tekstblokken aan te vullen, naast hun eigen werk, mits transparantie.', a:3 },
+    { d:'Leerlingen mogen volledig vrij AI gebruiken om een marketingplan te schrijven, zolang ze eerlijk zijn over hun AI-gebruik.', a:4 }
   ];
   
   // Shuffle functie
@@ -3559,7 +3559,7 @@ function renderLabelMatch(){
     const card = document.createElement('div'); card.className='lm-card';
     
     // Randomiseer label-knoppen
-    const labels = shuffle([1,2,3,4,5]);
+    const labels = shuffle([1,2,3,4]);
     let opts = '';
     labels.forEach(i => opts += '<button class="lm-btn" data-v="'+i+'">'+i+'</button>');
     
