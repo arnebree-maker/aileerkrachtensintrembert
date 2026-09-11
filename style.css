@@ -1570,7 +1570,7 @@ button { font-family: inherit; cursor: pointer; border: none; }
 
 .labels-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 12px;
   margin: 28px 0;
 }
@@ -1590,11 +1590,10 @@ button { font-family: inherit; cursor: pointer; border: none; }
 
 .label-card:hover { transform: scale(1.05); }
 
-.label-card.l1 { background: rgba(224,32,32,0.1); border-color: var(--red); }
-.label-card.l2 { background: rgba(255,159,67,0.1); border-color: var(--orange); }
-.label-card.l3 { background: rgba(58,43,158,0.1); border-color: #3a2b9e; }
-.label-card.l4 { background: rgba(127,224,0,0.1); border-color: var(--green); }
-.label-card.l5 { background: rgba(10,31,168,0.1); border-color: var(--blue); }
+.label-card.l1 { background: rgba(21,42,140,0.1); border-color: #152A8C; }
+.label-card.l2 { background: rgba(23,162,232,0.1); border-color: #17A2E8; }
+.label-card.l3 { background: rgba(255,159,67,0.12); border-color: var(--orange); }
+.label-card.l4 { background: rgba(216,96,20,0.12); border-color: #D86014; }
 
 .lc-num {
   font-family: 'Archivo Black', sans-serif;
@@ -1603,11 +1602,10 @@ button { font-family: inherit; cursor: pointer; border: none; }
   margin-bottom: 8px;
 }
 
-.label-card.l1 .lc-num { color: var(--red); }
-.label-card.l2 .lc-num { color: var(--orange); }
-.label-card.l3 .lc-num { color: #3a2b9e; }
-.label-card.l4 .lc-num { color: var(--green); }
-.label-card.l5 .lc-num { color: var(--blue); }
+.label-card.l1 .lc-num { color: #152A8C; }
+.label-card.l2 .lc-num { color: #17A2E8; }
+.label-card.l3 .lc-num { color: var(--orange); }
+.label-card.l4 .lc-num { color: #D86014; }
 
 .lc-name {
   font-family: 'Archivo Black', sans-serif;
@@ -2117,7 +2115,7 @@ button { font-family: inherit; cursor: pointer; border: none; }
   .mods-grid { grid-template-columns: 1fr 1fr; }
   .role-grid { grid-template-columns: 1fr; }
   .hero-stats { grid-template-columns: repeat(3, 1fr); }
-  .labels-grid { grid-template-columns: repeat(3, 1fr); }
+  .labels-grid { grid-template-columns: repeat(2, 1fr); }
   .grid2 { grid-template-columns: 1fr; }
   .prompt-comp-grid { grid-template-columns: 1fr; }
 }
