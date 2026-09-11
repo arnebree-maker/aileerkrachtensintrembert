@@ -1804,51 +1804,52 @@ function m5s1(c){
 
 <div class="nw">
   <button class="sr-btn b" onclick="p5()">← Vorige</button>
-  <button class="sr-btn g" onclick="n5()">Volgende: de 5 AI-labels →</button>
+  <button class="sr-btn g" onclick="n5()">Volgende: de 4 AI-labels →</button>
   <span class="nh">Stap 2/11</span>
 </div>`;
 }
 
 function m5s2(c){
   c.innerHTML = `
-<div class="s-badge">🏷️ Stap 3 van 11 · De 5 AI-labels van Sint-Rembert</div>
-<h2 class="ch2">Sint-Rembert vertaalt dit naar <em>5 labels</em></h2>
-<p class="cp">Om deze afspraken heel concreet te maken per opdracht, gebruikt Sint-Rembert een schaal van 5 labels — van strikt verbod (label 1) tot volledig vrij AI-gebruik (label 5).</p>
+<div class="s-badge">🏷️ Stap 3 van 11 · De 4 AI-labels van Sint-Rembert</div>
+<h2 class="ch2">Sint-Rembert vertaalt dit naar <em>4 labels</em></h2>
+<p class="cp">Om deze afspraken heel concreet te maken per opdracht, gebruikt Sint-Rembert een schaal van 4 labels — van geen AI (label 1) tot volledig toegestaan (label 4). Hoe hoger het label, hoe meer AI je mag inzetten.</p>
 
 <div class="labels-grid">
-  <div class="label-card l1"><div class="lc-num">1</div><div class="lc-name">Geen AI</div></div>
-  <div class="label-card l2"><div class="lc-num">2</div><div class="lc-name">Ideeën</div></div>
-  <div class="label-card l3"><div class="lc-num">3</div><div class="lc-name">Bewerking</div></div>
-  <div class="label-card l4"><div class="lc-num">4</div><div class="lc-name">Aanvulling</div></div>
-  <div class="label-card l5"><div class="lc-num">5</div><div class="lc-name">Vrij</div></div>
+  <div class="label-card l1"><div class="lc-num">1</div><div class="lc-name">Verboden</div></div>
+  <div class="label-card l2"><div class="lc-num">2</div><div class="lc-name">Als inspiratie</div></div>
+  <div class="label-card l3"><div class="lc-num">3</div><div class="lc-name">Als ondersteuning</div></div>
+  <div class="label-card l4"><div class="lc-num">4</div><div class="lc-name">Toegestaan</div></div>
 </div>
+<p style="text-align:center; font-size:11px; color:#999; font-weight:700; margin-top:-16px; margin-bottom:20px;">← minder AI &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; meer AI →</p>
 
 <div class="grid2">
   <div class="pane-ok lijst-ok">
-    <div class="lijst-h-ok">Label 1: Geen AI</div>
-    <div style="font-size:13px; margin-top:8px;">AI is niet toegestaan. Handschrift, eigen denken, geen digitale hulp. Denk aan toetsen en examens.</div>
+    <div class="lijst-h-ok">Label 1: Verboden</div>
+    <div style="font-size:13px; margin-top:8px;">Geen AI. Je maakt alles zelf. Denk aan toetsen en examens waar dit vermeld staat.</div>
   </div>
   <div class="pane-ok lijst-ok">
-    <div class="lijst-h-ok">Label 2: Ideeën</div>
-    <div style="font-size:13px; margin-top:8px;">AI mag voor brainstorm en ideeëngeneratie. Het werk zelf schrijf jij helemaal zelf.</div>
+    <div class="lijst-h-ok">Label 2: Als inspiratie</div>
+    <div style="font-size:13px; margin-top:8px;">AI enkel om ideeën op te doen. Het werk zelf maak je helemaal zelf.</div>
   </div>
 </div>
 <div class="grid2">
   <div class="pane-ok lijst-ok">
-    <div class="lijst-h-ok">Label 3: Bewerking</div>
-    <div style="font-size:13px; margin-top:8px;">AI mag helpen met schrijfstijl en grammatica op jouw eigen tekst. De inhoud blijft van jou.</div>
+    <div class="lijst-h-ok">Label 3: Als ondersteuning</div>
+    <div style="font-size:13px; margin-top:8px;">AI mag helpen tijdens het proces (bv. schrijfstijl, grammatica, een illustratie) — met transparantie over wat je precies liet doen.</div>
   </div>
   <div class="pane-ok lijst-ok">
-    <div class="lijst-h-ok">Label 4: Aanvulling</div>
-    <div style="font-size:13px; margin-top:8px;">AI mag delen van je werk aanvullen of genereren (bijv. illustraties). Jij integreert kritisch.</div>
+    <div class="lijst-h-ok">Label 4: Toegestaan</div>
+    <div style="font-size:13px; margin-top:8px;">AI mag volop ingezet worden, zolang je eerlijk bent over je gebruik.</div>
   </div>
 </div>
-<div class="grid2">
-  <div class="pane-ok lijst-ok" style="grid-column: span 2;">
-    <div class="lijst-h-ok">Label 5: Vrij</div>
-    <div style="font-size:13px; margin-top:8px;">AI mag volledig vrij ingezet worden. Jij kiest hoe en hoeveel — maar je moet wel kunnen uitleggen welke keuzes je maakte.</div>
-  </div>
+
+<div class="ib warn" style="margin-top:20px;">
+  <div class="ib-t">📋 Op je examens en taken</div>
+  <div class="ib-b">Bij elk examen of elke grote taak vind je bovenaan een vakje met de 4 labels, waarbij je leerkracht aankruist welk label geldt. Twijfel je? Vraag het na vóór je begint.</div>
 </div>
+
+<p style="font-size:11px; color:#999; font-style:italic; text-align:center; margin-top:20px;">De 4 AI-labels van Lut De Jaegher · Sint-Jozefscollege Torhout</p>
 
 <div class="nw">
   <button class="sr-btn b" onclick="p5()">← Vorige</button>
@@ -1975,7 +1976,7 @@ function sCharter(){
 function m5s8(c){
   const quiz = [
     {q: 'Wat is het uitgangspunt van het AI-beleid op Sint-Rembert?', o: ['AI-gebruik is altijd toegestaan, behalve wanneer een leerkracht het uitdrukkelijk verbiedt.','AI-gebruik is niet toegestaan, tenzij je leerkracht expliciet toestemming geeft via een label.','AI-gebruik is enkel toegestaan voor leerlingen vanaf 16 jaar oud.','Elke individuele leerkracht bepaalt dit apart, zonder algemeen schoolkader.'], a: 1, f: 'Het beleid vertrekt van "niet toegestaan, tenzij" — labels maken per opdracht duidelijk wat wél mag.' },
-    {q: 'Bij welk label mag AI enkel gebruikt worden voor brainstorm/ideeën?', o: ['Label 1','Label 2','Label 4','Label 5'], a: 1, f: 'Label 2 (Ideeën) staat AI toe voor inspiratie, maar het geschreven werk moet van jou zijn.' },
+    {q: 'Bij welk label mag AI enkel gebruikt worden om ideeën op te doen?', o: ['Label 1 (Verboden)','Label 2 (Als inspiratie)','Label 3 (Als ondersteuning)','Label 4 (Toegestaan)'], a: 1, f: 'Label 2 (Als inspiratie) staat AI toe voor ideeën, maar het geschreven werk moet volledig van jou zijn.' },
     {q: 'Waarom gebruikt Sint-Rembert geen AI-detectietools?', o: ['Omdat de aanschaf van zulke tools veel te duur zou uitvallen.','Omdat ze onbetrouwbaar zijn en regelmatig valse beschuldigingen opleveren.','Omdat de school over het algemeen weinig belang hecht aan eerlijkheid.','Omdat er wereldwijd nog geen enkele tool bestaat die dit probeert.'], a: 1, f: 'AI-detectietools zijn wetenschappelijk onvoldoende betrouwbaar — de school kiest voor gesprek en vertrouwen.' },
     {q: 'Welke AI-tool wordt bij voorkeur gebruikt op Sint-Rembert?', o: ['De gratis versie van ChatGPT, omdat die het bekendst is bij leerlingen.','Microsoft Copilot met schoolaccount, want data blijft binnen de schoolomgeving.','Elke tool mag door leerlingen volledig vrij gekozen worden.','Enkel tools die leerlingen volledig zelf hebben ontwikkeld.'], a: 1, f: 'Copilot met schoolaccount beschermt je gegevens en gebruikt ze niet om modellen te trainen.' },
     {q: 'Volgens de algemene afspraken: wat moet je ALTIJD doen als je AI gebruikte?', o: ['Niets in het bijzonder, want dat is volgens de afspraken niet nodig.','Transparant zijn en laten weten dat je AI hebt gebruikt.','Enkel je ouders hierover inlichten, niet je leerkracht.','Gewoon wachten tot je leerkracht er zelf naar vraagt.'], a: 1, f: 'Transparantie staat centraal in de afspraken: laat altijd weten wanneer je AI hebt ingezet.' }
@@ -1987,7 +1988,7 @@ function m5s9(c){
   c.innerHTML = `
 <div class="s-badge">✍️ Stap 10 van 11 · Jouw eigen AI-afspraken</div>
 <h2 class="ch2">Wat zijn <em>jouw</em> regels?</h2>
-<p class="cp">Je kent nu de 5 AI-labels en het beleid van Sint-Rembert.</p>
+<p class="cp">Je kent nu de 4 AI-labels en het beleid van Sint-Rembert.</p>
 
 <h3 class="ch3">💭 Stellingen</h3>
 <div id="stl-m5"></div>
@@ -2274,7 +2275,7 @@ function m6s10(c){
 ✅ De 3 fasen: procedureel, machine learning, deep learning<br>
 ✅ Hoe generatieve AI werkt en hoe je goede prompts schrijft<br>
 ✅ Ethische risico's: bias, energieverbruik, deepfakes, privacy<br>
-✅ De 5 AI-labels en regels van Sint-Rembert<br>
+✅ De 4 AI-labels en regels van Sint-Rembert<br>
 ✅ Wat AI betekent voor de maatschappij, jobs, en jouw toekomst
 </p>
 </div>
@@ -2826,9 +2827,9 @@ function renderLabelMatchLeerling(){
   const items = [
     { d:'Leerlingen schrijven een opstel over hun zomervakantie, volledig met de hand, zonder enige digitale hulp.', a:1 },
     { d:'Leerlingen mogen AI gebruiken om op ideeën te komen voor een werkstuk, maar moeten zelf de volledige tekst schrijven.', a:2 },
-    { d:'Leerlingen schrijven zelf een eerste versie en mogen AI enkel gebruiken om hun tekst grammaticaal te verbeteren.', a:3 },
-    { d:'Leerlingen maken een infographic en mogen AI gebruiken om een deel van de illustraties of tekstblokken aan te vullen, naast hun eigen werk.', a:4 },
-    { d:'Leerlingen mogen volledig vrij AI gebruiken om een marketingplan te schrijven, zolang ze achteraf kunnen uitleggen welke keuzes ze maakten.', a:5 }
+    { d:'Leerlingen schrijven zelf een eerste versie en mogen AI gebruiken om hun tekst grammaticaal te verbeteren, met vermelding van wat AI precies deed.', a:3 },
+    { d:'Leerlingen maken een infographic en mogen AI gebruiken om illustraties of tekstblokken aan te vullen, naast hun eigen werk, mits transparantie.', a:3 },
+    { d:'Leerlingen mogen volledig vrij AI gebruiken om een marketingplan te schrijven, zolang ze eerlijk zijn over hun AI-gebruik.', a:4 }
   ];
   const shuffle = (arr) => {
     const copy = [...arr];
@@ -2842,7 +2843,7 @@ function renderLabelMatchLeerling(){
   if(!g) return;
   items.forEach((it,idx)=>{
     const card = document.createElement('div'); card.className='lm-card';
-    const labels = shuffle([1,2,3,4,5]);
+    const labels = shuffle([1,2,3,4]);
     let opts = '';
     labels.forEach(i => opts += '<button class="lm-btn" data-v="'+i+'">'+i+'</button>');
     card.innerHTML = '<div class="lm-q">'+(idx+1)+'. '+it.d+'</div><div class="lm-opts">'+opts+'</div><div class="lm-fb" id="lmfb'+idx+'"></div>';
@@ -2868,24 +2869,24 @@ function renderLabelMatchLeerling(){
 function renderMagWelLeerling(){
   const items = [
     {
-      t:'Situatie 1: Je gebruikt ChatGPT om te brainstormen over ideeën voor je werkstuk, maar schrijft de volledige tekst zelf. Je leerkracht gaf label 2 (Ideeën).',
+      t:'Situatie 1: Je gebruikt ChatGPT om te brainstormen over ideeën voor je werkstuk, maar schrijft de volledige tekst zelf. Je leerkracht gaf label 2 (Als inspiratie).',
       ok:true,
       e:'Mag — Dit is precies waarvoor label 2 bedoeld is. AI voor inspiratie, jij schrijft de tekst.'
     },
     {
-      t:'Situatie 2: Bij een toets zonder AI-toestemming (label 1) gebruik je stiekem je telefoon om ChatGPT een antwoord te laten geven.',
+      t:'Situatie 2: Bij een toets zonder AI-toestemming (label 1, Verboden) gebruik je stiekem je telefoon om ChatGPT een antwoord te laten geven.',
       ok:false,
       e:'Mag NIET — dit is fraude tijdens een toets/examen. Label 1 betekent geen AI, punt uit.'
     },
     {
-      t:'Situatie 3: Je kopieert een volledig ChatGPT-antwoord en levert dit in als je eigen opstel, zonder het te vermelden, bij een opdracht met label 2.',
+      t:'Situatie 3: Je kopieert een volledig ChatGPT-antwoord en levert dit in als je eigen opstel, zonder het te vermelden, bij een opdracht met label 2 (Als inspiratie).',
       ok:false,
-      e:'Mag NIET — dit overschrijdt het toegestane label (2 = enkel ideeën) en is bovendien plagiaat.'
+      e:'Mag NIET — dit overschrijdt het toegestane label (2 = enkel als inspiratie) en is bovendien plagiaat.'
     },
     {
-      t:'Situatie 4: Je gebruikt Copilot (met je schoolaccount) om je eigen geschreven tekst te laten nakijken op grammaticafouten, bij een opdracht met label 3.',
+      t:'Situatie 4: Je gebruikt Copilot (met je schoolaccount) om je eigen geschreven tekst te laten nakijken op grammaticafouten, bij een opdracht met label 3 (Als ondersteuning) — en je vermeldt dit.',
       ok:true,
-      e:'Mag — Label 3 (Bewerking) staat precies dit toe: AI helpt met stijl/grammatica op jouw eigen tekst.'
+      e:'Mag — Label 3 (Als ondersteuning) staat precies dit toe: AI helpt tijdens het proces, met transparantie over wat je liet doen.'
     },
     {
       t:'Situatie 5: Je vertelt je leerkracht eerlijk dat je AI hebt gebruikt voor een deel van je werk, ook al was dat niet verplicht om te melden.',
