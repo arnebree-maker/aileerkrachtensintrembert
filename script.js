@@ -203,6 +203,14 @@ function setUserRole(role) {
   
   up();
   rmc();
+
+  // Kritiek: na rolkeuze moet de startest (of home) effectief getoond worden,
+  // anders blijft het scherm leeg voor nieuwe bezoekers.
+  if(!S.starttest.taken){
+    goStartTest();
+  } else {
+    sv('home');
+  }
 }
 
 /* ════════════════════════════════════════════
@@ -3147,14 +3155,14 @@ function m3a3(c){
 <h3 class="ch3">💭 Reflectie</h3>
 <p class="cp">Je hebt nu gezien hoe Copilot je administratie sneller kan maken: mails, samenvatten, automatisering. Wat ga je deze week als eerste uitproberen?</p>
 
-<textarea class="sr-ta" id="r2" placeholder="Ik ga als eerst uitproberen... omdat ik dit veel tijd bespaar bij..." style="height: 100px;"></textarea>
+<textarea class="sr-ta" id="r2_admin_ta" placeholder="Ik ga als eerst uitproberen... omdat ik dit veel tijd bespaar bij..." style="height: 100px;"></textarea>
 
 <div class="nw">
   <button class="sr-btn b" onclick="p3()">← Vorige</button>
   <button class="sr-btn o" onclick="sR2()">✅ Verdieping voltooid →</button>
   <span class="nh">Stap 5/5</span>
 </div>`;
-  const ta = document.getElementById('r2');
+  const ta = document.getElementById('r2_admin_ta');
   ta.value = localStorage.getItem('sr_r2_admin') || '';
   ta.oninput = ()=>localStorage.setItem('sr_r2_admin', ta.value);
 }
@@ -3396,14 +3404,14 @@ function m3m3(c){
 <h3 class="ch3">💭 Jouw strategische afweging</h3>
 <p class="cp">Je hebt nu gezien hoe Copilot kan helpen bij beleidsontwikkeling, compliance-checks en implementatieplannen. Wat ga je als eerste met je team doorvoeren?</p>
 
-<textarea class="sr-ta" id="r2" placeholder="We gaan als eerst... omdat dit onze strategie ondersteunt bij..." style="height: 100px;"></textarea>
+<textarea class="sr-ta" id="r2_mgmt_ta" placeholder="We gaan als eerst... omdat dit onze strategie ondersteunt bij..." style="height: 100px;"></textarea>
 
 <div class="nw">
   <button class="sr-btn b" onclick="p3()">← Vorige</button>
   <button class="sr-btn o" onclick="sR2()">✅ Verdieping voltooid →</button>
   <span class="nh">Stap 5/5</span>
 </div>`;
-  const ta = document.getElementById('r2');
+  const ta = document.getElementById('r2_mgmt_ta');
   ta.value = localStorage.getItem('sr_r2_mgmt') || '';
   ta.oninput = ()=>localStorage.setItem('sr_r2_mgmt', ta.value);
 }
