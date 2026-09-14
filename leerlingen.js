@@ -715,15 +715,14 @@ function m1s7(c){
   c.innerHTML = `
 <div class="s-badge">⚖️ Stap 8 van 12 · Hype of realiteit?</div>
 <h2 class="ch2">AI in het nieuws: <em>hype of realiteit?</em></h2>
-<p class="cp">Op TikTok en YouTube zie je de wildste doemscenario's over AI — en evengoed de wildste beloftes. Om dat in perspectief te plaatsen, bekijk dit videofragment.</p>
-
-<div class="yt-wrap"><iframe src="https://www.youtube.com/embed/-WDdSiVjBhg" allowfullscreen loading="lazy" title="NOS op 3 — Roeit AI ons uit of is het hype"></iframe></div>
-<p class="cp">Deze video plaatst extreme doemscenario's rondom AI in perspectief en verlegt de focus naar de échte, actuele uitdagingen zoals misinformatie en tech-hypes.</p>
+<p class="cp">Op TikTok en YouTube zie je de wildste doemscenario's over AI — en evengoed de wildste beloftes. Belangrijk om dat in perspectief te kunnen plaatsen: wat is een reëel risico, en wat is vooral clickbait?</p>
 
 <div class="ib warn">
   <div class="ib-t">🎓 Wat zegt de wetenschap?</div>
   <div class="ib-b">Onderzoeker Rani Van Schoors (KU Leuven) illustreert hoe fout AI kan zitten: Google Bard (nu Gemini) vertelde ooit onterecht dat de James Webb-ruimtetelescoop als eerste beelden van buiten ons zonnestelsel had gemaakt — dat klopte niet. Bron: Klasse, "AI in het onderwijs" — <a href="https://www.klasse.be/722771/ai-in-het-onderwijs-expert-rani-schoors/" target="_blank">klasse.be/722771</a></div>
 </div>
+
+<p class="cp">Onthoud dit: extreme doemscenario's (AI die "de wereld overneemt") krijgen veel clicks, maar de échte, actuele uitdagingen zijn vaak minder spectaculair — denk aan misinformatie, energieverbruik, en bias. Daar leer je in de volgende modules meer over.</p>
 
 <div class="nw">
   <button class="sr-btn b" onclick="p1()">← Vorige</button>
@@ -736,18 +735,12 @@ function m1s_leefwereld(c){
   c.innerHTML = `
 <div class="s-badge">🎬 Stap 9 van 12 · AI vanuit jouw leefwereld</div>
 <h2 class="ch2">Herkenbare verhalen, <em>geen droge theorie</em></h2>
-<p class="cp">Vier korte video's, dicht bij je eigen leven — bekijk ze en denk na: herken je jezelf hierin?</p>
+<p class="cp">Drie korte video's, dicht bij je eigen leven — bekijk ze en denk na: herken je jezelf hierin?</p>
 
 <div style="background:white; border:1px solid #e0e4f5; border-radius:10px; padding:16px; margin:14px 0;">
   <div style="font-weight:800; font-size:14px; color:var(--blue); margin-bottom:8px;">🎓 Nooit meer gebuisd dankzij AI? Wij deden de test!</div>
   <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/w_msvsySbcM" allowfullscreen loading="lazy" title="Nooit meer gebuisd dankzij AI? Wij deden de test!"></iframe></div>
   <p style="font-size:12px; color:#666; margin-top:10px;">Kan AI je écht door een examen loodsen? Deze reportage test het gewoon uit — en toont op een luchtige manier waar AI de mist ingaat.</p>
-</div>
-
-<div style="background:white; border:1px solid #e0e4f5; border-radius:10px; padding:16px; margin:14px 0;">
-  <div style="font-weight:800; font-size:14px; color:var(--blue); margin-bottom:8px;">🧠 Krijgen we dommere studenten door ChatGPT?</div>
-  <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/0RXV8Omf6pg" allowfullscreen loading="lazy" title="Krijgen we dommere studenten door ChatGPT?"></iframe></div>
-  <p style="font-size:12px; color:#666; margin-top:10px;">Wat doet veelvuldig AI-gebruik eigenlijk met je eigen denkvermogen? Goede aanleiding om na te gaan hoe jij AI inzet voor schoolwerk — en of je er zelf nog iets van bijleert.</p>
 </div>
 
 <div style="background:white; border:1px solid #e0e4f5; border-radius:10px; padding:16px; margin:14px 0;">
@@ -1839,11 +1832,9 @@ function m5s0(c){
   <div class="ib-b">Niet elke opdracht leent zich tot AI-gebruik. Een opstel om je eigen schrijfvaardigheid te tonen is anders dan een infographic waar creativiteit met tools centraal staat. Labels maken voor jou meteen duidelijk wat de bedoeling is bij elke opdracht.</div>
 </div>
 
+<h3 class="ch3">🎬 Bekijk: waarom afspraken nodig zijn</h3>
+<p class="cp">Deze video (VRT NWS) stelt precies de vraag die aan de basis ligt van deze module: als je AI voor alles laat werken, leer je zelf nog wel iets? Dat is exact waarom de AI-labels bestaan die je zo meteen leert kennen.</p>
 <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/0RXV8Omf6pg" allowfullscreen loading="lazy" title="Krijgen we dommere studenten door ChatGPT?"></iframe></div>
-<div class="ib warn">
-  <div class="ib-t">📝 Waar gaat dit over?</div>
-  <div class="ib-b">Deze VRT NWS-video stelt de vraag die aan de basis ligt van onze schoolregels: als je AI voor alles laat werken, leer je zelf nog wel iets? Precies daarom bestaan de AI-labels die je in deze module leert kennen.</div>
-</div>
 
 <div class="nw">
   <button class="sr-btn g" onclick="n5()">Volgende: wel/niet →</button>
@@ -2139,11 +2130,9 @@ function m6s0(c){
   <div class="ib-b">Na deze module krijg je je certificaat. Deze module bevat 3 klasgesprek-stellingen en een <strong>grote afsluitende reflectie</strong> — neem er de tijd voor.</div>
 </div>
 
+<h3 class="ch3">🎬 Bekijk: hype of realiteit?</h3>
+<p class="cp">Voor je begint aan de stellingen over AI en de maatschappij: deze video (NOS op 3) plaatst de wildste doemscenario's rond AI in perspectief, en verlegt de focus naar de échte uitdagingen — precies waar deze afsluitende module over gaat.</p>
 <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/-WDdSiVjBhg" allowfullscreen loading="lazy" title="NOS op 3 — Roeit AI ons uit of is het hype"></iframe></div>
-<div class="ib warn">
-  <div class="ib-t">📝 Waar gaat dit over?</div>
-  <div class="ib-b">Een goede opwarmer voor deze module: wat zijn de échte gevolgen van AI voor de samenleving, en wat is vooral hype? Precies de vraag die je in deze module verder uitdiept.</div>
-</div>
 
 <div class="nw">
   <button class="sr-btn g" onclick="n6()">Volgende: AI en jobs →</button>
