@@ -511,7 +511,7 @@ function renderStartTestQuiz(c){
    Gebaseerd op EDUbox Artificiële Intelligentie (VRT/imec/Mediawijs), deel 1
    ════════════════════════════════════════════ */
 
-const m1 = [m1s0, m1s1, m1s2, m1s3, m1s4, m1s5, m1s6, m1s7, m1s8, m1s9, m1s10];
+const m1 = [m1s0, m1s1, m1s2, m1s3, m1s4, m1s5, m1s6, m1s7, m1s_leefwereld, m1s8, m1s9, m1s10];
 
 function rm1(){ const c=document.getElementById('m1c'); c.innerHTML=''; rDots(1,m1.length,S.mod1.step); m1[S.mod1.step](c); lockNextButtons(c); }
 function n1(){ S.mod1.step++; ss(); S.mod1.step>=m1.length ? d1() : rm1(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); }
@@ -520,7 +520,7 @@ function d1(){ S.mod1.done=true; S.mod1.step=0; ss(); up(); rmc(); sv('home'); s
 
 function m1s0(c){
   c.innerHTML = `
-<div class="s-badge">🤔 Stap 1 van 11 · AI is overal</div>
+<div class="s-badge">🤔 Stap 1 van 12 · AI is overal</div>
 <h2 class="ch2">AI is <em>overal</em> aanwezig</h2>
 <p class="cp">Geloof het of niet, maar je komt voortdurend in contact met AI. Apps zoals Waze of Google Maps, sociale media zoals Instagram en TikTok, streamingplatformen zoals Netflix en Spotify: ze maken allemaal gebruik van AI. En dat is nog maar het begin — AI wordt in nog veel meer toepassingen gebruikt.</p>
 
@@ -546,13 +546,13 @@ function m1s0(c){
 
 <div class="nw">
   <button class="sr-btn g" onclick="n1()">Volgende: wat is AI precies? →</button>
-  <span class="nh">Stap 1/11</span>
+  <span class="nh">Stap 1/12</span>
 </div>`;
 }
 
 function m1s1(c){
   c.innerHTML = `
-<div class="s-badge">🔍 Stap 2 van 11 · Een definitie</div>
+<div class="s-badge">🔍 Stap 2 van 12 · Een definitie</div>
 <h2 class="ch2">Wat is artificiële <em>intelligentie</em> precies?</h2>
 <p class="cp">Dit is meteen een moeilijke vraag om te beantwoorden, want er bestaan veel verschillende definities. Bovendien blijft AI in volle ontwikkeling.</p>
 
@@ -588,13 +588,13 @@ Deze denkoefening laat zien waarom het lastig is om te zeggen of een AI-systeem 
 <div class="nw">
   <button class="sr-btn b" onclick="p1()">← Vorige</button>
   <button class="sr-btn g" onclick="n1()">Volgende: de 3 elementen →</button>
-  <span class="nh">Stap 2/11</span>
+  <span class="nh">Stap 2/12</span>
 </div>`;
 }
 
 function m1s2(c){
   c.innerHTML = `
-<div class="s-badge">🧩 Stap 3 van 11 · De 3 elementen</div>
+<div class="s-badge">🧩 Stap 3 van 12 · De 3 elementen</div>
 <h2 class="ch2">AI bestaat uit <em>3 elementen</em></h2>
 <p class="cp">Om AI te kunnen gebruiken, heb je eerst en vooral een <strong>computer</strong> nodig.</p>
 
@@ -623,13 +623,13 @@ function m1s2(c){
 <div class="nw">
   <button class="sr-btn b" onclick="p1()">← Vorige</button>
   <button class="sr-btn g" onclick="n1()">Volgende: doe-opdracht →</button>
-  <span class="nh">Stap 3/11</span>
+  <span class="nh">Stap 3/12</span>
 </div>`;
 }
 
 function m1s3(c){
   c.innerHTML = `
-<div class="s-badge">🧩 Stap 4 van 11 · Doe-opdracht</div>
+<div class="s-badge">🧩 Stap 4 van 12 · Doe-opdracht</div>
 <h2 class="ch2">Is het <em>AI</em> of niet?</h2>
 <p class="cp">Klik op elke kaart en denk eerst zelf na: gebruikt deze toepassing de 3 elementen van AI (computer + data + algoritme dat patronen herkent), of werkt ze met vaste, vooraf geprogrammeerde regels?</p>
 <div id="aig"></div>
@@ -637,14 +637,14 @@ function m1s3(c){
 <div class="nw">
   <button class="sr-btn b" onclick="p1()">← Vorige</button>
   <button class="sr-btn g" onclick="n1()">Volgende: impact van AI →</button>
-  <span class="nh">Stap 4/11</span>
+  <span class="nh">Stap 4/12</span>
 </div>`;
   renderAiCards();
 }
 
 function m1s4(c){
   c.innerHTML = `
-<div class="s-badge">🌍 Stap 5 van 11 · De impact van AI</div>
+<div class="s-badge">🌍 Stap 5 van 12 · De impact van AI</div>
 <h2 class="ch2">De <em>impact</em> van artificiële intelligentie</h2>
 <p class="cp">AI wordt al veel gebruikt in het dagelijkse leven, maar zal dat in de toekomst nog veel vaker doen. Bij sociale media bijvoorbeeld, maar ook op het vlak van mobiliteit, geneeskunde, muziek... De impact van AI op ons leven is dus nu al groot!</p>
 
@@ -666,13 +666,13 @@ Zouden we in de toekomst zelf niet meer moeten rijden, maar doet de auto alles v
 <div class="nw">
   <button class="sr-btn b" onclick="p1()">← Vorige</button>
   <button class="sr-btn g" onclick="n1()">Volgende: discussie →</button>
-  <span class="nh">Stap 5/11</span>
+  <span class="nh">Stap 5/12</span>
 </div>`;
 }
 
 function m1s5(c){
   c.innerHTML = `
-<div class="s-badge">💬 Stap 6 van 11 · Discussie</div>
+<div class="s-badge">💬 Stap 6 van 12 · Discussie</div>
 <h2 class="ch2">Wat denk <em>jij</em>?</h2>
 <div class="disc-card">
   <div class="disc-q">1. dj ImAIne presenteerde een week lang een radioprogramma zonder dat de echte dj aanwezig was. Zou jij dit oké vinden als luisteraar, zolang het duidelijk vermeld wordt?</div>
@@ -690,13 +690,13 @@ function m1s5(c){
 <div class="nw">
   <button class="sr-btn b" onclick="p1()">← Vorige</button>
   <button class="sr-btn g" onclick="n1()">Volgende: video →</button>
-  <span class="nh">Stap 6/11</span>
+  <span class="nh">Stap 6/12</span>
 </div>`;
 }
 
 function m1s6(c){
   c.innerHTML = `
-<div class="s-badge">🎬 Stap 7 van 11 · Video</div>
+<div class="s-badge">🎬 Stap 7 van 12 · Video</div>
 <h2 class="ch2">Bekijk: <em>AI-toepassingen in de praktijk</em></h2>
 <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/sosmC2h4LLE" allowfullscreen loading="lazy" title="EDUbox Artificiële Intelligentie — Introductie"></iframe></div>
 <div class="ib warn">
@@ -707,13 +707,13 @@ function m1s6(c){
 <div class="nw">
   <button class="sr-btn b" onclick="p1()">← Vorige</button>
   <button class="sr-btn g" onclick="n1()">Volgende: hype of realiteit? →</button>
-  <span class="nh">Stap 7/11</span>
+  <span class="nh">Stap 7/12</span>
 </div>`;
 }
 
 function m1s7(c){
   c.innerHTML = `
-<div class="s-badge">⚖️ Stap 8 van 11 · Hype of realiteit?</div>
+<div class="s-badge">⚖️ Stap 8 van 12 · Hype of realiteit?</div>
 <h2 class="ch2">AI in het nieuws: <em>hype of realiteit?</em></h2>
 <p class="cp">Op TikTok en YouTube zie je de wildste doemscenario's over AI — en evengoed de wildste beloftes. Om dat in perspectief te plaatsen, bekijk dit videofragment.</p>
 
@@ -727,8 +727,45 @@ function m1s7(c){
 
 <div class="nw">
   <button class="sr-btn b" onclick="p1()">← Vorige</button>
+  <button class="sr-btn g" onclick="n1()">Volgende: AI in jouw wereld →</button>
+  <span class="nh">Stap 8/12</span>
+</div>`;
+}
+
+function m1s_leefwereld(c){
+  c.innerHTML = `
+<div class="s-badge">🎬 Stap 9 van 12 · AI vanuit jouw leefwereld</div>
+<h2 class="ch2">Herkenbare verhalen, <em>geen droge theorie</em></h2>
+<p class="cp">Vier korte video's, dicht bij je eigen leven — bekijk ze en denk na: herken je jezelf hierin?</p>
+
+<div style="background:white; border:1px solid #e0e4f5; border-radius:10px; padding:16px; margin:14px 0;">
+  <div style="font-weight:800; font-size:14px; color:var(--blue); margin-bottom:8px;">🎓 Nooit meer gebuisd dankzij AI? Wij deden de test!</div>
+  <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/w_msvsySbcM" allowfullscreen loading="lazy" title="Nooit meer gebuisd dankzij AI? Wij deden de test!"></iframe></div>
+  <p style="font-size:12px; color:#666; margin-top:10px;">Kan AI je écht door een examen loodsen? Deze reportage test het gewoon uit — en toont op een luchtige manier waar AI de mist ingaat.</p>
+</div>
+
+<div style="background:white; border:1px solid #e0e4f5; border-radius:10px; padding:16px; margin:14px 0;">
+  <div style="font-weight:800; font-size:14px; color:var(--blue); margin-bottom:8px;">🧠 Krijgen we dommere studenten door ChatGPT?</div>
+  <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/0RXV8Omf6pg" allowfullscreen loading="lazy" title="Krijgen we dommere studenten door ChatGPT?"></iframe></div>
+  <p style="font-size:12px; color:#666; margin-top:10px;">Wat doet veelvuldig AI-gebruik eigenlijk met je eigen denkvermogen? Goede aanleiding om na te gaan hoe jij AI inzet voor schoolwerk — en of je er zelf nog iets van bijleert.</p>
+</div>
+
+<div style="background:white; border:1px solid #e0e4f5; border-radius:10px; padding:16px; margin:14px 0;">
+  <div style="font-weight:800; font-size:14px; color:var(--blue); margin-bottom:8px;">💬 Acid gebruikte ChatGPT als therapeut</div>
+  <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/JL1UrrQPOfk" allowfullscreen loading="lazy" title="Acid gebruikte ChatGPT als therapeut"></iframe></div>
+  <p style="font-size:12px; color:#666; margin-top:10px;">Een heel ander gebruik van AI dan huiswerk: chatbots als emotionele steun. Wat zijn daar volgens jou de voor- en nadelen van?</p>
+</div>
+
+<div style="background:white; border:1px solid #e0e4f5; border-radius:10px; padding:16px; margin:14px 0;">
+  <div style="font-weight:800; font-size:14px; color:var(--blue); margin-bottom:8px;">📺 Karrewiet focust deze week op artificiële intelligentie</div>
+  <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/JRo5gu6ePHs" allowfullscreen loading="lazy" title="Karrewiet focust deze week op artificiële intelligentie"></iframe></div>
+  <p style="font-size:12px; color:#666; margin-top:10px;">Leeftijdsgenoten vertellen in begrijpelijke taal over hun eigen ervaringen met AI.</p>
+</div>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p1()">← Vorige</button>
   <button class="sr-btn g" onclick="n1()">Volgende: kennischeck →</button>
-  <span class="nh">Stap 8/11</span>
+  <span class="nh">Stap 9/12</span>
 </div>`;
 }
 
@@ -745,7 +782,7 @@ function m1s8(c){
 
 function m1s9(c){
   c.innerHTML = `
-<div class="s-badge">✍️ Stap 10 van 11 · Stellingen</div>
+<div class="s-badge">✍️ Stap 10 van 12 · Stellingen</div>
 <h2 class="ch2">Waar sta <em>jij</em>?</h2>
 <p class="cp">Geen goed of fout antwoord — enkel jouw mening.</p>
 <div id="stl-m1"></div>
@@ -753,14 +790,14 @@ function m1s9(c){
 <div class="nw">
   <button class="sr-btn b" onclick="p1()">← Vorige</button>
   <button class="sr-btn g" onclick="n1()">Volgende: reflectie →</button>
-  <span class="nh">Stap 10/11</span>
+  <span class="nh">Stap 10/12</span>
 </div>`;
   renderStellingenLeerling('stl-m1', 'l_m1', ['Ik zou het oké vinden als een AI-stem soms mijn favoriete radioprogramma presenteert, zolang dit vermeld wordt.','Sociale media zouden verplicht moeten aangeven wanneer AI bepaalt wat ik te zien krijg.']);
 }
 
 function m1s10(c){
   c.innerHTML = `
-<div class="s-badge">✍️ Stap 11 van 11 · Jouw reflectie</div>
+<div class="s-badge">✍️ Stap 11 van 12 · Jouw reflectie</div>
 <h2 class="ch2">Vertaal naar <em>jouw leven</em></h2>
 <p class="cp">Noteer hieronder je reflectie (minstens een paar zinnen): waar zie JIJ AI in jouw dagelijkse leven — bij dingen die je nu pas beseft dankzij deze module? En wat vond je van de voorbeelden (dj ImAIne, Instagram, de MrBeast-deepfake)?</p>
 <p style="font-size:11px;color:#999;font-style:italic;margin:-8px 0 12px 0;">📄 Werk je liever op papier? Deze samenvatting en reflectie staan ook op <strong>pagina 3-4</strong> van je invulcursus.</p>
@@ -769,7 +806,7 @@ function m1s10(c){
 <div class="nw">
   <button class="sr-btn b" onclick="p1()">← Vorige</button>
   <button class="sr-btn g" id="ref1btn" onclick="sRef1()">✅ Module 1 afronden →</button>
-  <span class="nh">Stap 11/11</span>
+  <span class="nh">Stap 12/12</span>
 </div>`;
   const ta = document.getElementById('ref1');
   ta.value = localStorage.getItem('sr_l_ref1') || '';
@@ -884,6 +921,12 @@ function m2s2(c){
 </div>
 
 <p class="cp">Data worden in een machine gestoken (= input). Er vinden allerlei berekeningen plaats. En ten slotte krijg je een resultaat, de output. We onderscheiden <strong>3 soorten machine learning</strong>: gesuperviseerd leren, ongesuperviseerd leren, en versterkend leren.</p>
+
+<div class="yt-wrap"><iframe src="https://www.youtube.com/embed/-zmnRz81CNQ" allowfullscreen loading="lazy" title="EDUbox Artificiële Intelligentie — Hoe werken neurale netwerken?"></iframe></div>
+<div class="ib warn">
+  <div class="ib-t">📝 Waar gaat dit over?</div>
+  <div class="ib-b">Deze video toont visueel hoe een neuraal netwerk data verwerkt via lagen van kleine "knopen" — precies het soort black box-verwerking dat je hierboven leerde.</div>
+</div>
 
 <div class="nw">
   <button class="sr-btn b" onclick="p2()">← Vorige</button>
@@ -1038,6 +1081,12 @@ function m2s7(c){
 </div>
 
 <p class="cp">Je hoeft de technische details van neurale netwerken niet te kennen. Het belangrijkste om te onthouden: een neuraal netwerk combineert veel kleinere "beslissingen" tot één groot, complex eindresultaat — zoals jouw hersenen ook duizenden kleine signalen combineren om te beslissen "dit is een hond, geen koekje".</p>
+
+<div class="yt-wrap"><iframe src="https://www.youtube.com/embed/fZ_r7LXsMHs" allowfullscreen loading="lazy" title="EDUbox Artificiële Intelligentie — Toepassingen van AI"></iframe></div>
+<div class="ib warn">
+  <div class="ib-t">📝 Waar gaat dit over?</div>
+  <div class="ib-b">Isaak Vandermaesen (Scivil) toont enkele straffe, concrete toepassingen van deep learning en generatieve AI — een mooie brug naar wat je in Module 3 gaat leren.</div>
+</div>
 
 <div class="nw">
   <button class="sr-btn b" onclick="p2()">← Vorige</button>
@@ -1212,6 +1261,12 @@ Bij élke stap berekent het model kansen voor duizenden mogelijke volgende woord
 
 <p class="cp">Met deze modellen kan je niet alleen teksten, maar ook foto's en video's maken. Maar nu AI zelf dingen kan creëren, moeten wij niet stoppen met nadenken. <strong>De modellen maken soms ook fouten. Dit noemen we hallucinaties.</strong></p>
 
+<div class="yt-wrap"><iframe src="https://www.youtube.com/embed/UD0a-i2EBdE" allowfullscreen loading="lazy" title="EDUbox Artificiële Intelligentie — MNM DJ ImAIne"></iframe></div>
+<div class="ib warn">
+  <div class="ib-t">📝 Waar gaat dit over?</div>
+  <div class="ib-b">Deze video toont hoe generatieve AI de stem van dj Imane kon nabootsen voor "dj ImAIne" (zie Module 1) — een concreet voorbeeld van tekst én stem die woord voor woord/klank voor klank gegenereerd worden.</div>
+</div>
+
 <div class="nw">
   <button class="sr-btn b" onclick="p3()">← Vorige</button>
   <button class="sr-btn g" onclick="n3()">Volgende: hallucinaties →</button>
@@ -1257,6 +1312,12 @@ function m3s3(c){
 <div class="ib warn">
   <div class="ib-t">🎯 Wat ga je doen?</div>
   <div class="ib-b">Je doorloopt zo meteen een reeks opdrachten waarin je telkens een specifiek aspect van generatieve AI bestudeert en uitprobeert: herkennen wat AI kan, prompts leren lezen, en zelf prompts schrijven.</div>
+</div>
+
+<div class="yt-wrap"><iframe src="https://www.youtube.com/embed/ctCj3yYuSW4" allowfullscreen loading="lazy" title="ChatGPT na 2 jaar niet meer weg te denken uit het onderwijs"></iframe></div>
+<div class="ib warn">
+  <div class="ib-t">📝 Waar gaat dit over?</div>
+  <div class="ib-b">Deze VRT NWS-reportage toont hoe ChatGPT en gelijkaardige tools intussen niet meer weg te denken zijn uit scholen — exact het soort generatieve AI waar je hier zelf mee gaat experimenteren.</div>
 </div>
 
 <div class="nw">
@@ -1582,6 +1643,12 @@ function m4s3(c){
 
 <p class="cp">Dit debat is niet uniek voor Hollywood. Ook in de muziekindustrie, journalistiek en beeldende kunst wordt volop gediscussieerd: wie is de "maker" als AI meehielp? En moet die AI toestemming hebben gehad om te leren van bestaand werk?</p>
 
+<div class="yt-wrap"><iframe src="https://www.youtube.com/embed/YvbibGLIJzo" allowfullscreen loading="lazy" title="EDUbox Artificiële Intelligentie — Ethische dilemma's"></iframe></div>
+<div class="ib warn">
+  <div class="ib-t">📝 Waar gaat dit over?</div>
+  <div class="ib-b">Deze video gaat dieper in op ethische dilemma's rond AI — situaties waarin er geen makkelijk juist of fout antwoord bestaat, en waarbij menselijk oordeel onmisbaar blijft.</div>
+</div>
+
 <div class="nw">
   <button class="sr-btn b" onclick="p4()">← Vorige</button>
   <button class="sr-btn g" onclick="n4()">Volgende: deepfakes herkennen →</button>
@@ -1654,7 +1721,7 @@ function m4s6(c){
   c.innerHTML = `
 <div class="s-badge">🎬 Stap 7 van 11 · Video: vooroordelen bij AI</div>
 <h2 class="ch2">Bekijk: <em>AI en vooroordelen</em></h2>
-<div class="yt-wrap"><iframe src="https://www.youtube.com/embed/UG_X_7g63rY" allowfullscreen loading="lazy" title="Vooroordelen en AI"></iframe></div>
+<div class="yt-wrap"><iframe src="https://www.youtube.com/embed/Yft4D4TdPxQ" allowfullscreen loading="lazy" title="EDUbox Artificiële Intelligentie — Ethiek en Bias met An Jacobs"></iframe></div>
 <div class="ib warn">
   <div class="ib-t">📝 Waar gaat dit over?</div>
   <div class="ib-b">In de EDUbox-cursus legt professor An Jacobs uit hoe vooroordelen een rol spelen bij AI: omdat systemen leren van data die mensen maakten, kunnen ze bestaande ongelijkheden overnemen en zelfs versterken — vaak zonder dat het bewust zo bedoeld was.</div>
@@ -1719,7 +1786,7 @@ function m4s9(c){
 
 function m4s10(c){
   c.innerHTML = `
-<div class="s-badge">✍️ Stap 11 van 11 · Jouw reflectie</div>
+<div class="s-badge">✍️ Stap 11 van 12 · Jouw reflectie</div>
 <h2 class="ch2">Welk risico raakt <em>jou</em> het meest?</h2>
 <p class="cp">Je kent nu de belangrijkste ethische risico's van AI: vooroordelen/bias, ethische dilemma's, energieverbruik, impact op creatief werk, deepfakes en privacy.</p>
 
@@ -1770,6 +1837,12 @@ function m5s0(c){
 <div class="ib warn">
   <div class="ib-t">💡 Waarom werkt Sint-Rembert met AI-labels?</div>
   <div class="ib-b">Niet elke opdracht leent zich tot AI-gebruik. Een opstel om je eigen schrijfvaardigheid te tonen is anders dan een infographic waar creativiteit met tools centraal staat. Labels maken voor jou meteen duidelijk wat de bedoeling is bij elke opdracht.</div>
+</div>
+
+<div class="yt-wrap"><iframe src="https://www.youtube.com/embed/0RXV8Omf6pg" allowfullscreen loading="lazy" title="Krijgen we dommere studenten door ChatGPT?"></iframe></div>
+<div class="ib warn">
+  <div class="ib-t">📝 Waar gaat dit over?</div>
+  <div class="ib-b">Deze VRT NWS-video stelt de vraag die aan de basis ligt van onze schoolregels: als je AI voor alles laat werken, leer je zelf nog wel iets? Precies daarom bestaan de AI-labels die je in deze module leert kennen.</div>
 </div>
 
 <div class="nw">
@@ -1934,6 +2007,12 @@ function m5s6(c){
 
 <p class="cp">In plaats daarvan vertrekt evaluatie op Sint-Rembert vanuit <strong>vertrouwen en gesprek</strong>. Leerkrachten ontwerpen opdrachten die inzicht geven in jouw denken en redeneren — bijvoorbeeld via mondelinge toelichting of tussentijdse versies van je werk.</p>
 
+<div class="yt-wrap"><iframe src="https://www.youtube.com/embed/2bHH6U0UtnA" allowfullscreen loading="lazy" title="Kan SCHOOL zien dat je AI gebruikt?"></iframe></div>
+<div class="ib warn">
+  <div class="ib-t">📝 Waar gaat dit over?</div>
+  <div class="ib-b">Deze reportage (NOS) toont hoe andere scholen omgaan met AI-gebruik door leerlingen, en waarom leerkrachten steeds vaker inzetten op gesprek in plaats van detectiesoftware — exact de reden waarom Sint-Rembert dezelfde keuze maakte.</div>
+</div>
+
 <p class="cp">Als een leerkracht vermoedt dat je (te veel) AI gebruikte zonder dat het toegelaten was, zal die met jou in gesprek gaan. Eerlijkheid is dan je beste kaart: leg uit wat je wel en niet zelf deed.</p>
 
 <div class="nw">
@@ -2000,7 +2079,7 @@ function m5s9(c){
 <div class="nw">
   <button class="sr-btn b" onclick="p5()">← Vorige</button>
   <button class="sr-btn g" id="ref5btn" onclick="sRef5()">✅ Module 5 afronden →</button>
-  <span class="nh">Stap 10/11</span>
+  <span class="nh">Stap 10/12</span>
 </div>`;
   const ta = document.getElementById('ref5');
   ta.value = localStorage.getItem('sr_l_ref5') || '';
@@ -2058,6 +2137,12 @@ function m6s0(c){
 <div class="ib warn">
   <div class="ib-t">🏁 Bijna klaar!</div>
   <div class="ib-b">Na deze module krijg je je certificaat. Deze module bevat 3 klasgesprek-stellingen en een <strong>grote afsluitende reflectie</strong> — neem er de tijd voor.</div>
+</div>
+
+<div class="yt-wrap"><iframe src="https://www.youtube.com/embed/-WDdSiVjBhg" allowfullscreen loading="lazy" title="NOS op 3 — Roeit AI ons uit of is het hype"></iframe></div>
+<div class="ib warn">
+  <div class="ib-t">📝 Waar gaat dit over?</div>
+  <div class="ib-b">Een goede opwarmer voor deze module: wat zijn de échte gevolgen van AI voor de samenleving, en wat is vooral hype? Precies de vraag die je in deze module verder uitdiept.</div>
 </div>
 
 <div class="nw">
@@ -2156,7 +2241,7 @@ function m6s5(c){
   c.innerHTML = `
 <div class="s-badge">🎬 Stap 6 van 11 · Video</div>
 <h2 class="ch2">Bekijk: <em>waar moeten we op letten?</em></h2>
-<div class="yt-wrap"><iframe src="https://www.youtube.com/embed/JMLsHI8aV0g" allowfullscreen loading="lazy" title="AI-expert over de evolutie van AI"></iframe></div>
+<div class="yt-wrap"><iframe src="https://www.youtube.com/embed/Rswv6FuAZug" allowfullscreen loading="lazy" title="EDUbox Artificiële Intelligentie — Moeten we ons zorgen maken over AI?"></iframe></div>
 <div class="ib warn">
   <div class="ib-t">📝 Waar gaat dit over?</div>
   <div class="ib-b">Hoe meer AI verweven raakt met ons dagelijks leven, hoe meer we ons bewust moeten zijn van de gevaren die de technologie met zich meebrengt. Een AI-expert bekijkt het potentieel van AI, maar vraagt zich ook luidop af wat er gebeurt als de technologie zich sneller ontwikkelt dan de regelgeving.</div>
@@ -2251,7 +2336,7 @@ function m6s9(c){
 <div class="nw">
   <button class="sr-btn b" onclick="p6()">← Vorige</button>
   <button class="sr-btn g" id="ref6btn" onclick="sRef6()">✅ Module 6 afronden →</button>
-  <span class="nh">Stap 10/11</span>
+  <span class="nh">Stap 10/12</span>
 </div>`;
   const ta = document.getElementById('ref6');
   ta.value = localStorage.getItem('sr_l_ref6') || '';
