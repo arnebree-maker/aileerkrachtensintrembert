@@ -755,11 +755,24 @@ function m1s_leefwereld(c){
   <p style="font-size:12px; color:#666; margin-top:10px;">Leeftijdsgenoten vertellen in begrijpelijke taal over hun eigen ervaringen met AI.</p>
 </div>
 
+<h3 class="ch3">💭 Even nadenken</h3>
+<p class="cp">Welke van deze 3 video's sprak jou het meest aan, en waarom? Herken je jezelf in een van de verhalen?</p>
+<textarea class="sr-ta" id="ref_leefwereld" style="min-height:70px;" placeholder="De video die me het meest aansprak was... omdat..."></textarea>
+
 <div class="nw">
   <button class="sr-btn b" onclick="p1()">← Vorige</button>
-  <button class="sr-btn g" onclick="n1()">Volgende: kennischeck →</button>
+  <button class="sr-btn g" id="leefwereldbtn" onclick="sLeefwereld()">Volgende: kennischeck →</button>
   <span class="nh">Stap 9/12</span>
 </div>`;
+  const ta = document.getElementById('ref_leefwereld');
+  ta.value = localStorage.getItem('sr_l_ref_leefwereld') || '';
+  ta.oninput = ()=>localStorage.setItem('sr_l_ref_leefwereld', ta.value);
+}
+
+function sLeefwereld(){
+  const v = (document.getElementById('ref_leefwereld').value||'').trim();
+  if(v.length < 10){ alert('Vul dit veld in voor je verdergaat.'); return; }
+  n1();
 }
 
 function m1s8(c){
@@ -768,7 +781,8 @@ function m1s8(c){
     {q:'Wat waren de 3 elementen van AI die je leerde?', o:['Scherm, toetsenbord, muis','Computer, data, algoritmes','Wifi, batterij, camera','Software, hardware, internet'], a:1, f:'Een sterk computersysteem, veel data, en algoritmes die patronen herkennen — dat zijn de 3 bouwstenen.'},
     {q:'Bij het dj ImAIne-voorbeeld: wat gebeurde er precies?', o:['Een fysieke AI-robot nam de plaats in van de dj in de radiostudio','Een AI-versie van de stem van dj Imane presenteerde het programma een week lang','De volledige radiozender werd tijdelijk gehackt door een AI-systeem','Luisteraars stemden via een AI-app op hun favoriete nummers'], a:1, f:'ChatGPT schreef de teksten en een gekloonde AI-stem sprak ze uit — een week lang, zonder dat de echte dj aanwezig was.'},
     {q:'Waarom bepaalt Instagram met AI welke posts je ziet?', o:['Om volledig willekeurige content te tonen aan elke individuele gebruiker','Om je gedrag te analyseren en te voorspellen wat jou langer op het platform houdt','Om uitsluitend betaalde reclame te tonen ongeacht je persoonlijke voorkeuren','Om je persoonlijke gegevens automatisch door te sturen naar overheidsinstanties'], a:1, f:'Instagram analyseert patronen in jouw gedrag (likes, kijktijd) om voorspellingen te doen over wat jij interessant vindt.'},
-    {q:'Wat toonde het MrBeast-voorbeeld aan?', o:['Dat elke AI-gegenereerde video altijd te herkennen is aan een duidelijk zichtbaar watermerk','Dat AI-deepfakes gebruikt kunnen worden om mensen op te lichten met valse advertenties','Dat MrBeast zelf actief AI-technologie ontwikkelt en verkoopt aan andere kanalen','Dat het maken van deepfakes overal ter wereld wettelijk verboden is verklaard'], a:1, f:'Oplichters gebruikten een AI-gegenereerde nepvideo van MrBeast om een valse (te goedkope) smartphone-aanbieding te promoten.'}
+    {q:'Wat toonde het MrBeast-voorbeeld aan?', o:['Dat elke AI-gegenereerde video altijd te herkennen is aan een duidelijk zichtbaar watermerk','Dat AI-deepfakes gebruikt kunnen worden om mensen op te lichten met valse advertenties','Dat MrBeast zelf actief AI-technologie ontwikkelt en verkoopt aan andere kanalen','Dat het maken van deepfakes overal ter wereld wettelijk verboden is verklaard'], a:1, f:'Oplichters gebruikten een AI-gegenereerde nepvideo van MrBeast om een valse (te goedkope) smartphone-aanbieding te promoten.'},
+    {q:'In de video uit stap 7: welke voorbeelden werden gegeven van AI die je dagelijks gebruikt zonder erbij stil te staan?', o:['Enkel je smartphone-camera en niets anders van betekenis', 'Persoonlijke aanbevelingen op Spotify/Netflix en zelfrijdende auto\'s', 'Uitsluitend medische toepassingen in ziekenhuizen', 'Enkel militaire en overheidstoepassingen van AI'], a:1, f:'De video toont hoe AI overal aanwezig is — van je muziek- en filmaanbevelingen tot zelfrijdende voertuigen — vaak zonder dat je het beseft.'}
   ];
   rQuiz(c, quiz, 1, 'mod1', n1, 60);
 }
@@ -1171,7 +1185,9 @@ function m2s10(c){
     {q: 'Wat betekent de "black box" bij machine learning?', o: ['Een fysieke, afgesloten doos waarin de computer letterlijk zit','Je krijgt een resultaat zonder dat de machine toont hoe ze daar precies toe kwam','Een streng beveiligingssysteem dat computers tegen hackers beschermt','Een foutmelding die verschijnt wanneer de machine crasht'], a: 1, f: 'Data gaat erin (input), er gebeuren berekeningen, en je krijgt een resultaat (output) — zonder inzicht in het precieze proces.' },
     {q: 'Bij gesuperviseerd leren (zoals de zombie/mens-kaartjes met label): wat is kenmerkend?', o: ['De computer krijgt data mét labels om een categorie te leren voorspellen', 'De computer krijgt bij deze methode eigenlijk nooit enige voorbeelden te zien','Dit is in de praktijk exact hetzelfde als versterkend leren','Er is bij deze aanpak geen enkele menselijke input nodig'], a: 0, f: 'Bij gesuperviseerd leren geef je gelabelde voorbeelden, zodat de computer leert categorieën te herkennen.' },
     {q: 'Bij Spotify- of Netflix-aanbevelingen: welk soort leren is meestal aan het werk?', o: ['Versterkend leren, waarbij het systeem stap voor stap beloond wordt in een spelomgeving', 'Ongesuperviseerd leren: de computer groepeert gebruikers/content zelf, zonder vaste labels','Procedurele AI die simpelweg een lijst van vaste IF-THEN regels volgt','Dit gebeurt in werkelijkheid volledig zonder enige vorm van AI of algoritme'], a: 1, f: 'De computer ontdekt zelf patronen en groepen in kijk-/luistergedrag, zonder dat iemand die groepen vooraf benoemde.' },
-    {q: 'Waarom is NotebookLM vaak betrouwbaarder dan een gewone chatbot voor studeren?', o: ['Het genereert doorgaans gewoon sneller een antwoord op elke gestelde vraag','Het baseert antwoorden enkel op de documenten die jij zelf uploadt, met bronvermelding','Het is volledig gratis, terwijl vergelijkbare studietools altijd geld kosten','Er bestaat tussen de twee soorten tools eigenlijk geen enkel praktisch verschil'], a: 1, f: 'Omdat het antwoordt op basis van jouw eigen bronnen in plaats van het hele internet, is de kans op verzonnen informatie veel kleiner.' }
+    {q: 'Waarom is NotebookLM vaak betrouwbaarder dan een gewone chatbot voor studeren?', o: ['Het genereert doorgaans gewoon sneller een antwoord op elke gestelde vraag','Het baseert antwoorden enkel op de documenten die jij zelf uploadt, met bronvermelding','Het is volledig gratis, terwijl vergelijkbare studietools altijd geld kosten','Er bestaat tussen de twee soorten tools eigenlijk geen enkel praktisch verschil'], a: 1, f: 'Omdat het antwoordt op basis van jouw eigen bronnen in plaats van het hele internet, is de kans op verzonnen informatie veel kleiner.' },
+    {q: 'De video bij "black box" toonde een neuraal netwerk. Wat combineert dit soort netwerk, zoals je in de video zag?', o: ['Enkel losse getallen zonder enige onderlinge samenhang of structuur', 'Veel kleinere lagen/knopen die samen tot één complex eindresultaat komen', 'Uitsluitend tekst, nooit beelden of andere soorten data', 'Alleen menselijke input, zonder enige vorm van berekening'], a: 1, f: 'Een neuraal netwerk verwerkt data via lagen van kleine "knopen" die stap voor stap samen tot een resultaat komen — precies wat de video visueel toonde.' },
+    {q: 'In de video bij deep learning (Isaak Vandermaesen) ging het over:', o: ['Uitsluitend de geschiedenis van computers vóór het jaar 1950', 'Concrete, indrukwekkende toepassingen van AI en generatieve AI', 'Enkel en alleen de juridische regels rond dataopslag in Europa', 'De biologische werking van menselijke hersenen in detail'], a: 1, f: 'Isaak Vandermaesen (Scivil) toonde concrete, verrassende toepassingen van AI — een mooie brug naar wat je in Module 3 over generatieve AI leert.' }
   ];
   rQuiz(c, quiz, 2, 'mod2', n2, 60);
 }
@@ -1505,7 +1521,8 @@ function m3s11(c){
     {q: 'In het voorbeeld met de reddingswerker-foto: hoe herkende je de hallucinatie?', o: ['De foto was zwart-wit.','De persoon op de foto had 6 vingers aan één hand.','Er stond een watermerk op de foto.','De foto was wazig.'], a: 1, f: 'Een verkeerd aantal vingers is een klassiek (maar steeds zeldzamer wordend) signaal van AI-gegenereerde beelden.' },
     {q: 'Wat is "prompt engineering"?', o: ['Het volledig programmeren van een AI-model vanaf nul.','De vaardigheid om goede, doeltreffende prompts te formuleren.','Het technisch repareren van kapotte AI-software.','Een gespecialiseerd technisch beroep in de bouwsector.'], a: 1, f: 'Een goed geformuleerde prompt (specifiek, met context, duidelijke output) geeft veel betere resultaten.' },
     {q: 'Welke 3 tips gelden voor een goede beeldprompt?', o: ['De gewenste kleur, het bestandsformaat, en de maximale prijs','Specifiek onderwerp, gewenste outputvorm, duidelijke stijl','De gewenste lengte, de gebruikte taal, en de doelgroep','De snelheid, de kostprijs, en de algemene kwaliteit'], a: 1, f: 'Wees specifiek over het onderwerp, geef de gewenste outputvorm, en verduidelijk de gewenste stijl.' },
-    {q: 'Waarom is het gevaarlijk dat AI-content zo goed geworden is?', o: ['Omdat het produceren van AI-content tegenwoordig simpelweg te duur is geworden.','Omdat mensen met slechte bedoelingen het kunnen misbruiken voor nepnieuws.','Omdat het genereren van content tegenwoordig veel te traag zou verlopen.','Dit is in werkelijkheid niet gevaarlijk, het is enkel handig voor iedereen.'], a: 1, f: 'Naarmate AI-content overtuigender wordt, wordt het voor kwaadwillenden makkelijker om nepnieuws te verspreiden dat niet meer te onderscheiden is van echt nieuws.' }
+    {q: 'Waarom is het gevaarlijk dat AI-content zo goed geworden is?', o: ['Omdat het produceren van AI-content tegenwoordig simpelweg te duur is geworden.','Omdat mensen met slechte bedoelingen het kunnen misbruiken voor nepnieuws.','Omdat het genereren van content tegenwoordig veel te traag zou verlopen.','Dit is in werkelijkheid niet gevaarlijk, het is enkel handig voor iedereen.'], a: 1, f: 'Naarmate AI-content overtuigender wordt, wordt het voor kwaadwillenden makkelijker om nepnieuws te verspreiden dat niet meer te onderscheiden is van echt nieuws.' },
+    {q: 'De VRT-video bij stap 4 ("ChatGPT na 2 jaar...") toonde vooral dat:', o: ['ChatGPT intussen alweer helemaal verdwenen is uit scholen en klaslokalen', 'ChatGPT en gelijkaardige tools niet meer weg te denken zijn uit het onderwijs', 'Scholen wereldwijd generatieve AI inmiddels volledig verboden hebben', 'Leerlingen generatieve AI enkel nog gebruiken voor wiskundige berekeningen'], a: 1, f: 'De reportage toont hoe generatieve AI-tools intussen structureel verweven zijn geraakt met het dagelijkse schoolleven — exact het soort AI waarmee jij in deze module experimenteerde.' }
   ];
   rQuiz(c, quiz, 3, 'mod3', n3, 60);
 }
@@ -1772,7 +1789,9 @@ function m4s9(c){
     {q: 'Hoeveel meer energie kost een zoekopdracht op ChatGPT ongeveer, vergeleken met Google?', o: ['2 keer meer','25 keer meer','100 keer meer','Evenveel'], a: 1, f: 'Een ChatGPT-zoekopdracht kost ongeveer 25 keer meer energie dan dezelfde zoekopdracht op Google.' },
     {q: 'Waarom staakten acteurs en scenarioschrijvers in Hollywood in 2023?', o: ['Om structureel hogere lonen te eisen voor gevaarlijke stunts en extra scènes.','Om zekerheid te krijgen dat hun creativiteit ook in de toekomst erkend en beschermd wordt.','Om te pleiten voor een merkbaar betere cateringservice op alle filmsets.','Om formeel te eisen dat AI helemaal verboden wordt in de hele filmindustrie.'], a: 1, f: 'Ze wilden garanties dat hun werk niet zomaar door AI vervangen of zonder compensatie gebruikt zou worden om AI te trainen.' },
     {q: 'Wat deel je best NOOIT met een publieke AI-chatbot?', o: ['Algemene, neutrale vragen over een huiswerkonderwerp.','Wachtwoorden, identiteitsdocumenten of medische informatie.','Hypothetische scenario\'s die je zelf verzint ter oefening.','Creatieve schrijfopdrachten voor een taalvak.'], a: 1, f: 'Gevoelige persoonlijke informatie kan door het AI-bedrijf bewaard of gebruikt worden — deel dit nooit met publieke tools.' },
-    {q: 'Wat is de beste manier om een deepfake-video te controleren?', o: ['Enkel beoordelen of de beeldkwaliteit er over het algemeen scherp uitziet.','De bron checken: komt het van een officieel account, bevestigd door betrouwbare media?', 'Uit voorzorg besluiten om video\'s in het algemeen nooit meer te bekijken.','Simpelweg vertrouwen op het aantal likes en reacties dat eronder staat.'], a: 1, f: 'Bronkritiek blijft de beste aanpak — visuele signalen zijn niet altijd waterdicht, AI wordt steeds beter.' }
+    {q: 'Wat is de beste manier om een deepfake-video te controleren?', o: ['Enkel beoordelen of de beeldkwaliteit er over het algemeen scherp uitziet.','De bron checken: komt het van een officieel account, bevestigd door betrouwbare media?', 'Uit voorzorg besluiten om videos in het algemeen nooit meer te bekijken.','Simpelweg vertrouwen op het aantal likes en reacties dat eronder staat.'], a: 1, f: 'Bronkritiek blijft de beste aanpak — visuele signalen zijn niet altijd waterdicht, AI wordt steeds beter.' },
+    {q: 'In de video met professor An Jacobs ging het vooral over:', o: ['Hoe je een zelfrijdende auto technisch in elkaar bouwt', 'Hoe vooroordelen uit trainingsdata onbedoeld in AI-systemen terechtkomen', 'De geschiedenis van de allereerste computer ter wereld', 'Welke programmeertaal het populairst is bij AI-bedrijven'], a: 1, f: 'Professor An Jacobs (VUB) legt uit hoe AI-systemen bias overnemen uit de data waarmee ze getraind worden, vaak zonder dat dit de bedoeling was.' },
+    {q: 'De video over ethische dilemma\'s liet vooral zien dat:', o: ['Elke AI-beslissing altijd volledig neutraal en probleemloos verloopt', 'Sommige situaties geen makkelijk juist-of-fout antwoord hebben, ook niet voor AI', 'Ethische vragen enkel relevant zijn voor grote technologiebedrijven', 'AI-systemen inmiddels alle menselijke ethische afwegingen kunnen overnemen'], a: 1, f: 'Ethische dilemma\'s draaien om situaties zonder eenvoudig juist antwoord — net daarom blijft menselijk oordeel onmisbaar, ook als AI meehelpt.' }
   ];
   rQuiz(c, quiz, 4, 'mod4', n4, 60);
 }
@@ -2049,7 +2068,9 @@ function m5s8(c){
     {q: 'Bij welk label mag AI enkel gebruikt worden om ideeën op te doen?', o: ['Label 1 (Verboden)','Label 2 (Als inspiratie)','Label 3 (Als ondersteuning)','Label 4 (Toegestaan)'], a: 1, f: 'Label 2 (Als inspiratie) staat AI toe voor ideeën, maar het geschreven werk moet volledig van jou zijn.' },
     {q: 'Waarom gebruikt Sint-Rembert geen AI-detectietools?', o: ['Omdat de aanschaf van zulke tools veel te duur zou uitvallen.','Omdat ze onbetrouwbaar zijn en regelmatig valse beschuldigingen opleveren.','Omdat de school over het algemeen weinig belang hecht aan eerlijkheid.','Omdat er wereldwijd nog geen enkele tool bestaat die dit probeert.'], a: 1, f: 'AI-detectietools zijn wetenschappelijk onvoldoende betrouwbaar — de school kiest voor gesprek en vertrouwen.' },
     {q: 'Welke AI-tool wordt bij voorkeur gebruikt op Sint-Rembert?', o: ['De gratis versie van ChatGPT, omdat die het bekendst is bij leerlingen.','Microsoft Copilot met schoolaccount, want data blijft binnen de schoolomgeving.','Elke tool mag door leerlingen volledig vrij gekozen worden.','Enkel tools die leerlingen volledig zelf hebben ontwikkeld.'], a: 1, f: 'Copilot met schoolaccount beschermt je gegevens en gebruikt ze niet om modellen te trainen.' },
-    {q: 'Volgens de algemene afspraken: wat moet je ALTIJD doen als je AI gebruikte?', o: ['Niets in het bijzonder, want dat is volgens de afspraken niet nodig.','Transparant zijn en laten weten dat je AI hebt gebruikt.','Enkel je ouders hierover inlichten, niet je leerkracht.','Gewoon wachten tot je leerkracht er zelf naar vraagt.'], a: 1, f: 'Transparantie staat centraal in de afspraken: laat altijd weten wanneer je AI hebt ingezet.' }
+    {q: 'Volgens de algemene afspraken: wat moet je ALTIJD doen als je AI gebruikte?', o: ['Niets in het bijzonder, want dat is volgens de afspraken niet nodig.','Transparant zijn en laten weten dat je AI hebt gebruikt.','Enkel je ouders hierover inlichten, niet je leerkracht.','Gewoon wachten tot je leerkracht er zelf naar vraagt.'], a: 1, f: 'Transparantie staat centraal in de afspraken: laat altijd weten wanneer je AI hebt ingezet.' },
+    {q: 'De video bij het begin van deze module ("Krijgen we dommere studenten...") stelde vooral de vraag:', o: ['Of scholen genoeg budget hebben om AI-software aan te kopen', 'Wat veelvuldig AI-gebruik doet met je eigen denk- en leervermogen', 'Hoeveel Belgische scholen inmiddels een eigen AI-labelsysteem hebben', 'Welke leeftijd het meest geschikt is om met AI te starten op school'], a: 1, f: 'De video onderzoekt of overmatig op AI leunen je eigen leerproces ondermijnt — exact de vraag die aan de basis ligt van de AI-labels.' },
+    {q: 'De video "Kan SCHOOL zien dat je AI gebruikt?" toonde dat AI-detectietools:', o: ['Altijd 100% correct AI-tekst kunnen herkennen zonder ooit een fout te maken', 'Onbetrouwbaar zijn, waardoor scholen steeds vaker inzetten op gesprek', 'Inmiddels door alle Belgische scholen verplicht worden gebruikt', 'Enkel bruikbaar zijn voor wiskundige opdrachten, niet voor taalvakken'], a: 1, f: 'De reportage bevestigt waarom Sint-Rembert bewust geen detectiesoftware gebruikt: die tools zijn te onbetrouwbaar, gesprek werkt beter.' }
   ];
   rQuiz(c, quiz, 5, 'mod5', n5, 60);
 }
@@ -2134,10 +2155,22 @@ function m6s0(c){
 <p class="cp">Voor je begint aan de stellingen over AI en de maatschappij: deze video (NOS op 3) plaatst de wildste doemscenario's rond AI in perspectief, en verlegt de focus naar de échte uitdagingen — precies waar deze afsluitende module over gaat.</p>
 <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/-WDdSiVjBhg" allowfullscreen loading="lazy" title="NOS op 3 — Roeit AI ons uit of is het hype"></iframe></div>
 
+<p class="cp" style="margin-top:14px;"><strong>Korte vraag:</strong> Wat is volgens jou, na het zien van deze video, het grootste verschil tussen "AI-hype" en een écht risico?</p>
+<textarea class="sr-ta" id="ref_m6video1" style="min-height:60px;" placeholder="Het grootste verschil vind ik..."></textarea>
+
 <div class="nw">
-  <button class="sr-btn g" onclick="n6()">Volgende: AI en jobs →</button>
+  <button class="sr-btn g" id="m6video1btn" onclick="sM6Video1()">Volgende: AI en jobs →</button>
   <span class="nh">Stap 1/11</span>
 </div>`;
+  const ta = document.getElementById('ref_m6video1');
+  ta.value = localStorage.getItem('sr_l_ref_m6video1') || '';
+  ta.oninput = ()=>localStorage.setItem('sr_l_ref_m6video1', ta.value);
+}
+
+function sM6Video1(){
+  const v = (document.getElementById('ref_m6video1').value||'').trim();
+  if(v.length < 8){ alert('Vul dit veld in voor je verdergaat.'); return; }
+  n6();
 }
 
 function m6s1(c){
@@ -2236,11 +2269,23 @@ function m6s5(c){
   <div class="ib-b">Hoe meer AI verweven raakt met ons dagelijks leven, hoe meer we ons bewust moeten zijn van de gevaren die de technologie met zich meebrengt. Een AI-expert bekijkt het potentieel van AI, maar vraagt zich ook luidop af wat er gebeurt als de technologie zich sneller ontwikkelt dan de regelgeving.</div>
 </div>
 
+<p class="cp" style="margin-top:14px;"><strong>Korte vraag:</strong> De video stelt dat technologie soms sneller evolueert dan regelgeving. Kan jij hier zelf een voorbeeld van bedenken (bij AI of iets anders)?</p>
+<textarea class="sr-ta" id="ref_m6video2" style="min-height:60px;" placeholder="Een voorbeeld dat ik kan bedenken is..."></textarea>
+
 <div class="nw">
   <button class="sr-btn b" onclick="p6()">← Vorige</button>
-  <button class="sr-btn g" onclick="n6()">Volgende: EU AI Act →</button>
+  <button class="sr-btn g" id="m6video2btn" onclick="sM6Video2()">Volgende: EU AI Act →</button>
   <span class="nh">Stap 6/11</span>
 </div>`;
+  const ta = document.getElementById('ref_m6video2');
+  ta.value = localStorage.getItem('sr_l_ref_m6video2') || '';
+  ta.oninput = ()=>localStorage.setItem('sr_l_ref_m6video2', ta.value);
+}
+
+function sM6Video2(){
+  const v = (document.getElementById('ref_m6video2').value||'').trim();
+  if(v.length < 8){ alert('Vul dit veld in voor je verdergaat.'); return; }
+  n6();
 }
 
 function m6s6(c){
