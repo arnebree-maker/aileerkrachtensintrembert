@@ -29,6 +29,7 @@ function testLocalStorage(){
 let S = { 
   name:'', 
   userRole: null,
+  registered: false,
   starttest:{taken:false, score:0, passed:false}, 
   mod1:{step:0,done:false,skipped:false}, 
   mod2:{step:0,done:false}, 
@@ -355,7 +356,49 @@ function goHome(){
   }, 50);
 }
 
-function goStartTest(){ showNameEntry(); renderStartTest(); sv('starttest'); }
+function goStartTest(){
+  if(!S.registered){ showRegistrationGate(); return; }
+  showNameEntry(); renderStartTest(); sv('starttest');
+}
+
+function showRegistrationGate(){
+  const modal = document.createElement('div');
+  modal.id = 'registration-modal';
+  modal.style.cssText = `
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(10,31,168,0.92); display: flex; align-items: center;
+    justify-content: center; z-index: 9000; padding: 20px; overflow-y: auto;
+  `;
+
+  modal.innerHTML = `
+    <div style="background: white; border-radius: 16px; padding: 36px; max-width: 520px; width: 100%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.35); margin: auto;">
+      <div style="font-size: 44px; margin-bottom: 12px;">📋</div>
+      <h2 style="font-family: 'Archivo Black', sans-serif; font-size: 22px; color: var(--blue); margin-bottom: 8px; text-transform: uppercase;">Eerst inschrijven</h2>
+      <p style="color: var(--muted); font-weight: 600; margin-bottom: 20px; line-height: 1.5;">Voor je start, schrijf je je in voor deze sessie via <strong>Rembert Academy</strong> — zo telt dit mee als bijscholing.</p>
+
+      <video controls style="width: 100%; max-width: 320px; border-radius: 12px; margin: 0 auto 20px auto; display: block; box-shadow: 0 8px 20px rgba(0,0,0,0.15);">
+        <source src="rembert-academie-promo.mp4" type="video/mp4">
+        Je browser ondersteunt deze video niet.
+      </video>
+
+      <a href="https://apps.powerapps.com/play/e5697d3c-e21d-49b4-9ecc-4c58a225704f?tenantId=e285dc48-b92b-4e97-9ea5-bdaed06bbb77&hidenavbar=true&Screen=VormingInfo&VormingId=6aac06da-93e8-4308-a4e8-b8770bdf643d&SessieId=f59c5d25-8708-4a62-9619-fcd4c0ee1cb3" target="_blank" style="display:block; background: var(--green); color: var(--blue); font-weight: 800; padding: 14px; border-radius: 8px; text-decoration: none; margin-bottom: 12px;">
+        📝 Inschrijven via Rembert Academy →
+      </a>
+      <button class="sr-btn g" onclick="confirmRegistered()" style="width: 100%; padding: 14px;">✓ Ik ben ingeschreven, ga verder</button>
+      <p style="font-size: 11px; color: var(--muted); margin-top: 14px; font-weight: 600;">Nog niet ingeschreven? Doe dit eerst via de knop hierboven, kom dan terug.</p>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+}
+
+function confirmRegistered(){
+  S.registered = true;
+  ss();
+  const modal = document.getElementById('registration-modal');
+  if(modal) modal.remove();
+  showNameEntry(); renderStartTest(); sv('starttest');
+}
 function tryC(){ (S.mod1.done && S.mod2.done) ? sv('cert') : alert('Voltooi eerst de 2 verplichte modules (1 en 2).'); }
 function rDots(m,tot,cur){
   const c = document.getElementById('sd'+m); if(!c) return; c.innerHTML='';
