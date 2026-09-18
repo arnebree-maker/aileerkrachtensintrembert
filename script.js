@@ -1020,6 +1020,11 @@ AI past aan jouw tempo aan en volgt je leerproces. Voorbeeld: AI geeft feedback 
 </p>
 </div>
 
+<div class="ib warn">
+  <div class="ib-t">🗣️ Praktijktip: let op je eigen woordkeuze</div>
+  <div class="ib-b">Omdat een taalmodel niet "begrijpt" zoals een mens, is het belangrijk om dat ook zo te <strong>benoemen</strong> — zeker tegenover leerlingen. Zeg liever <em>"het systeem berekende dat..."</em> of <em>"het model genereerde..."</em> in plaats van <em>"de AI denkt dat..."</em> of <em>"de AI vindt..."</em>. Klein verschil in taal, groot verschil in hoe leerlingen AI leren begrijpen: als een berekenend hulpmiddel, niet als een denkend wezen.</div>
+</div>
+
 <h3 class="ch3">💡 3x Meerwaarde voor onderwijs</h3>
 <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 16px 0;">
 <div style="background: white; border: 2px solid var(--green); border-radius: 8px; padding: 12px;">
@@ -2088,6 +2093,24 @@ function m2s5(c){
 <h3 class="ch3">💬 Een eerlijk gesprek voeren</h3>
 <p class="cp">Een leerling vraagt je weleens: "Hebt u dit met AI gemaakt?" De beste reflex is eerlijkheid: leg uit hoe je de tool als hulpmiddel hebt ingezet, en hoe je zelf de output hebt gecontroleerd en aangepast.</p>
 
+<h3 class="ch3">🎯 AI uitleggen: pas je taal aan je publiek aan</h3>
+<p class="cp">Hoe je uitlegt dat/hoe AI iets genereerde, hangt sterk af van aan wie je het uitlegt:</p>
+<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 16px 0;">
+<div style="background: white; border: 2px solid var(--blue); border-radius: 8px; padding: 12px;">
+<div style="font-weight: 700; color: var(--blue); font-size: 11px; text-transform: uppercase; margin-bottom: 6px;">👶 Lagere school</div>
+<p style="font-size: 11px; color: #3d4f8a; line-height: 1.6; margin: 0;">"De computer heeft heel veel voorbeelden gezien en raadt zo het beste antwoord — soms raadt hij fout."</p>
+</div>
+<div style="background: white; border: 2px solid var(--green); border-radius: 8px; padding: 12px;">
+<div style="font-weight: 700; color: var(--green); font-size: 11px; text-transform: uppercase; margin-bottom: 6px;">🎓 Secundair</div>
+<p style="font-size: 11px; color: #3d4f8a; line-height: 1.6; margin: 0;">"Het model berekent het statistisch meest waarschijnlijke antwoord op basis van patronen in trainingsdata — daarom kan het ook hallucineren."</p>
+</div>
+<div style="background: white; border: 2px solid var(--orange); border-radius: 8px; padding: 12px;">
+<div style="font-weight: 700; color: var(--orange); font-size: 11px; text-transform: uppercase; margin-bottom: 6px;">👪 Ouders</div>
+<p style="font-size: 11px; color: #3d4f8a; line-height: 1.6; margin: 0;">"We gebruiken Copilot binnen de beveiligde schoolomgeving, volgens duidelijke afspraken — hun gegevens blijven veilig."</p>
+</div>
+</div>
+<p class="cp">Deze vaardigheid — AI-uitkomsten <strong>begrijpelijk kunnen uitleggen, afgestemd op wie voor je zit</strong> — is minstens even belangrijk als zelf goed kunnen prompten.</p>
+
 <div class="nw">
   <button class="sr-btn b" onclick="p2()">← Vorige</button>
   <button class="sr-btn g" onclick="n2()">Volgende: AI-bestendig ontwerpen →</button>
@@ -2201,6 +2224,11 @@ Vraag: "Los deze stelling op. Schrijf OP elke stap WAAROM je die stap doet — w
 </div>
 </div>
 
+<div class="ib warn">
+  <div class="ib-t">🤝 AI trekt zich niets aan van vakgrenzen</div>
+  <div class="ib-b">Merk op: de "4 Gouden Regels" hieronder werken voor élk vak — Nederlands, wetenschappen, kunst, economie, wiskunde. AI overschrijdt vakgrenzen, en dat is precies waarom <strong>samenwerking tussen collega's van verschillende vakken</strong> zo waardevol is: een aanpak die werkt bij talen, inspireert al snel een gelijkaardige aanpak bij wiskunde of wetenschappen. Bespreek dit gerust eens vakoverschrijdend op een personeelsvergadering of pedagogische studiedag.</div>
+</div>
+
 <h3 class="ch3">⚖️ 4 Gouden Regels voor AI-bestendige Opdrachten</h3>
 <div style="background: rgba(10,31,168,0.08); border-radius: 8px; padding: 16px; margin: 16px 0;">
 <p style="font-size: 12px; color: #3d4f8a; line-height: 1.8; margin: 0;">
@@ -2219,6 +2247,15 @@ Zeg wel: "Geef IN: brainstorm, eerste versie, eindversie. Beschrijf wat je hebt 
 <strong>4. Bouw REFLECTIE in</strong><br>
 Zeg niet: "Beantwoord deze vragen"<br>
 Zeg wel: "Beantwoord deze vragen, en schrijf daarna: wat zou AI hier anders doen dan jij?"
+</p>
+</div>
+
+<h3 class="ch3">🌍 Een vijfde afweging: is AI hier nodig?</h3>
+<p class="cp">Naast de vraag "is dit een goede opdracht" hoort ook de vraag "is AI hier de juiste keuze" — want AI-gebruik heeft ook een reële milieu-impact.</p>
+<div style="background: rgba(127,224,0,0.1); border-radius: 8px; padding: 16px; margin: 16px 0;">
+<p style="font-size: 12px; color: #3d4f8a; line-height: 1.8; margin: 0;">
+Een zoekopdracht op ChatGPT verbruikt ongeveer <strong>25 keer meer energie</strong> dan diezelfde zoekopdracht op Google. Grote taalmodellen draaien op datacenters die stroom én water verbruiken (voor koeling), en de productie van de nodige hardware genereert elektronisch afval.<br><br>
+<strong>Praktisch:</strong> gebruik AI niet reflexmatig voor alles. Een korte definitie opzoeken kan sneller (en energiezuiniger) via een gewone zoekmachine dan via een chatbot-gesprek.
 </p>
 </div>
 
@@ -2257,7 +2294,9 @@ function m2s8(c){
     {q: 'Wat is het "mens-machine-mens-principe" uit het beleidskader?', o: ['AI-output wordt automatisch goedgekeurd zodra een mens de oorspronkelijke prompt heeft ingetypt.','De inzet van AI vertrekt altijd vanuit een menselijke vraag en eindigt steeds met menselijke controle.','Twee personeelsleden moeten elke AI-output afzonderlijk goedkeuren voor ze gebruikt mag worden.','Machines nemen voortaan de eerste beoordeling op zich, waarna een mens enkel nog de eindscore zet.'], a: 1, f: 'AI kan input leveren of suggereren, maar het traject start en eindigt altijd bij menselijke verantwoordelijkheid.' },
     {q: 'Een schooldocument mag enkel naar een betalende AI-tool als aan welke voorwaarden voldaan is?', o: ['Enkel dat de tool een mooie gebruiksvriendelijke interface heeft voor leerkrachten en leerlingen.','Geen modeltraining met de data, opslag binnen de EU, én een betalende contractuele relatie met verwerkersovereenkomst.','Enkel dat de tool gratis beschikbaar is voor alle leerlingen, ongeacht waar de servers staan.','Enkel dat de IT-dienst de tool ooit al een keer heeft gebruikt voor een ander, niet-gerelateerd doel.'], a: 1, f: 'Alle drie voorwaarden moeten gelden: geen modeltraining, opslag binnen de EU, en een betalende relatie met verwerkersovereenkomst.' },
     {q: 'Wat gebeurt er met een AI-toepassing die niet op de goedgekeurde lijst staat?', o: ['Die mag gewoon gebruikt worden zolang de leerkracht dat zelf verantwoord vindt voor zijn vak.','Die wordt beschouwd als "shadow AI" en is niet toegestaan zonder voorafgaande goedkeuring.','Die mag enkel gebruikt worden bij leerlingen vanaf het vierde middelbaar, niet bij jongere leerlingen.','Die moet eerst minstens 100 keer succesvol getest zijn door andere Vlaamse scholengroepen.'], a: 1, f: 'Niet-goedgekeurde tools zijn "shadow AI" en vereisen voorafgaande goedkeuring via de IT-dienst.' },
-    {q: 'Waar staat het beleidskader m.b.t. evalueren en toetsen met AI?', o: ['AI-gebruik is bij evaluaties altijd toegestaan, tenzij de leerkracht dit uitdrukkelijk verbiedt.','AI-gebruik is bij evaluaties niet toegestaan, tenzij de leerkracht dit uitdrukkelijk toelaat.','AI-gebruik bij evaluaties is een individuele keuze van elke leerling, zonder tussenkomst van de leerkracht.','Evaluaties met AI zijn überhaupt verboden binnen de volledige scholengroep, in elke vorm of context.'], a: 1, f: 'Het uitgangspunt is een verbod, tenzij de leerkracht expliciet en met duidelijke voorwaarden AI toelaat.' }
+    {q: 'Waar staat het beleidskader m.b.t. evalueren en toetsen met AI?', o: ['AI-gebruik is bij evaluaties altijd toegestaan, tenzij de leerkracht dit uitdrukkelijk verbiedt.','AI-gebruik is bij evaluaties niet toegestaan, tenzij de leerkracht dit uitdrukkelijk toelaat.','AI-gebruik bij evaluaties is een individuele keuze van elke leerling, zonder tussenkomst van de leerkracht.','Evaluaties met AI zijn überhaupt verboden binnen de volledige scholengroep, in elke vorm of context.'], a: 1, f: 'Het uitgangspunt is een verbod, tenzij de leerkracht expliciet en met duidelijke voorwaarden AI toelaat.' },
+    {q: 'Ongeveer hoeveel meer energie verbruikt een zoekopdracht op ChatGPT, vergeleken met diezelfde zoekopdracht op Google?', o: ['Ongeveer 2 keer meer energie, een verwaarloosbaar klein verschil in de praktijk.','Ongeveer 25 keer meer energie, door de zware berekeningen in grote datacenters.','Exact evenveel energie, aangezien beide diensten op vergelijkbare servers draaien.','Ongeveer 100 keer minder energie, omdat ChatGPT efficiënter zou werken dan zoekmachines.'], a: 1, f: 'Een ChatGPT-zoekopdracht kost ongeveer 25 keer meer energie dan dezelfde zoekopdracht op Google — een reële afweging bij het kiezen van je tool.' },
+    {q: 'Waarom is het beter om te zeggen "het model berekende..." in plaats van "de AI denkt dat..."?', o: ['Omdat "berekende" een korter en dus sneller uit te spreken woord is voor in de klas.','Omdat AI niet denkt zoals een mens; verkeerd taalgebruik geeft leerlingen een onjuist beeld.','Omdat het woord "denkt" wettelijk verboden is bij het bespreken van AI op school.','Er is eigenlijk geen enkel verschil; beide formuleringen zijn taalkundig exact gelijkwaardig.'], a: 1, f: 'AI "begrijpt" niet zoals een mens — bewust woordgebruik voorkomt dat leerlingen AI als een denkend wezen gaan beschouwen.' }
   ];
   rQuiz(c, quiz, 2, 'mod2', n2, 70);
 }
