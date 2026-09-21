@@ -371,7 +371,7 @@ function showRegistrationGate(){
   `;
 
   modal.innerHTML = `
-    <div style="background: white; border-radius: 16px; padding: 36px; max-width: 520px; width: 100%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.35); margin: auto;">
+    <div style="background: white; border-radius: 16px; padding: 36px; max-width: 560px; width: 100%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.35); margin: auto;">
       <div style="font-size: 44px; margin-bottom: 12px;">📋</div>
       <h2 style="font-family: 'Archivo Black', sans-serif; font-size: 22px; color: var(--blue); margin-bottom: 8px; text-transform: uppercase;">Eerst inschrijven</h2>
       <p style="color: var(--muted); font-weight: 600; margin-bottom: 20px; line-height: 1.5;">Voor je start, schrijf je je in voor deze sessie via <strong>Rembert Academy</strong> — zo telt dit mee als bijscholing.</p>
@@ -381,11 +381,20 @@ function showRegistrationGate(){
         Je browser ondersteunt deze video niet.
       </video>
 
-      <a href="https://apps.powerapps.com/play/e5697d3c-e21d-49b4-9ecc-4c58a225704f?tenantId=e285dc48-b92b-4e97-9ea5-bdaed06bbb77&hidenavbar=true&Screen=VormingInfo&VormingId=6aac06da-93e8-4308-a4e8-b8770bdf643d&SessieId=f59c5d25-8708-4a62-9619-fcd4c0ee1cb3" target="_blank" style="display:block; background: var(--green); color: var(--blue); font-weight: 800; padding: 14px; border-radius: 8px; text-decoration: none; margin-bottom: 12px;">
+      <a href="https://apps.powerapps.com/play/e5697d3c-e21d-49b4-9ecc-4c58a225704f?tenantId=e285dc48-b92b-4e97-9ea5-bdaed06bbb77&hidenavbar=true&Screen=VormingInfo&VormingId=6aac06da-93e8-4308-a4e8-b8770bdf643d&SessieId=f59c5d25-8708-4a62-9619-fcd4c0ee1cb3" target="_blank" style="display:block; background: var(--green); color: var(--blue); font-weight: 800; padding: 14px; border-radius: 8px; text-decoration: none; margin-bottom: 8px;">
         📝 Inschrijven via Rembert Academy →
       </a>
+      <p style="font-size: 11px; color: var(--muted); margin-bottom: 20px; line-height: 1.5;">💡 Krijg je een keuze tussen <strong>"Sint-Rembert Pro"</strong> en <strong>"Smartschool"</strong>? Kies <strong>Smartschool</strong> — dat is de weg die hieronder in de handleiding wordt getoond.</p>
+
+      <div style="text-align: left; border-top: 1px solid #e0e4f5; padding-top: 18px; margin-bottom: 18px;">
+        <p style="font-size: 13px; font-weight: 800; color: var(--blue); margin-bottom: 10px;">🧭 Stap-voor-stap handleiding</p>
+        <div style="border-radius: 10px; overflow: hidden; box-shadow: 0 4px 14px rgba(0,0,0,0.1);">
+          <iframe src="https://www.iorad.com/player/2772301/Inschrijven-voor-professionalisering?src=iframe&oembed=1" width="100%" height="420px" style="width:100%; height:420px; display:block; border:none;" referrerpolicy="strict-origin-when-cross-origin" allow="camera; microphone; clipboard-write;" allowfullscreen></iframe>
+        </div>
+      </div>
+
       <button class="sr-btn g" onclick="confirmRegistered()" style="width: 100%; padding: 14px;">✓ Ik ben ingeschreven, ga verder</button>
-      <p style="font-size: 11px; color: var(--muted); margin-top: 14px; font-weight: 600;">Nog niet ingeschreven? Doe dit eerst via de knop hierboven, kom dan terug.</p>
+      <p style="font-size: 11px; color: var(--muted); margin-top: 14px; font-weight: 600;">Nog niet ingeschreven? Doe dit eerst via de knop of handleiding hierboven, kom dan terug.</p>
     </div>
   `;
 
