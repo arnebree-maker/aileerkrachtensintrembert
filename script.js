@@ -439,20 +439,16 @@ function showSurveyGate(){
 
   // De enquête draait in haar eigen iframe-document, volledig los van de hoofdpagina.
   // Zo kan LimeSurvey's eigen CSS (lettertype/kleuren) nooit meer "lekken" naar de rest van de site.
+  // We gebruiken srcdoc (i.p.v. document.write) — dat is de moderne, betrouwbaarste manier
+  // om losstaande HTML-inhoud in een iframe te laden.
   const frame = document.getElementById('limesurvey-frame');
-  const frameDoc = frame.contentWindow.document;
-  frameDoc.open();
-  frameDoc.write(`
-    <!DOCTYPE html>
-    <html>
-    <head><meta charset="utf-8"><style>body{margin:0;font-family:sans-serif;}</style></head>
-    <body>
-      <div id="1"></div>
-      <script src="https://sintrembert.limesurvey.net/assets/scripts/survey-embed.js" data-survey-id="316141" data-lang="nl" data-container-id="1" data-root-url="https://sintrembert.limesurvey.net"><\/script>
-    </body>
-    </html>
-  `);
-  frameDoc.close();
+  const frameHtml =
+    '<!DOCTYPE html><html><head><meta charset="utf-8">' +
+    '<style>body{margin:0;font-family:sans-serif;}</style></head><body>' +
+    '<div id="1"></div>' +
+    '<script src="https://sintrembert.limesurvey.net/assets/scripts/survey-embed.js" data-survey-id="316141" data-lang="nl" data-container-id="1" data-root-url="https://sintrembert.limesurvey.net"></' + 'script>' +
+    '</body></html>';
+  frame.srcdoc = frameHtml;
 }
 
 function confirmSurveyDone(){
