@@ -423,12 +423,15 @@ function showSurveyGate(){
   `;
 
   modal.innerHTML = `
-    <div style="background: white; border-radius: 16px; padding: 32px; max-width: 820px; width: 100%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.35); margin: auto;">
+    <div style="background: white; border-radius: 16px; padding: 36px; max-width: 520px; width: 100%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.35); margin: auto;">
       <div style="font-size: 44px; margin-bottom: 12px;">📝</div>
       <h2 style="font-family: 'Archivo Black', sans-serif; font-size: 22px; color: var(--blue); margin-bottom: 8px; text-transform: uppercase;">Eerst deze korte enquête</h2>
-      <p style="color: var(--muted); font-weight: 600; margin-bottom: 20px; line-height: 1.5;">Voor je aan Module 1 of 2 begint, vul je even onderstaande enquête in.</p>
+      <p style="color: var(--muted); font-weight: 600; margin-bottom: 24px; line-height: 1.5;">Voor je aan Module 1 of 2 begint, vul je even onderstaande enquête in.</p>
 
-      <iframe id="limesurvey-frame" style="width: 100%; height: 480px; border: none; border-radius: 10px; box-shadow: 0 4px 14px rgba(0,0,0,0.1); margin-bottom: 20px; display: block;"></iframe>
+      <a href="https://sintrembert.limesurvey.net/index.php/316141?lang=nl" target="_blank" style="display:flex; align-items:center; justify-content:center; gap:10px; background: var(--green); color: var(--blue); border-radius: 10px; padding: 16px; margin-bottom: 20px; font-weight: 800; font-size: 15px; text-decoration: none;">
+        📝 Open de enquête in een nieuw tabblad →
+      </a>
+      <p style="font-size: 11px; color: var(--muted); margin-bottom: 20px; line-height: 1.5;">💡 Vul ze daar in, kom dan terug naar dit tabblad.</p>
 
       <button class="sr-btn g" onclick="confirmSurveyDone()" style="width: 100%; padding: 14px;">✓ Ik heb de enquête ingevuld, ga verder</button>
       <p style="font-size: 11px; color: var(--muted); margin-top: 14px; font-weight: 600;">Module 1 en 2 blijven vergrendeld tot je dit bevestigt.</p>
@@ -436,19 +439,6 @@ function showSurveyGate(){
   `;
 
   document.body.appendChild(modal);
-
-  // De enquête draait in haar eigen iframe-document, volledig los van de hoofdpagina.
-  // Zo kan LimeSurvey's eigen CSS (lettertype/kleuren) nooit meer "lekken" naar de rest van de site.
-  // We gebruiken srcdoc (i.p.v. document.write) — dat is de moderne, betrouwbaarste manier
-  // om losstaande HTML-inhoud in een iframe te laden.
-  const frame = document.getElementById('limesurvey-frame');
-  const frameHtml =
-    '<!DOCTYPE html><html><head><meta charset="utf-8">' +
-    '<style>body{margin:0;font-family:sans-serif;}</style></head><body>' +
-    '<div id="1"></div>' +
-    '<script src="https://sintrembert.limesurvey.net/assets/scripts/survey-embed.js" data-survey-id="316141" data-lang="nl" data-container-id="1" data-root-url="https://sintrembert.limesurvey.net"></' + 'script>' +
-    '</body></html>';
-  frame.srcdoc = frameHtml;
 }
 
 function confirmSurveyDone(){
