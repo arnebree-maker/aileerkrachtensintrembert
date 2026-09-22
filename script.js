@@ -6,6 +6,16 @@
 // ── INSCHRIJFLINK PROFESSIONALISERING ──
 const INSCHRIJF = 'https://apps.powerapps.com/play/e/a6565af8-ceef-e6fa-abee-2fc82d974843/a/05835e22-d992-431c-b608-0f9b6756afe6?tenantId=e285dc48-b92b-4e97-9ea5-bdaed06bbb77&hint=67663972-1038-4a71-9d66-1bdbb7f7e205&source=sharebutton&sourcetime=1787594697783#';
 
+// ── CHANGELOG ──
+// Verhoog SITE_VERSION bij elke inhoudelijke update, en voeg een regel toe aan CHANGELOG.
+// Terugkerende gebruikers (die al een naam/rol hebben) krijgen dan automatisch een "wat is er nieuw"-melding.
+const SITE_VERSION = '2026-09-22';
+const CHANGELOG = [
+  { datum: '22 sep 2026', tekst: 'Nieuw: verplichte korte enquête vóór Module 1/2 (enkel leerkrachten). Bestuur: Copilot-module nu gelijk aan leerkrachten, Module 2 vereenvoudigd.' },
+  { datum: '18 sep 2026', tekst: 'Nieuw: inschrijf-stap voor professionaliseringssessie, met stap-voor-stap handleiding.' },
+  { datum: '15 sep 2026', tekst: 'De 4 AI-labels van Sint-Jozefscollege Torhout vervangen het oude 5-labelsysteem, overal in de cursus.' },
+];
+
 // ── STATE ──
 const K = 'sr_ai_v9';
 let localStorageAvailable = false;
@@ -31,6 +41,7 @@ let S = {
   userRole: null,
   registered: false,
   surveyCompleted: false,
+  lastSeenVersion: null,
   starttest:{taken:false, score:0, passed:false}, 
   mod1:{step:0,done:false,skipped:false}, 
   mod2:{step:0,done:false}, 
@@ -446,6 +457,46 @@ function confirmSurveyDone(){
   ss();
   const modal = document.getElementById('survey-modal');
   if(modal) modal.remove();
+}
+
+function checkForUpdates(){
+  // Eerste bezoek ooit (nooit een versie gezien): gewoon onthouden, geen melding tonen.
+  if(!S.lastSeenVersion){
+    S.lastSeenVersion = SITE_VERSION;
+    ss();
+    return;
+  }
+  // Al de laatste versie gezien: niets te tonen.
+  if(S.lastSeenVersion === SITE_VERSION) return;
+
+  const banner = document.createElement('div');
+  banner.id = 'changelog-banner';
+  banner.style.cssText = `
+    position: fixed; bottom: 24px; left: 24px; max-width: 380px; z-index: 8000;
+    background: white; border-radius: 12px; box-shadow: 0 12px 32px rgba(0,0,0,0.25);
+    border-left: 5px solid var(--green); padding: 18px 20px; animation: slideUp 0.3s ease;
+  `;
+
+  const items = CHANGELOG.slice(0, 3).map(item =>
+    `<li style="margin-bottom:8px;"><strong style="color:var(--blue);">${item.datum}:</strong> ${item.tekst}</li>`
+  ).join('');
+
+  banner.innerHTML = `
+    <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:10px; margin-bottom:10px;">
+      <div style="font-weight:800; color:var(--blue); font-size:14px;">🆕 Nieuw sinds je laatste bezoek</div>
+      <button onclick="dismissChangelog()" style="background:none; border:none; font-size:18px; cursor:pointer; color:#999; line-height:1; padding:0;">✕</button>
+    </div>
+    <ul style="margin:0; padding-left:18px; font-size:12px; color:#3d4f8a; line-height:1.6;">${items}</ul>
+  `;
+
+  document.body.appendChild(banner);
+}
+
+function dismissChangelog(){
+  S.lastSeenVersion = SITE_VERSION;
+  ss();
+  const banner = document.getElementById('changelog-banner');
+  if(banner) banner.remove();
 }
 function tryC(){ (S.mod1.done && S.mod2.done) ? sv('cert') : alert('Voltooi eerst de 2 verplichte modules (1 en 2).'); }
 function rDots(m,tot,cur){
@@ -4120,6 +4171,8 @@ window.addEventListener('DOMContentLoaded', function() {
       console.log('Ga naar home');
       sv('home'); 
     }
+    // Enkel voor terugkerende gebruikers (rol al gekozen): check of er iets nieuws is sinds hun laatste bezoek
+    checkForUpdates();
   }
 });
 
