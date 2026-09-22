@@ -428,9 +428,7 @@ function showSurveyGate(){
       <h2 style="font-family: 'Archivo Black', sans-serif; font-size: 22px; color: var(--blue); margin-bottom: 8px; text-transform: uppercase;">Eerst deze korte enquête</h2>
       <p style="color: var(--muted); font-weight: 600; margin-bottom: 20px; line-height: 1.5;">Voor je aan Module 1 of 2 begint, vul je even onderstaande enquête in.</p>
 
-      <div id="limesurvey-container" style="width: 100%; min-height: 420px; overflow-y: auto; border-radius: 10px; box-shadow: 0 4px 14px rgba(0,0,0,0.1); margin-bottom: 20px; text-align: left;">
-        <script src="https://sintrembert.limesurvey.net/assets/scripts/survey-embed.js" data-survey-id="316141" data-lang="nl" data-container-id="1" data-root-url="https://sintrembert.limesurvey.net"></script>
-      </div>
+      <div id="limesurvey-container" style="width: 100%; min-height: 420px; overflow-y: auto; border-radius: 10px; box-shadow: 0 4px 14px rgba(0,0,0,0.1); margin-bottom: 20px; text-align: left;"></div>
 
       <button class="sr-btn g" onclick="confirmSurveyDone()" style="width: 100%; padding: 14px;">✓ Ik heb de enquête ingevuld, ga verder</button>
       <p style="font-size: 11px; color: var(--muted); margin-top: 14px; font-weight: 600;">Module 1 en 2 blijven vergrendeld tot je dit bevestigt.</p>
@@ -438,6 +436,16 @@ function showSurveyGate(){
   `;
 
   document.body.appendChild(modal);
+
+  // Een <script>-tag die via innerHTML wordt ingevoegd, wordt door browsers NOOIT uitgevoerd.
+  // Daarom bouwen we het scriptelement hier apart op en voegen het pas daarna toe aan de DOM.
+  const lsScript = document.createElement('script');
+  lsScript.src = 'https://sintrembert.limesurvey.net/assets/scripts/survey-embed.js';
+  lsScript.setAttribute('data-survey-id', '316141');
+  lsScript.setAttribute('data-lang', 'nl');
+  lsScript.setAttribute('data-container-id', '1');
+  lsScript.setAttribute('data-root-url', 'https://sintrembert.limesurvey.net');
+  document.getElementById('limesurvey-container').appendChild(lsScript);
 }
 
 function confirmSurveyDone(){
