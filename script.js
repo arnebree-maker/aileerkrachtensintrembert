@@ -431,6 +431,21 @@ function showRegistrationGate(){
     justify-content: center; z-index: 9000; padding: 20px; overflow-y: auto;
   `;
 
+  const isTeacher = S.userRole === 'teacher';
+
+  const hintText = isTeacher
+    ? '💡 Krijg je een keuze tussen <strong>"Sint-Rembert Pro"</strong> en <strong>"Smartschool"</strong>? Kies <strong>Smartschool</strong> — dat is de weg die hieronder in de handleiding wordt getoond.'
+    : '💡 Krijg je een keuze tussen <strong>"Sint-Rembert Pro"</strong> en <strong>"Smartschool"</strong>? Kies <strong>Sint-Rembert Pro</strong> — dat is de weg die hieronder in de video wordt getoond.';
+
+  const handleidingHtml = isTeacher
+    ? `<div style="border-radius: 10px; overflow: hidden; box-shadow: 0 4px 14px rgba(0,0,0,0.1);">
+         <iframe src="https://www.iorad.com/player/2772301/Inschrijven-voor-professionalisering?src=iframe&oembed=1" width="100%" height="420px" style="width:100%; height:420px; display:block; border:none;" referrerpolicy="strict-origin-when-cross-origin" allow="camera; microphone; clipboard-write;" allowfullscreen></iframe>
+       </div>`
+    : `<video controls style="width: 100%; max-width: 280px; border-radius: 10px; margin: 0 auto; display: block; box-shadow: 0 4px 14px rgba(0,0,0,0.1);">
+         <source src="admin-rembertpro-promo.mp4" type="video/mp4">
+         Je browser ondersteunt deze video niet.
+       </video>`;
+
   modal.innerHTML = `
     <div style="background: white; border-radius: 16px; padding: 36px; max-width: 560px; width: 100%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.35); margin: auto;">
       <div style="font-size: 44px; margin-bottom: 12px;">📋</div>
@@ -440,13 +455,11 @@ function showRegistrationGate(){
       <a href="https://apps.powerapps.com/play/e5697d3c-e21d-49b4-9ecc-4c58a225704f?tenantId=e285dc48-b92b-4e97-9ea5-bdaed06bbb77&hidenavbar=true&Screen=VormingInfo&VormingId=6aac06da-93e8-4308-a4e8-b8770bdf643d&SessieId=f59c5d25-8708-4a62-9619-fcd4c0ee1cb3" target="_blank" style="display:block; background: var(--green); color: var(--blue); font-weight: 800; padding: 14px; border-radius: 8px; text-decoration: none; margin-bottom: 8px;">
         📝 Inschrijven via Rembert Academy →
       </a>
-      <p style="font-size: 11px; color: var(--muted); margin-bottom: 20px; line-height: 1.5;">💡 Krijg je een keuze tussen <strong>"Sint-Rembert Pro"</strong> en <strong>"Smartschool"</strong>? Kies <strong>Smartschool</strong> — dat is de weg die hieronder in de handleiding wordt getoond.</p>
+      <p style="font-size: 11px; color: var(--muted); margin-bottom: 20px; line-height: 1.5;">${hintText}</p>
 
       <div style="text-align: left; border-top: 1px solid #e0e4f5; padding-top: 18px; margin-bottom: 18px;">
         <p style="font-size: 13px; font-weight: 800; color: var(--blue); margin-bottom: 10px;">🧭 Stap-voor-stap handleiding</p>
-        <div style="border-radius: 10px; overflow: hidden; box-shadow: 0 4px 14px rgba(0,0,0,0.1);">
-          <iframe src="https://www.iorad.com/player/2772301/Inschrijven-voor-professionalisering?src=iframe&oembed=1" width="100%" height="420px" style="width:100%; height:420px; display:block; border:none;" referrerpolicy="strict-origin-when-cross-origin" allow="camera; microphone; clipboard-write;" allowfullscreen></iframe>
-        </div>
+        ${handleidingHtml}
       </div>
 
       <button class="sr-btn g" onclick="confirmRegistered()" style="width: 100%; padding: 14px;">✓ Ik ben ingeschreven, ga verder</button>
@@ -793,12 +806,12 @@ function renderStellingen(containerId, groupKey, stellingen){
    ════════════════════════════════════════════ */
 
 const ST_Q = [
-  { q:'Wat is het kernverschil tussen vroegere AI en generatieve AI (GenAI)?',
+  { q:'Wat is het kernverschil tussen vroegere AI (van vóór het ChatGPT-tijdperk) en generatieve AI (GenAI)?',
     o:['Vroegere AI classificeerde of voorspelde; GenAI creëert volledig nieuwe content zoals tekst, beeld of code.',
        'GenAI is simpelweg een snellere versie van dezelfde technologie als vroegere AI-systemen.',
        'Vroegere AI kon enkel beelden verwerken, GenAI uitsluitend tekst.',
        'Er is geen wezenlijk verschil — beide termen verwijzen naar dezelfde technologie.'],
-    a:0, f:'Vroegere AI (zoals een spamfilter) classificeerde of voorspelde. GenAI gaat een stap verder en creëert nieuwe content.' },
+    a:0, f:'Vroegere AI van vóór ChatGPT (zoals een spamfilter) classificeerde of voorspelde. GenAI gaat een stap verder en creëert nieuwe content.' },
   { q:'Wat is een hallucinatie bij generatieve AI?',
     o:['Wanneer een AI-model weigert te antwoorden op een onveilige vraag.',
        'Wanneer een AI-model met grote stelligheid feitelijk onjuiste of verzonnen informatie genereert.',
