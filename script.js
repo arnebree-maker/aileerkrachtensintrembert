@@ -423,7 +423,7 @@ function showSurveyGate(){
   `;
 
   modal.innerHTML = `
-    <div style="background: white; border-radius: 16px; padding: 36px; max-width: 560px; width: 100%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.35); margin: auto;">
+    <div style="background: white; border-radius: 16px; padding: 32px; max-width: 820px; width: 100%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.35); margin: auto;">
       <div style="font-size: 44px; margin-bottom: 12px;">📝</div>
       <h2 style="font-family: 'Archivo Black', sans-serif; font-size: 22px; color: var(--blue); margin-bottom: 8px; text-transform: uppercase;">Eerst deze korte enquête</h2>
       <p style="color: var(--muted); font-weight: 600; margin-bottom: 20px; line-height: 1.5;">Voor je aan Module 1 of 2 begint, vul je even onderstaande enquête in.</p>
