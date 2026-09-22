@@ -343,5 +343,16 @@
   <span id="helpdesk-text" style="font-size:13px; font-weight:700; white-space:nowrap; overflow:hidden; max-width:0; transition:max-width 0.25s ease, margin-left 0.25s ease; display:inline-block;">Vragen? Mail ons</span>
 </a>
 
+<!-- ════════ RESET PROGRESS BUTTON ════════ -->
+<button onclick="confirmResetProgress()"
+   id="reset-btn"
+   title="Opnieuw beginnen vanaf 0"
+   style="position:fixed; bottom:88px; right:24px; z-index:9998; background:white; color:var(--muted); height:40px; min-width:40px; border-radius:20px; border:1px solid #e0e4f5; display:flex; align-items:center; justify-content:center; text-decoration:none; box-shadow:0 4px 12px rgba(0,0,0,0.12); transition:all 0.25s ease; overflow:hidden; padding:0; cursor:pointer;"
+   onmouseover="this.style.minWidth='200px'; this.style.paddingLeft='14px'; this.style.paddingRight='16px'; this.style.justifyContent='flex-start'; document.getElementById('reset-text').style.maxWidth='160px'; document.getElementById('reset-text').style.marginLeft='8px';"
+   onmouseout="this.style.minWidth='40px'; this.style.paddingLeft='0'; this.style.paddingRight='0'; this.style.justifyContent='center'; document.getElementById('reset-text').style.maxWidth='0'; document.getElementById('reset-text').style.marginLeft='0';">
+  <span style="font-size:16px; flex-shrink:0; line-height:1;">↺</span>
+  <span id="reset-text" style="font-size:12px; font-weight:700; white-space:nowrap; overflow:hidden; max-width:0; transition:max-width 0.25s ease, margin-left 0.25s ease; display:inline-block;">Opnieuw beginnen</span>
+</button>
+
 </body>
 </html>
