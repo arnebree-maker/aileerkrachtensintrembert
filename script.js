@@ -281,8 +281,8 @@ function up(){
   const stEl = document.getElementById('st-status');
   if(stEl){
     if(!S.starttest.taken){ stEl.textContent = 'Nog te starten'; stEl.className = ''; }
-    else if(S.starttest.passed){ stEl.textContent = '✓ '+S.starttest.score+'% — M1 overgeslagen'; stEl.className = 'st-pass'; }
-    else { stEl.textContent = S.starttest.score+'% — M1 vereist'; stEl.className = 'st-fail'; }
+    else if(S.starttest.passed){ stEl.textContent = '✓ '+S.starttest.score+'%'; stEl.className = 'st-pass'; }
+    else { stEl.textContent = S.starttest.score+'%'; stEl.className = 'st-fail'; }
   }
 
   if(!S.starttest.taken){
@@ -296,7 +296,7 @@ function up(){
   document.getElementById('nav-mod1').className = S.mod1.done ? 'ni done' : 'ni available';
   document.getElementById('nav-mod2').className = S.mod2.done ? 'ni done' : (S.mod1.done ? 'ni available' : 'ni locked');
   if(S.mod1.done && S.mod2.done){ document.getElementById('nav-cert').className='ni available'; document.getElementById('lc').textContent='›'; }
-  if(S.mod1.done) document.getElementById('l1').innerHTML = S.mod1.skipped ? '<span style="color:var(--green)" title="Overgeslagen via startest">⏩</span>' : '<span style="color:var(--green)">✓</span>';
+  if(S.mod1.done) document.getElementById('l1').innerHTML = '<span style="color:var(--green)">✓</span>';
   else document.getElementById('l1').textContent = '›';
   if(S.mod2.done) document.getElementById('l2').innerHTML = '<span style="color:var(--green)">✓</span>';
   else if(S.mod1.done) document.getElementById('l2').textContent = '›';
@@ -385,7 +385,7 @@ function sm(n){
     rm1(); 
     sv('mod1'); 
   }
-  else if(n===2 && (S.mod1.done || S.mod1.skipped)){ 
+  else if(n===2 && S.mod1.done){ 
     console.log('✓ Start Module 2, rol:', S.userRole);
     rm2(); 
     sv('mod2'); 
@@ -696,7 +696,7 @@ function buildAnswersReportTeacher(){
   // Starttest
   html += `<div style="margin-bottom:20px;"><h2 style="font-size:16px; color:var(--blue); background:#f0f2f5; padding:8px 12px; border-radius:6px;">Startest</h2>`;
   html += S.starttest.taken
-    ? `<p style="font-size:12px; margin:8px 0;">Resultaat: <strong>${S.starttest.score}%</strong> — ${S.starttest.passed ? 'Geslaagd: Module 1 overgeslagen' : 'Niet geslaagd: Module 1 gevolgd'}</p>`
+    ? `<p style="font-size:12px; margin:8px 0;">Resultaat: <strong>${S.starttest.score}%</strong> (diagnostisch — Module 1 is voor iedereen verplicht)</p>`
     : `<p style="font-size:12px; margin:8px 0;">Nog niet afgelegd.</p>`;
   html += `</div>`;
 
@@ -881,9 +881,9 @@ function renderStartTestLocked(c){
 <h2 class="ch2">Je hebt de startest al <em>afgelegd</em></h2>
 <div class="tr-box ${pass?'pass':'fail'}">
   <div class="tr-score ${pass?'pass':'fail'}">${S.starttest.score}%</div>
-  <div class="tr-msg">${pass ? '✅ Geslaagd — Module 1 overgeslagen' : 'Onder de 80% — Module 1 is vereist'}</div>
-  <div class="tr-sub">Deze test kan maar één keer worden afgelegd. ${pass ? 'Je kan meteen verder naar Module 2: Beleid &amp; Leerlingen.' : 'Doorloop Module 1 om de basis op te frissen — daarna ontgrendelt Module 2 automatisch.'}</div>
-  <button class="sr-btn g" onclick="${pass?'sm(2)':'sm(1)'}">${pass?'Naar Module 2 →':'Start Module 1 →'}</button>
+  <div class="tr-msg">${pass ? '✅ Sterke score' : 'Score onder de 80%'}</div>
+  <div class="tr-sub">Deze test kan maar één keer worden afgelegd. Module 1 is hoe dan ook verplicht — ${pass ? 'een goede opfrisser, ook met deze score.' : 'die leert je precies wat je hier nog miste.'}</div>
+  <button class="sr-btn g" onclick="sm(1)">Start Module 1 →</button>
 </div>`;
 }
 
@@ -893,7 +893,7 @@ function renderStartTestQuiz(c){
   let inner = `
 <div class="s-badge">🧪 Startest · Verplicht · 1 kans</div>
 <h2 class="ch2">Test je <em>basiskennis</em> over AI</h2>
-<p class="cp">10 vragen over wat AI is, hoe generatieve AI werkt en welke risico's je moet kennen. Haal je <strong>80% (8/10)</strong>, dan sla je Module 1 over en start je meteen bij Module 2: Beleid &amp; Leerlingen. Let op: je kan deze test maar <strong>één keer</strong> afleggen — kies dus bewust.</p>
+<p class="cp">10 vragen over wat AI is, hoe generatieve AI werkt en welke risico's je moet kennen. Dit is een <strong>diagnostische test</strong>: je ziet meteen wat je al goed weet en waar je nog kan bijleren. Module 1 volg je hierna sowieso — ook bij een hoge score blijft ze verplicht. Let op: je kan deze test maar <strong>één keer</strong> afleggen.</p>
 <div class="qc">
   <div class="qh"><div class="qi">🧪</div><div><div class="qt">Startest — Wat is AI?</div><div class="qs">10 vragen · slaagdrempel 80%</div></div></div>`;
   ST_Q.forEach((q,qi)=>{
@@ -934,29 +934,20 @@ function renderStartTestQuiz(c){
     const sc = Math.round(stt.correct.filter(Boolean).length / ST_Q.length * 100);
     const passed = sc >= 80;
     S.starttest = { taken:true, score:sc, passed:passed };
-    // GEWIJZIGD: Niet meer automatisch overslaan! Gebruiker MOET Module 1 doen, maar kan skippen
+    // De startest is puur diagnostisch: het resultaat bepaalt niet meer welke modules verplicht zijn.
+    // Module 1 is voor iedereen verplicht, ongeacht de score hier.
     ss(); up(); rmc();
     const r=document.getElementById(id+'-r');
     r.className='q-res show';
     let msg = passed 
-      ? '✅ Geslaagd ('+sc+'%)! Je kan Module 1 overslaan, maar we raden aan dit eerst te doen.'
-      : '❌ Nog niet voldoende ('+sc+'%) — Module 1 is vereist.';
+      ? '✅ Sterke score ('+sc+'%)! Module 1 blijft wel verplicht — een goede opfrisser, ook als je al veel weet.'
+      : '📚 Score: '+sc+'%. Module 1 leert je precies wat je hier nog miste.';
     r.innerHTML = '<div class="q-score '+(passed?'pass':'fail')+'">'+sc+'%</div><div class="q-msg">'+msg+'</div>';
     
     const nb=document.getElementById(id+'-n');
     nb.textContent = 'Naar de hoofdpagina →';
     nb.disabled = false;
     nb.onclick = ()=> goHome();
-    
-    // Voeg skip-knop toe als 80%+
-    if(passed){
-      const skipBtn = document.createElement('button');
-      skipBtn.className = 'q-next';
-      skipBtn.textContent = 'Skip → Module 2';
-      skipBtn.style.marginLeft = '8px';
-      skipBtn.onclick = ()=> { S.mod1.skipped = true; ss(); goHome(); };
-      nb.parentElement.appendChild(skipBtn);
-    }
   };
 }
 
