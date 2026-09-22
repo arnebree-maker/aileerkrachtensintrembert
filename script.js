@@ -429,7 +429,7 @@ function showSurveyGate(){
       <p style="color: var(--muted); font-weight: 600; margin-bottom: 20px; line-height: 1.5;">Voor je aan Module 1 of 2 begint, vul je even onderstaande enquête in.</p>
 
       <div id="limesurvey-container" style="width: 100%; min-height: 420px; overflow-y: auto; border-radius: 10px; box-shadow: 0 4px 14px rgba(0,0,0,0.1); margin-bottom: 20px; text-align: left;">
-        <script src="https://sintrembert.limesurvey.net/assets/scripts/survey-embed.js" data-survey-id="554433" data-lang="nl" data-container-id="1" data-root-url="https://sintrembert.limesurvey.net"></script>
+        <script src="https://sintrembert.limesurvey.net/assets/scripts/survey-embed.js" data-survey-id="316141" data-lang="nl" data-container-id="1" data-root-url="https://sintrembert.limesurvey.net"></script>
       </div>
 
       <button class="sr-btn g" onclick="confirmSurveyDone()" style="width: 100%; padding: 14px;">✓ Ik heb de enquête ingevuld, ga verder</button>
