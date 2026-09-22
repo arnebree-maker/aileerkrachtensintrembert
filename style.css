@@ -2396,3 +2396,8 @@ button { font-family: inherit; cursor: pointer; border: none; }
 .case-content p {
   margin-bottom: 8px;
 }
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
