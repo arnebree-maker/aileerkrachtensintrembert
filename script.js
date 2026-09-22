@@ -16,6 +16,14 @@ const CHANGELOG = [
   { datum: '15 sep 2026', tekst: 'De 4 AI-labels van Sint-Jozefscollege Torhout vervangen het oude 5-labelsysteem, overal in de cursus.' },
 ];
 
+// ── GEFORCEERDE RESET ──
+// Verhoog dit nummer met 1 wanneer IEDEREEN automatisch terug bij nul moet beginnen
+// (bv. na een testfase, of bij een fundamentele herstructurering). Bij een mismatch
+// wordt de lokale voortgang van elke bezoeker automatisch gewist bij hun volgende bezoek —
+// zij hoeven zelf niets te doen of te klikken.
+const FORCE_RESET_VERSION = 1;
+let forcedResetJustHappened = false;
+
 // ── STATE ──
 const K = 'sr_ai_v9';
 let localStorageAvailable = false;
@@ -42,6 +50,7 @@ let S = {
   registered: false,
   surveyCompleted: false,
   lastSeenVersion: null,
+  forceResetVersion: FORCE_RESET_VERSION,
   starttest:{taken:false, score:0, passed:false}, 
   mod1:{step:0,done:false,skipped:false}, 
   mod2:{step:0,done:false}, 
@@ -61,8 +70,28 @@ function ld(){
     const s = localStorage.getItem(K);
     console.log('📦 Load state:', s ? 'Gevonden' : 'Nieuw');
     if(s){ 
-      S = Object.assign(S, JSON.parse(s)); 
+      const parsed = JSON.parse(s);
+      // Belangrijk: check de RUWE opgeslagen waarde, vóór het samenvoegen met S.
+      // Object.assign zou anders de standaardwaarde van S laten staan wanneer oude
+      // data dit veld nog niet had — waardoor een mismatch nooit gedetecteerd wordt.
+      const storedForceVer = Object.prototype.hasOwnProperty.call(parsed, 'forceResetVersion') ? parsed.forceResetVersion : 0;
+      S = Object.assign(S, parsed); 
       console.log('✓ State geladen:', S);
+
+      // Geforceerde reset: is de opgeslagen versie verouderd t.o.v. FORCE_RESET_VERSION?
+      // Zo ja: wis alles en start deze bezoeker fris, zonder dat die zelf iets moet doen.
+      if(storedForceVer !== FORCE_RESET_VERSION){
+        console.log('🔄 Geforceerde reset actief — oude voortgang wordt gewist');
+        localStorage.removeItem(K);
+        S = {
+          name:'', userRole: null, registered: false, surveyCompleted: false,
+          lastSeenVersion: null, forceResetVersion: FORCE_RESET_VERSION,
+          starttest:{taken:false, score:0, passed:false},
+          mod1:{step:0,done:false,skipped:false}, mod2:{step:0,done:false}, mod3:{step:0,done:false},
+          certPrinted:false
+        };
+        forcedResetJustHappened = true;
+      }
       return; 
     }
     const oud = localStorage.getItem('sr_ai_v8') || localStorage.getItem('sr_ai_v7') || localStorage.getItem('sr_ai_v6');
@@ -510,6 +539,24 @@ function dismissChangelog(){
   ss();
   const banner = document.getElementById('changelog-banner');
   if(banner) banner.remove();
+}
+
+function showForcedResetNotice(){
+  const banner = document.createElement('div');
+  banner.id = 'forced-reset-banner';
+  banner.style.cssText = `
+    position: fixed; bottom: 24px; left: 24px; max-width: 380px; z-index: 10001;
+    background: white; border-radius: 12px; box-shadow: 0 12px 32px rgba(0,0,0,0.25);
+    border-left: 5px solid var(--orange); padding: 18px 20px; animation: slideUp 0.3s ease;
+  `;
+  banner.innerHTML = `
+    <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:10px; margin-bottom:8px;">
+      <div style="font-weight:800; color:var(--blue); font-size:14px;">🔄 De cursus is nu officieel gestart</div>
+      <button onclick="document.getElementById('forced-reset-banner').remove()" style="background:none; border:none; font-size:18px; cursor:pointer; color:#999; line-height:1; padding:0;">✕</button>
+    </div>
+    <p style="margin:0; font-size:12px; color:#3d4f8a; line-height:1.6;">Je voortgang van de testfase is gewist — je begint fris van start. Dit gebeurde automatisch, je hoeft zelf niets te doen.</p>
+  `;
+  document.body.appendChild(banner);
 }
 function tryC(){ (S.mod1.done && S.mod2.done) ? sv('cert') : alert('Voltooi eerst de 2 verplichte modules (1 en 2).'); }
 function rDots(m,tot,cur){
@@ -4186,6 +4233,15 @@ window.addEventListener('DOMContentLoaded', function() {
     }
     // Enkel voor terugkerende gebruikers (rol al gekozen): check of er iets nieuws is sinds hun laatste bezoek
     checkForUpdates();
+  }
+
+  // Toon de huidige versiedatum in de footer (altijd, ongeacht rolstatus)
+  const versionEl = document.getElementById('footer-version');
+  if(versionEl) versionEl.textContent = SITE_VERSION;
+
+  // Was deze bezoeker net getroffen door een geforceerde reset? Toon dan een korte, geruststellende melding.
+  if(forcedResetJustHappened){
+    showForcedResetNotice();
   }
 });
 
