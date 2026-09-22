@@ -30,6 +30,7 @@ let S = {
   name:'', 
   userRole: null,
   registered: false,
+  surveyCompleted: false,
   starttest:{taken:false, score:0, passed:false}, 
   mod1:{step:0,done:false,skipped:false}, 
   mod2:{step:0,done:false}, 
@@ -319,6 +320,12 @@ function sm(n){
     goStartTest(); 
     return; 
   }
+
+  if((n===1 || n===2) && !S.surveyCompleted){
+    console.log('⚠️ Enquête nog niet bevestigd');
+    showSurveyGate();
+    return;
+  }
   
   if(n===1){ 
     console.log('✓ Start Module 1');
@@ -349,6 +356,7 @@ function tm(n){
 function goHome(){ 
   if(!S.starttest.taken){ goStartTest(); return; } 
   sv('home');
+  if(!S.surveyCompleted){ showSurveyGate(); }
   // Voeg FAQ toe na kort moment
   setTimeout(()=>{
     const existing = document.getElementById('faq-section');
@@ -376,11 +384,6 @@ function showRegistrationGate(){
       <h2 style="font-family: 'Archivo Black', sans-serif; font-size: 22px; color: var(--blue); margin-bottom: 8px; text-transform: uppercase;">Eerst inschrijven</h2>
       <p style="color: var(--muted); font-weight: 600; margin-bottom: 20px; line-height: 1.5;">Voor je start, schrijf je je in voor deze sessie via <strong>Rembert Academy</strong> — zo telt dit mee als bijscholing.</p>
 
-      <video controls style="width: 100%; max-width: 320px; border-radius: 12px; margin: 0 auto 20px auto; display: block; box-shadow: 0 8px 20px rgba(0,0,0,0.15);">
-        <source src="rembert-academie-promo.mp4" type="video/mp4">
-        Je browser ondersteunt deze video niet.
-      </video>
-
       <a href="https://apps.powerapps.com/play/e5697d3c-e21d-49b4-9ecc-4c58a225704f?tenantId=e285dc48-b92b-4e97-9ea5-bdaed06bbb77&hidenavbar=true&Screen=VormingInfo&VormingId=6aac06da-93e8-4308-a4e8-b8770bdf643d&SessieId=f59c5d25-8708-4a62-9619-fcd4c0ee1cb3" target="_blank" style="display:block; background: var(--green); color: var(--blue); font-weight: 800; padding: 14px; border-radius: 8px; text-decoration: none; margin-bottom: 8px;">
         📝 Inschrijven via Rembert Academy →
       </a>
@@ -407,6 +410,41 @@ function confirmRegistered(){
   const modal = document.getElementById('registration-modal');
   if(modal) modal.remove();
   showNameEntry(); renderStartTest(); sv('starttest');
+}
+
+function showSurveyGate(){
+  if(document.getElementById('survey-modal')) return;
+  const modal = document.createElement('div');
+  modal.id = 'survey-modal';
+  modal.style.cssText = `
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(10,31,168,0.92); display: flex; align-items: center;
+    justify-content: center; z-index: 9000; padding: 20px; overflow-y: auto;
+  `;
+
+  modal.innerHTML = `
+    <div style="background: white; border-radius: 16px; padding: 36px; max-width: 560px; width: 100%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.35); margin: auto;">
+      <div style="font-size: 44px; margin-bottom: 12px;">📝</div>
+      <h2 style="font-family: 'Archivo Black', sans-serif; font-size: 22px; color: var(--blue); margin-bottom: 8px; text-transform: uppercase;">Eerst deze korte enquête</h2>
+      <p style="color: var(--muted); font-weight: 600; margin-bottom: 20px; line-height: 1.5;">Voor je aan Module 1 of 2 begint, vul je even onderstaande enquête in.</p>
+
+      <div id="limesurvey-container" style="width: 100%; min-height: 420px; overflow-y: auto; border-radius: 10px; box-shadow: 0 4px 14px rgba(0,0,0,0.1); margin-bottom: 20px; text-align: left;">
+        <script src="https://sintrembert.limesurvey.net/assets/scripts/survey-embed.js" data-survey-id="554433" data-lang="nl" data-container-id="1" data-root-url="https://sintrembert.limesurvey.net"></script>
+      </div>
+
+      <button class="sr-btn g" onclick="confirmSurveyDone()" style="width: 100%; padding: 14px;">✓ Ik heb de enquête ingevuld, ga verder</button>
+      <p style="font-size: 11px; color: var(--muted); margin-top: 14px; font-weight: 600;">Module 1 en 2 blijven vergrendeld tot je dit bevestigt.</p>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+}
+
+function confirmSurveyDone(){
+  S.surveyCompleted = true;
+  ss();
+  const modal = document.getElementById('survey-modal');
+  if(modal) modal.remove();
 }
 function tryC(){ (S.mod1.done && S.mod2.done) ? sv('cert') : alert('Voltooi eerst de 2 verplichte modules (1 en 2).'); }
 function rDots(m,tot,cur){
@@ -777,9 +815,9 @@ function renderStartTestQuiz(c){
     r.innerHTML = '<div class="q-score '+(passed?'pass':'fail')+'">'+sc+'%</div><div class="q-msg">'+msg+'</div>';
     
     const nb=document.getElementById(id+'-n');
-    nb.textContent = 'Start Module 1 →';
+    nb.textContent = 'Naar de hoofdpagina →';
     nb.disabled = false;
-    nb.onclick = ()=> sm(1);
+    nb.onclick = ()=> goHome();
     
     // Voeg skip-knop toe als 80%+
     if(passed){
@@ -787,7 +825,7 @@ function renderStartTestQuiz(c){
       skipBtn.className = 'q-next';
       skipBtn.textContent = 'Skip → Module 2';
       skipBtn.style.marginLeft = '8px';
-      skipBtn.onclick = ()=> { S.mod1.skipped = true; ss(); sm(2); };
+      skipBtn.onclick = ()=> { S.mod1.skipped = true; ss(); goHome(); };
       nb.parentElement.appendChild(skipBtn);
     }
   };
