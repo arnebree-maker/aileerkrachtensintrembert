@@ -80,19 +80,32 @@ function ld(){
 }
 
 // Cache-clear functie (typ in console: clearCache())
+function confirmResetProgress(){
+  const modal = document.createElement('div');
+  modal.id = 'reset-modal';
+  modal.style.cssText = `
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(10,31,168,0.85); display: flex; align-items: center;
+    justify-content: center; z-index: 9500; padding: 20px;
+  `;
+  modal.innerHTML = `
+    <div style="background: white; border-radius: 16px; padding: 32px; max-width: 420px; width: 100%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.35);">
+      <div style="font-size: 40px; margin-bottom: 10px;">⚠️</div>
+      <h2 style="font-family: 'Archivo Black', sans-serif; font-size: 19px; color: var(--red); margin-bottom: 10px; text-transform: uppercase;">Helemaal opnieuw beginnen?</h2>
+      <p style="color: var(--muted); font-weight: 600; margin-bottom: 24px; line-height: 1.5; font-size: 14px;">Dit wist al je voortgang, antwoorden en je certificaatstatus — onherroepelijk, enkel op dit toestel/deze browser. Weet je het zeker?</p>
+      <div style="display:flex; gap:10px;">
+        <button onclick="document.getElementById('reset-modal').remove()" style="flex:1; background:white; border:2px solid #ccc; color:#666; font-weight:700; padding:12px; border-radius:8px; cursor:pointer;">Annuleren</button>
+        <button onclick="clearCache()" style="flex:1; background:var(--red); border:none; color:white; font-weight:800; padding:12px; border-radius:8px; cursor:pointer;">Ja, wis alles</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+}
+
 function clearCache(){
   console.log('🗑️ Cache wissen...');
   localStorage.clear();
-  S = { 
-    name:'', 
-    userRole: null,
-    starttest:{taken:false, score:0, passed:false}, 
-    mod1:{step:0,done:false,skipped:false}, 
-    mod2:{step:0,done:false}, 
-    mod3:{step:0,done:false}, 
-    certPrinted:false 
-  };
-  console.log('✓ Cache gewist, refresh pagina: location.reload()');
+  location.reload();
 }
 
 function ss(){ 
