@@ -321,7 +321,7 @@ function sm(n){
     return; 
   }
 
-  if((n===1 || n===2) && !S.surveyCompleted){
+  if((n===1 || n===2) && S.userRole === 'teacher' && !S.surveyCompleted){
     console.log('⚠️ Enquête nog niet bevestigd');
     showSurveyGate();
     return;
@@ -356,7 +356,7 @@ function tm(n){
 function goHome(){ 
   if(!S.starttest.taken){ goStartTest(); return; } 
   sv('home');
-  if(!S.surveyCompleted){ showSurveyGate(); }
+  if(S.userRole === 'teacher' && !S.surveyCompleted){ showSurveyGate(); }
   // Voeg FAQ toe na kort moment
   setTimeout(()=>{
     const existing = document.getElementById('faq-section');
@@ -428,7 +428,7 @@ function showSurveyGate(){
       <h2 style="font-family: 'Archivo Black', sans-serif; font-size: 22px; color: var(--blue); margin-bottom: 8px; text-transform: uppercase;">Eerst deze korte enquête</h2>
       <p style="color: var(--muted); font-weight: 600; margin-bottom: 20px; line-height: 1.5;">Voor je aan Module 1 of 2 begint, vul je even onderstaande enquête in.</p>
 
-      <div id="limesurvey-container" style="width: 100%; min-height: 420px; overflow-y: auto; border-radius: 10px; box-shadow: 0 4px 14px rgba(0,0,0,0.1); margin-bottom: 20px; text-align: left;"></div>
+      <iframe id="limesurvey-frame" style="width: 100%; height: 480px; border: none; border-radius: 10px; box-shadow: 0 4px 14px rgba(0,0,0,0.1); margin-bottom: 20px; display: block;"></iframe>
 
       <button class="sr-btn g" onclick="confirmSurveyDone()" style="width: 100%; padding: 14px;">✓ Ik heb de enquête ingevuld, ga verder</button>
       <p style="font-size: 11px; color: var(--muted); margin-top: 14px; font-weight: 600;">Module 1 en 2 blijven vergrendeld tot je dit bevestigt.</p>
@@ -437,15 +437,22 @@ function showSurveyGate(){
 
   document.body.appendChild(modal);
 
-  // Een <script>-tag die via innerHTML wordt ingevoegd, wordt door browsers NOOIT uitgevoerd.
-  // Daarom bouwen we het scriptelement hier apart op en voegen het pas daarna toe aan de DOM.
-  const lsScript = document.createElement('script');
-  lsScript.src = 'https://sintrembert.limesurvey.net/assets/scripts/survey-embed.js';
-  lsScript.setAttribute('data-survey-id', '316141');
-  lsScript.setAttribute('data-lang', 'nl');
-  lsScript.setAttribute('data-container-id', '1');
-  lsScript.setAttribute('data-root-url', 'https://sintrembert.limesurvey.net');
-  document.getElementById('limesurvey-container').appendChild(lsScript);
+  // De enquête draait in haar eigen iframe-document, volledig los van de hoofdpagina.
+  // Zo kan LimeSurvey's eigen CSS (lettertype/kleuren) nooit meer "lekken" naar de rest van de site.
+  const frame = document.getElementById('limesurvey-frame');
+  const frameDoc = frame.contentWindow.document;
+  frameDoc.open();
+  frameDoc.write(`
+    <!DOCTYPE html>
+    <html>
+    <head><meta charset="utf-8"><style>body{margin:0;font-family:sans-serif;}</style></head>
+    <body>
+      <div id="1"></div>
+      <script src="https://sintrembert.limesurvey.net/assets/scripts/survey-embed.js" data-survey-id="316141" data-lang="nl" data-container-id="1" data-root-url="https://sintrembert.limesurvey.net"><\/script>
+    </body>
+    </html>
+  `);
+  frameDoc.close();
 }
 
 function confirmSurveyDone(){
@@ -603,8 +610,12 @@ function buildAnswersReportTeacher(){
   } else if(role === 'management'){
     html += `<div style="margin-bottom:20px; page-break-inside: avoid;">
       <h2 style="font-size:16px; color:var(--blue); background:#f0f2f5; padding:8px 12px; border-radius:6px;">Module 2 — Bestuurlijke verantwoordelijkheid & AI Act ${S.mod2.done?'✅':''}</h2>
-      <p style="font-size:12px; font-weight:700; color:#3d4f8a; margin:10px 0 4px 0;">Jouw grootste actiepunt als leidinggevende:</p>
-      <p style="font-size:12px; color:#333; white-space:pre-wrap; background:#f9f9f9; padding:8px; border-radius:4px;">${localStorage.getItem('sr_r_mgmt_actie') ? escT(localStorage.getItem('sr_r_mgmt_actie')) : '<em>Niet ingevuld.</em>'}</p>
+      <p style="font-size:12px; font-weight:700; color:#3d4f8a; margin:10px 0 4px 0;">Wat denk jij van AI?</p>
+      <p style="font-size:12px; color:#333; white-space:pre-wrap; background:#f9f9f9; padding:8px; border-radius:4px;">${localStorage.getItem('sr_r_mgmt_q1') ? escT(localStorage.getItem('sr_r_mgmt_q1')) : '<em>Niet ingevuld.</em>'}</p>
+      <p style="font-size:12px; font-weight:700; color:#3d4f8a; margin:10px 0 4px 0;">Waarover zou jij nog bijscholing willen?</p>
+      <p style="font-size:12px; color:#333; white-space:pre-wrap; background:#f9f9f9; padding:8px; border-radius:4px;">${localStorage.getItem('sr_r_mgmt_q2') ? escT(localStorage.getItem('sr_r_mgmt_q2')) : '<em>Niet ingevuld.</em>'}</p>
+      <p style="font-size:12px; font-weight:700; color:#3d4f8a; margin:10px 0 4px 0;">Voor wat gebruik jij AI zelf?</p>
+      <p style="font-size:12px; color:#333; white-space:pre-wrap; background:#f9f9f9; padding:8px; border-radius:4px;">${localStorage.getItem('sr_r_mgmt_q3') ? escT(localStorage.getItem('sr_r_mgmt_q3')) : '<em>Niet ingevuld.</em>'}</p>
     </div>`;
   } else {
     html += `<div style="margin-bottom:20px; page-break-inside: avoid;">
@@ -1641,8 +1652,7 @@ function m2mg1(c){
 <p style="font-size: 13px; color: #3d4f8a; line-height: 1.9; margin: 0;">
 <strong>1. Rollenmatrix opstellen</strong> — leg per functie vast welk niveau van AI-kennis nodig is (een leerkracht heeft andere kennis nodig dan een directielid)<br>
 <strong>2. Verantwoordelijke aanwijzen</strong> — iemand (bv. een AI-coördinator) die toeziet op AI-geletterdheid binnen de school<br>
-<strong>3. Inkoopvoorwaarden aanpassen</strong> — ook leveranciers en ingehuurd personeel moeten voldoen<br>
-<strong>4. Verankeren, niet eenmalig</strong> — AI-geletterdheid hoort in scholingsplannen en jaargesprekken, niet als losse workshop
+<strong>3. Verankeren, niet eenmalig</strong> — AI-geletterdheid hoort in scholingsplannen en jaargesprekken, niet als losse workshop
 </p>
 </div>
 
@@ -1671,13 +1681,6 @@ function m2mg2(c){
   </p>
 </div>
 
-<div style="background: rgba(255,193,7,0.1); border-left: 4px solid var(--orange); border-radius: 12px; padding: 20px; margin: 16px 0;">
-  <div style="font-family: 'Archivo Black', sans-serif; font-size: 13px; color: var(--orange); text-transform: uppercase; margin-bottom: 10px;">🟡 Verboden — let hier extra op</div>
-  <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7;">
-    Artikel 5 verbiedt expliciet <strong>emotieherkenning</strong> op school (bv. software die "betrokkenheid" of "frustratie" van leerlingen via camera detecteert). Check dit bij elke nieuwe tool die wordt aangeschaft.
-  </p>
-</div>
-
 <div style="background: rgba(127,224,0,0.1); border-left: 4px solid var(--green); border-radius: 12px; padding: 20px; margin: 16px 0;">
   <div style="font-family: 'Archivo Black', sans-serif; font-size: 13px; color: var(--green); text-transform: uppercase; margin-bottom: 10px;">🟢 Beperkt risico — de meeste dagelijkse tools</div>
   <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7;">
@@ -1695,34 +1698,35 @@ function m2mg2(c){
 function m2mg3(c){
   c.innerHTML = `
 <div class="s-badge">✅ Stap 4 van 5 · Doe-opdracht</div>
-<h2 class="ch2">Jouw <em>actiepunten</em> als leidinggevende</h2>
-<p class="cp">Loop onderstaande checklist door en vink aan wat er bij Sint-Rembert al geregeld is. Wat nog ontbreekt, is meteen je actielijst.</p>
+<h2 class="ch2">Even <em>stilstaan</em> bij jouw AI-geletterdheid</h2>
+<p class="cp">Geen checklist deze keer, gewoon drie korte vragen om voor jezelf te beantwoorden.</p>
 
-<div style="background: white; border-radius: 8px; padding: 16px; margin: 12px 0; border: 1px solid #e0e4f5; font-size:13px; color:#3d4f8a; line-height:2.2;">
-☐ Is er een rollenmatrix die per functie het vereiste AI-kennisniveau vastlegt?<br>
-☐ Is er een verantwoordelijke aangewezen voor AI-geletterdheid (AI-coördinator)?<br>
-☐ Weet je welke AI-toepassingen in gebruik zijn binnen de school (incl. via leveranciers)?<br>
-☐ Zijn inkoopvoorwaarden voor nieuwe software aangepast om AI-Act-conformiteit te checken?<br>
-☐ Is er een meldroute als iemand per ongeluk gevoelige data in een AI-tool invoert?<br>
-☐ Staat AI-geletterdheid in het scholingsplan, niet als eenmalige actie?
-</div>
+<h3 class="ch3">💭 Wat denk jij van AI?</h3>
+<textarea class="sr-ta" id="r_mgmt_q1" placeholder="Ik sta er positief/kritisch/gemengd tegenover, omdat..." style="height: 70px;"></textarea>
 
-<h3 class="ch3">✍️ Noteer je grootste actiepunt</h3>
-<textarea class="sr-ta" id="r_mgmt_actie" placeholder="Het eerste wat ik ga regelen is..." style="height: 90px;"></textarea>
+<h3 class="ch3">🎓 Waarover zou jij nog bijscholing willen?</h3>
+<textarea class="sr-ta" id="r_mgmt_q2" placeholder="Ik zou graag meer willen weten over..." style="height: 70px;"></textarea>
+
+<h3 class="ch3">🛠️ Voor wat gebruik jij AI zelf?</h3>
+<textarea class="sr-ta" id="r_mgmt_q3" placeholder="Ik gebruik het vooral voor..." style="height: 70px;"></textarea>
 
 <div class="nw">
   <button class="sr-btn b" onclick="p2()">← Vorige</button>
   <button class="sr-btn g" id="btn_mgmt_actie" onclick="sR_mgmt_actie()">Volgende: afronden →</button>
   <span class="nh">Stap 4/5</span>
 </div>`;
-  const ta = document.getElementById('r_mgmt_actie');
-  ta.value = localStorage.getItem('sr_r_mgmt_actie') || '';
-  ta.oninput = ()=>localStorage.setItem('sr_r_mgmt_actie', ta.value);
+  ['r_mgmt_q1','r_mgmt_q2','r_mgmt_q3'].forEach(id=>{
+    const ta = document.getElementById(id);
+    ta.value = localStorage.getItem('sr_'+id) || '';
+    ta.oninput = ()=>localStorage.setItem('sr_'+id, ta.value);
+  });
 }
 
 function sR_mgmt_actie(){
-  const v = (document.getElementById('r_mgmt_actie').value||'').trim();
-  if(v.length < 5){ alert('Vul je actiepunt even in.'); return; }
+  const v1 = (document.getElementById('r_mgmt_q1').value||'').trim();
+  const v2 = (document.getElementById('r_mgmt_q2').value||'').trim();
+  const v3 = (document.getElementById('r_mgmt_q3').value||'').trim();
+  if(v1.length < 3 || v2.length < 3 || v3.length < 3){ alert('Vul alle 3 de vragen even in.'); return; }
   n2();
 }
 
@@ -2426,7 +2430,7 @@ function rm3(){
   // Set m3 op basis van huidige rol
   if(S.userRole === 'teacher') m3 = m3_teacher;
   else if(S.userRole === 'admin') m3 = m3_admin;
-  else if(S.userRole === 'management') m3 = m3_mgmt;
+  else if(S.userRole === 'management') m3 = m3_teacher;
   
   const c=document.getElementById('m3c');
   c.innerHTML='';
@@ -2437,7 +2441,7 @@ function rm3(){
   if(titleEl) {
     if(S.userRole === 'teacher') titleEl.textContent = 'Copilot in de klas';
     else if(S.userRole === 'admin') titleEl.textContent = 'Copilot voor administratie';
-    else if(S.userRole === 'management') titleEl.textContent = 'Copilot voor strategisch beleid';
+    else if(S.userRole === 'management') titleEl.textContent = 'Copilot in de klas';
   }
   
   rDots(3, m3.length, S.mod3.step);
@@ -3131,13 +3135,6 @@ function m3a_prompts_admin(c){
   </div>
 </div>
 
-<div class="ib warn">
-  <div class="ib-t">🎨 En de visuele lay-out?</div>
-  <div class="ib-b">Zodra de tekst klaar is, kan je via <strong>Create</strong> ook meteen een bijpassende poster of infographic laten ontwerpen voor op het schoolbord of de website — beschrijf gewoon het onderwerp en kies een stijl uit de galerij.</div>
-</div>
-<img src="img/copilot-create-overzicht.png" alt="Overzicht van de Copilot Create-module" style="width:100%;max-width:600px;display:block;margin:16px auto;border-radius:10px;border:1px solid #e0e4f5;box-shadow:0 2px 10px rgba(10,31,168,0.08);">
-<img src="img/copilot-create-stijlen.png" alt="Stijlgalerij binnen Copilot Create" style="width:100%;max-width:600px;display:block;margin:16px auto;border-radius:10px;border:1px solid #e0e4f5;box-shadow:0 2px 10px rgba(10,31,168,0.08);">
-
 <div style="background: linear-gradient(135deg, rgba(10,31,168,0.08), rgba(127,224,0,0.08)); border-radius: 12px; padding: 20px; border-left: 4px solid var(--blue); margin: 20px 0;">
   <div style="font-family: 'Archivo Black', sans-serif; font-size: 13px; color: var(--blue); text-transform: uppercase; margin-bottom: 12px;">💡 Prompt 3: Vriendelijke herinneringsmails</div>
   <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7; font-style: italic;">
@@ -3158,12 +3155,6 @@ function m3a_prompts_admin(c){
   </div>
 </div>
 
-<div class="ib warn">
-  <div class="ib-t">✏️ Let op tekst op affiches</div>
-  <div class="ib-b">Laat je ook een affiche voor het evenement ontwerpen via Create? AI-beeldgeneratoren maken vaak spelfouten in tekst op een afbeelding. Gebruik altijd de optie <strong>Edit Text</strong> om dit zelf te corrigeren voor je de affiche verspreidt.</div>
-</div>
-<img src="img/copilot-beeld-bewerken.png" alt="Tekst in een AI-gegenereerd beeld bewerken" style="width:100%;max-width:600px;display:block;margin:16px auto;border-radius:10px;border:1px solid #e0e4f5;box-shadow:0 2px 10px rgba(10,31,168,0.08);">
-
 <div style="background: linear-gradient(135deg, rgba(10,31,168,0.08), rgba(127,224,0,0.08)); border-radius: 12px; padding: 20px; border-left: 4px solid var(--blue); margin: 20px 0;">
   <div style="font-family: 'Archivo Black', sans-serif; font-size: 13px; color: var(--blue); text-transform: uppercase; margin-bottom: 12px;">💡 Prompt 5: Stap-voor-stap handleidingen</div>
   <p style="font-size: 13px; color: #3d4f8a; font-weight: 600; line-height: 1.7; font-style: italic;">
@@ -3173,6 +3164,17 @@ function m3a_prompts_admin(c){
     <strong style="color: var(--green); font-size: 11px;">✓ Wat je krijgt:</strong> Heldere handleiding voor collega's
   </div>
 </div>
+
+<h3 class="ch3">📸 Bonus: zelf een affiche of afbeelding maken</h3>
+<p class="cp">Naast tekst kan Copilot ook beeld genereren via de functie <strong>Create</strong>. Zo doe je dat in 3 stappen:</p>
+<div style="background: white; border-radius: 8px; padding: 16px; margin: 12px 0; border: 1px solid #e0e4f5; font-size:13px; color:#3d4f8a; line-height:2;">
+<strong>1.</strong> Open <strong>Create</strong> en beschrijf gewoon wat je nodig hebt (bv. "een poster over de opendeurdag, vrolijke kleuren")<br>
+<strong>2.</strong> Kies een stijl uit de galerij — van fotorealistisch tot illustratie<br>
+<strong>3.</strong> Staat er tekst op de afbeelding? Controleer die altijd: AI-beeldgeneratoren maken vaak spelfouten. Gebruik de optie <strong>Edit Text</strong> om dit zelf te corrigeren vóór je de affiche verspreidt.
+</div>
+<img src="img/copilot-create-overzicht.png" alt="Overzicht van de Copilot Create-module" style="width:100%;max-width:600px;display:block;margin:16px auto;border-radius:10px;border:1px solid #e0e4f5;box-shadow:0 2px 10px rgba(10,31,168,0.08);">
+<img src="img/copilot-create-stijlen.png" alt="Stijlgalerij binnen Copilot Create" style="width:100%;max-width:600px;display:block;margin:16px auto;border-radius:10px;border:1px solid #e0e4f5;box-shadow:0 2px 10px rgba(10,31,168,0.08);">
+<img src="img/copilot-beeld-bewerken.png" alt="Tekst in een AI-gegenereerd beeld bewerken" style="width:100%;max-width:600px;display:block;margin:16px auto;border-radius:10px;border:1px solid #e0e4f5;box-shadow:0 2px 10px rgba(10,31,168,0.08);">
 
 <div style="background: linear-gradient(135deg, rgba(127,224,0,0.08), rgba(10,31,168,0.08)); border-radius: 12px; padding: 20px; border-left: 4px solid var(--green); margin: 20px 0;">
   <div style="font-family: 'Archivo Black', sans-serif; font-size: 13px; color: var(--green); text-transform: uppercase; margin-bottom: 12px;">💡 Klaar gemaakte Copilot-templates</div>
