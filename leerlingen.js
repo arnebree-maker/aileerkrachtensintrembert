@@ -1025,13 +1025,15 @@ function sRef1(){
    Gebaseerd op EDUbox Artificiële Intelligentie, deel 2 "De principes van AI"
    ════════════════════════════════════════════ */
 
-const m2 = [m2s0, m2s1, m2s2, m2s3, m2s4, m2s5, m2s6, m2s7, m2s8, m2s9, m2s10, m2s11];
+const m2 = [m2s0, m2s1, m2s2, m2s3, m2s4, m2s5, m2s6, m2s7, m2s8, m2s9, m2s_verdieping3, m2s10, m2s11];
 
 // Minimum graad per stap-index (0-based). Ontbrekende index = graad 1 (voor iedereen).
 // Gebaseerd op het competentiekader: technische ML-diepgang (gesuperviseerd/ongesuperviseerd/
 // versterkend leren, deep learning) hoort bij "model/trainingsdata/instellingen beïnvloeden
 // output" — dat is expliciet 2e/3e-graadstof, geen 1e-graadcompetentie.
-const M2_GRAAD_MIN = { 3: 2, 4: 3, 5: 3, 7: 3 };
+// index 10 = nieuwe verdiepingsstap, exclusief 3e graad (AI-systemen vergelijken per taak,
+// technische beperkingen vertalen naar risico's — letterlijke 3e-graadcompetenties).
+const M2_GRAAD_MIN = { 3: 2, 4: 3, 5: 3, 7: 3, 10: 3 };
 
 function m2Gefilterd(){
   const g = S.graad || 3; // Nog geen graad gekozen? Toon voorlopig alles (fallback).
@@ -1330,6 +1332,59 @@ function m2s8(c){
   <button class="sr-btn g" onclick="n2()">Volgende: probeer het zelf →</button>
   <span class="nh">Stap 9/12</span>
 </div>`;
+}
+
+function m2s_verdieping3(c){
+  c.innerHTML = `
+<div class="s-badge">🎓 Stap 11 van 12 · Verdieping (3e graad)</div>
+<h2 class="ch2">Welk AI-systeem past bij <em>welke taak</em>?</h2>
+<p class="cp">Je zag al 3 soorten machine learning en deep learning. Nu ga je een stap verder: niet elk AI-systeem is voor elke taak even geschikt — en waarom dat zo is, hangt af van het model zelf, de data waarmee het trainde, en de instellingen die eronder zitten.</p>
+
+<div class="ib warn">
+  <div class="ib-t">🧠 Drie dingen die de output bepalen</div>
+  <div class="ib-b">
+  <strong>1. Het model</strong> — een taalmodel is getraind om tekst te voorspellen, geen beelden. Vraag het om een schilderij te "tekenen" in woorden, en je krijgt een beschrijving, geen afbeelding.<br><br>
+  <strong>2. De trainingsdata</strong> — een model dat vooral Engelstalige teksten zag, presteert zwakker in het Nederlands. Een model getraind vóór 2024 weet niets over gebeurtenissen erna.<br><br>
+  <strong>3. De instellingen</strong> — dezelfde AI kan "voorzichtiger" of "creatiever" ingesteld staan (temperatuur, systeeminstructies). Dat verandert hoe waarschijnlijk hallucinaties zijn.
+  </div>
+</div>
+
+<h3 class="ch3">🧩 Doe-opdracht: kies het juiste systeem</h3>
+<p class="cp">Voor elke taak hieronder: welk type AI-systeem zou jij kiezen, en welk risico moet je in gedachten houden?</p>
+
+<div style="background:white; border:1px solid #e0e4f5; border-radius:10px; padding:16px; margin:14px 0;">
+  <p style="font-size:13px; font-weight:800; color:var(--blue); margin-bottom:8px;">Taak 1: "Vat dit nieuwsartikel objectief samen."</p>
+  <textarea class="sr-ta" id="vd3_taak1" style="min-height:60px;" placeholder="Ik zou kiezen voor... want het risico hier is..."></textarea>
+</div>
+
+<div style="background:white; border:1px solid #e0e4f5; border-radius:10px; padding:16px; margin:14px 0;">
+  <p style="font-size:13px; font-weight:800; color:var(--blue); margin-bottom:8px;">Taak 2: "Zoek recente cijfers over klimaatverandering in België."</p>
+  <textarea class="sr-ta" id="vd3_taak2" style="min-height:60px;" placeholder="Ik zou kiezen voor... want het risico hier is..."></textarea>
+</div>
+
+<div class="ib warn">
+  <div class="ib-t">💡 Waarom dit ertoe doet</div>
+  <div class="ib-b">Een gewone chatbot zonder actuele internettoegang kan bij taak 2 makkelijk verouderde of verzonnen cijfers geven — een technische beperking (geen live data) die zich vertaalt naar een concreet risico (foutieve informatie in je werk). Dat soort vertaalslag — van technische beperking naar praktisch risico — is precies wat AI-geletterdheid op dit niveau vraagt.</div>
+</div>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p2()">← Vorige</button>
+  <button class="sr-btn g" id="vd3btn" onclick="sVerdieping3()">Volgende: kennischeck →</button>
+  <span class="nh">Stap 11/12</span>
+</div>`;
+  const ta1 = document.getElementById('vd3_taak1');
+  const ta2 = document.getElementById('vd3_taak2');
+  ta1.value = localStorage.getItem('sr_l_vd3_taak1') || '';
+  ta2.value = localStorage.getItem('sr_l_vd3_taak2') || '';
+  ta1.oninput = ()=>localStorage.setItem('sr_l_vd3_taak1', ta1.value);
+  ta2.oninput = ()=>localStorage.setItem('sr_l_vd3_taak2', ta2.value);
+}
+
+function sVerdieping3(){
+  const v1 = (document.getElementById('vd3_taak1').value||'').trim();
+  const v2 = (document.getElementById('vd3_taak2').value||'').trim();
+  if(v1.length < 10 || v2.length < 10){ alert('Vul beide taken in — dit is de kern van de verdieping.'); return; }
+  n2();
 }
 
 function m2s9(c){
@@ -2055,12 +2110,14 @@ function sRef4(){
    Gebaseerd op EDUbox Artificiële Intelligentie, deel 4 "AI en jij" + Sint-Rembert beleid
    ════════════════════════════════════════════ */
 
-const m5 = [m5s0, m5s1, m5s2, m5s3, m5s4, m5s5, m5s6, m5s7, m5s8, m5s9, m5s10];
+const m5 = [m5s0, m5s1, m5s2, m5s3, m5s4, m5s5, m5s6, m5s_verdieping3, m5s7, m5s8, m5s9, m5s10];
 
 // "AI-detectie: waarom niet?" (index 6) is expliciet een 3e-graadcompetentie uit het kader
 // ("Ik kan uitleggen waarom AI-detectie geen sluitend bewijs vormt.") — voor jongere graden
 // is dit te genuanceerd; zij krijgen enkel de eenvoudige schoolregel (zie stap "afspraken").
-const M5_GRAAD_MIN = { 6: 3 };
+// index 7 = nieuwe verdiepingsstap, exclusief 3e graad (privacy kritisch beoordelen,
+// gegevens minimaliseren/anonimiseren — letterlijke 3e-graadcompetenties).
+const M5_GRAAD_MIN = { 6: 3, 7: 3 };
 
 function m5Gefilterd(){
   const g = S.graad || 3;
@@ -2263,6 +2320,49 @@ function m5s6(c){
   <button class="sr-btn g" onclick="n5()">Volgende: charter maken →</button>
   <span class="nh">Stap 7/11</span>
 </div>`;
+}
+
+function m5s_verdieping3(c){
+  c.innerHTML = `
+<div class="s-badge">🎓 Stap 8 van 11 · Verdieping (3e graad)</div>
+<h2 class="ch2">Privacy <em>kritisch</em> beoordelen</h2>
+<p class="cp">Je weet al welke gegevens je niet zomaar deelt met AI. Nu ga je een stap verder: zelf inschatten of een AI-tool geschikt is voor een bepaalde taak, en gegevens minimaliseren wanneer dat kan.</p>
+
+<div class="ib warn">
+  <div class="ib-t">🔎 3 vragen vóór je een AI-tool gebruikt voor iets gevoeligs</div>
+  <div class="ib-b">
+  <strong>1. Wat gebeurt er met mijn input?</strong> Gebruikt de tool dit om toekomstige modellen te trainen? Bij Copilot met schoolaccount: nee. Bij een gratis, willekeurige tool: vaak wel — en dat staat meestal (in kleine lettertjes) in de voorwaarden.<br><br>
+  <strong>2. Kan ik minder delen en toch hetzelfde resultaat krijgen?</strong> Moet je een volledig document uploaden, of volstaat een samenvatting zonder namen? Data minimaliseren = enkel delen wat echt nodig is.<br><br>
+  <strong>3. Past deze tool bij dit type gegevens?</strong> Een schoolrapport met leerlingnamen hoort niet thuis in een publieke, gratis chatbot — ook niet "even snel".
+  </div>
+</div>
+
+<h3 class="ch3">🧩 Doe-opdracht: anonimiseer zelf</h3>
+<p class="cp">Herschrijf onderstaande zin zodat ze veilig in een AI-tool kan, zonder de kernvraag te verliezen:</p>
+<div style="background:white; border:1px solid #e0e4f5; border-radius:10px; padding:16px; margin:14px 0;">
+  <p style="font-size:13px; font-style:italic; color:#666;">"Kan je helpen met een mail aan meneer Janssens, wonende Kerkstraat 12 in Torhout, over de afwezigheid van mijn zus Lotte Peeters op 14 maart wegens ziekte?"</p>
+</div>
+<textarea class="sr-ta" id="vd3m5_anon" style="min-height:70px;" placeholder="Mijn geanonimiseerde versie: 'Kan je helpen met een mail aan...'"></textarea>
+
+<div class="ib warn">
+  <div class="ib-t">💡 Waarom dit ertoe doet</div>
+  <div class="ib-b">De kern van de vraag (hulp bij een afwezigheidsmail) blijft overeind zonder namen, adres of familierelatie. Dat is precies wat "gegevens minimaliseren" betekent: evenveel nut, minder risico.</div>
+</div>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p5()">← Vorige</button>
+  <button class="sr-btn g" id="vd3m5btn" onclick="sVerdieping3M5()">Volgende: charter maken →</button>
+  <span class="nh">Stap 8/11</span>
+</div>`;
+  const ta = document.getElementById('vd3m5_anon');
+  ta.value = localStorage.getItem('sr_l_vd3m5_anon') || '';
+  ta.oninput = ()=>localStorage.setItem('sr_l_vd3m5_anon', ta.value);
+}
+
+function sVerdieping3M5(){
+  const v = (document.getElementById('vd3m5_anon').value||'').trim();
+  if(v.length < 15){ alert('Herschrijf de zin eerst — dat is de kern van deze opdracht.'); return; }
+  n5();
 }
 
 function m5s7(c){
