@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderStartTest();
   // Navigeer meteen naar de juiste plek op basis van bewaarde voortgang
   if(S.starttest.taken){
-    sv('home');
+    goHome(); // (niet rechtstreeks sv('home') — anders wordt de verplichte graadkeuze omzeild)
   }
 });
 
