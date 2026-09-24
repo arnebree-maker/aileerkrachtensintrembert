@@ -191,6 +191,150 @@ function goHome(){
 function goStartTest(){ showNameEntry(); renderStartTest(); sv('starttest'); }
 
 /* ════════════════════════════════════════════
+   WAT MOET IK KENNEN — PER GRAAD (zelfcheck)
+   ════════════════════════════════════════════ */
+
+const KERNKADER = [
+  {
+    id: 'ai-begrijpen',
+    titel: 'AI begrijpen en kritisch beoordelen',
+    kernidee: 'AI kan overtuigend klinken zonder gelijk te hebben.',
+    graden: {
+      1: [
+        'Ik kan in eigen woorden uitleggen wat artificiële intelligentie ongeveer is.',
+        'Ik herken eenvoudige AI-toepassingen in mijn dagelijks leven en op school.',
+        'Ik weet dat een chatbot geen mens is en niet denkt zoals een mens.',
+        'Ik weet dat AI antwoorden kan verzinnen of fouten kan maken.',
+        'Ik herken dat tekst, beeld, audio of video door AI gegenereerd kan zijn.',
+      ],
+      2: [
+        'Ik kan uitleggen dat generatieve AI patronen in data gebruikt om nieuwe output te maken.',
+        'Ik herken verschillende vormen van AI, zoals tekst-, beeld-, audio- en aanbevelingssystemen.',
+        'Ik begrijp dat verschillende AI-modellen verschillende mogelijkheden en beperkingen hebben.',
+        'Ik begrijp wat een hallucinatie is en kan voorbeelden herkennen.',
+        'Ik kan kenmerken van AI-gegenereerde inhoud onderzoeken zonder die als sluitend bewijs te behandelen.',
+      ],
+      3: [
+        'Ik kan verschillende soorten AI-systemen en hun geschiktheid voor een taak vergelijken.',
+        'Ik begrijp dat model, trainingsdata, instellingen en context de output beïnvloeden.',
+        'Ik kan technische beperkingen vertalen naar risico\'s voor een concrete opdracht.',
+        'Ik kan uitleggen waarom AI-detectie geen sluitend bewijs vormt.',
+        'Ik kan bewust kiezen welk type AI, of geen AI, passend is voor een specifieke taak.',
+      ],
+    },
+  },
+  {
+    id: 'veilig-verantwoord',
+    titel: 'Veilig en verantwoord omgaan met AI',
+    kernidee: 'Wat je niet veilig met een onbekende zou delen, voer je ook niet zomaar in een AI-tool in.',
+    graden: {
+      1: [
+        'Ik deel geen wachtwoorden, adressen, telefoonnummers of andere gevoelige persoonsgegevens met AI.',
+        'Ik voer geen privégegevens van mezelf of anderen zomaar in.',
+        'Ik upload niet zonder toestemming foto\'s, taken of documenten van anderen.',
+        'Ik vraag hulp wanneer ik twijfel of informatie gedeeld mag worden.',
+        'Ik weet dat AI-tools voorwaarden en leeftijdsgrenzen kunnen hebben.',
+      ],
+      2: [
+        'Ik herken welke informatie persoonsgegevens of gevoelige informatie bevat.',
+        'Ik controleer welke gegevens een AI-tool vraagt of kan bewaren.',
+        'Ik begrijp waarom school-, leerling- en personeelsinformatie extra bescherming vraagt.',
+        'Ik kan uitleggen waarom bepaalde gegevens niet in publieke AI-systemen thuishoren.',
+        'Ik ga bewust om met accounts, toestemmingen en privacy-instellingen.',
+      ],
+      3: [
+        'Ik kan zelfstandig privacy- en gegevensrisico\'s inschatten voordat ik AI gebruik.',
+        'Ik kan gegevens minimaliseren of anonimiseren wanneer dat nodig is.',
+        'Ik kan voorwaarden en privacy-instellingen van een AI-tool kritisch beoordelen.',
+        'Ik kan inschatten of een AI-tool geschikt is voor het type gegevens waarmee ik werk.',
+        'Ik neem verantwoordelijkheid voor de informatie die ik invoer, deel en verder verspreid.',
+      ],
+    },
+  },
+];
+
+const GRAAD_LABEL = { 1: '1e graad', 2: '2e graad', 3: '3e graad' };
+const GRAAD_SUB = { 1: 'begrijpen · oefenen · veilig handelen', 2: 'bewust kiezen · controleren · toepassen', 3: 'zelfstandig · verantwoorden · verdiepen' };
+
+function goKernkader(){
+  renderKernkaderGraadkeuze();
+  sv('kernkader');
+}
+
+function renderKernkaderGraadkeuze(){
+  const c = document.getElementById('kernkaderc');
+  const opgeslagenGraad = localStorage.getItem('sr_l_graad');
+  c.innerHTML = `
+<h2 class="ch2">In welke <em>graad</em> zit je?</h2>
+<p class="cp">De competenties bouwen verder op elkaar: wat je in een eerdere graad leerde, blijft gelden en wordt zelfstandiger en complexer toegepast. Kies je graad om te zien wat je zou moeten kennen en kunnen.</p>
+<div style="display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:20px 0;">
+  ${[1,2,3].map(g => `
+    <button onclick="renderKernkaderLijst(${g})" style="background:white; border:2px solid var(--blue); border-radius:12px; padding:20px 14px; cursor:pointer; text-align:center; transition:all 0.2s;">
+      <div style="font-family:'Archivo Black',sans-serif; font-size:22px; color:var(--blue); margin-bottom:6px;">${GRAAD_LABEL[g]}</div>
+      <div style="font-size:11px; color:#666; font-weight:700;">${GRAAD_SUB[g]}</div>
+    </button>
+  `).join('')}
+</div>
+${opgeslagenGraad ? `<p style="text-align:center;"><button class="sr-btn g" onclick="renderKernkaderLijst(${opgeslagenGraad})">↺ Verder met ${GRAAD_LABEL[opgeslagenGraad]} (vorige keuze)</button></p>` : ''}
+`;
+}
+
+function renderKernkaderLijst(graad){
+  graad = parseInt(graad);
+  localStorage.setItem('sr_l_graad', graad);
+  const c = document.getElementById('kernkaderc');
+
+  let html = `
+<button onclick="renderKernkaderGraadkeuze()" style="background:none; border:none; color:var(--blue); font-weight:700; cursor:pointer; padding:0; margin-bottom:16px; font-size:13px;">← Andere graad kiezen</button>
+<h2 class="ch2">Wat moet ik kennen? <em>${GRAAD_LABEL[graad]}</em></h2>
+<p class="cp">Vink aan wat je al kan. Dit is cumulatief: bij een hogere graad zie je ook wat in de vorige gra(a)d(en) al werd verwacht.</p>
+`;
+
+  KERNKADER.forEach(sectie => {
+    html += `
+<div style="background:white; border:1px solid #e0e4f5; border-radius:12px; padding:20px; margin:18px 0;">
+  <h3 class="ch3" style="margin-top:0;">${sectie.titel}</h3>
+  <p style="font-size:12px; color:#999; font-style:italic; margin-bottom:14px;">💡 ${sectie.kernidee}</p>
+`;
+    for(let g=1; g<=graad; g++){
+      html += `<div style="margin-bottom:${g<graad?'14px':'0'};">
+        <div style="font-size:11px; font-weight:800; color:var(--blue); text-transform:uppercase; margin-bottom:6px;">${GRAAD_LABEL[g]}</div>`;
+      sectie.graden[g].forEach((item, idx) => {
+        const checkId = `kk_${sectie.id}_${g}_${idx}`;
+        html += `
+        <label style="display:flex; align-items:flex-start; gap:8px; padding:6px 0; font-size:13px; color:#3d4f8a; cursor:pointer;">
+          <input type="checkbox" id="${checkId}" onchange="localStorage.setItem('sr_l_${checkId}', this.checked)" style="margin-top:3px; flex-shrink:0;">
+          <span>${item}</span>
+        </label>`;
+      });
+      html += `</div>`;
+    }
+    html += `</div>`;
+  });
+
+  html += `
+<div style="text-align:center; margin:24px 0;">
+  <button class="sr-btn g" onclick="goHome()">🏠 Terug naar de cursus →</button>
+</div>`;
+
+  c.innerHTML = html;
+
+  // Herstel eerder aangevinkte items
+  KERNKADER.forEach(sectie => {
+    for(let g=1; g<=graad; g++){
+      sectie.graden[g].forEach((item, idx) => {
+        const checkId = `kk_${sectie.id}_${g}_${idx}`;
+        const saved = localStorage.getItem('sr_l_'+checkId);
+        if(saved === 'true'){
+          const el = document.getElementById(checkId);
+          if(el) el.checked = true;
+        }
+      });
+    }
+  });
+}
+
+/* ════════════════════════════════════════════
    PODCAST MODAL — Module 1
    ════════════════════════════════════════════ */
 
@@ -735,28 +879,22 @@ function m1s_leefwereld(c){
   c.innerHTML = `
 <div class="s-badge">🎬 Stap 9 van 12 · AI vanuit jouw leefwereld</div>
 <h2 class="ch2">Herkenbare verhalen, <em>geen droge theorie</em></h2>
-<p class="cp">Drie korte video's, dicht bij je eigen leven — bekijk ze en denk na: herken je jezelf hierin?</p>
+<p class="cp">Twee korte video's, dicht bij je eigen leven. Bij elke video: wat je moet weten vóór je kijkt, zodat je gericht kan kijken in plaats van passief.</p>
 
 <div style="background:white; border:1px solid #e0e4f5; border-radius:10px; padding:16px; margin:14px 0;">
   <div style="font-weight:800; font-size:14px; color:var(--blue); margin-bottom:8px;">🎓 Nooit meer gebuisd dankzij AI? Wij deden de test!</div>
+  <p style="font-size:12px; color:#666; margin-bottom:10px;"><strong>Kijkvraag:</strong> let op wélke vakken/vraagtypes AI wél goed aankon, en waar het net de mist inging. Dat verschil is precies waarom niet elk examen hetzelfde AI-label krijgt (zie Module 5).</p>
   <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/w_msvsySbcM" allowfullscreen loading="lazy" title="Nooit meer gebuisd dankzij AI? Wij deden de test!"></iframe></div>
-  <p style="font-size:12px; color:#666; margin-top:10px;">Kan AI je écht door een examen loodsen? Deze reportage test het gewoon uit — en toont op een luchtige manier waar AI de mist ingaat.</p>
 </div>
 
 <div style="background:white; border:1px solid #e0e4f5; border-radius:10px; padding:16px; margin:14px 0;">
   <div style="font-weight:800; font-size:14px; color:var(--blue); margin-bottom:8px;">💬 Acid gebruikte ChatGPT als therapeut</div>
+  <p style="font-size:12px; color:#666; margin-bottom:10px;"><strong>Achtergrond:</strong> nadat de bekende YouTuber Acid openhartig vertelde over dit gebruik, dook VRT NWS er zelf in met de vraag: <em>"Kan ChatGPT een goede psycholoog zijn?"</em> Chatbots zijn géén therapeut — ze zijn niet opgeleid, kunnen geen crisis herkennen, en bevestigen soms juist wat je al denkt in plaats van het te toetsen.</p>
   <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/JL1UrrQPOfk" allowfullscreen loading="lazy" title="Acid gebruikte ChatGPT als therapeut"></iframe></div>
-  <p style="font-size:12px; color:#666; margin-top:10px;">Een heel ander gebruik van AI dan huiswerk: chatbots als emotionele steun. Wat zijn daar volgens jou de voor- en nadelen van?</p>
-</div>
-
-<div style="background:white; border:1px solid #e0e4f5; border-radius:10px; padding:16px; margin:14px 0;">
-  <div style="font-weight:800; font-size:14px; color:var(--blue); margin-bottom:8px;">📺 Karrewiet focust deze week op artificiële intelligentie</div>
-  <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/JRo5gu6ePHs" allowfullscreen loading="lazy" title="Karrewiet focust deze week op artificiële intelligentie"></iframe></div>
-  <p style="font-size:12px; color:#666; margin-top:10px;">Leeftijdsgenoten vertellen in begrijpelijke taal over hun eigen ervaringen met AI.</p>
 </div>
 
 <h3 class="ch3">💭 Even nadenken</h3>
-<p class="cp">Welke van deze 3 video's sprak jou het meest aan, en waarom? Herken je jezelf in een van de verhalen?</p>
+<p class="cp">Welke van deze 2 video's sprak jou het meest aan, en waarom? Herken je jezelf in een van de verhalen?</p>
 <textarea class="sr-ta" id="ref_leefwereld" style="min-height:70px;" placeholder="De video die me het meest aansprak was... omdat..."></textarea>
 
 <div class="nw">
