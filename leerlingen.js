@@ -201,10 +201,22 @@ function showGraadGate(){
     justify-content: center; z-index: 9000; padding: 20px; overflow-y: auto;
   `;
   modal.innerHTML = `
-    <div style="background: white; border-radius: 16px; padding: 36px; max-width: 560px; width: 100%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.35); margin: auto;">
+    <div style="background: white; border-radius: 16px; padding: 36px; max-width: 620px; width: 100%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.35); margin: auto;">
       <div style="font-size: 44px; margin-bottom: 12px;">🎯</div>
-      <h2 style="font-family: 'Archivo Black', sans-serif; font-size: 22px; color: var(--blue); margin-bottom: 8px; text-transform: uppercase;">In welke graad zit je?</h2>
-      <p style="color: var(--muted); font-weight: 600; margin-bottom: 24px; line-height: 1.5;">De modules passen zich hierop aan: sommige onderdelen zijn enkel voor 2e of 3e graad, omdat ze meer voorkennis vragen.</p>
+      <h2 style="font-family: 'Archivo Black', sans-serif; font-size: 22px; color: var(--blue); margin-bottom: 8px; text-transform: uppercase;">In welk leerjaar/welke graad zit je?</h2>
+      <p style="color: var(--muted); font-weight: 600; margin-bottom: 24px; line-height: 1.5;">De inhoud past zich hierop aan. Zit je nog in het lager onderwijs, dan volg je een ander, speciaal voor jou gemaakt programma.</p>
+
+      <p style="font-size:11px; font-weight:800; color:var(--muted); text-transform:uppercase; margin-bottom:8px; text-align:left;">Lager onderwijs</p>
+      <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-bottom:20px;">
+        <button onclick="kiesLeerjaar('5e')" style="background:white; border:2px solid var(--green); border-radius:12px; padding:16px 10px; cursor:pointer; text-align:center;">
+          <div style="font-family:'Archivo Black',sans-serif; font-size:17px; color:var(--blue);">5e leerjaar</div>
+        </button>
+        <button onclick="kiesLeerjaar('6e')" style="background:white; border:2px solid var(--green); border-radius:12px; padding:16px 10px; cursor:pointer; text-align:center;">
+          <div style="font-family:'Archivo Black',sans-serif; font-size:17px; color:var(--blue);">6e leerjaar</div>
+        </button>
+      </div>
+
+      <p style="font-size:11px; font-weight:800; color:var(--muted); text-transform:uppercase; margin-bottom:8px; text-align:left;">Secundair onderwijs</p>
       <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px;">
         ${[1,2,3].map(g => `
           <button onclick="kiesGraad(${g})" style="background:white; border:2px solid var(--blue); border-radius:12px; padding:18px 10px; cursor:pointer; text-align:center;">
@@ -212,7 +224,7 @@ function showGraadGate(){
           </button>
         `).join('')}
       </div>
-      <p style="font-size: 11px; color: var(--muted); margin-top: 18px; font-weight: 600;">Niet zeker? Vraag het aan je leerkracht — je kan dit later niet meer zelf wijzigen.</p>
+      <p style="font-size: 11px; color: var(--muted); margin-top: 18px; font-weight: 600;">Niet zeker? Vraag het aan je leerkracht.</p>
     </div>
   `;
   document.body.appendChild(modal);
@@ -224,6 +236,44 @@ function kiesGraad(g){
   const modal = document.getElementById('graad-modal');
   if(modal) modal.remove();
   up(); rmc();
+}
+
+function kiesLeerjaar(lj){
+  const modal = document.getElementById('graad-modal');
+  if(!modal) return;
+
+  const inhoud = lj === '6e' ? {
+    titel: 'Workshop AI: Zombiepandemie',
+    link: 'https://rvo-eclassroom.be/brightlab/aizombiepandemie/',
+    linktekst: 'Open de Zombiepandemie e-learning →',
+    uitleg: `In deze workshop maak je op een speelse manier kennis met artificiële intelligentie. Via een fictief scenario rond een zombiepandemie ontdek je hoe een AI-model leert uit data, voorspellingen maakt, en waarom je AI-resultaten altijd kritisch moet bekijken. Je bouwt en test zelf een eenvoudig AI-model.`,
+    praktisch: [
+      '⏱️ Duurt ongeveer 2 lesuren',
+      '💻 Nodig: een computer/laptop, een headset, de zombie-/menskaarten en de werkbundel van je leerkracht',
+      '🧑‍🏫 Je doorloopt dit met je klas, onder begeleiding van je leerkracht',
+    ],
+  } : {
+    titel: 'AI-programma 5e leerjaar',
+    link: 'https://www.brainbugs.be/arena/RPA_MENU_V_B04/',
+    linktekst: 'Open het programma →',
+    uitleg: `Voor het 5e leerjaar volg je een programma op Brainbugs, speciaal gemaakt om op een speelse manier kennis te maken met artificiële intelligentie.`,
+    praktisch: [
+      '🧑‍🏫 Je doorloopt dit met je klas, onder begeleiding van je leerkracht',
+    ],
+  };
+
+  modal.querySelector('div').innerHTML = `
+    <div style="font-size: 44px; margin-bottom: 12px;">🧟</div>
+    <h2 style="font-family: 'Archivo Black', sans-serif; font-size: 20px; color: var(--blue); margin-bottom: 8px; text-transform: uppercase;">${inhoud.titel}</h2>
+    <p style="color: var(--muted); font-weight: 600; margin-bottom: 16px; line-height: 1.6; text-align:left;">${inhoud.uitleg}</p>
+    <div style="background:#f5f6fb; border-radius:10px; padding:14px 16px; margin-bottom:20px; text-align:left;">
+      ${inhoud.praktisch.map(p => `<p style="font-size:12px; color:#3d4f8a; font-weight:700; margin:6px 0;">${p}</p>`).join('')}
+    </div>
+    <a href="${inhoud.link}" target="_blank" style="display:block; background: var(--green); color: var(--blue); font-weight: 800; padding: 14px; border-radius: 8px; text-decoration: none; margin-bottom: 12px;">
+      ${inhoud.linktekst}
+    </a>
+    <button onclick="document.getElementById('graad-modal').remove(); showGraadGate();" style="background:none; border:none; color:var(--muted); font-weight:700; cursor:pointer; font-size:12px; text-decoration:underline;">← Toch een ander leerjaar/graad kiezen</button>
+  `;
 }
 
 function goStartTest(){ showNameEntry(); renderStartTest(); sv('starttest'); }
