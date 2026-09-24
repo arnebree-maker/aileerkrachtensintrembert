@@ -23,6 +23,7 @@ function testLocalStorage(){
 
 let S = {
   name: '',
+  graad: null,
   starttest: {taken:false, score:0, passed:false},
   mod1: {step:0, done:false},
   mod2: {step:0, done:false},
@@ -186,6 +187,42 @@ function sm(n){
 function goHome(){
   if(!S.starttest.taken){ goStartTest(); return; }
   sv('home');
+  if(!S.graad){ showGraadGate(); }
+}
+
+function showGraadGate(){
+  if(document.getElementById('graad-modal')) return;
+  const modal = document.createElement('div');
+  modal.id = 'graad-modal';
+  modal.style.cssText = `
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(10,31,168,0.92); display: flex; align-items: center;
+    justify-content: center; z-index: 9000; padding: 20px; overflow-y: auto;
+  `;
+  modal.innerHTML = `
+    <div style="background: white; border-radius: 16px; padding: 36px; max-width: 560px; width: 100%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.35); margin: auto;">
+      <div style="font-size: 44px; margin-bottom: 12px;">🎯</div>
+      <h2 style="font-family: 'Archivo Black', sans-serif; font-size: 22px; color: var(--blue); margin-bottom: 8px; text-transform: uppercase;">In welke graad zit je?</h2>
+      <p style="color: var(--muted); font-weight: 600; margin-bottom: 24px; line-height: 1.5;">De modules passen zich hierop aan: sommige onderdelen zijn enkel voor 2e of 3e graad, omdat ze meer voorkennis vragen.</p>
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px;">
+        ${[1,2,3].map(g => `
+          <button onclick="kiesGraad(${g})" style="background:white; border:2px solid var(--blue); border-radius:12px; padding:18px 10px; cursor:pointer; text-align:center;">
+            <div style="font-family:'Archivo Black',sans-serif; font-size:19px; color:var(--blue);">${g}e graad</div>
+          </button>
+        `).join('')}
+      </div>
+      <p style="font-size: 11px; color: var(--muted); margin-top: 18px; font-weight: 600;">Niet zeker? Vraag het aan je leerkracht — je kan dit later niet meer zelf wijzigen.</p>
+    </div>
+  `;
+  document.body.appendChild(modal);
+}
+
+function kiesGraad(g){
+  S.graad = g;
+  ss();
+  const modal = document.getElementById('graad-modal');
+  if(modal) modal.remove();
+  up(); rmc();
 }
 
 function goStartTest(){ showNameEntry(); renderStartTest(); sv('starttest'); }
@@ -372,6 +409,14 @@ function rDots(m,tot,cur){
 }
 
 let lastNavDirection = 'forward';
+// Herschrijft "Stap X van Y" in de badge naar het GEFILTERDE stapnummer/totaal,
+// zonder dat elke afzonderlijke stapfunctie dit zelf hoeft te berekenen.
+function fixStepBadge(container, filteredIndex, filteredLength){
+  const badge = container.querySelector('.s-badge');
+  if(!badge) return;
+  badge.innerHTML = badge.innerHTML.replace(/Stap \d+ van \d+/, `Stap ${filteredIndex+1} van ${filteredLength}`);
+}
+
 function lockNextButtons(container){
   const btns = container.querySelectorAll('.nw .sr-btn.g, .nw .sr-btn.o');
   btns.forEach(b=>{ b.disabled = false; });
@@ -657,8 +702,18 @@ function renderStartTestQuiz(c){
 
 const m1 = [m1s0, m1s1, m1s2, m1s3, m1s4, m1s5, m1s6, m1s7, m1s_leefwereld, m1s8, m1s9, m1s10];
 
-function rm1(){ const c=document.getElementById('m1c'); c.innerHTML=''; rDots(1,m1.length,S.mod1.step); m1[S.mod1.step](c); lockNextButtons(c); }
-function n1(){ S.mod1.step++; ss(); S.mod1.step>=m1.length ? d1() : rm1(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); }
+// Module 1 is de basisintroductie — dit dekt bijna volledig 1e-graadstof
+// ("Ik kan in eigen woorden uitleggen wat AI is", "Ik herken eenvoudige toepassingen").
+// Geen stappen te filteren, wel de teller dynamisch maken voor consistentie.
+const M1_GRAAD_MIN = {};
+
+function m1Gefilterd(){
+  const g = S.graad || 3;
+  return m1.filter((_, i) => (M1_GRAAD_MIN[i] || 1) <= g);
+}
+
+function rm1(){ const c=document.getElementById('m1c'); c.innerHTML=''; const arr=m1Gefilterd(); rDots(1,arr.length,S.mod1.step); arr[S.mod1.step](c); fixStepBadge(c,S.mod1.step,arr.length); lockNextButtons(c); }
+function n1(){ const arr=m1Gefilterd(); S.mod1.step++; ss(); S.mod1.step>=arr.length ? d1() : rm1(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); }
 function p1(){ if(S.mod1.step > 0){ S.mod1.step--; ss(); rm1(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); } }
 function d1(){ S.mod1.done=true; S.mod1.step=0; ss(); up(); rmc(); sv('home'); setTimeout(()=>alert('🎉 Module 1 voltooid! Module 2 is nu beschikbaar.'),300); }
 
@@ -972,9 +1027,21 @@ function sRef1(){
 
 const m2 = [m2s0, m2s1, m2s2, m2s3, m2s4, m2s5, m2s6, m2s7, m2s8, m2s9, m2s10, m2s11];
 
-function rm2(){ const c=document.getElementById('m2c'); c.innerHTML=''; rDots(2,m2.length,S.mod2.step); m2[S.mod2.step](c); lockNextButtons(c); }
-function n2(){ S.mod2.step++; ss(); S.mod2.step>=m2.length ? d2() : rm2(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); }
+// Minimum graad per stap-index (0-based). Ontbrekende index = graad 1 (voor iedereen).
+// Gebaseerd op het competentiekader: technische ML-diepgang (gesuperviseerd/ongesuperviseerd/
+// versterkend leren, deep learning) hoort bij "model/trainingsdata/instellingen beïnvloeden
+// output" — dat is expliciet 2e/3e-graadstof, geen 1e-graadcompetentie.
+const M2_GRAAD_MIN = { 3: 2, 4: 3, 5: 3, 7: 3 };
+
+function m2Gefilterd(){
+  const g = S.graad || 3; // Nog geen graad gekozen? Toon voorlopig alles (fallback).
+  return m2.filter((_, i) => (M2_GRAAD_MIN[i] || 1) <= g);
+}
+
+function rm2(){ const c=document.getElementById('m2c'); c.innerHTML=''; const arr=m2Gefilterd(); rDots(2,arr.length,S.mod2.step); arr[S.mod2.step](c); fixStepBadge(c,S.mod2.step,arr.length); lockNextButtons(c); }
+function n2(){ const arr=m2Gefilterd(); S.mod2.step++; ss(); S.mod2.step>=arr.length ? d2() : rm2(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); }
 function p2(){ if(S.mod2.step > 0){ S.mod2.step--; ss(); rm2(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); } }
+
 function d2(){ S.mod2.done=true; S.mod2.step=0; ss(); up(); rmc(); sv('home'); setTimeout(()=>alert('🎉 Module 2 voltooid! Module 3 is nu beschikbaar.'),300); }
 
 function m2s0(c){
@@ -1319,14 +1386,14 @@ function sPromptExercise(){
 
 function m2s10(c){
   const quiz = [
-    {q: 'Wat is het grootste nadeel van procedurele AI (zoals bij de zombie/mens-beslisboom)?', o: ['Ze is over het algemeen veel te kostbaar en te duur om ooit ergens te kunnen bouwen of onderhouden','Ze is niet flexibel: bij iets nieuws dat niet in het stappenplan past, weet het systeem geen raad','Ze werkt in de praktijk uitsluitend met kleuren als enige mogelijke invoer','Ze heeft, in tegenstelling tot elke andere vorm van AI, geen computer nodig'], a: 1, f: 'Procedurele AI volgt vaste stappen; komt er iets onverwachts bij, dan faalt het systeem.' },
-    {q: 'Wat betekent de "black box" bij machine learning?', o: ['Een fysieke, afgesloten doos waarin de computer letterlijk zit','Je krijgt een resultaat zonder dat de machine toont hoe ze daar precies toe kwam','Een streng beveiligingssysteem dat computers tegen hackers beschermt','Een foutmelding die verschijnt wanneer de machine crasht'], a: 1, f: 'Data gaat erin (input), er gebeuren berekeningen, en je krijgt een resultaat (output) — zonder inzicht in het precieze proces.' },
-    {q: 'Bij gesuperviseerd leren (zoals de zombie/mens-kaartjes met label): wat is kenmerkend?', o: ['De computer krijgt data mét labels om een categorie te leren voorspellen', 'De computer krijgt bij deze methode eigenlijk nooit enige voorbeelden te zien','Dit is in de praktijk exact hetzelfde als versterkend leren','Er is bij deze aanpak geen enkele menselijke input nodig'], a: 0, f: 'Bij gesuperviseerd leren geef je gelabelde voorbeelden, zodat de computer leert categorieën te herkennen.' },
-    {q: 'Bij Spotify- of Netflix-aanbevelingen: welk soort leren is meestal aan het werk?', o: ['Versterkend leren, waarbij het systeem stap voor stap beloond wordt in een spelomgeving', 'Ongesuperviseerd leren: de computer groepeert gebruikers/content zelf, zonder vaste labels','Procedurele AI die simpelweg een lijst van vaste IF-THEN regels volgt','Dit gebeurt in werkelijkheid volledig zonder enige vorm van AI of algoritme'], a: 1, f: 'De computer ontdekt zelf patronen en groepen in kijk-/luistergedrag, zonder dat iemand die groepen vooraf benoemde.' },
-    {q: 'Waarom is NotebookLM vaak betrouwbaarder dan een gewone chatbot voor studeren?', o: ['Het genereert doorgaans gewoon sneller een antwoord op elke gestelde vraag','Het baseert antwoorden enkel op de documenten die jij zelf uploadt, met bronvermelding','Het is volledig gratis, terwijl vergelijkbare studietools altijd geld kosten','Er bestaat tussen de twee soorten tools eigenlijk geen enkel praktisch verschil'], a: 1, f: 'Omdat het antwoordt op basis van jouw eigen bronnen in plaats van het hele internet, is de kans op verzonnen informatie veel kleiner.' },
-    {q: 'De video bij "black box" toonde een neuraal netwerk. Wat combineert dit soort netwerk, zoals je in de video zag?', o: ['Enkel losse getallen zonder enige onderlinge samenhang of structuur', 'Veel kleinere lagen/knopen die samen tot één complex eindresultaat komen', 'Uitsluitend tekst, nooit beelden of andere soorten data', 'Alleen menselijke input, zonder enige vorm van berekening'], a: 1, f: 'Een neuraal netwerk verwerkt data via lagen van kleine "knopen" die stap voor stap samen tot een resultaat komen — precies wat de video visueel toonde.' },
-    {q: 'In de video bij deep learning (Isaak Vandermaesen) ging het over:', o: ['Uitsluitend de geschiedenis van computers vóór het jaar 1950', 'Concrete, indrukwekkende toepassingen van AI en generatieve AI', 'Enkel en alleen de juridische regels rond dataopslag in Europa', 'De biologische werking van menselijke hersenen in detail'], a: 1, f: 'Isaak Vandermaesen (Scivil) toonde concrete, verrassende toepassingen van AI — een mooie brug naar wat je in Module 3 over generatieve AI leert.' }
-  ];
+    {graad:1, q: 'Wat is het grootste nadeel van procedurele AI (zoals bij de zombie/mens-beslisboom)?', o: ['Ze is over het algemeen veel te kostbaar en te duur om ooit ergens te kunnen bouwen of onderhouden','Ze is niet flexibel: bij iets nieuws dat niet in het stappenplan past, weet het systeem geen raad','Ze werkt in de praktijk uitsluitend met kleuren als enige mogelijke invoer','Ze heeft, in tegenstelling tot elke andere vorm van AI, geen computer nodig'], a: 1, f: 'Procedurele AI volgt vaste stappen; komt er iets onverwachts bij, dan faalt het systeem.' },
+    {graad:1, q: 'Wat betekent de "black box" bij machine learning?', o: ['Een fysieke, afgesloten doos waarin de computer letterlijk zit','Je krijgt een resultaat zonder dat de machine toont hoe ze daar precies toe kwam','Een streng beveiligingssysteem dat computers tegen hackers beschermt','Een foutmelding die verschijnt wanneer de machine crasht'], a: 1, f: 'Data gaat erin (input), er gebeuren berekeningen, en je krijgt een resultaat (output) — zonder inzicht in het precieze proces.' },
+    {graad:2, q: 'Bij gesuperviseerd leren (zoals de zombie/mens-kaartjes met label): wat is kenmerkend?', o: ['De computer krijgt data mét labels om een categorie te leren voorspellen', 'De computer krijgt bij deze methode eigenlijk nooit enige voorbeelden te zien','Dit is in de praktijk exact hetzelfde als versterkend leren','Er is bij deze aanpak geen enkele menselijke input nodig'], a: 0, f: 'Bij gesuperviseerd leren geef je gelabelde voorbeelden, zodat de computer leert categorieën te herkennen.' },
+    {graad:3, q: 'Bij Spotify- of Netflix-aanbevelingen: welk soort leren is meestal aan het werk?', o: ['Versterkend leren, waarbij het systeem stap voor stap beloond wordt in een spelomgeving', 'Ongesuperviseerd leren: de computer groepeert gebruikers/content zelf, zonder vaste labels','Procedurele AI die simpelweg een lijst van vaste IF-THEN regels volgt','Dit gebeurt in werkelijkheid volledig zonder enige vorm van AI of algoritme'], a: 1, f: 'De computer ontdekt zelf patronen en groepen in kijk-/luistergedrag, zonder dat iemand die groepen vooraf benoemde.' },
+    {graad:1, q: 'Waarom is NotebookLM vaak betrouwbaarder dan een gewone chatbot voor studeren?', o: ['Het genereert doorgaans gewoon sneller een antwoord op elke gestelde vraag','Het baseert antwoorden enkel op de documenten die jij zelf uploadt, met bronvermelding','Het is volledig gratis, terwijl vergelijkbare studietools altijd geld kosten','Er bestaat tussen de twee soorten tools eigenlijk geen enkel praktisch verschil'], a: 1, f: 'Omdat het antwoordt op basis van jouw eigen bronnen in plaats van het hele internet, is de kans op verzonnen informatie veel kleiner.' },
+    {graad:3, q: 'De video bij "black box" toonde een neuraal netwerk. Wat combineert dit soort netwerk, zoals je in de video zag?', o: ['Enkel losse getallen zonder enige onderlinge samenhang of structuur', 'Veel kleinere lagen/knopen die samen tot één complex eindresultaat komen', 'Uitsluitend tekst, nooit beelden of andere soorten data', 'Alleen menselijke input, zonder enige vorm van berekening'], a: 1, f: 'Een neuraal netwerk verwerkt data via lagen van kleine "knopen" die stap voor stap samen tot een resultaat komen — precies wat de video visueel toonde.' },
+    {graad:3, q: 'In de video bij deep learning (Isaak Vandermaesen) ging het over:', o: ['Uitsluitend de geschiedenis van computers vóór het jaar 1950', 'Concrete, indrukwekkende toepassingen van AI en generatieve AI', 'Enkel en alleen de juridische regels rond dataopslag in Europa', 'De biologische werking van menselijke hersenen in detail'], a: 1, f: 'Isaak Vandermaesen (Scivil) toonde concrete, verrassende toepassingen van AI — een mooie brug naar wat je in Module 3 over generatieve AI leert.' }
+  ].filter(q => q.graad <= (S.graad || 3));
   rQuiz(c, quiz, 2, 'mod2', n2, 60);
 }
 
@@ -1368,8 +1435,17 @@ function sRef2(){
 
 const m3 = [m3s0, m3s1, m3s2, m3s3, m3s4, m3s5, m3s6, m3s7, m3s8, m3s9, m3s10, m3s11, m3s12];
 
-function rm3(){ const c=document.getElementById('m3c'); c.innerHTML=''; rDots(3,m3.length,S.mod3.step); m3[S.mod3.step](c); lockNextButtons(c); }
-function n3(){ S.mod3.step++; ss(); S.mod3.step>=m3.length ? d3() : rm3(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); }
+// "Hoe genereert AI tekst?" (index 1) legt uit dat generatieve AI patronen in data gebruikt
+// om output te maken — dat is expliciet een 2e-graadcompetentie uit het kader.
+const M3_GRAAD_MIN = { 1: 2 };
+
+function m3Gefilterd(){
+  const g = S.graad || 3;
+  return m3.filter((_, i) => (M3_GRAAD_MIN[i] || 1) <= g);
+}
+
+function rm3(){ const c=document.getElementById('m3c'); c.innerHTML=''; const arr=m3Gefilterd(); rDots(3,arr.length,S.mod3.step); arr[S.mod3.step](c); fixStepBadge(c,S.mod3.step,arr.length); lockNextButtons(c); }
+function n3(){ const arr=m3Gefilterd(); S.mod3.step++; ss(); S.mod3.step>=arr.length ? d3() : rm3(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); }
 function p3(){ if(S.mod3.step > 0){ S.mod3.step--; ss(); rm3(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); } }
 function d3(){ S.mod3.done=true; S.mod3.step=0; ss(); up(); rmc(); sv('home'); setTimeout(()=>alert('🎉 Module 3 voltooid! Module 4 is nu beschikbaar.'),300); }
 
@@ -1655,13 +1731,13 @@ function m3s10(c){
 
 function m3s11(c){
   const quiz = [
-    {q: 'Hoe genereert een taalmodel zoals ChatGPT een antwoord?', o: ['Het zoekt live op internet en kopieert simpelweg het beste resultaat.','Het genereert woord voor woord, gebaseerd op wat statistisch waarschijnlijk is.','Een team van mensen typt in real time de antwoorden voor je.','Het gebruikt exact dezelfde vaste antwoorden voor elke gebruiker.'], a: 1, f: 'Het model voorspelt telkens het volgende woord op basis van kansberekening uit zijn training.' },
-    {q: 'In het voorbeeld met de reddingswerker-foto: hoe herkende je de hallucinatie?', o: ['De foto was zwart-wit.','De persoon op de foto had 6 vingers aan één hand.','Er stond een watermerk op de foto.','De foto was wazig.'], a: 1, f: 'Een verkeerd aantal vingers is een klassiek (maar steeds zeldzamer wordend) signaal van AI-gegenereerde beelden.' },
-    {q: 'Wat is "prompt engineering"?', o: ['Het volledig programmeren van een AI-model vanaf nul.','De vaardigheid om goede, doeltreffende prompts te formuleren.','Het technisch repareren van kapotte AI-software.','Een gespecialiseerd technisch beroep in de bouwsector.'], a: 1, f: 'Een goed geformuleerde prompt (specifiek, met context, duidelijke output) geeft veel betere resultaten.' },
-    {q: 'Welke 3 tips gelden voor een goede beeldprompt?', o: ['De gewenste kleur, het bestandsformaat, en de maximale prijs','Specifiek onderwerp, gewenste outputvorm, duidelijke stijl','De gewenste lengte, de gebruikte taal, en de doelgroep','De snelheid, de kostprijs, en de algemene kwaliteit'], a: 1, f: 'Wees specifiek over het onderwerp, geef de gewenste outputvorm, en verduidelijk de gewenste stijl.' },
-    {q: 'Waarom is het gevaarlijk dat AI-content zo goed geworden is?', o: ['Omdat het produceren van AI-content tegenwoordig simpelweg te duur is geworden.','Omdat mensen met slechte bedoelingen het kunnen misbruiken voor nepnieuws.','Omdat het genereren van content tegenwoordig veel te traag zou verlopen.','Dit is in werkelijkheid niet gevaarlijk, het is enkel handig voor iedereen.'], a: 1, f: 'Naarmate AI-content overtuigender wordt, wordt het voor kwaadwillenden makkelijker om nepnieuws te verspreiden dat niet meer te onderscheiden is van echt nieuws.' },
-    {q: 'De VRT-video bij stap 4 ("ChatGPT na 2 jaar...") toonde vooral dat:', o: ['ChatGPT intussen alweer helemaal verdwenen is uit scholen en klaslokalen', 'ChatGPT en gelijkaardige tools niet meer weg te denken zijn uit het onderwijs', 'Scholen wereldwijd generatieve AI inmiddels volledig verboden hebben', 'Leerlingen generatieve AI enkel nog gebruiken voor wiskundige berekeningen'], a: 1, f: 'De reportage toont hoe generatieve AI-tools intussen structureel verweven zijn geraakt met het dagelijkse schoolleven — exact het soort AI waarmee jij in deze module experimenteerde.' }
-  ];
+    {graad:2, q: 'Hoe genereert een taalmodel zoals ChatGPT een antwoord?', o: ['Het zoekt live op internet en kopieert simpelweg het beste resultaat.','Het genereert woord voor woord, gebaseerd op wat statistisch waarschijnlijk is.','Een team van mensen typt in real time de antwoorden voor je.','Het gebruikt exact dezelfde vaste antwoorden voor elke gebruiker.'], a: 1, f: 'Het model voorspelt telkens het volgende woord op basis van kansberekening uit zijn training.' },
+    {graad:1, q: 'In het voorbeeld met de reddingswerker-foto: hoe herkende je de hallucinatie?', o: ['De foto was zwart-wit.','De persoon op de foto had 6 vingers aan één hand.','Er stond een watermerk op de foto.','De foto was wazig.'], a: 1, f: 'Een verkeerd aantal vingers is een klassiek (maar steeds zeldzamer wordend) signaal van AI-gegenereerde beelden.' },
+    {graad:1, q: 'Wat is "prompt engineering"?', o: ['Het volledig programmeren van een AI-model vanaf nul.','De vaardigheid om goede, doeltreffende prompts te formuleren.','Het technisch repareren van kapotte AI-software.','Een gespecialiseerd technisch beroep in de bouwsector.'], a: 1, f: 'Een goed geformuleerde prompt (specifiek, met context, duidelijke output) geeft veel betere resultaten.' },
+    {graad:1, q: 'Welke 3 tips gelden voor een goede beeldprompt?', o: ['De gewenste kleur, het bestandsformaat, en de maximale prijs','Specifiek onderwerp, gewenste outputvorm, duidelijke stijl','De gewenste lengte, de gebruikte taal, en de doelgroep','De snelheid, de kostprijs, en de algemene kwaliteit'], a: 1, f: 'Wees specifiek over het onderwerp, geef de gewenste outputvorm, en verduidelijk de gewenste stijl.' },
+    {graad:1, q: 'Waarom is het gevaarlijk dat AI-content zo goed geworden is?', o: ['Omdat het produceren van AI-content tegenwoordig simpelweg te duur is geworden.','Omdat mensen met slechte bedoelingen het kunnen misbruiken voor nepnieuws.','Omdat het genereren van content tegenwoordig veel te traag zou verlopen.','Dit is in werkelijkheid niet gevaarlijk, het is enkel handig voor iedereen.'], a: 1, f: 'Naarmate AI-content overtuigender wordt, wordt het voor kwaadwillenden makkelijker om nepnieuws te verspreiden dat niet meer te onderscheiden is van echt nieuws.' },
+    {graad:1, q: 'De VRT-video bij stap 4 ("ChatGPT na 2 jaar...") toonde vooral dat:', o: ['ChatGPT intussen alweer helemaal verdwenen is uit scholen en klaslokalen', 'ChatGPT en gelijkaardige tools niet meer weg te denken zijn uit het onderwijs', 'Scholen wereldwijd generatieve AI inmiddels volledig verboden hebben', 'Leerlingen generatieve AI enkel nog gebruiken voor wiskundige berekeningen'], a: 1, f: 'De reportage toont hoe generatieve AI-tools intussen structureel verweven zijn geraakt met het dagelijkse schoolleven — exact het soort AI waarmee jij in deze module experimenteerde.' }
+  ].filter(q => q.graad <= (S.graad || 3));
   rQuiz(c, quiz, 3, 'mod3', n3, 60);
 }
 
@@ -1703,8 +1779,17 @@ function sRef3(){
 
 const m4 = [m4s0, m4s1, m4s2, m4s3, m4s4, m4s5, m4s6, m4s7, m4s8, m4s9, m4s10];
 
-function rm4(){ const c=document.getElementById('m4c'); c.innerHTML=''; rDots(4,m4.length,S.mod4.step); m4[S.mod4.step](c); lockNextButtons(c); }
-function n4(){ S.mod4.step++; ss(); S.mod4.step>=m4.length ? d4() : rm4(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); }
+// Ethiek, bias en privacy-bewustzijn zijn kernwaarden die op elke leeftijd zinvol zijn —
+// geen technische voorkennis vereist zoals bij Module 2. Geen stappen gefilterd.
+const M4_GRAAD_MIN = {};
+
+function m4Gefilterd(){
+  const g = S.graad || 3;
+  return m4.filter((_, i) => (M4_GRAAD_MIN[i] || 1) <= g);
+}
+
+function rm4(){ const c=document.getElementById('m4c'); c.innerHTML=''; const arr=m4Gefilterd(); rDots(4,arr.length,S.mod4.step); arr[S.mod4.step](c); fixStepBadge(c,S.mod4.step,arr.length); lockNextButtons(c); }
+function n4(){ const arr=m4Gefilterd(); S.mod4.step++; ss(); S.mod4.step>=arr.length ? d4() : rm4(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); }
 function p4(){ if(S.mod4.step > 0){ S.mod4.step--; ss(); rm4(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); } }
 function d4(){ S.mod4.done=true; S.mod4.step=0; ss(); up(); rmc(); sv('home'); setTimeout(()=>alert('🎉 Module 4 voltooid! Module 5 is nu beschikbaar.'),300); }
 
@@ -1972,8 +2057,18 @@ function sRef4(){
 
 const m5 = [m5s0, m5s1, m5s2, m5s3, m5s4, m5s5, m5s6, m5s7, m5s8, m5s9, m5s10];
 
-function rm5(){ const c=document.getElementById('m5c'); c.innerHTML=''; rDots(5,m5.length,S.mod5.step); m5[S.mod5.step](c); lockNextButtons(c); }
-function n5(){ S.mod5.step++; ss(); S.mod5.step>=m5.length ? d5() : rm5(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); }
+// "AI-detectie: waarom niet?" (index 6) is expliciet een 3e-graadcompetentie uit het kader
+// ("Ik kan uitleggen waarom AI-detectie geen sluitend bewijs vormt.") — voor jongere graden
+// is dit te genuanceerd; zij krijgen enkel de eenvoudige schoolregel (zie stap "afspraken").
+const M5_GRAAD_MIN = { 6: 3 };
+
+function m5Gefilterd(){
+  const g = S.graad || 3;
+  return m5.filter((_, i) => (M5_GRAAD_MIN[i] || 1) <= g);
+}
+
+function rm5(){ const c=document.getElementById('m5c'); c.innerHTML=''; const arr=m5Gefilterd(); rDots(5,arr.length,S.mod5.step); arr[S.mod5.step](c); fixStepBadge(c,S.mod5.step,arr.length); lockNextButtons(c); }
+function n5(){ const arr=m5Gefilterd(); S.mod5.step++; ss(); S.mod5.step>=arr.length ? d5() : rm5(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); }
 function p5(){ if(S.mod5.step > 0){ S.mod5.step--; ss(); rm5(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); } }
 function d5(){ S.mod5.done=true; S.mod5.step=0; ss(); up(); rmc(); sv('home'); setTimeout(()=>alert('🎉 Module 5 voltooid! Module 6 (laatste!) is nu beschikbaar.'),300); }
 
@@ -2202,14 +2297,14 @@ function sCharter(){
 
 function m5s8(c){
   const quiz = [
-    {q: 'Wat is het uitgangspunt van het AI-beleid op Sint-Rembert?', o: ['AI-gebruik is altijd toegestaan, behalve wanneer een leerkracht het uitdrukkelijk verbiedt.','AI-gebruik is niet toegestaan, tenzij je leerkracht expliciet toestemming geeft via een label.','AI-gebruik is enkel toegestaan voor leerlingen vanaf 16 jaar oud.','Elke individuele leerkracht bepaalt dit apart, zonder algemeen schoolkader.'], a: 1, f: 'Het beleid vertrekt van "niet toegestaan, tenzij" — labels maken per opdracht duidelijk wat wél mag.' },
-    {q: 'Bij welk label mag AI enkel gebruikt worden om ideeën op te doen?', o: ['Label 1 (Verboden)','Label 2 (Als inspiratie)','Label 3 (Als ondersteuning)','Label 4 (Toegestaan)'], a: 1, f: 'Label 2 (Als inspiratie) staat AI toe voor ideeën, maar het geschreven werk moet volledig van jou zijn.' },
-    {q: 'Waarom gebruikt Sint-Rembert geen AI-detectietools?', o: ['Omdat de aanschaf van zulke tools veel te duur zou uitvallen.','Omdat ze onbetrouwbaar zijn en regelmatig valse beschuldigingen opleveren.','Omdat de school over het algemeen weinig belang hecht aan eerlijkheid.','Omdat er wereldwijd nog geen enkele tool bestaat die dit probeert.'], a: 1, f: 'AI-detectietools zijn wetenschappelijk onvoldoende betrouwbaar — de school kiest voor gesprek en vertrouwen.' },
-    {q: 'Welke AI-tool wordt bij voorkeur gebruikt op Sint-Rembert?', o: ['De gratis versie van ChatGPT, omdat die het bekendst is bij leerlingen.','Microsoft Copilot met schoolaccount, want data blijft binnen de schoolomgeving.','Elke tool mag door leerlingen volledig vrij gekozen worden.','Enkel tools die leerlingen volledig zelf hebben ontwikkeld.'], a: 1, f: 'Copilot met schoolaccount beschermt je gegevens en gebruikt ze niet om modellen te trainen.' },
-    {q: 'Volgens de algemene afspraken: wat moet je ALTIJD doen als je AI gebruikte?', o: ['Niets in het bijzonder, want dat is volgens de afspraken niet nodig.','Transparant zijn en laten weten dat je AI hebt gebruikt.','Enkel je ouders hierover inlichten, niet je leerkracht.','Gewoon wachten tot je leerkracht er zelf naar vraagt.'], a: 1, f: 'Transparantie staat centraal in de afspraken: laat altijd weten wanneer je AI hebt ingezet.' },
-    {q: 'De video bij het begin van deze module ("Krijgen we dommere studenten...") stelde vooral de vraag:', o: ['Of scholen genoeg budget hebben om AI-software aan te kopen', 'Wat veelvuldig AI-gebruik doet met je eigen denk- en leervermogen', 'Hoeveel Belgische scholen inmiddels een eigen AI-labelsysteem hebben', 'Welke leeftijd het meest geschikt is om met AI te starten op school'], a: 1, f: 'De video onderzoekt of overmatig op AI leunen je eigen leerproces ondermijnt — exact de vraag die aan de basis ligt van de AI-labels.' },
-    {q: 'De video "Kan SCHOOL zien dat je AI gebruikt?" toonde dat AI-detectietools:', o: ['Altijd 100% correct AI-tekst kunnen herkennen zonder ooit een fout te maken', 'Onbetrouwbaar zijn, waardoor scholen steeds vaker inzetten op gesprek', 'Inmiddels door alle Belgische scholen verplicht worden gebruikt', 'Enkel bruikbaar zijn voor wiskundige opdrachten, niet voor taalvakken'], a: 1, f: 'De reportage bevestigt waarom Sint-Rembert bewust geen detectiesoftware gebruikt: die tools zijn te onbetrouwbaar, gesprek werkt beter.' }
-  ];
+    {graad:1, q: 'Wat is het uitgangspunt van het AI-beleid op Sint-Rembert?', o: ['AI-gebruik is altijd toegestaan, behalve wanneer een leerkracht het uitdrukkelijk verbiedt.','AI-gebruik is niet toegestaan, tenzij je leerkracht expliciet toestemming geeft via een label.','AI-gebruik is enkel toegestaan voor leerlingen vanaf 16 jaar oud.','Elke individuele leerkracht bepaalt dit apart, zonder algemeen schoolkader.'], a: 1, f: 'Het beleid vertrekt van "niet toegestaan, tenzij" — labels maken per opdracht duidelijk wat wél mag.' },
+    {graad:1, q: 'Bij welk label mag AI enkel gebruikt worden om ideeën op te doen?', o: ['Label 1 (Verboden)','Label 2 (Als inspiratie)','Label 3 (Als ondersteuning)','Label 4 (Toegestaan)'], a: 1, f: 'Label 2 (Als inspiratie) staat AI toe voor ideeën, maar het geschreven werk moet volledig van jou zijn.' },
+    {graad:2, q: 'Waarom gebruikt Sint-Rembert geen AI-detectietools?', o: ['Omdat de aanschaf van zulke tools veel te duur zou uitvallen.','Omdat ze onbetrouwbaar zijn en regelmatig valse beschuldigingen opleveren.','Omdat de school over het algemeen weinig belang hecht aan eerlijkheid.','Omdat er wereldwijd nog geen enkele tool bestaat die dit probeert.'], a: 1, f: 'AI-detectietools zijn wetenschappelijk onvoldoende betrouwbaar — de school kiest voor gesprek en vertrouwen.' },
+    {graad:1, q: 'Welke AI-tool wordt bij voorkeur gebruikt op Sint-Rembert?', o: ['De gratis versie van ChatGPT, omdat die het bekendst is bij leerlingen.','Microsoft Copilot met schoolaccount, want data blijft binnen de schoolomgeving.','Elke tool mag door leerlingen volledig vrij gekozen worden.','Enkel tools die leerlingen volledig zelf hebben ontwikkeld.'], a: 1, f: 'Copilot met schoolaccount beschermt je gegevens en gebruikt ze niet om modellen te trainen.' },
+    {graad:1, q: 'Volgens de algemene afspraken: wat moet je ALTIJD doen als je AI gebruikte?', o: ['Niets in het bijzonder, want dat is volgens de afspraken niet nodig.','Transparant zijn en laten weten dat je AI hebt gebruikt.','Enkel je ouders hierover inlichten, niet je leerkracht.','Gewoon wachten tot je leerkracht er zelf naar vraagt.'], a: 1, f: 'Transparantie staat centraal in de afspraken: laat altijd weten wanneer je AI hebt ingezet.' },
+    {graad:1, q: 'De video bij het begin van deze module ("Krijgen we dommere studenten...") stelde vooral de vraag:', o: ['Of scholen genoeg budget hebben om AI-software aan te kopen', 'Wat veelvuldig AI-gebruik doet met je eigen denk- en leervermogen', 'Hoeveel Belgische scholen inmiddels een eigen AI-labelsysteem hebben', 'Welke leeftijd het meest geschikt is om met AI te starten op school'], a: 1, f: 'De video onderzoekt of overmatig op AI leunen je eigen leerproces ondermijnt — exact de vraag die aan de basis ligt van de AI-labels.' },
+    {graad:2, q: 'De video "Kan SCHOOL zien dat je AI gebruikt?" toonde dat AI-detectietools:', o: ['Altijd 100% correct AI-tekst kunnen herkennen zonder ooit een fout te maken', 'Onbetrouwbaar zijn, waardoor scholen steeds vaker inzetten op gesprek', 'Inmiddels door alle Belgische scholen verplicht worden gebruikt', 'Enkel bruikbaar zijn voor wiskundige opdrachten, niet voor taalvakken'], a: 1, f: 'De reportage bevestigt waarom Sint-Rembert bewust geen detectiesoftware gebruikt: die tools zijn te onbetrouwbaar, gesprek werkt beter.' }
+  ].filter(q => q.graad <= (S.graad || 3));
   rQuiz(c, quiz, 5, 'mod5', n5, 60);
 }
 
@@ -2273,8 +2368,17 @@ function m5s10(c){
 
 const m6 = [m6s0, m6s1, m6s2, m6s3, m6s4, m6s5, m6s6, m6s7, m6s8, m6s9, m6s10];
 
-function rm6(){ const c=document.getElementById('m6c'); c.innerHTML=''; rDots(6,m6.length,S.mod6.step); m6[S.mod6.step](c); lockNextButtons(c); }
-function n6(){ S.mod6.step++; ss(); S.mod6.step>=m6.length ? d6() : rm6(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); }
+// Maatschappelijke discussie (jobs, creativiteit, regelgeving, toekomst) vraagt geen
+// technische voorkennis — toegankelijk voor elke graad. Geen stappen gefilterd.
+const M6_GRAAD_MIN = {};
+
+function m6Gefilterd(){
+  const g = S.graad || 3;
+  return m6.filter((_, i) => (M6_GRAAD_MIN[i] || 1) <= g);
+}
+
+function rm6(){ const c=document.getElementById('m6c'); c.innerHTML=''; const arr=m6Gefilterd(); rDots(6,arr.length,S.mod6.step); arr[S.mod6.step](c); fixStepBadge(c,S.mod6.step,arr.length); lockNextButtons(c); }
+function n6(){ const arr=m6Gefilterd(); S.mod6.step++; ss(); S.mod6.step>=arr.length ? d6() : rm6(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); }
 function p6(){ if(S.mod6.step > 0){ S.mod6.step--; ss(); rm6(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); } }
 function d6(){ S.mod6.done=true; S.mod6.step=0; ss(); up(); rmc(); sv('cert'); }
 
