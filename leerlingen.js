@@ -177,6 +177,7 @@ function sv(id){
 
 function sm(n){
   if(!S.starttest.taken){ goStartTest(); return; }
+  if(!S.graad){ showGraadGate(); return; }
   if(n===1){ rm1(); sv('mod1'); return; }
   if(n===7){ rm7(); sv('mod7'); return; }
   const prevDone = S['mod'+(n-1)].done;
