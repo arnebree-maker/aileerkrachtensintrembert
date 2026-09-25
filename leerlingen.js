@@ -64,6 +64,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // Navigeer meteen naar de juiste plek op basis van bewaarde voortgang
   if(S.starttest.taken){
     goHome(); // (niet rechtstreeks sv('home') — anders wordt de verplichte graadkeuze omzeild)
+  } else if(!S.graad){
+    // Allereerste bezoek: de HTML toont standaard al de startest-view. Die moet
+    // verborgen blijven tot de graad gekozen is — vandaar de gate hier meteen.
+    showGraadGate();
   }
 });
 
@@ -236,6 +240,7 @@ function kiesGraad(g){
   const modal = document.getElementById('graad-modal');
   if(modal) modal.remove();
   up(); rmc();
+  goStartTest();
 }
 
 function kiesLeerjaar(lj){
@@ -276,7 +281,10 @@ function kiesLeerjaar(lj){
   `;
 }
 
-function goStartTest(){ showNameEntry(); renderStartTest(); sv('starttest'); }
+function goStartTest(){
+  if(!S.graad){ showGraadGate(); return; }
+  showNameEntry(); renderStartTest(); sv('starttest');
+}
 
 /* ════════════════════════════════════════════
    WAT MOET IK KENNEN — PER GRAAD (zelfcheck)
@@ -663,16 +671,39 @@ function renderStartTestQuiz(c){
   const nameInput = document.getElementById('st-name-input');
   nameInput.oninput = ()=>{ S.name = nameInput.value.trim(); ss(); ua(); };
 
+  const graad = S.graad || 1;
+
+  // Vraag 1 — moeilijkheidsgraad stijgt mee met de graad
+  const q1_varianten = {
+    1: {q:'Wat is artificiële intelligentie (AI) in de kern?', o:['Software die exact doet wat een programmeur letterlijk heeft voorgeschreven.','Software die patronen leert herkennen uit data en daarop voorspellingen maakt.','Een robot met een eigen bewustzijn en gevoelens.','Een supersnelle rekenmachine die enkel getallen verwerkt.'], a:1, f:'AI herkent patronen in data en gebruikt die om voorspellingen of beslissingen te maken — dat is het fundamentele verschil met gewone software die enkel vaste regels volgt.'},
+    2: {q:'Wat maakt generatieve AI (zoals ChatGPT) anders dan oudere vormen van AI?', o:['Ze is gewoon veel sneller, verder is er geen enkel wezenlijk verschil.','Ze creëert volledig nieuwe content (tekst, beeld...), in plaats van enkel te classificeren of voorspellen.','Ze heeft, in tegenstelling tot oudere AI, geen trainingsdata nodig.','Ze werkt uitsluitend offline, zonder enige vorm van internetverbinding.'], a:1, f:'Oudere AI classificeerde of voorspelde vooral; generatieve AI gaat een stap verder en creëert zelf nieuwe content.'},
+    3: {q:'Wat bepaalt mee hoe een AI-model op jouw vraag antwoordt?', o:['Enkel de snelheid van je eigen internetverbinding op dat moment.','Het model zelf, de trainingsdata, én de instellingen eronder.','Uitsluitend de kleur van de gebruikersinterface die je gebruikt.','Enkel en alleen het tijdstip van de dag waarop je de vraag stelt.'], a:1, f:'Model, trainingsdata en instellingen bepalen samen de output — daarom geven verschillende AI-tools soms erg verschillende antwoorden op dezelfde vraag.'},
+  };
+
+  // Vraag 7 — energieverbruik, met meer diepgang naarmate de graad stijgt
+  const q7_varianten = {
+    1: {q:'Waarom verbruikt AI-gebruik (zoals ChatGPT) veel energie?', o:['Omdat de AI voortdurend achtergrondmuziek afspeelt tijdens het antwoorden.','Omdat grote rekencentra nodig zijn om de vele miljarden berekeningen uit te voeren.','Dat klopt eigenlijk niet: AI-gebruik verbruikt nauwelijks extra energie.','Omdat AI-systemen enkel gedurende de nacht actief mogen zijn van de leverancier.'], a:1, f:'Elke AI-vraag vereist enorme rekenkracht in datacenters — dat kost merkbaar meer energie dan een gewone zoekopdracht.'},
+    2: {q:'Ongeveer hoeveel meer energie kost een ChatGPT-vraag, vergeleken met dezelfde zoekopdracht op Google?', o:['Ongeveer 2 keer meer, een verschil dat in de praktijk verwaarloosbaar is.','Ongeveer 25 keer meer, door de zware berekeningen in datacenters.','Exact evenveel, aangezien beide op vergelijkbare servers draaien.','Net iets minder, omdat chatbots efficiënter zouden werken.'], a:1, f:'Een ChatGPT-vraag kost ongeveer 25 keer meer energie dan dezelfde zoekopdracht op Google — een reële afweging bij het kiezen van je tool.'},
+    3: {q:'Ongeveer hoeveel meer energie kost een ChatGPT-vraag, vergeleken met dezelfde zoekopdracht op Google?', o:['Ongeveer 2 keer meer, een verschil dat in de praktijk verwaarloosbaar is.','Ongeveer 25 keer meer, door de zware berekeningen in datacenters.','Exact evenveel, aangezien beide op vergelijkbare servers draaien.','Net iets minder, omdat chatbots efficiënter zouden werken.'], a:1, f:'Een ChatGPT-vraag kost ongeveer 25 keer meer energie dan dezelfde zoekopdracht op Google — een reële afweging bij het kiezen van je tool.'},
+  };
+
+  // Vraag 9 — AI-detectie, met de genuanceerde 3e-graadversie apart
+  const q9_varianten = {
+    1: {q:'Mag je een AI-detectietool (die beweert AI-tekst te herkennen) volledig vertrouwen?', o:['Ja, zulke detectietools zijn wetenschappelijk 100% betrouwbaar bevonden.','Nee, ze zijn onbetrouwbaar en geven soms valse beschuldigingen.','Ja, maar enkel wanneer de tekst volledig in het Engels is geschreven.','Nee, want dit soort detectietools bestaat momenteel nog niet.'], a:1, f:'AI-detectietools zijn wetenschappelijk onvoldoende betrouwbaar bevonden — daarom gebruikt Sint-Rembert ze bewust niet (zie Module 5).'},
+    2: {q:'Mag je een AI-detectietool (die beweert AI-tekst te herkennen) volledig vertrouwen?', o:['Ja, zulke detectietools zijn wetenschappelijk 100% betrouwbaar bevonden.','Nee, ze zijn onbetrouwbaar en geven soms valse beschuldigingen.','Ja, maar enkel wanneer de tekst volledig in het Engels is geschreven.','Nee, want dit soort detectietools bestaat momenteel nog niet.'], a:1, f:'AI-detectietools zijn wetenschappelijk onvoldoende betrouwbaar bevonden — daarom gebruikt Sint-Rembert ze bewust niet (zie Module 5).'},
+    3: {q:'Waarom vormt een AI-detectietool geen sluitend bewijs dat iemand AI gebruikte?', o:['Omdat zulke tools tegenwoordig gewoon te traag werken voor praktisch gebruik.','Omdat ze op waarschijnlijkheid gokken, met reële kans op vals-positieve beschuldigingen.','Omdat ze uitsluitend werken bij teksten die langer zijn dan 10 pagina\'s.','Dit klopt niet: goede detectietools zijn tegenwoordig wél waterdicht.'], a:1, f:'Detectietools schatten een waarschijnlijkheid, geen zekerheid — ze kunnen zowel AI-tekst missen als menselijke tekst onterecht verdacht maken.'},
+  };
+
   const quiz = [
-    {q:'Wat is artificiële intelligentie (AI) in de kern?', o:['Software die exact doet wat een programmeur letterlijk heeft voorgeschreven.','Software die patronen leert herkennen uit data en daarop voorspellingen maakt.','Een robot met een eigen bewustzijn en gevoelens.','Een supersnelle rekenmachine die enkel getallen verwerkt.'], a:1, f:'AI herkent patronen in data en gebruikt die om voorspellingen of beslissingen te maken — dat is het fundamentele verschil met gewone software die enkel vaste regels volgt.'},
+    q1_varianten[graad] || q1_varianten[1],
     {q:'ChatGPT is een voorbeeld van:', o:['Generatieve AI','Een zoekmachine','Een virus','Een besturingssysteem'], a:0, f:'ChatGPT genereert zelf nieuwe tekst op basis van je vraag — dat maakt het generatieve AI, in tegenstelling tot bijvoorbeeld een zoekmachine die enkel bestaande resultaten toont.'},
     {q:'Wat is een "hallucinatie" bij AI?', o:['Wanneer de AI onverwacht crasht en herstart moet worden.','Wanneer AI met evenveel zekerheid iets verzint dat eigenlijk niet klopt.','Wanneer AI een kunstzinnige of grappige tekening maakt.','Wanneer de internetverbinding van de gebruiker plots wegvalt.'], a:1, f:'Een hallucinatie is verzonnen informatie die AI met evenveel overtuiging presenteert als correcte informatie — daarom is controleren zo belangrijk.'},
     {q:'Wat is "bias" bij AI?', o:['Een AI-model dat merkbaar te traag reageert op vragen.','Vooroordelen die AI overneemt uit de data waarop het werd getraind.','Een technische fout die in de programmeercode is geslopen.','Een AI-systeem dat structureel te veel stroom verbruikt.'], a:1, f:'AI leert van bestaande data — en als die data vooroordelen bevat, neemt het systeem die vooroordelen onbewust over.'},
     {q:'Mag je zomaar elke AI-tool gebruiken voor elke schooltaak?', o:['Ja, AI-gebruik is voor elke taak en elk vak altijd toegestaan.','Nee, het hangt af van het AI-label dat je leerkracht per opdracht geeft.','Nee, AI mag in geen enkel geval op school gebruikt worden.','Ja, maar dit mag enkel bij leerlingen uit de derde graad.'], a:1, f:'Sint-Rembert werkt met AI-labels per opdracht (zie Module 5) — dit bepaalt telkens exact wat wel en niet mag.'},
     {q:'Wat is een deepfake?', o:['Een AI-gegenereerde, nagemaakte foto, video of audio die echt lijkt maar het niet is.','Een zeldzame diepzeevis die automatisch wordt herkend door gespecialiseerde AI-software.','Een extra veilige methode om je persoonlijke wachtwoorden te versleutelen en te beveiligen.','Een verouderde vorm van computervirus die dateert uit de allervroegste internetjaren.'], a:0, f:'Deepfakes gebruiken AI om iemands gezicht, stem of beeld overtuigend na te bootsen in content die niet echt gebeurde.'},
-    {q:'Waarom verbruikt AI-gebruik (zoals ChatGPT) veel energie?', o:['Omdat de AI voortdurend achtergrondmuziek afspeelt tijdens het antwoorden.','Omdat grote rekencentra nodig zijn om de vele miljarden berekeningen uit te voeren.','Dat klopt eigenlijk niet: AI-gebruik verbruikt nauwelijks extra energie.','Omdat AI-systemen enkel gedurende de nacht actief mogen zijn van de leverancier.'], a:1, f:'Elke AI-vraag vereist enorme rekenkracht in datacenters — dat kost merkbaar meer energie dan een gewone zoekopdracht.'},
+    q7_varianten[graad] || q7_varianten[1],
     {q:'Wat betekent het als een AI-model "getraind" is?', o:['Het heeft een intensief fysiek trainingsprogramma doorlopen.','Het heeft patronen geleerd uit grote hoeveelheden voorbeelddata.','Het is fysiek verplaatst naar een datacenter in een ander land.','Het heeft een officieel examen afgelegd bij de fabrikant.'], a:1, f:'Trainen betekent: het model kreeg enorme hoeveelheden voorbeelddata te zien en leerde daaruit patronen herkennen.'},
-    {q:'Mag je een AI-detectietool (die beweert AI-tekst te herkennen) volledig vertrouwen?', o:['Ja, zulke detectietools zijn wetenschappelijk 100% betrouwbaar bevonden.','Nee, ze zijn onbetrouwbaar en geven soms valse beschuldigingen.','Ja, maar enkel wanneer de tekst volledig in het Engels is geschreven.','Nee, want dit soort detectietools bestaat momenteel nog niet.'], a:1, f:'AI-detectietools zijn wetenschappelijk onvoldoende betrouwbaar bevonden — daarom gebruikt Sint-Rembert ze bewust niet (zie Module 5).'},
+    q9_varianten[graad] || q9_varianten[1],
     {q:'Wat is het belangrijkste dat je zelf moet doen met AI-output?', o:['Niets, AI heeft altijd gelijk.','Ze kritisch controleren voor je ze gebruikt.','Ze meteen doorsturen naar vrienden.','Ze printen en inleveren.'], a:1, f:'AI kan fouten maken (hallucinaties, bias) zonder dat te laten merken — dus blijf zelf altijd kritisch controleren.'}
   ];
 
