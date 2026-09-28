@@ -11,7 +11,7 @@ const INSCHRIJF = 'https://apps.powerapps.com/play/e/a6565af8-ceef-e6fa-abee-2fc
 // Terugkerende gebruikers (die al een naam/rol hebben) krijgen dan automatisch een "wat is er nieuw"-melding.
 const SITE_VERSION = '2026-09-28';
 const CHANGELOG = [
-  { datum: '28 sep 2026', tekst: 'Nieuw: Praktijkhulp met Promptbibliotheek, AI-bestendige taken, Toolchecker en Vragenbox (zijbalk, startpagina en in de modules).' },
+  { datum: '28 sep 2026', tekst: 'Nieuw: Praktijkhulp met Promptbibliotheek, AI-bestendige taken, Toolchecker en de beslisboom "Mag ik dit met AI?" (zijbalk, startpagina en in de modules). AI-labels en hoofding vind je bij Documenten.' },
   { datum: '22 sep 2026', tekst: 'Nieuw: verplichte korte enquête vóór Module 1/2 (enkel leerkrachten). Bestuur: Copilot-module nu gelijk aan leerkrachten, Module 2 vereenvoudigd.' },
   { datum: '18 sep 2026', tekst: 'Nieuw: inschrijf-stap voor professionaliseringssessie, met stap-voor-stap handleiding.' },
   { datum: '15 sep 2026', tekst: 'De 4 AI-labels van Sint-Jozefscollege Torhout vervangen het oude 5-labelsysteem, overal in de cursus.' },
@@ -22,8 +22,16 @@ const CHANGELOG = [
 // (bv. na een testfase, of bij een fundamentele herstructurering). Bij een mismatch
 // wordt de lokale voortgang van elke bezoeker automatisch gewist bij hun volgende bezoek —
 // zij hoeven zelf niets te doen of te klikken.
-const FORCE_RESET_VERSION = 1;
+const FORCE_RESET_VERSION = 2;
 let forcedResetJustHappened = false;
+
+// Wist ALLE opgeslagen gegevens van de leerkrachtencursus (voortgang én ingevulde reflecties),
+// maar raakt de gegevens van de leerlingencursus (sr_l_*, sr_ai_leerlingen*) niet aan.
+function wisLeerkrachtData(){
+  Object.keys(localStorage)
+    .filter(k => k.startsWith('sr_') && !k.startsWith('sr_l_') && !k.startsWith('sr_ai_leerlingen'))
+    .forEach(k => localStorage.removeItem(k));
+}
 
 // ── STATE ──
 const K = 'sr_ai_v9';
@@ -83,7 +91,7 @@ function ld(){
       // Zo ja: wis alles en start deze bezoeker fris, zonder dat die zelf iets moet doen.
       if(storedForceVer !== FORCE_RESET_VERSION){
         console.log('🔄 Geforceerde reset actief — oude voortgang wordt gewist');
-        localStorage.removeItem(K);
+        wisLeerkrachtData();
         S = {
           name:'', userRole: null, registered: false, surveyCompleted: false,
           lastSeenVersion: null, forceResetVersion: FORCE_RESET_VERSION,
@@ -134,7 +142,7 @@ function confirmResetProgress(){
 
 function clearCache(){
   console.log('🗑️ Cache wissen...');
-  localStorage.clear();
+  wisLeerkrachtData();
   location.reload();
 }
 
@@ -565,10 +573,10 @@ function showForcedResetNotice(){
   `;
   banner.innerHTML = `
     <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:10px; margin-bottom:8px;">
-      <div style="font-weight:800; color:var(--blue); font-size:14px;">🔄 De cursus is nu officieel gestart</div>
+      <div style="font-weight:800; color:var(--blue); font-size:14px;">🔄 De cursus is vernieuwd</div>
       <button onclick="document.getElementById('forced-reset-banner').remove()" style="background:none; border:none; font-size:18px; cursor:pointer; color:#999; line-height:1; padding:0;">✕</button>
     </div>
-    <p style="margin:0; font-size:12px; color:#3d4f8a; line-height:1.6;">Je voortgang van de testfase is gewist — je begint fris van start. Dit gebeurde automatisch, je hoeft zelf niets te doen.</p>
+    <p style="margin:0; font-size:12px; color:#3d4f8a; line-height:1.6;">We hebben de cursus bijgewerkt. Je voortgang is gewist, zodat je opnieuw begint met de nieuwste versie. Dit gebeurde automatisch, je hoeft zelf niets te doen.</p>
   `;
   document.body.appendChild(banner);
 }
@@ -2054,6 +2062,11 @@ function m2s4(c){
 <p class="cp">Bekijk elke opdrachtomschrijving en klik op het label (1 t.e.m. 4) dat er volgens jou het best bij past.</p>
 <div id="lblmatch"></div>
 
+<div style="background:rgba(127,224,0,0.1);border-left:4px solid var(--green);border-radius:8px;padding:14px 16px;margin:20px 0;">
+  <div style="font-size:11px;font-weight:800;color:var(--blue);text-transform:uppercase;margin-bottom:4px;">📁 Documenten</div>
+  <p style="font-size:13px;color:#3d4f8a;line-height:1.7;margin:0;">De <strong>AI-labels</strong> (klasposter) en de <strong>hoofding voor examens en taken</strong> vind je bij Documenten op de startpagina van de site. <a href="index.html#docs" target="_blank" rel="noopener" style="color:var(--blue);font-weight:800;">Open Documenten →</a></p>
+</div>
+
 <div class="nw">
   <button class="sr-btn b" onclick="p2()">← Vorige</button>
   <button class="sr-btn g" onclick="n2()">Volgende: leerlingen begeleiden →</button>
@@ -2422,7 +2435,7 @@ Een zoekopdracht op ChatGPT verbruikt ongeveer <strong>25 keer meer energie</str
 
 <div style="background:rgba(127,224,0,0.1);border-left:4px solid var(--green);border-radius:8px;padding:14px 16px;margin:20px 0;">
   <div style="font-size:11px;font-weight:800;color:var(--blue);text-transform:uppercase;margin-bottom:4px;">🧰 Praktijkhulp</div>
-  <p style="font-size:13px;color:#3d4f8a;line-height:1.7;margin:0;">Wil je meteen aan de slag met je eigen opdrachten? In "AI-bestendige taken" vind je de vier AI-labels en tips met concrete voorbeelden. <a href="ai-bestendige-taken.html" target="_blank" rel="noopener" style="color:var(--blue);font-weight:800;">Open AI-bestendige taken →</a></p>
+  <p style="font-size:13px;color:#3d4f8a;line-height:1.7;margin:0;">Wil je meteen aan de slag met je eigen opdrachten? In "AI-bestendige taken" vind je de vier AI-labels en tips met concrete voorbeelden. De klasposter met de AI-labels en de hoofding voor je examen of taak vind je bij <a href="index.html#docs" target="_blank" rel="noopener" style="color:var(--blue);font-weight:800;">Documenten</a>. <a href="ai-bestendige-taken.html" target="_blank" rel="noopener" style="color:var(--blue);font-weight:800;">Open AI-bestendige taken →</a></p>
 </div>
 
 <div class="nw">
@@ -2446,7 +2459,7 @@ function m2s7(c){
 
 <div style="background:rgba(127,224,0,0.1);border-left:4px solid var(--green);border-radius:8px;padding:14px 16px;margin:20px 0;">
   <div style="font-size:11px;font-weight:800;color:var(--blue);text-transform:uppercase;margin-bottom:4px;">🧰 Praktijkhulp</div>
-  <p style="font-size:13px;color:#3d4f8a;line-height:1.7;margin:0;">Twijfel je in de praktijk over een tool? De Toolchecker toont per tool of hij goedgekeurd is, enkel anoniem mag of niet toegelaten is. <a href="ai-op-school.html#tools" target="_blank" rel="noopener" style="color:var(--blue);font-weight:800;">Open de Toolchecker →</a></p>
+  <p style="font-size:13px;color:#3d4f8a;line-height:1.7;margin:0;">Twijfel je in de praktijk over een tool? De Toolchecker toont per tool of hij goedgekeurd is, enkel anoniem mag of niet toegelaten is. Twijfel je of je iets mag ingeven of uploaden? Doorloop dan de beslisboom. <a href="ai-op-school.html#tools" target="_blank" rel="noopener" style="color:var(--blue);font-weight:800;">Open de Toolchecker →</a> &nbsp;·&nbsp; <a href="mag-ik-dit-met-ai.html" target="_blank" rel="noopener" style="color:var(--blue);font-weight:800;">Mag ik dit met AI? →</a></p>
 </div>
 
 <div class="nw">
@@ -3058,9 +3071,8 @@ function m3s_nascholingsideen_teacher(c){
       <div style="font-size:10px;font-weight:700;color:#D6D8F5;text-transform:uppercase;margin-bottom:4px;">💬 Blijf verbonden</div>
       <div style="font-size:13px; color: white; font-weight: 600;">Word lid van ons Teams-kanaal "AI op Sint-Rembert"</div>
     </div>
-    <a href="#" target="_blank" style="background: white; color: #4B53BC; font-weight: 700; font-size: 12px; padding: 10px 18px; border-radius: 6px; text-decoration: none; white-space: nowrap;">Word lid →</a>
+    <span style="background: rgba(255,255,255,0.18); color: white; font-weight: 700; font-size: 12px; padding: 10px 18px; border-radius: 6px; white-space: nowrap;">⏳ In progress</span>
   </div>
-  <div style="font-size: 11px; color: #999; font-style: italic; margin-top: 8px;">De link naar het Teams-kanaal wordt binnenkort aangevuld door de school.</div>
 </div>
 
 <div style="background: white; border: 2px solid #0284C7; border-radius: 12px; padding: 20px; margin: 16px 0;">
