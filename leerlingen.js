@@ -21,9 +21,25 @@ function testLocalStorage(){
   }
 }
 
+// ── GEFORCEERDE RESET ──
+// Verhoog dit nummer met 1 wanneer IEDEREEN automatisch opnieuw moet beginnen.
+// Bij een mismatch wordt de lokale voortgang én alle ingevulde antwoorden van de
+// bezoeker gewist bij het volgende bezoek, zonder dat die zelf iets hoeft te doen.
+const FORCE_RESET_VERSION = 1;
+let forcedResetJustHappened = false;
+
+// Wist ALLE opgeslagen gegevens van de leerlingencursus (voortgang, graad, reflecties, zelfcheck),
+// maar raakt de gegevens van de leerkrachtencursus niet aan.
+function wisLeerlingData(){
+  Object.keys(localStorage)
+    .filter(k => k.startsWith('sr_l_') || k.startsWith('sr_ai_leerlingen'))
+    .forEach(k => localStorage.removeItem(k));
+}
+
 let S = {
   name: '',
   graad: null,
+  forceResetVersion: FORCE_RESET_VERSION,
   starttest: {taken:false, score:0, passed:false},
   mod1: {step:0, done:false},
   mod2: {step:0, done:false},
@@ -40,12 +56,62 @@ function ld(){
   if(!localStorageAvailable) return;
   try{
     const s = localStorage.getItem(K);
-    if(s){ S = Object.assign(S, JSON.parse(s)); return; }
+    if(s){
+      const parsed = JSON.parse(s);
+      // Check de RUWE opgeslagen waarde: oude data heeft dit veld nog niet (= 0).
+      const storedForceVer = Object.prototype.hasOwnProperty.call(parsed, 'forceResetVersion') ? parsed.forceResetVersion : 0;
+      if(storedForceVer !== FORCE_RESET_VERSION){
+        wisLeerlingData();
+        forcedResetJustHappened = true;   // S blijft de frisse standaardstand
+        return;
+      }
+      S = Object.assign(S, parsed);
+    }
   }catch(e){ console.error('❌ Error bij laden state:', e); }
 }
 
+function showForcedResetNotice(){
+  const banner = document.createElement('div');
+  banner.id = 'forced-reset-banner';
+  banner.style.cssText = `
+    position: fixed; bottom: 24px; left: 0; right: 0; margin: 0 auto; width: min(380px, 92vw); z-index: 10001;
+    background: white; border-radius: 12px; box-shadow: 0 12px 32px rgba(0,0,0,0.25);
+    border-left: 5px solid var(--orange); padding: 18px 20px; animation: slideUp 0.3s ease;
+  `;
+  banner.innerHTML = `
+    <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:10px; margin-bottom:8px;">
+      <div style="font-weight:800; color:var(--blue); font-size:14px;">🔄 De cursus is vernieuwd</div>
+      <button onclick="document.getElementById('forced-reset-banner').remove()" style="background:none; border:none; font-size:18px; cursor:pointer; color:#999; line-height:1; padding:0;">✕</button>
+    </div>
+    <p style="margin:0; font-size:12px; color:#3d4f8a; line-height:1.6;">We hebben de cursus bijgewerkt. Je voortgang is gewist, zodat je opnieuw begint met de nieuwste versie. Dit gebeurde automatisch, je hoeft zelf niets te doen.</p>
+  `;
+  document.body.appendChild(banner);
+}
+
+function confirmResetProgress(){
+  const modal = document.createElement('div');
+  modal.id = 'reset-modal';
+  modal.style.cssText = `
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(10,31,168,0.85); display: flex; align-items: center;
+    justify-content: center; z-index: 9500; padding: 20px;
+  `;
+  modal.innerHTML = `
+    <div style="background: white; border-radius: 16px; padding: 32px; max-width: 420px; width: 100%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.35);">
+      <div style="font-size: 40px; margin-bottom: 10px;">⚠️</div>
+      <h2 style="font-family: 'Archivo Black', sans-serif; font-size: 19px; color: var(--red); margin-bottom: 10px; text-transform: uppercase;">Helemaal opnieuw beginnen?</h2>
+      <p style="color: var(--muted); font-weight: 600; margin-bottom: 24px; line-height: 1.5; font-size: 14px;">Dit wist al je voortgang, je gekozen graad, antwoorden en je certificaatstatus — onherroepelijk, enkel op dit toestel/deze browser. Weet je het zeker?</p>
+      <div style="display:flex; gap:10px;">
+        <button onclick="document.getElementById('reset-modal').remove()" style="flex:1; background:white; border:2px solid #ccc; color:#666; font-weight:700; padding:12px; border-radius:8px; cursor:pointer;">Annuleren</button>
+        <button onclick="clearCache()" style="flex:1; background:var(--red); border:none; color:white; font-weight:800; padding:12px; border-radius:8px; cursor:pointer;">Ja, wis alles</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+}
+
 function clearCache(){
-  localStorage.clear();
+  wisLeerlingData();
   location.reload();
 }
 
@@ -69,6 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // verborgen blijven tot de graad gekozen is — vandaar de gate hier meteen.
     showGraadGate();
   }
+  if(forcedResetJustHappened){ showForcedResetNotice(); }
 });
 
 function ua(){ const n = (document.getElementById('un')?.value||'').trim(); const av=document.getElementById('av'); if(av) av.textContent = n ? n.charAt(0).toUpperCase() : '?'; const disp=document.getElementById('un-display'); if(disp) disp.textContent = n || 'Naam bij startest ingevuld'; }
@@ -2305,6 +2372,11 @@ function m5s2(c){
 </div>
 
 <p style="font-size:11px; color:#999; font-style:italic; text-align:center; margin-top:20px;">De 4 AI-labels van Lut De Jaegher · Sint-Jozefscollege Torhout</p>
+
+<div style="background:rgba(127,224,0,0.1);border-left:4px solid var(--green);border-radius:8px;padding:14px 16px;margin:20px 0;">
+  <div style="font-size:11px;font-weight:800;color:var(--blue);text-transform:uppercase;margin-bottom:4px;">📁 Documenten</div>
+  <p style="font-size:13px;color:#3d4f8a;line-height:1.7;margin:0;">De <strong>AI-labels</strong> (met klasposter) kan je terugvinden bij Documenten op de startpagina van de site. <a href="index.html#docs" target="_blank" rel="noopener" style="color:var(--blue);font-weight:800;">Open Documenten →</a></p>
+</div>
 
 <div class="nw">
   <button class="sr-btn b" onclick="p5()">← Vorige</button>
