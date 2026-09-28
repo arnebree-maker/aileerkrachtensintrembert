@@ -9,8 +9,9 @@ const INSCHRIJF = 'https://apps.powerapps.com/play/e/a6565af8-ceef-e6fa-abee-2fc
 // ── CHANGELOG ──
 // Verhoog SITE_VERSION bij elke inhoudelijke update, en voeg een regel toe aan CHANGELOG.
 // Terugkerende gebruikers (die al een naam/rol hebben) krijgen dan automatisch een "wat is er nieuw"-melding.
-const SITE_VERSION = '2026-09-22';
+const SITE_VERSION = '2026-09-28';
 const CHANGELOG = [
+  { datum: '28 sep 2026', tekst: 'Nieuw: Praktijkhulp met Promptbibliotheek, AI-bestendige taken, Toolchecker en Vragenbox (zijbalk, startpagina en in de modules).' },
   { datum: '22 sep 2026', tekst: 'Nieuw: verplichte korte enquête vóór Module 1/2 (enkel leerkrachten). Bestuur: Copilot-module nu gelijk aan leerkrachten, Module 2 vereenvoudigd.' },
   { datum: '18 sep 2026', tekst: 'Nieuw: inschrijf-stap voor professionaliseringssessie, met stap-voor-stap handleiding.' },
   { datum: '15 sep 2026', tekst: 'De 4 AI-labels van Sint-Jozefscollege Torhout vervangen het oude 5-labelsysteem, overal in de cursus.' },
@@ -527,7 +528,7 @@ function checkForUpdates(){
   const banner = document.createElement('div');
   banner.id = 'changelog-banner';
   banner.style.cssText = `
-    position: fixed; bottom: 24px; left: 24px; max-width: 380px; z-index: 8000;
+    position: fixed; bottom: 24px; left: 0; right: 0; margin: 0 auto; width: min(380px, 92vw); z-index: 8000;
     background: white; border-radius: 12px; box-shadow: 0 12px 32px rgba(0,0,0,0.25);
     border-left: 5px solid var(--green); padding: 18px 20px; animation: slideUp 0.3s ease;
   `;
@@ -2419,6 +2420,11 @@ Een zoekopdracht op ChatGPT verbruikt ongeveer <strong>25 keer meer energie</str
 </p>
 </div>
 
+<div style="background:rgba(127,224,0,0.1);border-left:4px solid var(--green);border-radius:8px;padding:14px 16px;margin:20px 0;">
+  <div style="font-size:11px;font-weight:800;color:var(--blue);text-transform:uppercase;margin-bottom:4px;">🧰 Praktijkhulp</div>
+  <p style="font-size:13px;color:#3d4f8a;line-height:1.7;margin:0;">Wil je meteen aan de slag met je eigen opdrachten? In "AI-bestendige taken" vind je de vier AI-labels en tips met concrete voorbeelden. <a href="ai-bestendige-taken.html" target="_blank" rel="noopener" style="color:var(--blue);font-weight:800;">Open AI-bestendige taken →</a></p>
+</div>
+
 <div class="nw">
   <button class="sr-btn b" onclick="p2()">← Vorige</button>
   <button class="sr-btn g" onclick="n2()">Volgende: mag het wel/niet? →</button>
@@ -2436,6 +2442,11 @@ function m2s7(c){
 <div class="ib warn">
   <div class="ib-t">💡 De drie voorwaarden voor schooldocumenten in een betaalde tool</div>
   <div class="ib-b">Schooldocumenten mogen enkel naar een AI-tool als <strong>alle drie</strong> deze voorwaarden gelden: (1) de tool gebruikt je data niet voor modeltraining, (2) gegevens worden niet opgeslagen buiten de EU, en (3) het gaat om een betalende, contractuele relatie met een verwerkersovereenkomst.</div>
+</div>
+
+<div style="background:rgba(127,224,0,0.1);border-left:4px solid var(--green);border-radius:8px;padding:14px 16px;margin:20px 0;">
+  <div style="font-size:11px;font-weight:800;color:var(--blue);text-transform:uppercase;margin-bottom:4px;">🧰 Praktijkhulp</div>
+  <p style="font-size:13px;color:#3d4f8a;line-height:1.7;margin:0;">Twijfel je in de praktijk over een tool? De Toolchecker toont per tool of hij goedgekeurd is, enkel anoniem mag of niet toegelaten is. <a href="ai-op-school.html#tools" target="_blank" rel="noopener" style="color:var(--blue);font-weight:800;">Open de Toolchecker →</a></p>
 </div>
 
 <div class="nw">
@@ -2836,6 +2847,11 @@ Toon leerlingen een AI-afbeelding en vraag: "Wat ziet AI verkeerd aan dit plaatj
 <p style="font-size: 12px; color: #3d4f8a; line-height: 1.6; margin: 12px 0;">
 Weet je niet hoe je iets moet vragen? Vraag AI dan gewoon: "Wat zou een goede prompt zijn om [doel] te bereiken?" AI geeft je dan een sterke prompt terug. Dit helpt je zelf beter prompts leren schrijven!
 </p>
+
+<div style="background:rgba(127,224,0,0.1);border-left:4px solid var(--green);border-radius:8px;padding:14px 16px;margin:20px 0;">
+  <div style="font-size:11px;font-weight:800;color:var(--blue);text-transform:uppercase;margin-bottom:4px;">🧰 Praktijkhulp</div>
+  <p style="font-size:13px;color:#3d4f8a;line-height:1.7;margin:0;">Meer prompts, per vak (Nederlands, wiskunde, wetenschappen, talen, geschiedenis...), vind je in de Promptbibliotheek. Zoeken en kopiëren met één klik. <a href="promptbibliotheek.html" target="_blank" rel="noopener" style="color:var(--blue);font-weight:800;">Open de Promptbibliotheek →</a></p>
+</div>
 
 <div class="nw">
   <button class="sr-btn b" onclick="p3()">← Vorige</button>
