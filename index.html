@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI-Geletterdheid — Sint-Rembert</title>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=20260928c">
 </head>
 <body>
 <div id="app">
@@ -23,7 +23,6 @@
     <div class="ni available" onclick="goStudent()"><div class="ni-icon">👨‍🎓</div><div class="ni-info"><div class="ni-title">Leerlingen</div><div class="ni-sub">AI-Skills training</div></div></div>
     <div class="ni available" onclick="sv('docs')" id="nav-docs"><div class="ni-icon">📁</div><div class="ni-info"><div class="ni-title">Documenten</div><div class="ni-sub">Beleid & bronnen</div></div></div>
     <div class="ni available" onclick="sv('news')" id="nav-news"><div class="ni-icon">📰</div><div class="ni-info"><div class="ni-title">Nieuws</div><div class="ni-sub">AI in de actualiteit</div></div></div>
-    <div class="ni available" onclick="sv('samenvatting')" id="nav-samenvatting"><div class="ni-icon">📋</div><div class="ni-info"><div class="ni-title">Samenvatting</div><div class="ni-sub">Tools, kader & rollen</div></div></div>
     <div class="ni available" onclick="sv('hulp')" id="nav-hulp"><div class="ni-icon">🧰</div><div class="ni-info"><div class="ni-title">Praktijkhulp</div><div class="ni-sub">Prompts, tools & taken</div></div></div>
   </div>
 
@@ -140,10 +139,15 @@
     <div style="background:white;border:1px solid #e0e4f5;border-left:4px solid var(--green);border-radius:8px;padding:18px 20px;margin-top:28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;">
       <div style="flex:1;min-width:240px;">
         <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;margin-bottom:4px;">🧰 Voor leerkrachten</div>
-        <div style="font-size:15px;font-weight:800;color:var(--blue);margin-bottom:4px;">Praktijkhulp: prompts, toolchecker en AI-bestendige taken</div>
+        <div style="font-size:15px;font-weight:800;color:var(--blue);margin-bottom:4px;">Praktijkhulp: prompts, toolchecker, beslisboom en AI-bestendige taken</div>
         <div style="font-size:13px;color:#666;line-height:1.6;">Kant-en-klare hulpmiddelen om morgen al mee aan de slag te gaan in je klas.</div>
       </div>
       <button class="route-btn teacher" style="width:auto;padding:12px 22px;" onclick="sv('hulp')">Bekijk praktijkhulp →</button>
+    </div>
+
+    <div style="background:white;border:1px solid #e0e4f5;border-left:4px solid var(--blue);border-radius:8px;padding:16px 20px;margin-top:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;">
+      <div style="flex:1;min-width:240px;font-size:13px;color:#3d4f8a;line-height:1.7;"><strong>📁 AI-labels en hoofding examen/taak:</strong> de AI-labels (met klasposter) en de hoofding voor examens en taken vind je bij <strong>Documenten</strong>.</div>
+      <button class="route-btn teacher" style="width:auto;padding:12px 22px;" onclick="sv('docs')">Naar Documenten →</button>
     </div>
 
     <!-- CONTEXT -->
@@ -269,9 +273,8 @@
         <h3 style="margin:0 0 6px 0; font-size:17px; color: white;">Word lid van ons Teams-kanaal</h3>
         <p style="font-size:13px;color:#E4E5F7;line-height:1.6;margin:0;">Stel vragen, deel interessante AI-vondsten en blijf op de hoogte tussen collega's en klasgenoten — alles rond AI op Sint-Rembert komt hier samen.</p>
       </div>
-      <a href="#" target="_blank" style="background: white; color: #4B53BC; font-weight: 700; font-size: 13px; padding: 12px 22px; border-radius: 6px; text-decoration: none; white-space: nowrap;">Word lid →</a>
+      <span style="background: rgba(255,255,255,0.18); color: white; font-weight: 700; font-size: 13px; padding: 12px 22px; border-radius: 6px; white-space: nowrap;">⏳ In progress</span>
     </div>
-    <p style="margin: -10px 0 20px 0; font-size: 11px; color: #999; font-style: italic;">De link naar het Teams-kanaal wordt binnenkort aangevuld door de school.</p>
 
     <div style="background: white; border-left: 4px solid var(--blue); border-radius: 8px; padding: 16px; margin: 20px 0;">
       <div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;margin-bottom:6px;">📅 Schooljaar 2026-2027</div>
@@ -301,78 +304,6 @@
   </div>
 </div>
 
-<!-- ════════ SAMENVATTING ════════ -->
-<div class="view" id="view-samenvatting">
-  <div class="sw" style="margin-top: 40px;">
-    <div class="sw-title">📋 <em>Samenvatting</em>: tools, kader & rollen</div>
-    <div class="sw-sub">Het volledige overzicht in één oogopslag — welke tools mogen, wat de wet vereist, en wie waarvoor verantwoordelijk is.</div>
-
-    <div class="sw-title" style="margin-top:32px;font-size:20px">🛠️ Goedgekeurde <em>AI-tools</em></div>
-    <table style="width:100%; border-collapse: collapse; font-size: 13px; margin: 16px 0 32px 0; background:white; border-radius:10px; overflow:hidden; box-shadow:0 1px 4px rgba(0,0,0,0.06);">
-      <tr style="background:#f0f2f5;"><td style="padding:10px 14px; font-weight:700; width:220px;">Microsoft Copilot M365</td><td style="padding:10px 14px;"><strong>Primaire tool.</strong> Via schoolaccount, data blijft binnen de EU, niet gebruikt voor modeltraining, verwerkersovereenkomst aanwezig.</td></tr>
-      <tr><td style="padding:10px 14px; font-weight:700;">Copilot Chat</td><td style="padding:10px 14px;">Goedgekeurd — valt onder dezelfde M365-beveiligingsomgeving.</td></tr>
-      <tr style="background:#f0f2f5;"><td style="padding:10px 14px; font-weight:700;">NotebookLM (Google)</td><td style="padding:10px 14px;">Goedgekeurd voor eigen documenten/notities — controleer wel de privacy-instellingen.</td></tr>
-      <tr><td style="padding:10px 14px; font-weight:700;">BookWidgets AI</td><td style="padding:10px 14px;">Goedgekeurd — geïntegreerd en pedagogisch omkaderd binnen onze leeromgeving.</td></tr>
-      <tr style="background:#f0f2f5;"><td style="padding:10px 14px; font-weight:700;">Gamma.app</td><td style="padding:10px 14px;">Goedgekeurd voor presentaties — geen persoonsgegevens invoeren.</td></tr>
-      <tr><td style="padding:10px 14px; font-weight:700;">ChatGPT / Claude.ai / Gemini</td><td style="padding:10px 14px;">Toegelaten <em>met voorwaarden</em>: geen persoonsgegevens of schooldocumenten in de gratis versies.</td></tr>
-    </table>
-
-    <div class="sw-title" style="margin-top:32px;font-size:20px">🧭 Beslismatrix — <em>wat mag ik invoeren?</em></div>
-    <table style="width:100%; border-collapse: collapse; font-size: 13px; margin: 16px 0 32px 0; background:white; border-radius:10px; overflow:hidden; box-shadow:0 1px 4px rgba(0,0,0,0.06);">
-      <tr style="background:#f0f2f5;"><td style="padding:10px 14px;">Anonieme tekst in een gratis tool</td><td style="padding:10px 14px; color:var(--green); font-weight:700; white-space:nowrap;">✓ Mag</td></tr>
-      <tr><td style="padding:10px 14px;">Schooldocument naar een gratis tool</td><td style="padding:10px 14px; color:var(--red); font-weight:700; white-space:nowrap;">✗ Niet toegelaten</td></tr>
-      <tr style="background:#f0f2f5;"><td style="padding:10px 14px;">Schooldocument naar een goedgekeurde, betalende tool</td><td style="padding:10px 14px; color:var(--green); font-weight:700; white-space:nowrap;">✓ Mag*</td></tr>
-      <tr><td style="padding:10px 14px;">Rapport met leerlingnamen, eender waar</td><td style="padding:10px 14px; color:var(--red); font-weight:700; white-space:nowrap;">✗ Nooit</td></tr>
-      <tr style="background:#f0f2f5;"><td style="padding:10px 14px;">Foto's van leerlingen</td><td style="padding:10px 14px; color:var(--red); font-weight:700; white-space:nowrap;">✗ Nooit**</td></tr>
-      <tr><td style="padding:10px 14px;">Eigen, anonieme lestekst laten verbeteren</td><td style="padding:10px 14px; color:var(--green); font-weight:700; white-space:nowrap;">✓ Mag</td></tr>
-      <tr style="background:#f0f2f5;"><td style="padding:10px 14px;">Psychosociale/medische leerlinginfo</td><td style="padding:10px 14px; color:var(--red); font-weight:700; white-space:nowrap;">✗ Verboden***</td></tr>
-    </table>
-    <p style="font-size:11px; color:#999; margin-top:-24px; margin-bottom:32px;">* mits verwerkersovereenkomst &nbsp;·&nbsp; ** beeldrecht + AVG &nbsp;·&nbsp; *** AVG art. 9 (bijzondere categorieën)</p>
-
-    <div class="sw-title" style="margin-top:32px;font-size:20px">⚖️ Juridisch <em>kader</em></div>
-    <div style="background: white; border-radius: 10px; padding: 22px; margin: 16px 0 32px 0; box-shadow:0 1px 4px rgba(0,0,0,0.06);">
-      <p style="font-size: 14px; color: #666; line-height: 1.8; margin:0;">
-        Ons beleid steunt op de <strong>AVG/GDPR</strong> (incl. Belgische uitvoeringswet), de <strong>EU AI Act</strong> (risicogebaseerd kader), en toezicht door de <strong>Belgische Gegevensbeschermingsautoriteit (GBA)</strong>.
-      </p>
-      <p style="font-size:14px; color:#666; margin:16px 0 0 0;"><strong>Drie kernkeuzes:</strong></p>
-      <ul style="font-size: 14px; color: #666; line-height: 2; padding-left: 20px; margin: 8px 0 0 0;">
-        <li>Een passende rechtsgrond per verwerking — geen loutere "toestemming" als basis</li>
-        <li>Geen AI-systeem dat zelfstandig beslissingen neemt met grote impact op een leerling</li>
-        <li>Een intern "quasi-hoog-risico"-behandeling voor AI bij evaluatie, toelating, tucht of zorg</li>
-      </ul>
-    </div>
-
-    <div class="sw-title" style="margin-top:32px;font-size:20px">👥 Rollen en <em>verantwoordelijkheden</em></div>
-    <table style="width:100%; border-collapse: collapse; font-size: 13px; margin: 16px 0 32px 0; background:white; border-radius:10px; overflow:hidden; box-shadow:0 1px 4px rgba(0,0,0,0.06);">
-      <tr style="background:#f0f2f5;"><td style="padding:10px 14px; font-weight:700; width:180px;">Schoolbestuur</td><td style="padding:10px 14px;">Keurt het beleid goed, beslist over uitzonderingen met hoog risico, ziet toe op jaarlijkse herziening</td></tr>
-      <tr><td style="padding:10px 14px; font-weight:700;">Directeur</td><td style="padding:10px 14px;">Eindverantwoordelijk voor uitvoering, interne communicatie, incidentopvolging</td></tr>
-      <tr style="background:#f0f2f5;"><td style="padding:10px 14px; font-weight:700;">DPO</td><td style="padding:10px 14px;">Rechtsgrond, verwerkersovereenkomsten, DPIA-begeleiding, datalekmeldingen</td></tr>
-      <tr><td style="padding:10px 14px; font-weight:700;">ICT-verantwoordelijke</td><td style="padding:10px 14px;">Tenantbeheer, logging, toegangsbeheer, back-up en vendor security</td></tr>
-      <tr style="background:#f0f2f5;"><td style="padding:10px 14px; font-weight:700;">Leerkrachten</td><td style="padding:10px 14px;">Gebruiken enkel goedgekeurde tools, vermelden het AI-label bij elke opdracht, blijven verantwoordelijk voor beoordeling</td></tr>
-      <tr><td style="padding:10px 14px; font-weight:700;">Leerlingen</td><td style="padding:10px 14px;">Gebruiken AI binnen de afgesproken grenzen, geven AI-gebruik eerlijk aan, blijven verantwoordelijk voor eigen werk</td></tr>
-    </table>
-
-    <div class="sw-title" style="margin-top:32px;font-size:20px">✅ Gebruiksregels <em>in het kort</em></div>
-    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin: 16px 0 20px 0;">
-      <div style="background:rgba(127,224,0,0.08); border-radius:10px; padding:18px; box-shadow:0 1px 4px rgba(0,0,0,0.06);">
-        <strong style="color:var(--green); font-size:12px; text-transform:uppercase;">✓ Toegelaten</strong>
-        <p style="font-size:13px; color:#666; margin:10px 0 0 0; line-height:1.8;">Brainstormen, taalondersteuning op eigen teksten, oefenvragen genereren, samenvatten van eigen lesmateriaal, toegankelijkheidsondersteuning</p>
-      </div>
-      <div style="background:rgba(255,193,7,0.08); border-radius:10px; padding:18px; box-shadow:0 1px 4px rgba(0,0,0,0.06);">
-        <strong style="color:var(--orange); font-size:12px; text-transform:uppercase;">△ Voorwaardelijk</strong>
-        <p style="font-size:13px; color:#666; margin:10px 0 0 0; line-height:1.8;">Verwerking van interne documenten of geanonimiseerde schooldata — enkel met toolgoedkeuring en minimale invoer</p>
-      </div>
-      <div style="background:rgba(224,32,32,0.08); border-radius:10px; padding:18px; box-shadow:0 1px 4px rgba(0,0,0,0.06);">
-        <strong style="color:var(--red); font-size:12px; text-transform:uppercase;">✗ Verboden</strong>
-        <p style="font-size:13px; color:#666; margin:10px 0 0 0; line-height:1.8;">Emotieherkenning, volledig geautomatiseerde evaluatie/tucht-beslissingen, gevoelige persoonsgegevens in niet-goedgekeurde tools, deepfakes over leerlingen/personeel</p>
-      </div>
-    </div>
-
-    <p style="margin-top: 24px; font-size: 13px; color: #666;">Praktisch aan de slag? Gebruik de <a href="ai-op-school.html#tools" target="_blank" rel="noopener" style="color:var(--blue);font-weight:700;">Toolchecker</a> en de <a href="promptbibliotheek.html" target="_blank" rel="noopener" style="color:var(--blue);font-weight:700;">Promptbibliotheek</a>, of bekijk alles onder <a href="#" onclick="sv('hulp'); return false;" style="color:var(--blue);font-weight:700;">Praktijkhulp</a>.</p>
-    <p style="margin-top: 12px; font-size: 12px; color: #999; font-style: italic;">Zie het volledige <a href="#" onclick="sv('docs'); return false;" style="color:var(--blue);">Beleidskader Artificiële Intelligentie</a> voor de uitgebreide, formeel goedgekeurde versie.</p>
-  </div>
-</div>
-
 <!-- ════════ PRAKTIJKHULP ════════ -->
 <div class="view" id="view-hulp">
   <div class="sw" style="margin-top: 40px;">
@@ -398,16 +329,16 @@
         <div style="font-size:13px;color:#666;line-height:1.7;">Welke AI-tools mag je gebruiken, en hoe? Goedgekeurd, enkel anoniem of niet toegelaten.</div>
         <div style="font-size:12px;font-weight:800;color:var(--blue);margin-top:12px;">Openen →</div>
       </a>
-      <a href="ai-op-school.html#vragen" target="_blank" rel="noopener" style="display:block;background:white;border-radius:10px;padding:22px;text-decoration:none;box-shadow:0 1px 4px rgba(0,0,0,0.06);border:2px solid transparent;transition:all .2s;" onmouseover="this.style.borderColor='var(--green)'" onmouseout="this.style.borderColor='transparent'">
-        <div style="font-size:30px;margin-bottom:8px;">💬</div>
-        <div style="font-size:16px;font-weight:800;color:var(--blue);margin-bottom:6px;">Vragenbox</div>
-        <div style="font-size:13px;color:#666;line-height:1.7;">Antwoorden op veelgestelde vragen, en een snelle manier om je vraag naar de pedagogische ICT-dienst te mailen.</div>
+      <a href="mag-ik-dit-met-ai.html" target="_blank" rel="noopener" style="display:block;background:white;border-radius:10px;padding:22px;text-decoration:none;box-shadow:0 1px 4px rgba(0,0,0,0.06);border:2px solid transparent;transition:all .2s;" onmouseover="this.style.borderColor='var(--green)'" onmouseout="this.style.borderColor='transparent'">
+        <div style="font-size:30px;margin-bottom:8px;">🚦</div>
+        <div style="font-size:16px;font-weight:800;color:var(--blue);margin-bottom:6px;">Mag ik dit met AI?</div>
+        <div style="font-size:13px;color:#666;line-height:1.7;">Beslisboom: beantwoord een paar korte vragen en weet meteen of je iets mag ingeven, uploaden of gebruiken in een AI-tool.</div>
         <div style="font-size:12px;font-weight:800;color:var(--blue);margin-top:12px;">Openen →</div>
       </a>
     </div>
 
     <div style="background:#f5f6fb;border-radius:10px;padding:16px 20px;font-size:13px;color:#3d4f8a;line-height:1.7;">
-      Alles samen op één plek: <a href="ai-op-school.html" target="_blank" rel="noopener" style="color:var(--blue);font-weight:800;">AI op school &ndash; voor leerkrachten</a>. Twijfel je of iets mag? Kijk in de <a href="#" onclick="sv('samenvatting'); return false;" style="color:var(--blue);font-weight:800;">beslismatrix in de samenvatting</a>.
+      Alles samen op één plek: <a href="ai-op-school.html" target="_blank" rel="noopener" style="color:var(--blue);font-weight:800;">AI op school &ndash; voor leerkrachten</a>.<br>📁 De <strong>AI-labels</strong> (klasposter) en de <strong>hoofding voor examens en taken</strong> vind je bij <a href="#" onclick="sv('docs'); return false;" style="color:var(--blue);font-weight:800;">Documenten</a>.
     </div>
   </div>
 </div>
