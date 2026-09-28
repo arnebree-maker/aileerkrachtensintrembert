@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Promptbibliotheek | Sint-Rembert</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--blauw:#06038D;--groen:#95D600;--wit:#FFFFFF;--grijs:#D9D9D9;--groen-licht:#CCFF99;--groen-mid:#A6F04A;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--blauw:#06038D;--groen:#95D600;--wit:#FFFFFF}}
+:root[data-theme="dark"]{--blauw:#06038D;--groen:#95D600;--wit:#FFFFFF}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--blauw);color:var(--wit);font-family:Poppins,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.5}
+.wrap{max-width:980px;margin:0 auto;padding:1.5rem 1.25rem 3rem}
+button,input,select,textarea{font:inherit}
+:focus-visible{outline:3px solid var(--groen);outline-offset:3px}
+
+header{display:flex;align-items:center;gap:1rem}
+header img{width:56px;height:auto;flex:none}
+header h1{margin:0;font-weight:800;text-transform:uppercase;font-size:clamp(1.6rem,4.4vw,2.4rem);line-height:1.1}
+header p{margin:.2rem 0 0;font-weight:500;opacity:.9;font-size:.95rem}
+.chev{margin-left:auto;width:72px;flex:none}
+
+nav{display:flex;flex-wrap:wrap;gap:.6rem;margin:1.5rem 0 2rem}
+nav button{cursor:pointer;border-radius:999px;padding:.6rem 1.15rem;font-weight:700;border:2px solid var(--wit);background:transparent;color:var(--wit)}
+nav button[aria-selected="true"]{background:var(--groen);border-color:var(--groen);color:var(--blauw)}
+
+.intro{display:grid;grid-template-columns:1fr auto;gap:1.5rem;align-items:center;margin-bottom:1.5rem}
+.intro h2{margin:0 0 .3rem;font-weight:800;text-transform:uppercase;font-size:clamp(1.25rem,3vw,1.6rem)}
+.intro p{margin:0;max-width:62ch;font-weight:500}
+.intro svg{width:130px;height:auto}
+
+.kaart{background:var(--wit);color:var(--blauw);border-radius:28px;padding:1.5rem}
+.kaart.groen{background:var(--groen)}
+.kaart.niet{background:var(--blauw);color:var(--wit);border:3px solid var(--wit)}
+.kaart.twijfel{border:6px solid var(--groen)}
+.kaart h3{margin:0 0 .4rem;font-weight:800;text-transform:uppercase;font-size:1.1rem;line-height:1.25}
+.grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+
+/* filters */
+.filters{display:flex;flex-wrap:wrap;gap:.75rem;margin-bottom:1.25rem}
+.filters input,.filters select{border-radius:999px;border:2px solid var(--wit);background:var(--wit);color:var(--blauw);padding:.6rem 1rem;font-weight:500}
+.filters input{flex:1;min-width:200px}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}
+.chip{cursor:pointer;border-radius:999px;padding:.35rem .9rem;font-weight:600;font-size:.9rem;border:2px solid var(--wit);background:transparent;color:var(--wit)}
+.chip[aria-pressed="true"]{background:var(--wit);color:var(--blauw)}
+.teller{font-size:.9rem;opacity:.9;margin:0 0 1rem}
+
+.prompt .meta{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.6rem}
+.tag{font-size:.78rem;font-weight:700;border-radius:999px;padding:.15rem .6rem;background:var(--blauw);color:var(--wit)}
+.tag.doel{background:var(--groen);color:var(--blauw)}
+.prompt pre{white-space:pre-wrap;font-family:inherit;font-size:.92rem;background:#F2F2F2;border-radius:16px;padding:.9rem;margin:.6rem 0;color:var(--blauw)}
+.kopieer{cursor:pointer;border-radius:999px;padding:.5rem 1.1rem;font-weight:700;border:2px solid var(--blauw);background:var(--wit);color:var(--blauw)}
+.kopieer.ok{background:var(--groen);border-color:var(--groen)}
+.let{font-size:.85rem;margin-top:.5rem}
+
+/* toolchecker */
+.legenda{display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:1rem;font-size:.9rem}
+.legenda span{display:flex;align-items:center;gap:.4rem}
+.dot{width:14px;height:14px;border-radius:50%;display:inline-block}
+.tool .status{display:inline-block;font-weight:700;font-size:.85rem;border-radius:999px;padding:.2rem .75rem;margin-bottom:.6rem}
+.kaart.groen .status{background:var(--blauw);color:var(--wit)}
+.kaart.twijfel .status{background:var(--groen);color:var(--blauw)}
+.kaart.niet .status{background:var(--wit);color:var(--blauw)}
+.tool p{margin:.3rem 0;font-size:.95rem}
+
+/* taken */
+.schaal{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.75rem;margin:1rem 0 2rem}
+.schaal div{border:2px solid var(--wit);border-radius:20px;padding:1rem}
+.schaal b{display:block;color:var(--groen);font-weight:800;text-transform:uppercase}
+.schaal p{margin:.3rem 0 0;font-size:.92rem}
+details.tip{background:var(--wit);color:var(--blauw);border-radius:20px;margin-bottom:.75rem}
+details.tip summary{cursor:pointer;font-weight:700;padding:1rem 1.25rem;list-style:none;display:flex;gap:.75rem;align-items:center}
+details.tip summary::-webkit-details-marker{display:none}
+details.tip summary::after{content:"+";margin-left:auto;font-weight:800;font-size:1.3rem}
+details.tip[open] summary::after{content:"–"}
+details.tip .inhoud{padding:0 1.25rem 1.1rem}
+details.tip .vb{background:var(--groen);border-radius:16px;padding:.8rem 1rem;margin-top:.6rem}
+h2.sec{font-weight:800;text-transform:uppercase;font-size:1.2rem;margin:2rem 0 .75rem}
+
+/* vragenbox */
+.vraagform textarea{width:100%;min-height:110px;border-radius:16px;border:2px solid var(--blauw);padding:.8rem;color:var(--blauw);resize:vertical}
+.vraagform .rij{display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;margin-top:.75rem}
+.vraagform select{border-radius:999px;border:2px solid var(--blauw);padding:.5rem .9rem;color:var(--blauw);background:var(--wit)}
+.hoofd{cursor:pointer;border-radius:999px;padding:.65rem 1.3rem;font-weight:700;border:2px solid var(--groen);background:var(--groen);color:var(--blauw)}
+.hoofd:disabled{opacity:.5;cursor:default}
+.melding{font-weight:600;font-size:.92rem}
+.faq{display:grid;gap:.75rem;margin-top:1rem}
+.faq .v{font-weight:700}
+.faq .a{margin-top:.4rem}
+.faq .datum{font-size:.8rem;opacity:.75;margin-top:.3rem}
+.beheer textarea{width:100%;min-height:80px;border-radius:14px;border:2px solid var(--blauw);padding:.6rem;margin-top:.6rem;color:var(--blauw)}
+.beheer .rij{display:flex;gap:.5rem;margin-top:.5rem;flex-wrap:wrap}
+.klein{cursor:pointer;border-radius:999px;padding:.4rem .9rem;font-weight:700;font-size:.9rem;border:2px solid var(--blauw);background:var(--wit);color:var(--blauw)}
+.klein.groen{background:var(--groen);border-color:var(--groen)}
+.leeg{opacity:.9;font-style:italic}
+
+footer{margin-top:3rem;display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+footer div{border:2px solid var(--wit);border-radius:20px;padding:1rem 1.1rem}
+footer strong{display:block;color:var(--groen);font-weight:800;text-transform:uppercase}
+footer p{margin:.2rem 0 0;font-size:.93rem}
+footer a{color:var(--groen);font-weight:600}
+@media (max-width:620px){.intro{grid-template-columns:1fr}.intro svg{display:none}.chev{display:none}footer{grid-template-columns:1fr}}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.topbar{display:flex;flex-wrap:wrap;gap:1.25rem;font-size:.9rem;margin:0 0 1.25rem}.topbar a{color:var(--groen);font-weight:600;text-decoration:none}.topbar a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="topbar"><a href="index.html">← Sint-Rembert AI-platform</a><a href="teacher.html">Leerkrachtencursus</a></div>
+<header>
+  <img src="data:image/png;base64,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" alt="Logo Sint-Rembert scholengroep">
+  <div><h1>Promptbibliotheek</h1><p>Kant-en-klare prompts voor leerkrachten van Sint-Rembert</p></div>
+  <svg class="chev" viewBox="0 0 120 60" aria-hidden="true"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="13"><polyline points="12,10 32,30 12,50" stroke="#CCFF99"/><polyline points="46,10 66,30 46,50" stroke="#A6F04A"/><polyline points="80,10 100,30 80,50" stroke="#95D600"/></g></svg>
+</header>
+<div style="height:1.75rem"></div>
+<section id="prompts" role="tabpanel">
+  <div class="intro">
+    <div><h2 class="sr">Promptbibliotheek</h2><p>Kant-en-klare prompts voor je lesvoorbereiding, differentiatie, feedback en toetsvragen. Kopieer, vul de stukken tussen [haakjes] in en plak in Copilot M365.</p></div>
+    <svg viewBox="0 0 140 120" role="img" aria-label="Illustratie: boek met sterren"><rect x="18" y="26" width="104" height="72" rx="12" fill="#fff"/><path d="M70 30 V94" stroke="#06038D" stroke-width="4"/><rect x="28" y="40" width="32" height="6" rx="3" fill="#06038D"/><rect x="28" y="54" width="26" height="6" rx="3" fill="#06038D"/><rect x="28" y="68" width="30" height="6" rx="3" fill="#06038D"/><rect x="80" y="40" width="30" height="6" rx="3" fill="#95D600"/><rect x="80" y="54" width="24" height="6" rx="3" fill="#95D600"/><rect x="80" y="68" width="28" height="6" rx="3" fill="#95D600"/><path d="M112 8 l4 9 9 1 -7 6 2 9 -8 -5 -8 5 2 -9 -7 -6 9 -1z" fill="#95D600"/><circle cx="22" cy="14" r="5" fill="#fff"/></svg>
+  </div>
+  <div class="filters">
+    <input id="zoek" type="search" placeholder="Zoek een prompt (bv. 'rubric', 'dyslexie', 'meerkeuze')" aria-label="Zoek een prompt">
+    <select id="vak" aria-label="Vak"></select>
+  </div>
+  <div class="chips" id="doelen" role="group" aria-label="Doel"></div>
+  <p class="teller" id="teller"></p>
+  <div class="grid" id="promptlijst"></div>
+</section>
+<footer>
+  <div><strong>Meerwaarde</strong><p>Gebruik AI enkel als het echt bijdraagt aan goed onderwijs.</p></div>
+  <div><strong>Transparantie</strong><p>Wie AI gebruikt, blijft altijd verantwoordelijk voor het proces en de uiteindelijke output.</p></div>
+</footer>
+<p style="margin-top:2rem;font-size:.93rem">Meer over AI op school: <a href="ai-bestendige-taken.html" style="color:var(--groen);font-weight:600">AI-bestendige taken</a> · <a href="ai-op-school.html#tools" style="color:var(--groen);font-weight:600">Toolchecker</a> · <a href="ai-op-school.html#vragen" style="color:var(--groen);font-weight:600">Vragenbox</a></p>
+</div>
+<script src="praktijk-data.js"></script>
+<script>if(typeof PROMPTS==="undefined"){document.body.insertAdjacentHTML("afterbegin","<p style=\"padding:1rem;margin:0;background:#fff;color:#b00020;font-weight:700\">Het bestand praktijk-data.js ontbreekt naast deze pagina.</p>")}</script>
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+/* ---------- prompts ---------- */
+const vakken=['Alle vakken tonen',...new Set(PROMPTS.map(p=>p.vak))];
+$('#vak').innerHTML=vakken.map(v=>`<option>${esc(v)}</option>`).join('');
+const doelen=['Lesvoorbereiding','Differentiatie','Feedback','Toetsvragen'];
+let actiefDoel=null;
+$('#doelen').innerHTML=doelen.map(d=>`<button class="chip" aria-pressed="false" data-d="${d}">${d}</button>`).join('');
+$('#doelen').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;
+  actiefDoel=actiefDoel===b.dataset.d?null:b.dataset.d;
+  document.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed',c.dataset.d===actiefDoel));renderPrompts();});
+$('#zoek').addEventListener('input',renderPrompts);$('#vak').addEventListener('change',renderPrompts);
+
+function renderPrompts(){
+  const q=$('#zoek').value.toLowerCase().trim(), vak=$('#vak').value;
+  const lijst=PROMPTS.filter(p=>(vak==='Alle vakken tonen'||p.vak===vak||p.vak==='Alle vakken')&&(!actiefDoel||p.doel===actiefDoel)&&(!q||(p.titel+' '+p.tekst+' '+p.vak).toLowerCase().includes(q)));
+  $('#teller').textContent=lijst.length+(lijst.length===1?' prompt':' prompts');
+  $('#promptlijst').innerHTML=lijst.length?lijst.map((p,i)=>`
+    <article class="kaart prompt">
+      <div class="meta"><span class="tag">${esc(p.vak)}</span><span class="tag doel">${esc(p.doel)}</span></div>
+      <h3>${esc(p.titel)}</h3>
+      <pre>${esc(p.tekst)}</pre>
+      <button class="kopieer" data-t="${PROMPTS.indexOf(p)}">Prompt kopiëren</button>
+    </article>`).join(''):'<p class="leeg">Geen prompts gevonden. Probeer een ander zoekwoord of vak.</p>';
+}
+$('#promptlijst').addEventListener('click',async e=>{
+  const b=e.target.closest('.kopieer');if(!b)return;
+  const t=PROMPTS[+b.dataset.t].tekst;
+  try{await navigator.clipboard.writeText(t)}catch{const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch{}ta.remove()}
+  b.textContent='Gekopieerd ✓';b.classList.add('ok');setTimeout(()=>{b.textContent='Prompt kopiëren';b.classList.remove('ok')},1800);
+});
+renderPrompts();
+
+</script>
+</body>
+</html>
