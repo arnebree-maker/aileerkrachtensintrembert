@@ -34,6 +34,13 @@
     <div class="nav-lbl">Optioneel · Verdieping</div>
     <div class="ni optional" onclick="sm(3)" id="nav-mod3"><div class="ni-icon">✨</div><div class="ni-info"><div class="ni-title">Copilot in de praktijk</div><div class="ni-sub">Verdieping op eigen tempo</div></div><span class="ni-badge" id="l3">›</span></div>
   </div>
+  <div class="nav-sec">
+    <div class="nav-lbl">Praktijkhulp</div>
+    <div class="ni available" onclick="window.open('promptbibliotheek.html','_blank','noopener')"><div class="ni-icon">📚</div><div class="ni-info"><div class="ni-title">Promptbibliotheek</div><div class="ni-sub">Prompts per vak</div></div></div>
+    <div class="ni available" onclick="window.open('ai-bestendige-taken.html','_blank','noopener')"><div class="ni-icon">📝</div><div class="ni-info"><div class="ni-title">AI-bestendige taken</div><div class="ni-sub">Opdrachten & tips</div></div></div>
+    <div class="ni available" onclick="window.open('ai-op-school.html#tools','_blank','noopener')"><div class="ni-icon">🧭</div><div class="ni-info"><div class="ni-title">Toolchecker</div><div class="ni-sub">Wat mag wel, wat niet</div></div></div>
+    <div class="ni available" onclick="window.open('ai-op-school.html#vragen','_blank','noopener')"><div class="ni-icon">💬</div><div class="ni-info"><div class="ni-title">Vragenbox</div><div class="ni-sub">FAQ & je vraag mailen</div></div></div>
+  </div>
   <div class="sb-bot">
     <div class="uc">
       <div class="av" id="av">?</div>
@@ -192,6 +199,31 @@
       </div>
     </div>
 
+    <h2 class="sw-title" style="margin-top:36px;font-size:20px;">🧰 Praktijk<em>hulp</em></h2>
+    <p class="sw-sub" style="margin-bottom:14px;">Direct bruikbaar in je klas, ook naast de modules.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;">
+        <a href="promptbibliotheek.html" target="_blank" rel="noopener" style="display:block;background:white;border:1px solid #e0e4f5;border-radius:10px;padding:16px;text-decoration:none;">
+          <div style="font-size:22px;margin-bottom:4px;">📚</div>
+          <div style="font-size:14px;font-weight:800;color:var(--blue);margin-bottom:4px;">Promptbibliotheek</div>
+          <div style="font-size:12px;color:#666;line-height:1.6;">Kant-en-klare prompts voor lesvoorbereiding, differentiatie, feedback en toetsen.</div>
+        </a>
+        <a href="ai-bestendige-taken.html" target="_blank" rel="noopener" style="display:block;background:white;border:1px solid #e0e4f5;border-radius:10px;padding:16px;text-decoration:none;">
+          <div style="font-size:22px;margin-bottom:4px;">📝</div>
+          <div style="font-size:14px;font-weight:800;color:var(--blue);margin-bottom:4px;">AI-bestendige taken</div>
+          <div style="font-size:12px;color:#666;line-height:1.6;">Opdrachten waarbij het leren zichtbaar blijft, met tips en voorbeelden.</div>
+        </a>
+        <a href="ai-op-school.html#tools" target="_blank" rel="noopener" style="display:block;background:white;border:1px solid #e0e4f5;border-radius:10px;padding:16px;text-decoration:none;">
+          <div style="font-size:22px;margin-bottom:4px;">🧭</div>
+          <div style="font-size:14px;font-weight:800;color:var(--blue);margin-bottom:4px;">Toolchecker</div>
+          <div style="font-size:12px;color:#666;line-height:1.6;">Welke AI-tools mag je gebruiken, en hoe?</div>
+        </a>
+        <a href="ai-op-school.html#vragen" target="_blank" rel="noopener" style="display:block;background:white;border:1px solid #e0e4f5;border-radius:10px;padding:16px;text-decoration:none;">
+          <div style="font-size:22px;margin-bottom:4px;">💬</div>
+          <div style="font-size:14px;font-weight:800;color:var(--blue);margin-bottom:4px;">Vragenbox</div>
+          <div style="font-size:12px;color:#666;line-height:1.6;">Veelgestelde vragen en je vraag mailen.</div>
+        </a>
+    </div>
+
   </div>
 </div>
 
@@ -302,7 +334,8 @@
   <div style="max-width: 1200px; margin: 0 auto;">
     <p style="margin: 0 0 12px 0;"><strong>Over deze cursus</strong></p>
     <p style="margin: 0 0 8px 0;">
-      Sint-Rembert AI-geletterdheid cursus — Versie 2.0 (2026)<br>
+      Sint-Rembert AI-geletterdheid cursus<br>
+      Laatst bijgewerkt: <span id="footer-version">—</span><br>
       Interactieve training voor leerkrachten secundair onderwijs
     </p>
     
@@ -346,7 +379,7 @@
 <!-- ════════ RESET PROGRESS BUTTON ════════ -->
 <button onclick="confirmResetProgress()"
    id="reset-btn"
-   title="Opnieuw beginnen vanaf 0"
+   title="Opnieuw beginnen vanaf 0 — huidige cursusversie zie footer"
    style="position:fixed; bottom:88px; right:24px; z-index:9998; background:white; color:var(--muted); height:40px; min-width:40px; border-radius:20px; border:1px solid #e0e4f5; display:flex; align-items:center; justify-content:center; text-decoration:none; box-shadow:0 4px 12px rgba(0,0,0,0.12); transition:all 0.25s ease; overflow:hidden; padding:0; cursor:pointer;"
    onmouseover="this.style.minWidth='200px'; this.style.paddingLeft='14px'; this.style.paddingRight='16px'; this.style.justifyContent='flex-start'; document.getElementById('reset-text').style.maxWidth='160px'; document.getElementById('reset-text').style.marginLeft='8px';"
    onmouseout="this.style.minWidth='40px'; this.style.paddingLeft='0'; this.style.paddingRight='0'; this.style.justifyContent='center'; document.getElementById('reset-text').style.maxWidth='0'; document.getElementById('reset-text').style.marginLeft='0';">
