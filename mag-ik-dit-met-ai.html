@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mag ik dit met AI? – Sint-Rembert</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blauw:#06038D; --groen:#95D600; --wit:#FFFFFF; --grijs:#D9D9D9;
+  --groen-licht:#CCFF99; --groen-mid:#A6F04A;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+/* Huisstijl blijft ook in donkere modus gelijk */
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --blauw:#06038D; --groen:#95D600; --wit:#FFFFFF; } }
+:root[data-theme="dark"]{ --blauw:#06038D; --groen:#95D600; --wit:#FFFFFF; }
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--blauw);color:var(--wit);
+  font-family:Poppins,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:1rem;line-height:1.5;min-height:100%}
+.wrap{max-width:760px;margin:0 auto;padding:1.5rem 1.25rem 3rem}
+
+header{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem}
+header .logo{width:56px;height:auto;flex:none}
+header h1{margin:0;font-weight:800;text-transform:uppercase;letter-spacing:.01em;
+  font-size:clamp(1.6rem,4.6vw,2.4rem);line-height:1.1}
+header p{margin:.25rem 0 0;font-weight:500;opacity:.9;font-size:.95rem}
+.chev{flex:none;margin-left:auto;width:70px;height:auto}
+
+.intro{display:grid;grid-template-columns:1fr auto;gap:1rem;align-items:center;margin-bottom:1.5rem}
+.intro p{margin:0;font-weight:500;max-width:46ch}
+.intro svg{width:120px;height:auto}
+
+.kaart{background:var(--wit);color:var(--blauw);border-radius:28px;padding:1.75rem 1.5rem}
+.stap{font-weight:700;font-size:.8rem;text-transform:uppercase;letter-spacing:.15em;opacity:.7;margin:0 0 .5rem}
+.vraag{font-weight:700;font-size:clamp(1.15rem,3vw,1.4rem);line-height:1.3;margin:0 0 .5rem}
+.hint{margin:0 0 1.25rem;font-size:.95rem}
+.opties{display:grid;gap:.75rem}
+.optie{font:inherit;font-weight:600;text-align:left;cursor:pointer;
+  background:var(--wit);color:var(--blauw);border:2px solid var(--blauw);border-radius:20px;
+  padding:.9rem 1.1rem;display:flex;align-items:center;gap:.75rem;transition:background .15s,color .15s}
+.optie:hover{background:var(--groen)}
+.optie:focus-visible,.knop:focus-visible{outline:3px solid var(--groen);outline-offset:3px}
+.optie .pijl{margin-left:auto;flex:none;width:18px;height:18px}
+
+.resultaat{border-radius:28px;padding:1.75rem 1.5rem}
+.resultaat.wel{background:var(--groen);color:var(--blauw)}
+.resultaat.niet{background:var(--blauw);color:var(--wit);border:3px solid var(--wit)}
+.resultaat.twijfel{background:var(--wit);color:var(--blauw);border:6px solid var(--groen)}
+.resultaat .kop{display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem}
+.resultaat .icoon{width:44px;height:44px;flex:none}
+.resultaat h2{margin:0;font-weight:800;text-transform:uppercase;font-size:clamp(1.3rem,3.6vw,1.8rem);line-height:1.15}
+.resultaat p{margin:.5rem 0}
+.resultaat ul{margin:.5rem 0;padding-left:1.2rem}
+.tips{margin-top:1rem;padding-top:1rem;border-top:2px solid currentColor}
+.tips h3{margin:0 0 .25rem;font-size:1rem;font-weight:700}
+
+.pad{margin-top:1.25rem;font-size:.9rem}
+.pad h3{margin:0 0 .4rem;font-size:.9rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em}
+.pad ol{margin:0;padding-left:1.2rem}
+.pad li{margin:.15rem 0}
+.pad span{font-weight:600}
+
+.acties{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.25rem}
+.knop{font:inherit;font-weight:700;cursor:pointer;border-radius:999px;padding:.7rem 1.3rem;border:2px solid var(--wit);background:transparent;color:var(--wit)}
+.knop.hoofd{background:var(--groen);border-color:var(--groen);color:var(--blauw)}
+.knop:disabled{opacity:.4;cursor:default}
+
+.principes{margin-top:2rem;display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.principes div{border:2px solid var(--wit);border-radius:20px;padding:1rem 1.1rem}
+.principes strong{display:block;font-weight:800;text-transform:uppercase;color:var(--groen);margin-bottom:.2rem}
+.principes p{margin:0;font-size:.95rem}
+footer{margin-top:2rem;font-size:.85rem;opacity:.85}
+footer a{color:var(--groen);font-weight:600}
+@media (max-width:560px){.principes{grid-template-columns:1fr}.intro{grid-template-columns:1fr}.intro svg{display:none}.chev{display:none}}
+@media (prefers-reduced-motion:no-preference){ #scherm{animation:in .25s ease-out} @keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}} }
+.topbar{display:flex;flex-wrap:wrap;gap:1.25rem;font-size:.9rem;margin:0 0 1.25rem}.topbar a{color:var(--groen);font-weight:600;text-decoration:none}.topbar a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="topbar"><a href="index.html">← Sint-Rembert AI-platform</a><a href="teacher.html">Leerkrachtencursus</a><a href="index.html#hulp">Praktijkhulp</a></div>
+  <header>
+    <img class="logo" src="data:image/png;base64,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" alt="Logo Sint-Rembert scholengroep">
+    <div>
+      <h1>Mag ik dit met AI?</h1>
+      <p>Beslisboom bij de AI-spelregels van Sint-Rembert</p>
+    </div>
+    <svg class="chev" viewBox="0 0 120 60" aria-hidden="true">
+      <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="13">
+        <polyline points="12,10 32,30 12,50" stroke="#CCFF99"/>
+        <polyline points="46,10 66,30 46,50" stroke="#A6F04A"/>
+        <polyline points="80,10 100,30 80,50" stroke="#95D600"/>
+      </g>
+    </svg>
+  </header>
+
+  <div class="intro">
+    <p>Twijfel je of je iets mag ingeven, uploaden of gebruiken in een AI-tool? Beantwoord een paar korte vragen en je weet meteen waar je staat.</p>
+    <!-- vriendelijk computerfiguurtje -->
+    <svg viewBox="0 0 140 120" role="img" aria-label="Vriendelijke computer">
+      <rect x="20" y="10" width="100" height="72" rx="14" fill="#fff"/>
+      <rect x="30" y="20" width="80" height="52" rx="8" fill="#95D600"/>
+      <circle cx="55" cy="42" r="6" fill="#06038D"/><circle cx="85" cy="42" r="6" fill="#06038D"/>
+      <circle cx="57" cy="40" r="2" fill="#fff"/><circle cx="87" cy="40" r="2" fill="#fff"/>
+      <path d="M58 56 Q70 66 82 56" stroke="#06038D" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <rect x="60" y="82" width="20" height="12" fill="#fff"/>
+      <rect x="35" y="94" width="70" height="12" rx="6" fill="#fff"/>
+      <path d="M120 40 q14 -6 12 -22" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <circle cx="132" cy="16" r="6" fill="#95D600"/>
+    </svg>
+  </div>
+
+  <main id="scherm" aria-live="polite"></main>
+
+  <div class="acties">
+    <button class="knop" id="terug">Vorige vraag</button>
+    <button class="knop" id="opnieuw">Opnieuw beginnen</button>
+  </div>
+
+  <section class="principes" aria-label="Kernprincipes">
+    <div><strong>Meerwaarde</strong><p>Gebruik AI enkel als het echt bijdraagt aan goed onderwijs.</p></div>
+    <div><strong>Transparantie</strong><p>Wie AI gebruikt, blijft altijd verantwoordelijk voor het proces en de uiteindelijke output.</p></div>
+  </section>
+
+  <footer id="voet"></footer>
+</div>
+
+<script>
+/* ============ AANPASSEN ============
+   Alle teksten van de beslisboom staan hieronder. */
+const CONFIG = {
+  contact: "je AI-aanspreekpunt of de ICT-coördinator van je school",
+  professionaliseringLink: "", // bv. link naar de nascholing; leeg = niet tonen
+};
+
+const BOOM = {
+  start: {
+    vraag: "Wat wil je aan de AI-tool geven?",
+    opties: [
+      { tekst: "Een vraag of tekst die ik zelf typ", naar: "persTekst" },
+      { tekst: "Een document of bestand (bv. toets, verslag, lesplan)", naar: "persDoc" },
+      { tekst: "Een foto of ander beeld", naar: "foto" },
+    ],
+  },
+  foto: {
+    vraag: "Staan er leerlingen of andere herkenbare personen op het beeld?",
+    opties: [
+      { tekst: "Ja", naar: "R_foto" },
+      { tekst: "Nee, er staan geen personen op", naar: "tool" },
+    ],
+  },
+  persTekst: {
+    vraag: "Staan er persoonsgegevens in je tekst?",
+    hint: "Denk aan namen, punten, adressen, e-mailadressen, of informatie over gezondheid, gedrag of thuissituatie van leerlingen, ouders of collega's.",
+    opties: [
+      { tekst: "Nee, alles is anoniem", naar: "output" },
+      { tekst: "Ja", naar: "anonTekst" },
+    ],
+  },
+  anonTekst: {
+    vraag: "Kun je die gegevens eerst weglaten of vervangen?",
+    hint: "Bijvoorbeeld 'leerling A' in plaats van een naam, en zonder details waaruit je iemand kunt herkennen.",
+    opties: [
+      { tekst: "Ja, ik maak het eerst anoniem", naar: "output", tip: "Maak je tekst eerst volledig anoniem voor je hem ingeeft." },
+      { tekst: "Nee, de gegevens zijn nodig", naar: "R_pers" },
+    ],
+  },
+  persDoc: {
+    vraag: "Staan er persoonsgegevens in het document?",
+    hint: "Denk aan namen, punten, adressen, e-mailadressen, of informatie over gezondheid, gedrag of thuissituatie van leerlingen, ouders of collega's.",
+    opties: [
+      { tekst: "Nee, het document is anoniem", naar: "tool" },
+      { tekst: "Ja", naar: "anonDoc" },
+    ],
+  },
+  anonDoc: {
+    vraag: "Kun je die gegevens eerst uit het document halen?",
+    opties: [
+      { tekst: "Ja, ik maak een anonieme versie", naar: "tool", tip: "Upload alleen de anonieme versie van je document." },
+      { tekst: "Nee, de gegevens zijn nodig", naar: "R_pers" },
+    ],
+  },
+  tool: {
+    vraag: "In welke AI-tool wil je het bestand gebruiken?",
+    opties: [
+      { tekst: "Copilot M365 met mijn schoolaccount", naar: "output" },
+      { tekst: "Een andere tool die de school goedkeurde", naar: "output" },
+      { tekst: "Een gratis tool (bv. gratis ChatGPT of Gemini)", naar: "R_gratis" },
+      { tekst: "Ik weet niet of de tool goedgekeurd is", naar: "R_toolTwijfel" },
+    ],
+  },
+  output: {
+    vraag: "Ga je wat de AI teruggeeft zelf nalezen, controleren en aanpassen voor je het gebruikt?",
+    opties: [
+      { tekst: "Ja, ik controleer alles", naar: "meerwaarde" },
+      { tekst: "Nee, ik neem het zo over", naar: "R_kritiekloos" },
+    ],
+  },
+  meerwaarde: {
+    vraag: "Maakt AI het resultaat hier echt beter voor je onderwijs?",
+    hint: "Bijvoorbeeld: betere lesvoorbereiding, sneller en rijker feedback geven, of tijd winnen die naar je leerlingen gaat.",
+    opties: [
+      { tekst: "Ja", naar: "R_ok" },
+      { tekst: "Ik twijfel", naar: "R_meerwaarde" },
+    ],
+  },
+
+  /* ---------- UITKOMSTEN: soort = wel | niet | twijfel ---------- */
+  R_ok: {
+    soort: "wel", titel: "Dit mag",
+    tekst: "Je gebruikt AI veilig en met meerwaarde. Goed bezig!",
+    lijst: ["Blijf zelf verantwoordelijk voor het eindresultaat.", "Wees open over je AI-gebruik als dat relevant is, bv. naar leerlingen of collega's."],
+  },
+  R_meerwaarde: {
+    soort: "twijfel", titel: "Mag, maar denk even na",
+    tekst: "Je gebruik is veilig, maar de meerwaarde is nog niet duidelijk. Gebruik AI enkel als het echt bijdraagt aan goed onderwijs.",
+    lijst: ["Vraag je af wat AI toevoegt ten opzichte van zelf doen.", "Twijfel je nog? Bespreek het met " + CONFIG.contact + "."],
+  },
+  R_toolTwijfel: {
+    soort: "twijfel", titel: "Eerst navragen",
+    tekst: "Gebruik de tool pas als je zeker weet dat ze goedgekeurd is. Tot dan kun je Copilot M365 met je schoolaccount gebruiken.",
+    lijst: ["Vraag na bij " + CONFIG.contact + "."],
+  },
+  R_foto: {
+    soort: "niet", titel: "Dit mag niet",
+    tekst: "Foto's van leerlingen (of andere herkenbare personen) upload je niet naar AI-tools.",
+    lijst: ["Gebruik beelden zonder herkenbare personen.", "Laat AI een afbeelding maken in plaats van een echte foto te uploaden."],
+  },
+  R_pers: {
+    soort: "niet", titel: "Dit mag niet",
+    tekst: "Persoonsgegevens geef je niet in AI-tools in.",
+    lijst: ["Vervang namen door 'leerling A', 'leerling B' …", "Laat details weg waaruit je iemand kunt herkennen.", "Lukt anonimiseren niet? Doe deze taak dan zonder AI."],
+  },
+  R_gratis: {
+    soort: "niet", titel: "Dit mag niet",
+    tekst: "Schooldocumenten upload je niet naar gratis AI-tools.",
+    lijst: ["Gebruik Copilot M365 met je schoolaccount of een andere goedgekeurde tool."],
+  },
+  R_kritiekloos: {
+    soort: "niet", titel: "Dit mag niet",
+    tekst: "AI-output neem je nooit kritiekloos over. Jij blijft verantwoordelijk voor het resultaat.",
+    lijst: ["Controleer feiten, bronnen en taal.", "Pas de output aan aan je leerlingen en je vak."],
+  },
+};
+/* ==================================== */
+
+const scherm = document.getElementById('scherm');
+const terugKnop = document.getElementById('terug');
+let geschiedenis = []; // [{node, antwoord, tip}]
+let huidig = 'start';
+
+const pijl = '<svg class="pijl" viewBox="0 0 20 20" aria-hidden="true"><polyline points="6,3 13,10 6,17" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const iconen = {
+  wel: '<svg class="icoon" viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="22" fill="#06038D"/><polyline points="12,23 19,30 32,15" fill="none" stroke="#95D600" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  niet: '<svg class="icoon" viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="22" fill="#fff"/><path d="M14 14 L30 30 M30 14 L14 30" stroke="#06038D" stroke-width="5" stroke-linecap="round"/></svg>',
+  twijfel: '<svg class="icoon" viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="22" fill="#95D600"/><text x="22" y="31" text-anchor="middle" font-family="Poppins,sans-serif" font-weight="800" font-size="26" fill="#06038D">?</text></svg>',
+};
+
+function esc(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+
+function padHtml(){
+  if(!geschiedenis.length) return '';
+  return '<div class="pad"><h3>Jouw antwoorden</h3><ol>' +
+    geschiedenis.map(g=>`<li>${esc(BOOM[g.node].vraag)} <span>${esc(g.antwoord)}</span></li>`).join('') +
+    '</ol></div>';
+}
+
+function toon(){
+  const n = BOOM[huidig];
+  scherm.style.animation='none'; scherm.offsetHeight; scherm.style.animation='';
+  if(n.soort){
+    const tips = geschiedenis.map(g=>g.tip).filter(Boolean);
+    scherm.innerHTML = `
+      <div class="resultaat ${n.soort}">
+        <div class="kop">${iconen[n.soort]}<h2>${esc(n.titel)}</h2></div>
+        <p>${esc(n.tekst)}</p>
+        ${n.lijst ? '<ul>'+n.lijst.map(l=>`<li>${esc(l)}</li>`).join('')+'</ul>' : ''}
+        ${tips.length ? '<div class="tips"><h3>Let op</h3><ul>'+tips.map(t=>`<li>${esc(t)}</li>`).join('')+'</ul></div>' : ''}
+      </div>` + padHtml();
+  } else {
+    const nr = geschiedenis.length + 1;
+    scherm.innerHTML = `
+      <div class="kaart">
+        <p class="stap">Vraag ${nr}</p>
+        <p class="vraag" id="v">${esc(n.vraag)}</p>
+        ${n.hint ? `<p class="hint">${esc(n.hint)}</p>` : '<div style="height:.75rem"></div>'}
+        <div class="opties" role="group" aria-labelledby="v">
+          ${n.opties.map((o,i)=>`<button class="optie" data-i="${i}">${esc(o.tekst)}${pijl}</button>`).join('')}
+        </div>
+      </div>` + padHtml();
+    scherm.querySelectorAll('.optie').forEach(b=>b.addEventListener('click',()=>{
+      const o = n.opties[+b.dataset.i];
+      geschiedenis.push({node:huidig, antwoord:o.tekst, tip:o.tip});
+      huidig = o.naar; toon();
+      const f = scherm.querySelector('.optie'); if(f) f.focus({preventScroll:true});
+    }));
+  }
+  terugKnop.disabled = geschiedenis.length===0;
+}
+
+terugKnop.addEventListener('click',()=>{ const g=geschiedenis.pop(); if(g){huidig=g.node; toon();} });
+document.getElementById('opnieuw').addEventListener('click',()=>{ geschiedenis=[]; huidig='start'; toon(); });
+
+document.getElementById('voet').innerHTML =
+  'Vragen over AI op school? Contacteer ' + esc(CONFIG.contact) + '.' +
+  (CONFIG.professionaliseringLink ? ` <a href="${CONFIG.professionaliseringLink}" target="_blank" rel="noopener">Professionaliseren?</a>` : '');
+
+toon();
+</script>
+</body>
+</html>
