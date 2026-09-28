@@ -24,6 +24,7 @@
     <div class="ni available" onclick="sv('docs')" id="nav-docs"><div class="ni-icon">📁</div><div class="ni-info"><div class="ni-title">Documenten</div><div class="ni-sub">Beleid & bronnen</div></div></div>
     <div class="ni available" onclick="sv('news')" id="nav-news"><div class="ni-icon">📰</div><div class="ni-info"><div class="ni-title">Nieuws</div><div class="ni-sub">AI in de actualiteit</div></div></div>
     <div class="ni available" onclick="sv('samenvatting')" id="nav-samenvatting"><div class="ni-icon">📋</div><div class="ni-info"><div class="ni-title">Samenvatting</div><div class="ni-sub">Tools, kader & rollen</div></div></div>
+    <div class="ni available" onclick="sv('hulp')" id="nav-hulp"><div class="ni-icon">🧰</div><div class="ni-info"><div class="ni-title">Praktijkhulp</div><div class="ni-sub">Prompts, tools & taken</div></div></div>
   </div>
 
   <div class="sb-bot">
@@ -134,6 +135,15 @@
         </div>
         <button class="route-btn student" onclick="goStudent()">Start modules →</button>
       </div>
+    </div>
+
+    <div style="background:white;border:1px solid #e0e4f5;border-left:4px solid var(--green);border-radius:8px;padding:18px 20px;margin-top:28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;">
+      <div style="flex:1;min-width:240px;">
+        <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;margin-bottom:4px;">🧰 Voor leerkrachten</div>
+        <div style="font-size:15px;font-weight:800;color:var(--blue);margin-bottom:4px;">Praktijkhulp: prompts, toolchecker en AI-bestendige taken</div>
+        <div style="font-size:13px;color:#666;line-height:1.6;">Kant-en-klare hulpmiddelen om morgen al mee aan de slag te gaan in je klas.</div>
+      </div>
+      <button class="route-btn teacher" style="width:auto;padding:12px 22px;" onclick="sv('hulp')">Bekijk praktijkhulp →</button>
     </div>
 
     <!-- CONTEXT -->
@@ -358,7 +368,47 @@
       </div>
     </div>
 
-    <p style="margin-top: 24px; font-size: 12px; color: #999; font-style: italic;">Zie het volledige <a href="#" onclick="sv('docs'); return false;" style="color:var(--blue);">Beleidskader Artificiële Intelligentie</a> voor de uitgebreide, formeel goedgekeurde versie.</p>
+    <p style="margin-top: 24px; font-size: 13px; color: #666;">Praktisch aan de slag? Gebruik de <a href="ai-op-school.html#tools" target="_blank" rel="noopener" style="color:var(--blue);font-weight:700;">Toolchecker</a> en de <a href="promptbibliotheek.html" target="_blank" rel="noopener" style="color:var(--blue);font-weight:700;">Promptbibliotheek</a>, of bekijk alles onder <a href="#" onclick="sv('hulp'); return false;" style="color:var(--blue);font-weight:700;">Praktijkhulp</a>.</p>
+    <p style="margin-top: 12px; font-size: 12px; color: #999; font-style: italic;">Zie het volledige <a href="#" onclick="sv('docs'); return false;" style="color:var(--blue);">Beleidskader Artificiële Intelligentie</a> voor de uitgebreide, formeel goedgekeurde versie.</p>
+  </div>
+</div>
+
+<!-- ════════ PRAKTIJKHULP ════════ -->
+<div class="view" id="view-hulp">
+  <div class="sw" style="margin-top: 40px;">
+    <div class="sw-title">🧰 <em>Praktijkhulp</em> voor leerkrachten</div>
+    <div class="sw-sub">Hulpmiddelen om AI meteen bruikbaar te maken in je lespraktijk, in de huisstijl van Sint-Rembert.</div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:24px 0;">
+      <a href="promptbibliotheek.html" target="_blank" rel="noopener" style="display:block;background:white;border-radius:10px;padding:22px;text-decoration:none;box-shadow:0 1px 4px rgba(0,0,0,0.06);border:2px solid transparent;transition:all .2s;" onmouseover="this.style.borderColor='var(--green)'" onmouseout="this.style.borderColor='transparent'">
+        <div style="font-size:30px;margin-bottom:8px;">📚</div>
+        <div style="font-size:16px;font-weight:800;color:var(--blue);margin-bottom:6px;">Promptbibliotheek</div>
+        <div style="font-size:13px;color:#666;line-height:1.7;">Kant-en-klare prompts voor lesvoorbereiding, differentiatie, feedback en toetsvragen. Kopieer, vul de haakjes in en plak in Copilot M365.</div>
+        <div style="font-size:12px;font-weight:800;color:var(--blue);margin-top:12px;">Openen →</div>
+      </a>
+      <a href="ai-bestendige-taken.html" target="_blank" rel="noopener" style="display:block;background:white;border-radius:10px;padding:22px;text-decoration:none;box-shadow:0 1px 4px rgba(0,0,0,0.06);border:2px solid transparent;transition:all .2s;" onmouseover="this.style.borderColor='var(--green)'" onmouseout="this.style.borderColor='transparent'">
+        <div style="font-size:30px;margin-bottom:8px;">📝</div>
+        <div style="font-size:16px;font-weight:800;color:var(--blue);margin-bottom:6px;">AI-bestendige taken</div>
+        <div style="font-size:13px;color:#666;line-height:1.7;">Opdrachten waarbij het leren zichtbaar blijft: de vier AI-labels en tips met voorbeelden.</div>
+        <div style="font-size:12px;font-weight:800;color:var(--blue);margin-top:12px;">Openen →</div>
+      </a>
+      <a href="ai-op-school.html#tools" target="_blank" rel="noopener" style="display:block;background:white;border-radius:10px;padding:22px;text-decoration:none;box-shadow:0 1px 4px rgba(0,0,0,0.06);border:2px solid transparent;transition:all .2s;" onmouseover="this.style.borderColor='var(--green)'" onmouseout="this.style.borderColor='transparent'">
+        <div style="font-size:30px;margin-bottom:8px;">🧭</div>
+        <div style="font-size:16px;font-weight:800;color:var(--blue);margin-bottom:6px;">Toolchecker</div>
+        <div style="font-size:13px;color:#666;line-height:1.7;">Welke AI-tools mag je gebruiken, en hoe? Goedgekeurd, enkel anoniem of niet toegelaten.</div>
+        <div style="font-size:12px;font-weight:800;color:var(--blue);margin-top:12px;">Openen →</div>
+      </a>
+      <a href="ai-op-school.html#vragen" target="_blank" rel="noopener" style="display:block;background:white;border-radius:10px;padding:22px;text-decoration:none;box-shadow:0 1px 4px rgba(0,0,0,0.06);border:2px solid transparent;transition:all .2s;" onmouseover="this.style.borderColor='var(--green)'" onmouseout="this.style.borderColor='transparent'">
+        <div style="font-size:30px;margin-bottom:8px;">💬</div>
+        <div style="font-size:16px;font-weight:800;color:var(--blue);margin-bottom:6px;">Vragenbox</div>
+        <div style="font-size:13px;color:#666;line-height:1.7;">Antwoorden op veelgestelde vragen, en een snelle manier om je vraag naar de pedagogische ICT-dienst te mailen.</div>
+        <div style="font-size:12px;font-weight:800;color:var(--blue);margin-top:12px;">Openen →</div>
+      </a>
+    </div>
+
+    <div style="background:#f5f6fb;border-radius:10px;padding:16px 20px;font-size:13px;color:#3d4f8a;line-height:1.7;">
+      Alles samen op één plek: <a href="ai-op-school.html" target="_blank" rel="noopener" style="color:var(--blue);font-weight:800;">AI op school &ndash; voor leerkrachten</a>. Twijfel je of iets mag? Kijk in de <a href="#" onclick="sv('samenvatting'); return false;" style="color:var(--blue);font-weight:800;">beslismatrix in de samenvatting</a>.
+    </div>
   </div>
 </div>
 
@@ -393,6 +443,9 @@ function sv(id) {
 function goHome() {
   sv('home');
 }
+function routeHash(){ const h = location.hash.slice(1); if (h && document.getElementById('view-' + h)) sv(h); }
+routeHash();
+window.addEventListener('hashchange', routeHash);
 </script>
 
 <!-- ════════ HELPDESK BUTTON ════════ -->
