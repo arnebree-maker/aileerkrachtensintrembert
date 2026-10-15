@@ -2401,3 +2401,80 @@ button { font-family: inherit; cursor: pointer; border: none; }
   from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+
+/* ===================== LEESBAARHEID & RUST (okt 2026) ===================== */
+/* Footer 'Over deze cursus' enkel op de startpagina, en altijd onderaan */
+.view.active{flex:1 0 auto}
+#main > footer{flex-shrink:0;display:none}
+#main:has(#view-home.active) > footer{display:block}
+
+/* Leesbreedte, witruimte en grotere tekst in de modules */
+.mc-content{max-width:840px;padding:44px 40px 80px}
+.mc-content .cp{font-size:17px;line-height:1.75;font-weight:500;margin-bottom:20px}
+.mc-content .ch2{font-size:clamp(24px,2.6vw,30px);line-height:1.15;margin-bottom:24px}
+.mc-content .ch3{font-size:16px;margin-top:40px;margin-bottom:14px;line-height:1.3}
+.mc-content .ib{display:block;padding:18px 20px;margin:28px 0}
+.mc-content .ib-t{font-size:13px;margin-bottom:6px}
+.mc-content .ib-b{font-size:15.5px;line-height:1.7;font-weight:500}
+.mc-content p,.mc-content li{line-height:1.7}
+.mc-content li{margin:4px 0}
+.mc-content [style*="display: grid"],.mc-content [style*="display:grid"]{gap:18px!important}
+.mc-content [style*="font-size:9px"],
+.mc-content [style*="font-size: 9px"],
+.mc-content [style*="font-size:9.5px"],
+.mc-content [style*="font-size: 9.5px"],
+.mc-content [style*="font-size:10px"],
+.mc-content [style*="font-size: 10px"]{font-size:13px!important}
+.mc-content [style*="font-size:10.5px"],
+.mc-content [style*="font-size: 10.5px"],
+.mc-content [style*="font-size:11px"],
+.mc-content [style*="font-size: 11px"]{font-size:13.5px!important}
+.mc-content [style*="font-size:11.5px"],
+.mc-content [style*="font-size: 11.5px"],
+.mc-content [style*="font-size:12px"],
+.mc-content [style*="font-size: 12px"]{font-size:14.5px!important}
+.mc-content [style*="font-size:12.5px"],
+.mc-content [style*="font-size: 12.5px"],
+.mc-content [style*="font-size:13px"],
+.mc-content [style*="font-size: 13px"]{font-size:15.5px!important}
+.mc-content [style*="font-size:13.5px"],
+.mc-content [style*="font-size: 13.5px"],
+.mc-content [style*="font-size:14px"],
+.mc-content [style*="font-size: 14px"]{font-size:16px!important}
+
+/* Lange stappen in delen */
+.deel[hidden]{display:none!important}
+.deel-overzicht{background:#fff;border:1px solid #e0e4f5;border-radius:12px;padding:14px 18px;margin:0 0 28px}
+.deel-overzicht b{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);margin-bottom:8px}
+.deel-overzicht ol{margin:0;padding-left:20px;font-size:15px;color:#3d4f8a;line-height:1.6}
+.deel-overzicht li{margin:2px 0}
+.deel-overzicht li.klaar{opacity:.55}
+.deel-overzicht li.nu{font-weight:700;color:var(--blue)}
+.deel-overzicht li button{all:unset;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.deel-verder{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:32px 0 8px;padding:16px 18px;background:#fff;border:2px dashed #c9cff0;border-radius:12px}
+.deel-verder span{font-size:14px;color:#3d4f8a;font-weight:600}
+.deel-verder button{font:inherit;font-weight:700;font-size:15px;cursor:pointer;border:0;border-radius:999px;padding:11px 20px;background:var(--blue);color:#fff}
+.deel-verder button:hover{filter:brightness(1.15)}
+@media print{.deel[hidden]{display:block!important}.deel-verder,.deel-overzicht{display:none!important}}
+
+/* Startpagina's: kleine inline-tekst iets groter */
+.sw [style*="font-size:9px"],
+.sw [style*="font-size: 9px"],
+.sw [style*="font-size:9.5px"],
+.sw [style*="font-size: 9.5px"],
+.sw [style*="font-size:10px"],
+.sw [style*="font-size: 10px"]{font-size:13px!important}
+.sw [style*="font-size:10.5px"],
+.sw [style*="font-size: 10.5px"],
+.sw [style*="font-size:11px"],
+.sw [style*="font-size: 11px"]{font-size:13.5px!important}
+.sw [style*="font-size:11.5px"],
+.sw [style*="font-size: 11.5px"],
+.sw [style*="font-size:12px"],
+.sw [style*="font-size: 12px"]{font-size:14.5px!important}
+.sw [style*="font-size:12.5px"],
+.sw [style*="font-size: 12.5px"],
+.sw [style*="font-size:13px"],
+.sw [style*="font-size: 13px"]{font-size:15.5px!important}
+#main > footer, #main > footer *{font-size:13px!important}

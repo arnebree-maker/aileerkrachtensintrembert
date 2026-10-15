@@ -981,6 +981,63 @@ function fixNav(c, arr, step){
       });
     }
   }catch(e){ console.warn('fixNav', e); }
+  delete c.dataset.chunked;
+  setTimeout(()=>chunkSlide(c), 0);
+}
+
+/* ---- Lange stappen opdelen in kortere delen, met een overzicht bovenaan ---- */
+function chunkSlide(c){
+  try{
+    if(!c || c.dataset.chunked || !c.offsetParent) return;
+    const vh = (document.getElementById('main')||document.documentElement).clientHeight || window.innerHeight;
+    const kids = [...c.children];
+    const nwIdx = kids.findIndex(k=>k.classList && k.classList.contains('nw'));
+    const inhoud = nwIdx >= 0 ? kids.slice(0, nwIdx) : kids;
+    const totaal = inhoud.reduce((s,k)=>s+k.offsetHeight,0);
+    if(totaal < vh*1.6) return;
+    // breekpunten: tussentitels (h3.ch3) die rechtstreeks in de stap staan
+    const groepen=[]; let huidig=[], hoogte=0;
+    inhoud.forEach(k=>{
+      const isTitel = k.matches && k.matches('h3.ch3');
+      if(isTitel && huidig.length && hoogte > vh*0.85){ groepen.push(huidig); huidig=[]; hoogte=0; }
+      huidig.push(k); hoogte += k.offsetHeight;
+    });
+    if(huidig.length) groepen.push(huidig);
+    // te kleine laatste groep samenvoegen
+    if(groepen.length>1){
+      const laatste = groepen[groepen.length-1].reduce((s,k)=>s+k.offsetHeight,0);
+      if(laatste < vh*0.35){ const l=groepen.pop(); groepen[groepen.length-1].push(...l); }
+    }
+    if(groepen.length < 2) return;
+    c.dataset.chunked='1';
+    const kop = g => g.filter(k=>k.matches && k.matches('h3.ch3')).map(h=>h.textContent.trim());
+    const titels = groepen.map((g,i)=>{ const h=kop(g); const lijst = i===0 ? ['Inleiding', ...h] : h; const kort = lijst.slice(0,3).join(' · ') + (lijst.length>3 ? ' …' : ''); return kort || ('Deel '+(i+1)); });
+    const nw = nwIdx >= 0 ? kids[nwIdx] : null;
+    const delen = groepen.map((g,i)=>{ const d=document.createElement('div'); d.className='deel'; if(i>0) d.hidden=true; g[0].before(d); g.forEach(k=>d.appendChild(k)); return d; });
+    // overzicht bovenaan, na badge + titel
+    const ov=document.createElement('nav'); ov.className='deel-overzicht'; ov.setAttribute('aria-label','In deze stap');
+    ov.innerHTML='<b>In deze stap · '+groepen.length+' delen</b><ol>'+titels.map((t,i)=>'<li data-i="'+i+'"><button type="button">'+t.replace(/[&<>]/g,s=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[s]))+'</button></li>').join('')+'</ol>';
+    const h2 = delen[0].querySelector('h2.ch2');
+    (h2 ? h2 : delen[0].firstChild).after(ov);
+    let open = 0;
+    const verderKnop = document.createElement('div'); verderKnop.className='deel-verder';
+    function bijwerken(){
+      ov.querySelectorAll('li').forEach(li=>{ const i=+li.dataset.i; li.className = i<open?'klaar':(i===open?'nu':''); });
+      if(open < delen.length-1){
+        verderKnop.innerHTML='<span>Deel '+(open+1)+' van '+delen.length+'</span><button type="button">Lees verder: '+titels[open+1].replace(/[&<>]/g,'')+' ↓</button>';
+        delen[open].after(verderKnop); verderKnop.hidden=false;
+        if(nw) nw.hidden=true;
+      } else { verderKnop.hidden=true; if(nw) nw.hidden=false; }
+    }
+    function toonTot(i, scroll){
+      for(let k=0;k<=i;k++) delen[k].hidden=false;
+      open = Math.max(open, i); bijwerken();
+      if(scroll){ const doel = delen[i].querySelector('h3.ch3') || delen[i]; doel.scrollIntoView({behavior:'smooth', block:'start'}); }
+    }
+    verderKnop.addEventListener('click', e=>{ if(e.target.closest('button')) toonTot(open+1, true); });
+    ov.addEventListener('click', e=>{ const li=e.target.closest('li'); if(li) toonTot(+li.dataset.i, true); });
+    bijwerken();
+  }catch(e){ console.warn('chunkSlide', e); }
 }
 
 function rm1(){ const c=document.getElementById('m1c'); c.innerHTML=''; rDots(1,m1.length,S.mod1.step); m1[S.mod1.step](c); fixNav(c, m1, S.mod1.step); lockNextButtons(c); }
