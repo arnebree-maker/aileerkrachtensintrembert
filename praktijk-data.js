@@ -68,6 +68,12 @@ const PROMPTS = [
    tekst:"Zoek op het web wat wetenschappelijk onderzoek zegt over deze vraag: [bv. Werken leerstijlen? / Helpt markeren bij studeren? / Lezen leerlingen beter op papier?]. Maak onderscheid tussen sterk bewijs (meta-analyses, reviews) en zwak bewijs (losse studies, enquêtes, populaire artikels). Vat samen in 5 zinnen wat dit betekent voor de klaspraktijk, en geef de bronnen zodat ik ze zelf kan nalezen."},
   {vak:"Alle vakken",doel:"Lesvoorbereiding",titel:"Lespakket uit één actueel artikel",
    tekst:"Op basis van het onderstaande krantenartikel en het leerplan [vak, graad] maak je: (1) de leerplandoelen die het artikel echt dekt, met uitleg waarom; (2) een voorkennisoefening; (3) drie invuloefeningen; (4) een rubric voor peer-evaluatie; (5) een korte toets met modeloplossing. Gebruik enkel feiten uit het artikel en markeer wat ik moet controleren.\nArtikel: [plak hier]"},
+  {vak:"Wiskunde",doel:"Feedback",titel:"Voor leerlingen: feedback op je oefening (foto)",
+   tekst:"Dit is de eerste oefening van mijn huiswerk [vak], over [onderwerp]. Ik voeg een foto van mijn oplossing toe (zonder mijn naam). Geef me feedback, maar geef NIET de juiste oplossing. Zeg bij welke stap het misloopt en geef een hint, zodat ik de fout zelf kan verbeteren. Als ik mijn verbeterde versie stuur, kijk je die opnieuw na. Pas daarna ga ik naar de volgende oefening."},
+  {vak:"Alle vakken",doel:"Lesvoorbereiding",titel:"Instructies voor een vakgroep-agent",
+   tekst:"Je bent de lesassistent van de vakgroep [vak] van een Vlaamse secundaire school. Je helpt leerkrachten met lesmateriaal voor [graden/richtingen]. Werk altijd vanuit het leerplandoel dat de leerkracht geeft. Gebruik Vlaamse vaktermen en eenvoudige, toegankelijke taal. Vraag eerst naar doel, doelgroep en context als die ontbreken. Verzin geen cijfers of bronnen en markeer wat de leerkracht moet controleren. Vraag nooit naar namen of andere persoonsgegevens van leerlingen."},
+  {vak:"Alle vakken",doel:"Lesvoorbereiding",titel:"Cursustekst schrijven in een canvas",
+   tekst:"Open een canvas (document naast de chat). Schrijf een cursushoofdstuk over [onderwerp] voor [graad/jaar/finaliteit], leerplandoel: [doel]. Opbouw: korte inleiding met een herkenbaar voorbeeld, [3] paragrafen met tussentitels, na elke paragraaf 2 controlevragen, onderaan een samenvatting en een woordenlijst als tabel. Eenvoudige taal, maximaal [150] woorden per paragraaf. Daarna werk ik de tekst stap voor stap met je verder uit."},
 ];
 
 const TOOLS = [
