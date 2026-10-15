@@ -51,6 +51,23 @@ const PROMPTS = [
   // ---- Klaspraktijk
   {vak:"Alle vakken",doel:"Lesvoorbereiding",titel:"E-mail aan ouders (anoniem)",
    tekst:"Schrijf een korte, vriendelijke e-mail aan de ouders van [klas] over [onderwerp, bv. een uitstap, een project]. Duidelijk, warm en zonder vakjargon. Vermeld: wat, wanneer, wat ouders moeten doen. Gebruik [NAAM] en [DATUM] als plaatshouders."},
+  // ---- Uit de nascholing "AI-openers" (Howest EdHub, 12/10/2026), in eigen woorden
+  {vak:"Alle vakken",doel:"Lesvoorbereiding",titel:"Prompt in 5 bouwstenen",
+   tekst:"DOEL: Je bent een ervaren leerkracht [vak]. Maak [wat, bv. een leestekst / een lesopbouw] over [onderwerp].\nDOELGROEP: [graad, jaar, finaliteit]. Leerplandoel: [doel]. Klas: [bv. enkele leerlingen met dyslexie, wisselende interesse].\nCONTEXT: Behandel eerst [deel 1], daarna [deel 2], tot slot [deel 3].\nWAARSCHUWINGEN: Beperk je tot [afbakening]. Laat [wat niet hoeft] weg. Verzin geen cijfers of bronnen; markeer wat ik moet controleren.\nFORMAT: Korte alinea's van maximaal [150] woorden, eenvoudige taal met de nodige vaktermen, onderaan een woordenlijst als tabel (begrip + uitleg)."},
+  {vak:"Alle vakken",doel:"Lesvoorbereiding",titel:"Laat AI eerst je prompt verbeteren",
+   tekst:"Ik wil een AI-tool laten helpen met [taak] voor [graad/jaar/vak]. Schrijf voor mij een sterke, volledige prompt met doel, doelgroep, context, waarschuwingen en gewenst format. Stel me eerst maximaal 3 vragen over wat je nog moet weten. Geef daarna enkel de prompt, zodat ik hem kan nalezen, aanpassen en gebruiken."},
+  {vak:"Alle vakken",doel:"Toetsvragen",titel:"Van leerplandoel naar rubric",
+   tekst:"Zet dit leerplandoel om in een beoordelingsrubric voor [opdracht] in [graad/jaar]: [plak het leerplandoel]. Gebruik 4 criteria en 4 niveaus (onvoldoende, in ontwikkeling, voldoende, sterk), met per cel een concrete, waarneembare omschrijving. Voeg daarna een leerlingvriendelijke versie toe in de jij-vorm."},
+  {vak:"Alle vakken",doel:"Lesvoorbereiding",titel:"Lesmateriaal bij een video (via transcriptie)",
+   tekst:"Hieronder staat de transcriptie van een video over [onderwerp] voor [graad/jaar/finaliteit]. Maak eerst 6 gevarieerde inhoudsvragen (van onthouden tot toepassen). Maak daarna een chronologisch overzicht van de inhoud en een tabel met de belangrijkste begrippen (begrip + uitleg). Gebruik enkel informatie uit de transcriptie.\nTranscriptie: [plak hier]"},
+  {vak:"Alle vakken",doel:"Toetsvragen",titel:"Invuloefening klaar voor BookWidgets",
+   tekst:"Maak van de onderstaande tekst een invuloefening voor [graad/jaar] met [8] gaten op de belangrijkste vaktermen. Gebruik het formaat voor een gatenoefening in BookWidgets: zet elk juist antwoord tussen << en >>, en scheid alternatieve juiste antwoorden met ##, bv. <<inflatie ## geldontwaarding>>. Verander verder niets aan de tekst.\nTekst: [plak hier]"},
+  {vak:"Alle vakken",doel:"Feedback",titel:"Voor leerlingen: feedback zonder de oplossing",
+   tekst:"Ik ben leerling in [jaar] en schreef een tekst voor [vak]. Ik wil leren uit mijn fouten. Duid mijn fouten aan en leg bij elke fout uit welke regel speelt, maar geef NIET meteen de juiste oplossing. Vraag me daarna om mijn verbeterde versie terug te geven, en geef dan opnieuw feedback.\nMijn tekst: [plak hier, zonder je naam]"},
+  {vak:"Alle vakken",doel:"Lesvoorbereiding",titel:"Klopt dit onderwijsidee? Snelle onderzoekscheck",
+   tekst:"Zoek op het web wat wetenschappelijk onderzoek zegt over deze vraag: [bv. Werken leerstijlen? / Helpt markeren bij studeren? / Lezen leerlingen beter op papier?]. Maak onderscheid tussen sterk bewijs (meta-analyses, reviews) en zwak bewijs (losse studies, enquêtes, populaire artikels). Vat samen in 5 zinnen wat dit betekent voor de klaspraktijk, en geef de bronnen zodat ik ze zelf kan nalezen."},
+  {vak:"Alle vakken",doel:"Lesvoorbereiding",titel:"Lespakket uit één actueel artikel",
+   tekst:"Op basis van het onderstaande krantenartikel en het leerplan [vak, graad] maak je: (1) de leerplandoelen die het artikel echt dekt, met uitleg waarom; (2) een voorkennisoefening; (3) drie invuloefeningen; (4) een rubric voor peer-evaluatie; (5) een korte toets met modeloplossing. Gebruik enkel feiten uit het artikel en markeer wat ik moet controleren.\nArtikel: [plak hier]"},
 ];
 
 const TOOLS = [
@@ -75,6 +92,9 @@ const TIPS = [
   {titel:"Laat een deel in de klas gebeuren",tekst:"Het denkwerk (plannen, eerste versie, kernredenering) gebeurt in de klas; thuis wordt afgewerkt.",vb:"De inleiding en het schema van een verslag worden in de les op papier gemaakt en afgegeven; thuis wordt het verslag uitgewerkt."},
   {titel:"Kies andere vormen dan een tekst",tekst:"Schema's op papier, een model, een presentatie met vragen uit de klas of een podcast met eigen stem zijn moeilijker volledig met AI te maken.",vb:"In plaats van een tekst over de waterkringloop maken leerlingen een schema op A3 en leggen ze het aan een medeleerling uit."},
   {titel:"Vraag een AI-vermelding",tekst:"Laat leerlingen onder hun werk vermelden of en hoe ze AI gebruikten. Dat maakt AI-gebruik bespreekbaar in plaats van verborgen.",vb:"'Ik gebruikte Copilot om ideeën te zoeken voor mijn titel. De tekst schreef ik zelf.'"},
+  {titel:"Denk in doelen, niet in middelen",tekst:"'Terug naar pen en papier' lost weinig op: thuis kan een leerling evengoed een AI-tekst overschrijven, en het bereidt niet voor op een wereld met AI. Vertrek van je leerdoel en kies dan pas de vorm.",vb:"Is het doel 'een betoog opbouwen', laat de leerling dan in de klas de argumentenkaart maken; het uitschrijven mag thuis, met AI als ondersteuning volgens het afgesproken label."},
+  {titel:"Je hoeft niet alles te controleren",tekst:"Deel een taak op in deelstappen en kies welke stap je echt opvolgt. Combineer je vakdoelen met AI-geletterdheid: een stap waarin AI mag, kan zelf leerstof worden.",vb:"Stap 1 bronnen zoeken (in de klas, opgevolgd), stap 2 een eerste versie met AI als inspiratie, stap 3 een kort procesgesprek over de keuzes."},
+  {titel:"Van 'cheatGPT' naar tutor",tekst:"Toon leerlingen het verschil tussen delegeren ('los dit op') en leren ('help me stap voor stap, maar geef de oplossing niet'). Een goede leerprompt laat de leerling zelf denken.",vb:"Bij een oefening wiskunde vraagt de leerling niet om de uitkomst, maar: 'Dit is mijn oplossing. Waar zit de fout? Geef een hint, niet het antwoord.' Spreek vooraf af of dit mag (AI-label)."},
 ];
 
 const FAQ = [
