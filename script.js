@@ -966,7 +966,24 @@ function renderStartTestQuiz(c){
 
 const m1 = [m1s0, m1s1, m1s2, m1s3, m1s4, m1s5, m1s6, m1s7, m1s8, m1s9, m1s_hallucinations_bias, m1s_ai_agents, m1s10, m1s11, m1s12];
 
-function rm1(){ const c=document.getElementById('m1c'); c.innerHTML=''; rDots(1,m1.length,S.mod1.step); m1[S.mod1.step](c); lockNextButtons(c); }
+/* ---- Navigatie: stapnummer en 'Volgende'-knop automatisch juist zetten ---- */
+const SLIDE_LABELS = {"renderStartTestQuiz": "Verplicht · 1 kans", "m1s0": "AI overal", "m1s1": "Introvideo", "m1s2": "Doe-opdracht", "m1s3": "Geschiedenis & GenAI", "m1s4": "Hallucinaties", "m1s5": "Doe-opdracht", "m1s6": "Kansen & gevaren", "m1s7": "Bias", "m1s8": "Deepfakes", "m1s9": "Hype of realiteit?", "m1s_hallucinations_bias": "Valkuilen", "m1s_ai_agents": "AI-Agents", "m1s10": "Reflectievragen", "m1s12": "Vertaalslag naar jouw vak", "m2a0": "De kern in 1 minuut", "m2a1": "Privacy in je dagelijkse werk", "m2a2": "Concreet voor jou", "m2a3": "Afronden", "m2mg0": "Jouw rol", "m2mg1": "EU AI Act artikel 4", "m2mg2": "Risicoclassificatie", "m2mg3": "Doe-opdracht", "m2mg4": "Afronden", "m2s0": "Het Beleidskader AI", "m2s1": "4 niet-onderhandelbare principes", "m2s2": "Goedgekeurde AI-tools", "m2s_casus": "Praktijkscenario's", "m2s4": "Spelregels & AI-labels", "m2s_leeftijd": "AI per leeftijdsfase", "m2s_extra_casussen": "Meer dilemma's", "m2s5": "Leerlingen begeleiden & evalueren", "m2s_leren": "Leren in plaats van delegeren", "m2s6": "AI-bestendig ontwerpen", "m2s_taakvoorbeeld": "Een AI-bestendige taak, uitgewerkt", "m2s7": "Mag het wel of niet?", "m2s9": "Praktijkscenario's & afronding", "m3s0": "Aan de slag", "m3s1": "Prompting", "m3s2": "Maakmodule", "m3s_praktijkprompts_teacher": "praktische prompts", "m3s3": "Differentiëren", "m3s_canvas": "Cursussen schrijven", "m3s4": "Quizzen & rubrics", "m3s5": "Agents", "m3s_casestudies_teacher": "case studies per vak", "m3s_onderzoek": "Onderzoek checken", "m3s_nascholingsideen_teacher": "Wat volgt?", "m3s7": "Slotreflectie", "m3a0": "Aan de slag", "m3a1": "Mails & Rapportages", "m3a_prompts_admin": "Praktische Prompts", "m3a2": "Efficiëncy & Automatisering", "m3a3": "GDPR & Afronding", "m3m0": "Strategisch", "m3m1": "Beleidsdocumenten", "m3m_prompts_mgmt": "Praktische Prompts", "m3m2": "Compliance & Implementatie", "m3m3": "GDPR & Afronding", "m2s8": "kennischeck", "m3s6": "praktijkvoorbeelden per vak"};
+function fixNav(c, arr, step){
+  try{
+    const tot = arr.length, nr = step + 1;
+    c.querySelectorAll('.s-badge').forEach(b=>{ b.innerHTML = b.innerHTML.replace(/Stap\s+[0-9a-z]+\s+van\s+\d+/i, 'Stap '+nr+' van '+tot); });
+    c.querySelectorAll('.nh').forEach(s=>{ s.textContent = s.textContent.replace(/Stap\s*\d+\s*\/\s*\d+/i, 'Stap '+nr+'/'+tot); });
+    const next = arr[step+1];
+    if(next){
+      const lab = SLIDE_LABELS[next.name];
+      c.querySelectorAll('.nw .sr-btn.g').forEach(btn=>{
+        if(/^\s*Volgende/.test(btn.textContent)) btn.textContent = lab ? 'Volgende: '+(/^[A-Z][a-zà-ÿ]/.test(lab)?lab.charAt(0).toLowerCase()+lab.slice(1):lab)+' →' : 'Volgende →';
+      });
+    }
+  }catch(e){ console.warn('fixNav', e); }
+}
+
+function rm1(){ const c=document.getElementById('m1c'); c.innerHTML=''; rDots(1,m1.length,S.mod1.step); m1[S.mod1.step](c); fixNav(c, m1, S.mod1.step); lockNextButtons(c); }
 function n1(){ S.mod1.step++; ss(); S.mod1.step>=m1.length ? d1() : rm1(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); }
 
 // Podcast players met audio controls
@@ -1579,7 +1596,7 @@ function sR1(){
    Management: bestuurlijke verantwoordelijkheid & EU AI Act art. 4 (5 stappen)
    ════════════════════════════════════════════ */
 
-const m2_teacher = [m2s0, m2s1, m2s2, m2s_casus, m2s4, m2s_leeftijd, m2s_extra_casussen, m2s5, m2s6, m2s7, m2s8, m2s9];
+const m2_teacher = [m2s0, m2s1, m2s2, m2s_casus, m2s4, m2s_leeftijd, m2s_extra_casussen, m2s5, m2s_leren, m2s6, m2s_taakvoorbeeld, m2s7, m2s8, m2s9];
 const m2_admin = [m2a0, m2a1, m2a2, m2a3];
 const m2_mgmt = [m2mg0, m2mg1, m2mg2, m2mg3, m2mg4];
 
@@ -1605,6 +1622,7 @@ function rm2(){
 
   rDots(2,m2.length,S.mod2.step);
   m2[S.mod2.step](c);
+  fixNav(c, m2, S.mod2.step);
   lockNextButtons(c);
 }
 
@@ -2292,9 +2310,34 @@ function m2s5(c){
 </div>`;
 }
 
+function m2s_leren(c){
+  c.innerHTML = `
+<div class="s-badge">🧭 Stap 9 van 14 · Leren in plaats van delegeren</div>
+<h2 class="ch2">Van "cheatGPT" naar <em>tutor</em></h2>
+<p class="cp">Leerlingen gebruiken AI al, of we het nu toelaten of niet. Het verschil zit in <strong>hoe</strong>: laten ze AI het werk doen, of helpt AI hen om zelf te leren? Dat verschil kan je leerlingen expliciet aanleren.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:16px 0;">
+<div style="background:rgba(224,32,32,0.08);border-left:4px solid var(--red);border-radius:8px;padding:14px;"><strong style="color:var(--red);font-size:11px;font-weight:800;text-transform:uppercase;">❌ Delegeren</strong><p style="font-size:12.5px;color:#3d4f8a;margin:8px 0 0;line-height:1.6;">"Dit is een foto van het vraagstuk. Los het op."<br><br>De leerling heeft een antwoord, maar heeft niets geleerd.</p></div>
+<div style="background:rgba(127,224,0,0.1);border-left:4px solid var(--green);border-radius:8px;padding:14px;"><strong style="color:var(--green);font-size:11px;font-weight:800;text-transform:uppercase;">✅ Leren</strong><p style="font-size:12.5px;color:#3d4f8a;margin:8px 0 0;line-height:1.6;">"Ik begrijp niet hoe ik dit moet oplossen. Help me stap voor stap, maar geef de oplossing niet."<br><br>De AI wordt een tutor die vragen stelt en hints geeft.</p></div>
+</div>
+<h3 class="ch3">📐 Voorbeeld 1: wiskunde, feedback op huiswerk</h3>
+<div style="background:white;border:1px solid #e0e4f5;border-radius:10px;padding:14px 16px;"><p style="font-size:12.5px;color:#3d4f8a;margin:8px 0 0;line-height:1.6;margin-top:0">De leerling maakt eerst zelf een oefening (bv. merkwaardige producten uitwerken), neemt een foto van het blad zonder naam en vraagt:</p>
+<pre style="white-space:pre-wrap;font-family:inherit;font-size:12.5px;background:#f0f2f5;border-radius:8px;padding:10px 12px;margin:8px 0 0;color:#06038D;">"Dit is de eerste oefening van mijn huiswerk wiskunde. Geef me feedback, maar niet de oplossing. Als ik een fout maak, wil ik die zelf verbeteren."</pre>
+<p style="font-size:12.5px;color:#3d4f8a;margin:8px 0 0;line-height:1.6;">De AI wijst aan bij welke stap het misloopt en geeft een hint. De leerling verbetert en stuurt de nieuwe versie terug.</p></div>
+<h3 class="ch3">🇫🇷 Voorbeeld 2: Frans, feedback op een tekst</h3>
+<div style="background:white;border:1px solid #e0e4f5;border-radius:10px;padding:14px 16px;"><p style="font-size:12.5px;color:#3d4f8a;margin:8px 0 0;line-height:1.6;margin-top:0">De leerling schrijft een tekst over de eigen slaapkamer en vraagt:</p>
+<pre style="white-space:pre-wrap;font-family:inherit;font-size:12.5px;background:#f0f2f5;border-radius:8px;padding:10px 12px;margin:8px 0 0;color:#06038D;">"Ik wil leren uit mijn fouten. Duid mijn fouten aan. Geef bij grammaticafouten niet meteen de juiste oplossing, maar leg uit, zodat ik zelf de juiste vorm vind. Vraag me daarna om mijn verbeterde tekst nog eens te geven."</pre>
+<p style="font-size:12.5px;color:#3d4f8a;margin:8px 0 0;line-height:1.6;">De AI legt uit welke regel speelt (bv. welk werkwoord je gebruikt om je leeftijd te zeggen) en laat de leerling zelf verbeteren.</p></div>
+<div class="ib warn"><div class="ib-t">📋 Spreek het af per opdracht</div><div class="ib-b">Leerlingen gebruiken AI enkel binnen de afspraken van de opdracht (AI-label), met Copilot via hun schoolaccount. Geen naam of andere persoonsgegevens op de foto of in de tekst. De leerling kan altijd uitleggen hoe AI gebruikt werd en wat de eigen inbreng was. Beide leerlingprompts vind je in de <a href="ai-op-school.html#prompts" target="_blank" rel="noopener">promptbibliotheek</a>.</div></div>
+<p class="cp">De kern: in het AI-tijdperk hebben leerlingen hun leraren <strong>méér</strong> nodig, niet minder. Voor begeleiding, goede instructies en zinvolle taken.</p>
+<div class="nw">
+  <button class="sr-btn b" onclick="p2()">← Vorige</button>
+  <button class="sr-btn g" onclick="n2()">Volgende →</button>
+</div>`;
+}
+
 function m2s6(c){
   c.innerHTML = `
-<div class="s-badge">🔧 Stap 9 van 12 · AI-bestendige Assignments</div>
+<div class="s-badge">🔧 Stap 9 van 12 · AI-bestendig ontwerpen</div>
 <h2 class="ch2">Opdrachten ontwerpen waar <em>AI geen voordeel geeft</em></h2>
 <p class="cp">In plaats van achteraf controleren of leerlingen AI gebruikten, beter: ontwerp opdrachten waar AI niet helpt, of waar eigenaarschap zichtbaar is. Hier zijn <strong>concrete vakgebied-voorbeelden</strong> van wat WEL en NIET door AI kan worden opgelost.</p>
 
@@ -2435,13 +2478,37 @@ Een zoekopdracht op ChatGPT verbruikt ongeveer <strong>25 keer meer energie</str
 
 <div style="background:rgba(127,224,0,0.1);border-left:4px solid var(--green);border-radius:8px;padding:14px 16px;margin:20px 0;">
   <div style="font-size:11px;font-weight:800;color:var(--blue);text-transform:uppercase;margin-bottom:4px;">🧰 Praktijkhulp</div>
-  <p style="font-size:13px;color:#3d4f8a;line-height:1.7;margin:0;">Wil je meteen aan de slag met je eigen opdrachten? In "AI-bestendige taken" vind je de vier AI-labels en tips met concrete voorbeelden. De klasposter met de AI-labels en de hoofding voor je examen of taak vind je bij <a href="index.html#docs" target="_blank" rel="noopener" style="color:var(--blue);font-weight:800;">Documenten</a>. <a href="ai-bestendige-taken.html" target="_blank" rel="noopener" style="color:var(--blue);font-weight:800;">Open AI-bestendige taken →</a></p>
+  <p style="font-size:13px;color:#3d4f8a;line-height:1.7;margin:0;">Wil je meteen aan de slag met je eigen opdrachten? In "AI-bestendige taken" vind je de vier AI-labels en tips met concrete voorbeelden. De klasposter met de AI-labels en de hoofding voor je examen of taak vind je bij <a href="index.html#docs" target="_blank" rel="noopener" style="color:var(--blue);font-weight:800;">Documenten</a>. <a href="ai-op-school.html#taken" target="_blank" rel="noopener" style="color:var(--blue);font-weight:800;">Open AI-bestendige taken →</a></p>
 </div>
 
 <div class="nw">
   <button class="sr-btn b" onclick="p2()">← Vorige</button>
   <button class="sr-btn g" onclick="n2()">Volgende: mag het wel/niet? →</button>
   <span class="nh">Stap 9/12</span>
+</div>`;
+}
+
+function m2s_taakvoorbeeld(c){
+  c.innerHTML = `
+<div class="s-badge">🧩 Stap 11 van 14 · Een AI-bestendige taak, uitgewerkt</div>
+<h2 class="ch2">Eén taak, <em>vier stappen</em>, telkens een duidelijk label</h2>
+<p class="cp">"Terug naar pen en papier" lijkt de oplossing, maar thuis kan een leerling evengoed een AI-tekst overschrijven. En het bereidt leerlingen niet voor op een wereld met AI. <strong>Denk in doelen, niet in middelen:</strong> deel de taak op in deelstappen en kies per stap hoeveel AI mag. Je hoeft niet alles te controleren, wel de stappen waar het leren zit.</p>
+<h3 class="ch3">📖 Voorbeeld: een betoog schrijven (Nederlands, 2de graad)</h3>
+<p class="cp" style="margin-top:0">Leerdoel: een standpunt innemen en onderbouwen met argumenten en tegenargumenten.</p>
+<div style="display:grid;gap:10px;margin:12px 0;">
+<div style="background:white;border:1px solid #e0e4f5;border-radius:10px;padding:14px 16px;"><div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;"><strong style="color:var(--blue);font-size:13px;">Stap 1 · in de klas</strong><span style="background:var(--blue);color:white;font-size:10.5px;font-weight:700;border-radius:20px;padding:2px 9px;">Label 1 · Verboden</span></div><p style="font-size:12.5px;color:#3d4f8a;margin:8px 0 0;line-height:1.6;">De leerling kiest een standpunt en maakt op papier een argumentenkaart. Hier zit het denkwerk, dus dit gebeurt zonder AI en onder jouw toezicht.</p></div>
+<div style="background:white;border:1px solid #e0e4f5;border-radius:10px;padding:14px 16px;"><div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;"><strong style="color:var(--blue);font-size:13px;">Stap 2 · thuis</strong><span style="background:var(--blue);color:white;font-size:10.5px;font-weight:700;border-radius:20px;padding:2px 9px;">Label 2 · Als inspiratie</span></div><p style="font-size:12.5px;color:#3d4f8a;margin:8px 0 0;line-height:1.6;">AI mag helpen zoeken naar tegenargumenten die de leerling nog niet bedacht. De leerling noteert welke prompt hij gebruikte en welke ideeën hij overnam.</p></div>
+<div style="background:white;border:1px solid #e0e4f5;border-radius:10px;padding:14px 16px;"><div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;"><strong style="color:var(--blue);font-size:13px;">Stap 3 · thuis</strong><span style="background:var(--blue);color:white;font-size:10.5px;font-weight:700;border-radius:20px;padding:2px 9px;">Label 3 · Als ondersteuning</span></div><p style="font-size:12.5px;color:#3d4f8a;margin:8px 0 0;line-height:1.6;">De leerling schrijft zelf de tekst uit. AI mag feedback geven op taal en structuur, maar de tekst niet herschrijven (zoals bij "Leren in plaats van delegeren").</p></div>
+<div style="background:white;border:1px solid #e0e4f5;border-radius:10px;padding:14px 16px;"><div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;"><strong style="color:var(--blue);font-size:13px;">Stap 4 · in de klas</strong><span style="background:var(--blue);color:white;font-size:10.5px;font-weight:700;border-radius:20px;padding:2px 9px;">Procesgesprek</span></div><p style="font-size:12.5px;color:#3d4f8a;margin:8px 0 0;line-height:1.6;">Een kort gesprek van twee minuten: "Waarom koos je dit argument? Wat veranderde je na de feedback?" Samen met de AI-vermelding onder de tekst toont dit het eigenaarschap.</p></div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:16px 0;">
+<div style="background:rgba(127,224,0,0.1);border-left:4px solid var(--green);border-radius:8px;padding:14px;"><strong style="color:var(--green);font-size:11px;font-weight:800;text-transform:uppercase;">✅ Wat je beoordeelt</strong><p style="font-size:12.5px;color:#3d4f8a;margin:8px 0 0;line-height:1.6;">De argumentenkaart, de eindtekst én het procesgesprek, met een rubric die je vooraf deelt. Zo telt het leerproces mee, niet enkel het product.</p></div>
+<div style="background:rgba(224,32,32,0.08);border-left:4px solid var(--red);border-radius:8px;padding:14px;"><strong style="color:var(--red);font-size:11px;font-weight:800;text-transform:uppercase;">❌ Wat je niet doet</strong><p style="font-size:12.5px;color:#3d4f8a;margin:8px 0 0;line-height:1.6;">De tekst door een AI-detector halen. Dat is onbetrouwbaar en ons beleid gebruikt het niet. Bij twijfel volgt een pedagogisch gesprek over het leerproces.</p></div>
+</div>
+<div class="ib warn"><div class="ib-t">💡 Zelf aan de slag</div><div class="ib-b">De vier AI-labels, de klasposter, de hoofding voor taken en meer tips met voorbeelden vind je bij <a href="ai-op-school.html#taken" target="_blank" rel="noopener">AI-bestendige taken</a>.</div></div>
+<div class="nw">
+  <button class="sr-btn b" onclick="p2()">← Vorige</button>
+  <button class="sr-btn g" onclick="n2()">Volgende →</button>
 </div>`;
 }
 
@@ -2459,7 +2526,7 @@ function m2s7(c){
 
 <div style="background:rgba(127,224,0,0.1);border-left:4px solid var(--green);border-radius:8px;padding:14px 16px;margin:20px 0;">
   <div style="font-size:11px;font-weight:800;color:var(--blue);text-transform:uppercase;margin-bottom:4px;">🧰 Praktijkhulp</div>
-  <p style="font-size:13px;color:#3d4f8a;line-height:1.7;margin:0;">Twijfel je in de praktijk over een tool? De Toolchecker toont per tool of hij goedgekeurd is, enkel anoniem mag of niet toegelaten is. Twijfel je of je iets mag ingeven of uploaden? Doorloop dan de beslisboom. <a href="ai-op-school.html#tools" target="_blank" rel="noopener" style="color:var(--blue);font-weight:800;">Open de Toolchecker →</a> &nbsp;·&nbsp; <a href="mag-ik-dit-met-ai.html" target="_blank" rel="noopener" style="color:var(--blue);font-weight:800;">Mag ik dit met AI? →</a></p>
+  <p style="font-size:13px;color:#3d4f8a;line-height:1.7;margin:0;">Twijfel je in de praktijk over een tool? De Toolchecker toont per tool of hij goedgekeurd is, enkel anoniem mag of niet toegelaten is. Twijfel je of je iets mag ingeven of uploaden? Doorloop dan de beslisboom. <a href="ai-op-school.html#tools" target="_blank" rel="noopener" style="color:var(--blue);font-weight:800;">Open de Toolchecker →</a> &nbsp;·&nbsp; <a href="ai-op-school.html#beslisboom" target="_blank" rel="noopener" style="color:var(--blue);font-weight:800;">Mag ik dit met AI? →</a></p>
 </div>
 
 <div class="nw">
@@ -2541,7 +2608,7 @@ function sR3(){
 
 // TEACHER VERSION (huidige)
 // TEACHER VERSION — 10 stappen (incl praktische prompts + nascholingsideeën)
-const m3_teacher = [m3s0, m3s1, m3s2, m3s_praktijkprompts_teacher, m3s3, m3s4, m3s5, m3s6, m3s_casestudies_teacher, m3s_nascholingsideen_teacher, m3s7];
+const m3_teacher = [m3s0, m3s1, m3s2, m3s_praktijkprompts_teacher, m3s3, m3s_canvas, m3s4, m3s5, m3s6, m3s_casestudies_teacher, m3s_onderzoek, m3s_nascholingsideen_teacher, m3s7];
 
 // ADMIN VERSION (5 stappen: intro + 3 use cases + prompts + reflectie)
 const m3_admin = [m3a0, m3a1, m3a_prompts_admin, m3a2, m3a3];
@@ -2571,6 +2638,7 @@ function rm3(){
   
   rDots(3, m3.length, S.mod3.step);
   m3[S.mod3.step](c);
+  fixNav(c, m3, S.mod3.step);
   lockNextButtons(c);
 }
 
@@ -2629,6 +2697,10 @@ ${renderPromptComparison()}
 <p class="cp">Vul de 5 velden hieronder in voor een prompt die je écht zou gebruiken in jouw vak. Onderaan zie je de volledige prompt samengevoegd — die kan je meteen kopiëren naar Copilot.</p>
 <div id="promptbuilder"></div>
 
+<h3 class="ch3">⚡ Geen tijd? Laat AI je prompt schrijven</h3>
+<p class="cp">Vraag eerst: "Schrijf voor mij een sterke prompt voor [taak] voor [graad/jaar/vak]. Stel me eerst maximaal 3 vragen." Lees de prompt na, pas aan waar nodig en gebruik hem dan. Zo krijg je een rijke prompt zonder alles zelf te typen.</p>
+<div class="ib warn"><div class="ib-t">🗑️ Vermijd AI-slop</div><div class="ib-b">Te snel prompten levert vlakke, algemene en soms foute inhoud op ("AI-slop"). Pedagogische begeleiders merken dat de kwaliteit van lesmateriaal daardoor kan dalen. Houd de kwaliteit hoog met drie gewoontes: <strong>sterke prompts delen in je vakgroep</strong>, het resultaat <strong>zelf redigeren</strong>, en belangrijk materiaal laten nalezen door een collega (<strong>vierogenprincipe</strong>).</div></div>
+
 <div class="nw">
   <button class="sr-btn b" onclick="p3()">← Vorige</button>
   <button class="sr-btn g" onclick="n3()">Volgende: Maakmodule →</button>
@@ -2650,6 +2722,13 @@ function m3s2(c){
   <div class="ib-b">AI-beeldgeneratoren maken regelmatig spelfouten in tekst die op een afbeelding staat. Controleer dit altijd, en gebruik de optie <strong>Edit Text</strong> om de tekst handmatig te corrigeren vóór je het beeld effectief gebruikt in de klas — zoals hieronder, waar een infographic over generatieve AI achteraf wordt bewerkt.</div>
 </div>
 <img src="img/copilot-beeld-bewerken.png" alt="Tekst in een AI-gegenereerd beeld bewerken" style="width:100%;max-width:600px;display:block;margin:16px auto;border-radius:10px;border:1px solid #e0e4f5;box-shadow:0 2px 10px rgba(10,31,168,0.08);">
+
+<h3 class="ch3">🖼️ AI-beelden in je lesmateriaal</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:12px 0;">
+<div style="background:rgba(127,224,0,0.1);border-left:4px solid var(--green);border-radius:8px;padding:14px;"><strong style="color:var(--green);font-size:11px;font-weight:800;text-transform:uppercase;">✅ Werkt goed</strong><p style="font-size:12.5px;color:#3d4f8a;margin:8px 0 0;line-height:1.6;">Een schema of stappenplan, een beeld bij moeilijke schooltaalwoorden (verklaren, samenvatten, toepassen …) of een reeks prenten die leerlingen in de juiste volgorde leggen. Afgedrukt werkt dat ook perfect offline.</p></div>
+<div style="background:white;border:1px solid #e0e4f5;border-radius:10px;padding:14px 16px;border-left:4px solid var(--orange);"><strong style="color:var(--orange);font-size:11px;font-weight:800;text-transform:uppercase;">🔍 Altijd nakijken</strong><p style="font-size:12.5px;color:#3d4f8a;margin:8px 0 0;line-height:1.6;">Labels en details kloppen vaak niet, bv. een fiets met onderdelen op de verkeerde plaats. Controleer elk beeld en zet klein onderaan: "AI gegenereerd beeld".</p></div>
+<div style="background:rgba(224,32,32,0.08);border-left:4px solid var(--red);border-radius:8px;padding:14px;"><strong style="color:var(--red);font-size:11px;font-weight:800;text-transform:uppercase;">❌ Nooit</strong><p style="font-size:12.5px;color:#3d4f8a;margin:8px 0 0;line-height:1.6;">Foto's van leerlingen in een AI-tool, of beelden en stemmen van leerlingen of collega's manipuleren.</p></div>
+</div>
 
 <div class="nw">
   <button class="sr-btn b" onclick="p3()">← Vorige</button>
@@ -2863,7 +2942,7 @@ Weet je niet hoe je iets moet vragen? Vraag AI dan gewoon: "Wat zou een goede pr
 
 <div style="background:rgba(127,224,0,0.1);border-left:4px solid var(--green);border-radius:8px;padding:14px 16px;margin:20px 0;">
   <div style="font-size:11px;font-weight:800;color:var(--blue);text-transform:uppercase;margin-bottom:4px;">🧰 Praktijkhulp</div>
-  <p style="font-size:13px;color:#3d4f8a;line-height:1.7;margin:0;">Meer prompts, per vak (Nederlands, wiskunde, wetenschappen, talen, geschiedenis...), vind je in de Promptbibliotheek. Zoeken en kopiëren met één klik. <a href="promptbibliotheek.html" target="_blank" rel="noopener" style="color:var(--blue);font-weight:800;">Open de Promptbibliotheek →</a></p>
+  <p style="font-size:13px;color:#3d4f8a;line-height:1.7;margin:0;">Meer prompts, per vak (Nederlands, wiskunde, wetenschappen, talen, geschiedenis...), vind je in de Promptbibliotheek. Zoeken en kopiëren met één klik. <a href="ai-op-school.html#prompts" target="_blank" rel="noopener" style="color:var(--blue);font-weight:800;">Open de Promptbibliotheek →</a></p>
 </div>
 
 <div class="nw">
@@ -2887,6 +2966,30 @@ function m3s3(c){
 <div class="nw">
   <button class="sr-btn b" onclick="p3()">← Vorige</button>
   <button class="sr-btn g" onclick="n3()">Volgende: quizzen en rubrics →</button>
+</div>`;
+}
+
+function m3s_canvas(c){
+  c.innerHTML = `
+<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">📄 Stap 6 van 14 · Cursussen schrijven</span></div>
+<h2 class="ch2">Cursussen schrijven in een <em>canvas</em></h2>
+<p class="cp">In een canvas verschijnt de tekst als een document naast de chat. Je schrijft niet telkens alles opnieuw, maar werkt gericht verder: een stuk selecteren en vragen om het eenvoudiger te maken, een paragraaf toevoegen of controlevragen invoegen. Zo groeit een cursustekst stap voor stap, en blijf jij de auteur.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:14px 0;">
+<div style="background:white;border:1px solid #e0e4f5;border-radius:10px;padding:14px 16px;"><strong style="color:var(--blue);font-size:13px;">1. Opzet</strong><p style="font-size:12.5px;color:#3d4f8a;margin:8px 0 0;line-height:1.6;">Geef doel, doelgroep en leerplandoel en vraag een opbouw met tussentitels.</p></div>
+<div style="background:white;border:1px solid #e0e4f5;border-radius:10px;padding:14px 16px;"><strong style="color:var(--blue);font-size:13px;">2. Inhoud</strong><p style="font-size:12.5px;color:#3d4f8a;margin:8px 0 0;line-height:1.6;">Laat per paragraaf schrijven en lees elke paragraaf kritisch na.</p></div>
+<div style="background:white;border:1px solid #e0e4f5;border-radius:10px;padding:14px 16px;"><strong style="color:var(--blue);font-size:13px;">3. Bijwerken</strong><p style="font-size:12.5px;color:#3d4f8a;margin:8px 0 0;line-height:1.6;">Selecteer een stuk en vraag gericht: eenvoudiger, korter, een voorbeeld erbij.</p></div>
+<div style="background:white;border:1px solid #e0e4f5;border-radius:10px;padding:14px 16px;"><strong style="color:var(--blue);font-size:13px;">4. Afwerken</strong><p style="font-size:12.5px;color:#3d4f8a;margin:8px 0 0;line-height:1.6;">Exporteer naar Word, controleer de feiten en voeg de AI-vermelding toe.</p></div>
+</div>
+<div class="ib warn"><div class="ib-t">🧰 Welke tool?</div><div class="ib-b">ChatGPT heeft zo'n canvas en staat op onze lijst van toegelaten toepassingen. Gebruik er wel enkel anonieme tekst in: of je er schooldocumenten in mag uploaden, hangt af van de versie (gratis of betalend) en is nog na te kijken. Werk je met schooldocumenten, gebruik dan Copilot met je schoolaccount.</div></div>
+
+<h3 class="ch3">🎬 Een video wordt lesmateriaal</h3>
+<p class="cp">Een video is meer dan een popcornmoment. Neem de transcriptie van de video en laat er inhoudsvragen, een chronologisch overzicht en een begrippenlijst van maken. Daarna kan je er nog een werkvorm van maken, bv. een Cornell-schema in twee versies voor partnerwerk.</p>
+<h3 class="ch3">📰 Eén artikel, een heel lespakket</h3>
+<p class="cp">Uit één actueel krantenartikel kan AI in één keer leerplandoelen, een voorkennisoefening, invuloefeningen, een peer-evaluatierubric en een toets met modeloplossing voorstellen. Controleer zelf of de gekozen leerplandoelen echt gedekt zijn: dat blijft jouw professionele oordeel. Elke tool verwacht ook zijn eigen formaat; vraag het meteen goed, bv. een gatenoefening voor BookWidgets.</p>
+<p class="cp">Startprompts voor de canvas, de video en het artikel vind je in de <a href="ai-op-school.html#prompts" target="_blank" rel="noopener">promptbibliotheek</a>. Vermeld in je cursus bv.: "Deze tekst werd gedeeltelijk gegenereerd met AI."</p>
+<div class="nw">
+  <button class="sr-btn b" onclick="p3()">← Vorige</button>
+  <button class="sr-btn g" onclick="n3()">Volgende →</button>
 </div>`;
 }
 
@@ -2914,6 +3017,10 @@ function m3s5(c){
   <div class="ib-t">⚠️ Voorzichtig met agents die leerlingen zelf gebruiken</div>
   <div class="ib-b">Test een agent altijd grondig zelf vóór je hem aan leerlingen voorstelt: probeer hem "uit te lokken" buiten zijn bedoeld gebruik, en controleer of hij binnen de schoolomgeving (met het schild-icoon) blijft werken. Bij twijfel overleg je met je pedagogisch ICT-coördinator vóór je een agent klasbreed inzet.</div>
 </div>
+
+<h3 class="ch3">🤝 Deel je agent met je vakgroep</h3>
+<p class="cp">Een goede prompt schrijf je één keer en gebruik je daarna samen. Bouw een agent met de vaste afspraken van je vakgroep (leerplan, doelgroep, taal en opmaak) en deel hem met je collega's. Zo bouwt de vakgroep een eigen databank op, en krijgt iedereen materiaal van dezelfde kwaliteit. Startinstructies vind je in de <a href="ai-op-school.html#prompts" target="_blank" rel="noopener">promptbibliotheek</a> ("Instructies voor een vakgroep-agent").</p>
+<div class="ib warn"><div class="ib-t">🔒 Let op bij het delen</div><div class="ib-b">Zet geen persoonsgegevens of vertrouwelijke info in de instructies of in gedeelde gesprekken. Wat je deelt, kunnen je collega's lezen.</div></div>
 
 <div class="nw">
   <button class="sr-btn b" onclick="p3()">← Vorige</button>
@@ -3013,6 +3120,21 @@ function m3s_casestudies_teacher(c){
 <div class="nw">
   <button class="sr-btn b" onclick="p3()">← Vorige</button>
   <button class="sr-btn g" onclick="n3()">Volgende: nascholingsideeën →</button>
+</div>`;
+}
+
+function m3s_onderzoek(c){
+  c.innerHTML = `
+<div><span class="opt-badge">⭐ Optioneel</span><span class="s-badge">🔎 Stap 11 van 14 · Onderzoek checken</span></div>
+<h2 class="ch2">Klopt dat onderwijsidee <em>wel</em>?</h2>
+<p class="cp">Veel onderwijsideeën klinken logisch maar hebben weinig bewijs. Het bekendste voorbeeld: <strong>leerstijlen</strong> (visueel, auditief, kinesthetisch …). Met AI die op het web kan zoeken, krijg je snel een overzicht van wat onderzoek zegt, ook als je geen onderzoeker bent.</p>
+<div class="ib warn"><div class="ib-t">⚠️ Tel niet, weeg</div><div class="ib-b">"Veel papers zeggen ja" betekent nog niet dat het bewijs sterk is. Vraag uitdrukkelijk naar reviews en meta-analyses, en lees de belangrijkste bronnen zelf na. AI kan voor jou zoeken en redeneren, maar cognitieve luiheid loert om de hoek.</div></div>
+<h3 class="ch3">🧪 Vragen om mee te starten</h3>
+<div style="background:white;border:1px solid #e0e4f5;border-radius:10px;padding:14px 16px;"><ul style="font-size:12.5px;color:#3d4f8a;margin:8px 0 0;line-height:1.6;margin:0;padding-left:18px;"><li>Werkt huiswerk eigenlijk?</li><li>Is markeren in een tekst een goede leerstrategie?</li><li>Lezen leerlingen beter op papier dan op een scherm?</li><li>Helpt het tekenen van schema's om fysica beter te begrijpen?</li><li>Verbetert hardop denken het begrijpend lezen?</li></ul></div>
+<p class="cp">Een kant-en-klare prompt ("Klopt dit onderwijsidee?") staat in de <a href="ai-op-school.html#prompts" target="_blank" rel="noopener">promptbibliotheek</a>. Gebruik Copilot met je schoolaccount; tools die niet op onze lijst staan, gebruik je niet zonder goedkeuring.</p>
+<div class="nw">
+  <button class="sr-btn b" onclick="p3()">← Vorige</button>
+  <button class="sr-btn g" onclick="n3()">Volgende →</button>
 </div>`;
 }
 

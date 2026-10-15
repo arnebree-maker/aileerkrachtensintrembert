@@ -106,6 +106,42 @@ footer p{margin:.2rem 0 0;font-size:.93rem}
 footer a{color:var(--groen);font-weight:600}
 @media (max-width:620px){.intro{grid-template-columns:1fr}.intro svg{display:none}.chev{display:none}footer{grid-template-columns:1fr}}
 .topbar{display:flex;flex-wrap:wrap;gap:1.25rem;font-size:.9rem;margin:0 0 1.25rem}.topbar a{color:var(--groen);font-weight:600;text-decoration:none}.topbar a:hover{text-decoration:underline}
+
+/* ---- beslisboom (Mag ik dit?) ---- */
+#beslisboom .bb-kaart{background:var(--wit);color:var(--blauw);border-radius:28px;padding:1.75rem 1.5rem;max-width:760px}
+#beslisboom .bb-stap{font-weight:700;font-size:.8rem;text-transform:uppercase;letter-spacing:.15em;opacity:.7;margin:0 0 .5rem}
+#beslisboom .vraag{font-weight:700;font-size:clamp(1.15rem,3vw,1.4rem);line-height:1.3;margin:0 0 .5rem}
+#beslisboom .hint{margin:0 0 1.25rem;font-size:.95rem}
+#beslisboom .opties{display:grid;gap:.75rem}
+#beslisboom .optie{font:inherit;font-weight:600;text-align:left;cursor:pointer;background:var(--wit);color:var(--blauw);border:2px solid var(--blauw);border-radius:20px;padding:.9rem 1.1rem;display:flex;align-items:center;gap:.75rem;transition:background .15s}
+#beslisboom .optie:hover{background:var(--groen)}
+#beslisboom .optie .pijl{margin-left:auto;flex:none;width:18px;height:18px}
+#beslisboom .resultaat{border-radius:28px;padding:1.75rem 1.5rem;max-width:760px}
+#beslisboom .resultaat.wel{background:var(--groen);color:var(--blauw)}
+#beslisboom .resultaat.niet{background:var(--blauw);color:var(--wit);border:3px solid var(--wit)}
+#beslisboom .resultaat.twijfel{background:var(--wit);color:var(--blauw);border:6px solid var(--groen)}
+#beslisboom .resultaat .kop{display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem}
+#beslisboom .resultaat .icoon{width:44px;height:44px;flex:none}
+#beslisboom .resultaat h3{margin:0;font-weight:800;text-transform:uppercase;font-size:clamp(1.3rem,3.6vw,1.8rem);line-height:1.15}
+#beslisboom .resultaat p{margin:.5rem 0}
+#beslisboom .resultaat ul{margin:.5rem 0;padding-left:1.2rem}
+#beslisboom .tips{margin-top:1rem;padding-top:1rem;border-top:2px solid currentColor}
+#beslisboom .tips h4{margin:0 0 .25rem;font-size:1rem;font-weight:700}
+#beslisboom .pad{margin-top:1.25rem;font-size:.9rem;max-width:760px}
+#beslisboom .pad h4{margin:0 0 .4rem;font-size:.9rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em}
+#beslisboom .pad ol{margin:0;padding-left:1.2rem}
+#beslisboom .pad span{font-weight:600}
+#beslisboom .acties{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.25rem}
+#beslisboom .knop{font:inherit;font-weight:700;cursor:pointer;border-radius:999px;padding:.7rem 1.3rem;border:2px solid var(--wit);background:transparent;color:var(--wit)}
+#beslisboom .knop:disabled{opacity:.4;cursor:default}
+#beslisboom .verder{margin-top:1.5rem;font-size:.95rem}
+#beslisboom .verder a, .route a{color:var(--groen);font-weight:700}
+.route{margin:-.75rem 0 1.25rem;font-size:.92rem;opacity:.95;max-width:75ch}
+/* ---- uitgewerkt voorbeeld taak ---- */
+.vb-taak{display:grid;gap:.75rem;margin:1rem 0 2rem}
+.vb-taak .kaart{padding:1.1rem 1.25rem}
+.vb-taak .lbl{display:inline-block;font-size:.78rem;font-weight:700;border-radius:999px;padding:.15rem .65rem;background:var(--blauw);color:var(--wit);margin-left:.4rem}
+.vb-taak p{margin:.35rem 0 0}
 </style>
 </head>
 <body>
@@ -118,11 +154,37 @@ footer a{color:var(--groen);font-weight:600}
 </header>
 
 <nav role="tablist" aria-label="Onderdelen">
-  <button role="tab" data-tab="prompts">Promptbibliotheek</button>
-  <button role="tab" data-tab="tools">Toolchecker</button>
-  <button role="tab" data-tab="taken">AI-bestendige taken</button>
-  <button role="tab" data-tab="vragen">Vragenbox</button>
+  <button role="tab" data-tab="beslisboom">1. Mag ik dit?</button>
+  <button role="tab" data-tab="tools">2. Welke tool?</button>
+  <button role="tab" data-tab="prompts">3. Prompts</button>
+  <button role="tab" data-tab="taken">4. Taken ontwerpen</button>
+  <button role="tab" data-tab="vragen">Vragen</button>
 </nav>
+<p class="route">Werk in deze volgorde: check eerst <b>of</b> je iets mag ingeven, kies dan <b>welke tool</b>, gebruik een sterke <b>prompt</b>, en ontwerp je <b>taken</b> zo dat het leren zichtbaar blijft. Staat je vraag er niet bij? Stel ze bij <a href="#vragen">Vragen</a>.</p>
+
+<!-- ================= BESLISBOOM ================= -->
+<section id="beslisboom" role="tabpanel" hidden>
+  <div class="intro">
+    <div><h2>Mag ik dit met AI?</h2><p>Twijfel je of je iets mag ingeven, uploaden of gebruiken in een AI-tool? Beantwoord een paar korte vragen en je weet meteen waar je staat.</p></div>
+    <svg viewBox="0 0 140 120" role="img" aria-label="Vriendelijke computer">
+      <rect x="20" y="10" width="100" height="72" rx="14" fill="#fff"/>
+      <rect x="30" y="20" width="80" height="52" rx="8" fill="#95D600"/>
+      <circle cx="55" cy="42" r="6" fill="#06038D"/><circle cx="85" cy="42" r="6" fill="#06038D"/>
+      <circle cx="57" cy="40" r="2" fill="#fff"/><circle cx="87" cy="40" r="2" fill="#fff"/>
+      <path d="M58 56 Q70 66 82 56" stroke="#06038D" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <rect x="60" y="82" width="20" height="12" fill="#fff"/>
+      <rect x="35" y="94" width="70" height="12" rx="6" fill="#fff"/>
+      <path d="M120 40 q14 -6 12 -22" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <circle cx="132" cy="16" r="6" fill="#95D600"/>
+    </svg>
+  </div>
+  <div id="scherm" aria-live="polite"></div>
+  <div class="acties">
+    <button class="knop" id="terug">Vorige vraag</button>
+    <button class="knop" id="opnieuw">Opnieuw beginnen</button>
+  </div>
+  <p class="verder">Mag het? Kijk dan welke <a href="#tools">tool</a> je gebruikt, en neem een <a href="#prompts">prompt</a> als vertrekpunt.</p>
+</section>
 
 <!-- ================= PROMPTS ================= -->
 <section id="prompts" role="tabpanel" hidden>
@@ -142,7 +204,7 @@ footer a{color:var(--groen);font-weight:600}
 <!-- ================= TOOLS ================= -->
 <section id="tools" role="tabpanel" hidden>
   <div class="intro">
-    <div><h2>Toolchecker</h2><p>Welke AI-tools mag je gebruiken, en hoe? Twijfel je over een specifieke situatie, raadpleeg dan de <a href="index.html#samenvatting" style="color:var(--groen);font-weight:600">beslismatrix in de samenvatting</a>.</p></div>
+    <div><h2>Toolchecker</h2><p>Welke AI-tools mag je gebruiken, en hoe? Twijfel je over een specifieke situatie (persoonsgegevens, documenten, foto's)? Doorloop dan eerst <a href="#beslisboom" style="color:var(--groen);font-weight:600">Mag ik dit?</a></p></div>
     <svg viewBox="0 0 140 120" role="img" aria-label="Illustratie: vergrootglas over een scherm"><rect x="14" y="16" width="92" height="66" rx="12" fill="#fff"/><rect x="24" y="26" width="72" height="46" rx="6" fill="#06038D"/><polyline points="38,50 48,60 70,38" fill="none" stroke="#95D600" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="100" cy="78" r="20" fill="none" stroke="#95D600" stroke-width="8"/><path d="M114 92 L130 108" stroke="#95D600" stroke-width="10" stroke-linecap="round"/></svg>
   </div>
   <div class="legenda">
@@ -168,6 +230,15 @@ footer a{color:var(--groen);font-weight:600}
     <div><b>2. Als inspiratie</b><p>AI mag helpen brainstormen of structureren, niet schrijven.</p></div>
     <div><b>3. Als ondersteuning</b><p>AI mag helpen bij onderdelen; leerlingen vermelden waarvoor en hoe.</p></div>
     <div><b>4. Toegestaan</b><p>AI mag ingezet worden; werken met AI kan zelfs de opdracht zijn, bv. AI-output verbeteren of beoordelen.</p></div>
+  </div>
+
+  <h2 class="sec">Uitgewerkt voorbeeld: een betoog in vier stappen</h2>
+  <p style="margin:0;max-width:70ch">"Terug naar pen en papier" lost weinig op: thuis kan een leerling evengoed een AI-tekst overschrijven. Denk in doelen, niet in middelen: deel de taak op en kies per stap hoeveel AI mag. Voorbeeld voor Nederlands, 2de graad. Leerdoel: een standpunt onderbouwen met argumenten en tegenargumenten.</p>
+  <div class="vb-taak">
+    <div class="kaart"><b>Stap 1 · in de klas</b><span class="lbl">1 · Verboden</span><p>De leerling kiest een standpunt en maakt op papier een argumentenkaart. Hier zit het denkwerk.</p></div>
+    <div class="kaart"><b>Stap 2 · thuis</b><span class="lbl">2 · Als inspiratie</span><p>AI mag tegenargumenten voorstellen. De leerling noteert de prompt en welke ideeën hij overnam.</p></div>
+    <div class="kaart"><b>Stap 3 · thuis</b><span class="lbl">3 · Als ondersteuning</span><p>De leerling schrijft de tekst zelf. AI mag feedback geven op taal en structuur, maar niet herschrijven (prompt "Voor leerlingen: feedback zonder de oplossing").</p></div>
+    <div class="kaart groen"><b>Stap 4 · in de klas: procesgesprek</b><p>Twee minuten: "Waarom koos je dit argument? Wat veranderde je na de feedback?" Je beoordeelt kaart, tekst en gesprek met een rubric die je vooraf deelt. Geen AI-detector: bij twijfel volgt een pedagogisch gesprek.</p></div>
   </div>
 
   <h2 class="sec">Tips met voorbeelden</h2>
@@ -217,9 +288,11 @@ function toonTab(id){
   tabs.forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===id));
   document.querySelectorAll('section[role=tabpanel]').forEach(s=>s.hidden=s.id!==id);
   if(location.hash!=='#'+id) history.replaceState(null,'','#'+id);
+  window.scrollTo({top:0});
 }
 tabs.forEach(b=>b.addEventListener('click',()=>toonTab(b.dataset.tab)));
-const start=location.hash.slice(1); toonTab(tabs.some(t=>t.dataset.tab===start)?start:'prompts');
+function vanHash(){const s=location.hash.slice(1);toonTab(tabs.some(t=>t.dataset.tab===s)?s:'beslisboom');}
+vanHash();window.addEventListener('hashchange',()=>{vanHash();window.scrollTo({top:0});});
 
 /* ---------- prompts ---------- */
 const vakken=['Alle vakken tonen',...new Set(PROMPTS.map(p=>p.vak))];
@@ -275,6 +348,187 @@ $('#verstuur').addEventListener('click',()=>{
   location.href=maakMailUrl(t,$('#vraagcat').value);
   m.textContent='Je mailprogramma opent met je vraag. Verstuur ze daar.';
 });
+</script>
+<script>
+(function(){
+/* ============ AANPASSEN ============
+   Alle teksten van de beslisboom staan hieronder. */
+const CONFIG = {
+  contact: "je AI-aanspreekpunt of de ICT-coördinator van je school",
+  professionaliseringLink: "", // bv. link naar de nascholing; leeg = niet tonen
+};
+
+const BOOM = {
+  start: {
+    vraag: "Wat wil je aan de AI-tool geven?",
+    opties: [
+      { tekst: "Een vraag of tekst die ik zelf typ", naar: "persTekst" },
+      { tekst: "Een document of bestand (bv. toets, verslag, lesplan)", naar: "persDoc" },
+      { tekst: "Een foto of ander beeld", naar: "foto" },
+    ],
+  },
+  foto: {
+    vraag: "Staan er leerlingen of andere herkenbare personen op het beeld?",
+    opties: [
+      { tekst: "Ja", naar: "R_foto" },
+      { tekst: "Nee, er staan geen personen op", naar: "tool" },
+    ],
+  },
+  persTekst: {
+    vraag: "Staan er persoonsgegevens in je tekst?",
+    hint: "Denk aan namen, punten, adressen, e-mailadressen, of informatie over gezondheid, gedrag of thuissituatie van leerlingen, ouders of collega's.",
+    opties: [
+      { tekst: "Nee, alles is anoniem", naar: "output" },
+      { tekst: "Ja", naar: "anonTekst" },
+    ],
+  },
+  anonTekst: {
+    vraag: "Kun je die gegevens eerst weglaten of vervangen?",
+    hint: "Bijvoorbeeld 'leerling A' in plaats van een naam, en zonder details waaruit je iemand kunt herkennen.",
+    opties: [
+      { tekst: "Ja, ik maak het eerst anoniem", naar: "output", tip: "Maak je tekst eerst volledig anoniem voor je hem ingeeft." },
+      { tekst: "Nee, de gegevens zijn nodig", naar: "R_pers" },
+    ],
+  },
+  persDoc: {
+    vraag: "Staan er persoonsgegevens in het document?",
+    hint: "Denk aan namen, punten, adressen, e-mailadressen, of informatie over gezondheid, gedrag of thuissituatie van leerlingen, ouders of collega's.",
+    opties: [
+      { tekst: "Nee, het document is anoniem", naar: "tool" },
+      { tekst: "Ja", naar: "anonDoc" },
+    ],
+  },
+  anonDoc: {
+    vraag: "Kun je die gegevens eerst uit het document halen?",
+    opties: [
+      { tekst: "Ja, ik maak een anonieme versie", naar: "tool", tip: "Upload alleen de anonieme versie van je document." },
+      { tekst: "Nee, de gegevens zijn nodig", naar: "R_pers" },
+    ],
+  },
+  tool: {
+    vraag: "In welke AI-tool wil je het bestand gebruiken?",
+    opties: [
+      { tekst: "Copilot M365 met mijn schoolaccount", naar: "output" },
+      { tekst: "Een andere tool die de school goedkeurde", naar: "output" },
+      { tekst: "Een gratis tool (bv. gratis ChatGPT of Gemini)", naar: "R_gratis" },
+      { tekst: "Ik weet niet of de tool goedgekeurd is", naar: "R_toolTwijfel" },
+    ],
+  },
+  output: {
+    vraag: "Ga je wat de AI teruggeeft zelf nalezen, controleren en aanpassen voor je het gebruikt?",
+    opties: [
+      { tekst: "Ja, ik controleer alles", naar: "meerwaarde" },
+      { tekst: "Nee, ik neem het zo over", naar: "R_kritiekloos" },
+    ],
+  },
+  meerwaarde: {
+    vraag: "Maakt AI het resultaat hier echt beter voor je onderwijs?",
+    hint: "Bijvoorbeeld: betere lesvoorbereiding, sneller en rijker feedback geven, of tijd winnen die naar je leerlingen gaat.",
+    opties: [
+      { tekst: "Ja", naar: "R_ok" },
+      { tekst: "Ik twijfel", naar: "R_meerwaarde" },
+    ],
+  },
+
+  /* ---------- UITKOMSTEN: soort = wel | niet | twijfel ---------- */
+  R_ok: {
+    soort: "wel", titel: "Dit mag",
+    tekst: "Je gebruikt AI veilig en met meerwaarde. Goed bezig!",
+    lijst: ["Blijf zelf verantwoordelijk voor het eindresultaat.", "Wees open over je AI-gebruik als dat relevant is, bv. naar leerlingen of collega's."],
+  },
+  R_meerwaarde: {
+    soort: "twijfel", titel: "Mag, maar denk even na",
+    tekst: "Je gebruik is veilig, maar de meerwaarde is nog niet duidelijk. Gebruik AI enkel als het echt bijdraagt aan goed onderwijs.",
+    lijst: ["Vraag je af wat AI toevoegt ten opzichte van zelf doen.", "Twijfel je nog? Bespreek het met " + CONFIG.contact + "."],
+  },
+  R_toolTwijfel: {
+    soort: "twijfel", titel: "Eerst navragen",
+    tekst: "Gebruik de tool pas als je zeker weet dat ze goedgekeurd is. Tot dan kun je Copilot M365 met je schoolaccount gebruiken.",
+    lijst: ["Vraag na bij " + CONFIG.contact + "."],
+  },
+  R_foto: {
+    soort: "niet", titel: "Dit mag niet",
+    tekst: "Foto's van leerlingen (of andere herkenbare personen) upload je niet naar AI-tools.",
+    lijst: ["Gebruik beelden zonder herkenbare personen.", "Laat AI een afbeelding maken in plaats van een echte foto te uploaden."],
+  },
+  R_pers: {
+    soort: "niet", titel: "Dit mag niet",
+    tekst: "Persoonsgegevens geef je niet in AI-tools in.",
+    lijst: ["Vervang namen door 'leerling A', 'leerling B' …", "Laat details weg waaruit je iemand kunt herkennen.", "Lukt anonimiseren niet? Doe deze taak dan zonder AI."],
+  },
+  R_gratis: {
+    soort: "niet", titel: "Dit mag niet",
+    tekst: "Schooldocumenten upload je niet naar gratis AI-tools.",
+    lijst: ["Gebruik Copilot M365 met je schoolaccount of een andere goedgekeurde tool."],
+  },
+  R_kritiekloos: {
+    soort: "niet", titel: "Dit mag niet",
+    tekst: "AI-output neem je nooit kritiekloos over. Jij blijft verantwoordelijk voor het resultaat.",
+    lijst: ["Controleer feiten, bronnen en taal.", "Pas de output aan aan je leerlingen en je vak."],
+  },
+};
+/* ==================================== */
+
+const scherm = document.getElementById('scherm');
+const terugKnop = document.getElementById('terug');
+let geschiedenis = []; // [{node, antwoord, tip}]
+let huidig = 'start';
+
+const pijl = '<svg class="pijl" viewBox="0 0 20 20" aria-hidden="true"><polyline points="6,3 13,10 6,17" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const iconen = {
+  wel: '<svg class="icoon" viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="22" fill="#06038D"/><polyline points="12,23 19,30 32,15" fill="none" stroke="#95D600" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  niet: '<svg class="icoon" viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="22" fill="#fff"/><path d="M14 14 L30 30 M30 14 L14 30" stroke="#06038D" stroke-width="5" stroke-linecap="round"/></svg>',
+  twijfel: '<svg class="icoon" viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="22" fill="#95D600"/><text x="22" y="31" text-anchor="middle" font-family="Poppins,sans-serif" font-weight="800" font-size="26" fill="#06038D">?</text></svg>',
+};
+
+
+
+function padHtml(){
+  if(!geschiedenis.length) return '';
+  return '<div class="pad"><h4>Jouw antwoorden</h4><ol>' +
+    geschiedenis.map(g=>`<li>${esc(BOOM[g.node].vraag)} <span>${esc(g.antwoord)}</span></li>`).join('') +
+    '</ol></div>';
+}
+
+function toon(){
+  const n = BOOM[huidig];
+  scherm.style.animation='none'; scherm.offsetHeight; scherm.style.animation='';
+  if(n.soort){
+    const tips = geschiedenis.map(g=>g.tip).filter(Boolean);
+    scherm.innerHTML = `
+      <div class="resultaat ${n.soort}">
+        <div class="kop">${iconen[n.soort]}<h3>${esc(n.titel)}</h3></div>
+        <p>${esc(n.tekst)}</p>
+        ${n.lijst ? '<ul>'+n.lijst.map(l=>`<li>${esc(l)}</li>`).join('')+'</ul>' : ''}
+        ${tips.length ? '<div class="tips"><h4>Let op</h4><ul>'+tips.map(t=>`<li>${esc(t)}</li>`).join('')+'</ul></div>' : ''}
+      </div>` + padHtml();
+  } else {
+    const nr = geschiedenis.length + 1;
+    scherm.innerHTML = `
+      <div class="bb-kaart">
+        <p class="bb-stap">Vraag ${nr}</p>
+        <p class="vraag" id="v">${esc(n.vraag)}</p>
+        ${n.hint ? `<p class="hint">${esc(n.hint)}</p>` : '<div style="height:.75rem"></div>'}
+        <div class="opties" role="group" aria-labelledby="v">
+          ${n.opties.map((o,i)=>`<button class="optie" data-i="${i}">${esc(o.tekst)}${pijl}</button>`).join('')}
+        </div>
+      </div>` + padHtml();
+    scherm.querySelectorAll('.optie').forEach(b=>b.addEventListener('click',()=>{
+      const o = n.opties[+b.dataset.i];
+      geschiedenis.push({node:huidig, antwoord:o.tekst, tip:o.tip});
+      huidig = o.naar; toon();
+      const f = scherm.querySelector('.optie'); if(f) f.focus({preventScroll:true});
+    }));
+  }
+  terugKnop.disabled = geschiedenis.length===0;
+}
+
+terugKnop.addEventListener('click',()=>{ const g=geschiedenis.pop(); if(g){huidig=g.node; toon();} });
+document.getElementById('opnieuw').addEventListener('click',()=>{ geschiedenis=[]; huidig='start'; toon(); });
+
+toon();
+
+})();
 </script>
 </body>
 </html>
