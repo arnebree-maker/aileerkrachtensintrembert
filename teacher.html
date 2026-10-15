@@ -388,5 +388,35 @@
   <span id="reset-text" style="font-size:12px; font-weight:700; white-space:nowrap; overflow:hidden; max-width:0; transition:max-width 0.25s ease, margin-left 0.25s ease; display:inline-block;">Opnieuw beginnen</span>
 </button>
 
+<!-- Foto's uitvergroten: klik op een schermafbeelding (img/...) om ze groot te bekijken. -->
+<style>
+img[src^="img/"]{cursor:zoom-in}
+#lb{position:fixed;inset:0;z-index:9999;display:none;background:rgba(6,3,141,.92);padding:calc(env(safe-area-inset-top,0px) + 56px) 16px calc(env(safe-area-inset-bottom,0px) + 16px);overflow:auto;-webkit-overflow-scrolling:touch}
+#lb.open{display:block}
+#lb .lb-in{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+#lb img{max-width:100%;max-height:calc(100vh - 120px);border-radius:12px;background:#fff;cursor:zoom-in}
+#lb.vol img{max-width:none;max-height:none;cursor:zoom-out}
+#lb.vol .lb-in{align-items:flex-start;justify-content:flex-start}
+#lb .lb-cap{color:#fff;font-size:14px;text-align:center;max-width:70ch}
+#lb .lb-x{position:fixed;top:calc(env(safe-area-inset-top,0px) + 10px);right:14px;border:0;border-radius:999px;background:#95D600;color:#06038D;font-weight:800;font-size:15px;padding:10px 18px;cursor:pointer}
+</style>
+<div id="lb" role="dialog" aria-modal="true" aria-label="Vergrote afbeelding"><button class="lb-x" type="button">Sluiten ✕</button><div class="lb-in"><img alt=""><div class="lb-cap"></div></div></div>
+<script>
+(function(){
+  var lb=document.getElementById('lb'),im=lb.querySelector('img'),cap=lb.querySelector('.lb-cap');
+  function sluit(){lb.classList.remove('open','vol');document.body.style.overflow='';}
+  document.addEventListener('click',function(e){
+    var el=e.target;
+    if(el.tagName==='IMG'&&!lb.contains(el)&&(el.getAttribute('src')||'').indexOf('img/')===0){
+      im.src=el.src;im.alt=el.alt||'';cap.textContent=(el.alt||'')+'  ·  klik op de afbeelding voor ware grootte';
+      lb.classList.add('open');document.body.style.overflow='hidden';return;
+    }
+    if(!lb.classList.contains('open'))return;
+    if(el===im){lb.classList.toggle('vol');return;}
+    sluit();
+  });
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')sluit();});
+})();
+</script>
 </body>
 </html>
