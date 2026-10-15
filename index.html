@@ -20,9 +20,8 @@
     <div class="nav-lbl">Navigatie</div>
     <div class="ni active" onclick="sv('home')" id="nav-home"><div class="ni-icon">🏠</div><div class="ni-info"><div class="ni-title">Startpagina</div><div class="ni-sub">Welkom & routes</div></div></div>
     <div class="ni available" onclick="goTeacher()"><div class="ni-icon">👨‍🏫</div><div class="ni-info"><div class="ni-title">Leerkrachten</div><div class="ni-sub">Professionalisering</div></div></div>
-    <div class="ni available" onclick="goStudent()"><div class="ni-icon">👨‍🎓</div><div class="ni-info"><div class="ni-title">Leerlingen</div><div class="ni-sub">AI-Skills training</div></div></div>
     <div class="ni available" onclick="sv('docs')" id="nav-docs"><div class="ni-icon">📁</div><div class="ni-info"><div class="ni-title">Documenten</div><div class="ni-sub">Beleid & bronnen</div></div></div>
-    <div class="ni available" onclick="sv('news')" id="nav-news"><div class="ni-icon">📰</div><div class="ni-info"><div class="ni-title">Nieuws</div><div class="ni-sub">AI in de actualiteit</div></div></div>
+    <div class="ni available" onclick="sv('news')" id="nav-news"><div class="ni-icon">📰</div><div class="ni-info"><div class="ni-title">Nieuws</div><div class="ni-sub">Teams-kanaal</div></div></div>
     <div class="ni available" onclick="sv('hulp')" id="nav-hulp"><div class="ni-icon">🧰</div><div class="ni-info"><div class="ni-title">Praktijkhulp</div><div class="ni-sub">Prompts, tools & taken</div></div></div>
   </div>
 
@@ -93,8 +92,8 @@
     </div>
 
     <!-- ROUTES SECTION -->
-    <div class="sw-title" style="margin-top:40px">Kies <em>jouw</em> route</div>
-    <div class="sw-sub">Twee trajecten, elk speciaal op maat gemaakt</div>
+    <div class="sw-title" style="margin-top:40px">Jouw <em>route</em></div>
+    <div class="sw-sub">Het traject voor leerkrachten van de scholengroep</div>
 
     <div class="routes-grid">
       <div class="route-card teacher-route">
@@ -116,24 +115,6 @@
         <button class="route-btn teacher" onclick="goTeacher()">Start trainee →</button>
       </div>
 
-      <div class="route-card student-route">
-        <div class="rc-header">
-          <div class="rc-icon">👨‍🎓</div>
-          <div class="rc-title">Ik ben LEERLING <span style="background:#FFC107;color:#7A5A00;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;margin-left:8px;vertical-align:middle;letter-spacing:0.3px;">🚧 IN PROGRESS</span></div>
-        </div>
-        <div class="rc-body">
-          <p><strong>AI-Skills</strong> om als student verantwoord met AI om te gaan.</p>
-          <ul class="rc-list">
-            <li>✓ Wat is AI? (geen rocket science)</li>
-            <li>✓ ChatGPT/Copilot praktisch gebruiken</li>
-            <li>✓ Goeie prompts schrijven</li>
-            <li>✓ Hallucineringen & bias herkennen</li>
-            <li>✓ AI inzetten in jouw schoolwerk</li>
-            <li>✓ Ethische vragen stellen</li>
-          </ul>
-        </div>
-        <button class="route-btn student" onclick="goStudent()">Start modules →</button>
-      </div>
     </div>
 
     <div style="background:white;border:1px solid #e0e4f5;border-left:4px solid var(--green);border-radius:8px;padding:18px 20px;margin-top:28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;">
@@ -219,10 +200,14 @@
       </div>
     </details>
 
-    <div class="sw-title" style="margin-top:32px;font-size:20px">Voor <em>leerlingen</em></div>
-    <div style="background: white; border-left: 4px solid var(--green); border-radius: 8px; padding: 16px; margin: 16px 0;">
-      <strong style="color: var(--green);">📘 Invulcursus AI-Skills (papieren versie)</strong>
-      <p style="margin: 8px 0 0 0; font-size: 14px; color: #666; line-height: 1.6;">Een afdrukbare versie van de leerlingencursus met invulvakken. Te downloaden via de Documenten-pagina op <a href="leerlingen.html">de leerlingenmodule</a>, of vraag ze aan je leerkracht.</p>
+    <div class="sw-title" style="margin-top:32px;font-size:20px">Uit de <em>nascholing</em></div>
+    <div style="background: white; border-left: 4px solid var(--blue); border-radius: 8px; padding: 16px; margin: 16px 0;">
+      <strong style="color: var(--blue);">🎓 AI-openers voor onderwijs — Howest EdHub (12/10/2026)</strong>
+      <p style="margin: 8px 0 0 0; font-size: 14px; color: #666; line-height: 1.6;">Handout van de inspiratiesessie van Thomas Vliebergh (Howest EdHub): prompts structureren, AI-slop vermijden, leren in plaats van delegeren, AI-zoekfuncties, AI-beelden, evalueren en AI-labels.</p>
+      <p style="margin: 10px 0 0 0; font-size: 13px; color: #3d4f8a; line-height: 1.6; background:#f0f2f5; padding:10px 12px; border-radius:6px;"><strong>Let op:</strong> in de presentatie komen ook tools aan bod die niet op onze lijst van toegelaten AI-toepassingen staan (bv. Perplexity en Consensus). Niet op de lijst = niet goedgekeurd: gebruik ze niet in je lessen zonder voorafgaande goedkeuring. Zelf apps bouwen met AI (vibecoden) leg je eerst voor aan de IT-dienst.</p>
+      <p style="margin: 10px 0 0 0; font-size: 14px; color: #666; line-height: 1.6;">De bruikbare tips uit deze sessie zetten we om naar onze eigen afspraken op <a href="slim-werken-met-ai.html" target="_blank">Slim werken met AI</a> en in de promptbibliotheek.</p>
+      <a href="Howest-EdHub-handout-AI-openers-12-10-2026.pdf" target="_blank" style="display:inline-block; margin-top:12px; background: var(--blue); color: white; font-weight: 700; font-size: 13px; padding: 10px 18px; border-radius: 6px; text-decoration: none;">📄 Bekijk de handout (PDF)</a>
+      <p style="margin: 10px 0 0 0; font-size: 11px; color: #999; font-style: italic;">© Thomas Vliebergh, Howest EdHub · CC BY-NC-ND · ongewijzigd gedeeld</p>
     </div>
 
     <div class="sw-title" style="margin-top:32px;font-size:20px">Externe <em>bronnen</em></div>
@@ -235,29 +220,6 @@
       <li>Schoolmakers AI-gebruiksschaal — Leon Furze, Universiteit van Melbourne</li>
     </ul>
 
-    <div class="sw-title" style="margin-top:32px;font-size:20px">Specifiek per <em>doelgroep</em></div>
-    <div class="routes-grid" style="margin-top: 16px;">
-      <div class="route-card teacher-route">
-        <div class="rc-header">
-          <div class="rc-icon">👨‍🏫</div>
-          <div class="rc-title">Leerkrachten</div>
-        </div>
-        <div class="rc-body">
-          <p>Ga naar de leerkrachtenmodule voor het volledige AI-beleid, de 4 AI-labels en praktische Copilot-tips.</p>
-        </div>
-        <button class="route-btn teacher" onclick="goTeacher()">Naar leerkrachten →</button>
-      </div>
-      <div class="route-card student-route">
-        <div class="rc-header">
-          <div class="rc-icon">👨‍🎓</div>
-          <div class="rc-title">Leerlingen <span style="background:#FFC107;color:#7A5A00;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;margin-left:8px;vertical-align:middle;letter-spacing:0.3px;">🚧 IN PROGRESS</span></div>
-        </div>
-        <div class="rc-body">
-          <p>Ga naar de leerlingenmodule voor de Documenten-pagina met de invulcursus en extra leermateriaal.</p>
-        </div>
-        <button class="route-btn student" onclick="goStudent()">Naar leerlingen →</button>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -265,44 +227,25 @@
 <div class="view" id="view-news">
   <div class="sw" style="margin-top: 40px;">
     <div class="sw-title">📰 AI in de <em>Actualiteit</em></div>
-    <div class="sw-sub">Nieuws, updates en tips rond artificiële intelligentie — relevant voor de hele scholengroep.</div>
+    <div class="sw-sub">Het AI-nieuws en de vragen van collega's verzamelen we in ons Teams-kanaal.</div>
 
+    <!-- TEAMS-LINK: plak hieronder de link van het Teams-kanaal tussen de aanhalingstekens. Leeg = knop toont "Binnenkort". -->
     <div style="background: linear-gradient(135deg, #4B53BC 0%, #6264A7 100%); border-radius: 8px; padding: 20px; margin: 20px 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
       <div style="flex: 1; min-width: 240px;">
         <div style="font-size:11px;font-weight:700;color:#D6D8F5;text-transform:uppercase;margin-bottom:6px;">💬 Blijf verbonden</div>
         <h3 style="margin:0 0 6px 0; font-size:17px; color: white;">Word lid van ons Teams-kanaal</h3>
-        <p style="font-size:13px;color:#E4E5F7;line-height:1.6;margin:0;">Stel vragen, deel interessante AI-vondsten en blijf op de hoogte tussen collega's en klasgenoten — alles rond AI op Sint-Rembert komt hier samen.</p>
+        <p style="font-size:13px;color:#E4E5F7;line-height:1.6;margin:0;">Stel vragen, deel interessante AI-vondsten en blijf op de hoogte tussen collega's — alles rond AI op Sint-Rembert komt hier samen.</p>
       </div>
-      <span style="background: rgba(255,255,255,0.18); color: white; font-weight: 700; font-size: 13px; padding: 12px 22px; border-radius: 6px; white-space: nowrap;">⏳ In progress</span>
+      <a id="teams-link" href="" target="_blank" rel="noopener" style="background: white; color: #4B53BC; font-weight: 700; font-size: 13px; padding: 12px 22px; border-radius: 6px; white-space: nowrap; text-decoration: none;">Open het Teams-kanaal →</a>
     </div>
-
-    <div style="background: white; border-left: 4px solid var(--blue); border-radius: 8px; padding: 16px; margin: 20px 0;">
-      <div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;margin-bottom:6px;">📅 Schooljaar 2026-2027</div>
-      <h3 style="margin:0 0 8px 0; font-size:16px;">Vernieuwde AI-trainingen voor leerkrachten én leerlingen</h3>
-      <p style="font-size:14px;color:#666;line-height:1.7;margin:0;">Sint-Rembert lanceert dit schooljaar volledig herwerkte trajecten voor zowel personeel als leerlingen, gebaseerd op de EDUbox Artificiële Intelligentie (VRT/imec/Mediawijs) en het eigen beleidskader.</p>
-    </div>
-
-    <div style="background: white; border-left: 4px solid var(--orange); border-radius: 8px; padding: 16px; margin: 16px 0;">
-      <div style="font-size:11px;font-weight:700;color:var(--orange);text-transform:uppercase;margin-bottom:6px;">⚖️ EU AI Act</div>
-      <h3 style="margin:0 0 8px 0; font-size:16px;">Europese AI-wetgeving stap voor stap in werking</h3>
-      <p style="font-size:14px;color:#666;line-height:1.7;margin:0;">De EU AI Act treedt gefaseerd in werking en verplicht organisaties — ook scholen — om hun personeel en leerlingen voldoende "AI-geletterd" te maken. Precies daarom bestaan onze trainingstrajecten.</p>
-    </div>
-
-    <div style="background: white; border-left: 4px solid var(--green); border-radius: 8px; padding: 16px; margin: 16px 0;">
-      <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;margin-bottom:6px;">💡 Tip van de maand</div>
-      <h3 style="margin:0 0 8px 0; font-size:16px;">Twijfel je aan een video of foto? Check de bron</h3>
-      <p style="font-size:14px;color:#666;line-height:1.7;margin:0;">Deepfakes worden steeds overtuigender. De beste vuistregel blijft: kijk niet enkel naar het beeld zelf, maar check wie het deelde en of betrouwbare media hetzelfde melden.</p>
-    </div>
-
-    <div style="background: white; border-left: 4px solid #9C27B0; border-radius: 8px; padding: 16px; margin: 16px 0;">
-      <div style="font-size:11px;font-weight:700;color:#9C27B0;text-transform:uppercase;margin-bottom:6px;">🔬 Tool-update</div>
-      <h3 style="margin:0 0 8px 0; font-size:16px;">Google NotebookLM breidt functies verder uit</h3>
-      <p style="font-size:14px;color:#666;line-height:1.7;margin:0;">Een gratis, betrouwbare studiehulp die antwoordt op basis van je eigen geüploade documenten — met bronvermelding. Zeker het proberen waard, zowel voor leerkrachten als leerlingen.</p>
-    </div>
-
-    <p style="margin-top: 24px; font-size: 12px; color: #999; font-style: italic;">Deze pagina wordt periodiek bijgewerkt door de pedagogische begeleiding. Laatst bijgewerkt: september 2026.</p>
   </div>
 </div>
+<script>
+(function(){
+  var a=document.getElementById('teams-link');
+  if(!a.getAttribute('href')){a.removeAttribute('href');a.textContent='⏳ Binnenkort';a.style.background='rgba(255,255,255,0.18)';a.style.color='white';}
+})();
+</script>
 
 <!-- ════════ PRAKTIJKHULP ════════ -->
 <div class="view" id="view-hulp">
@@ -315,6 +258,12 @@
         <div style="font-size:30px;margin-bottom:8px;">📚</div>
         <div style="font-size:16px;font-weight:800;color:var(--blue);margin-bottom:6px;">Promptbibliotheek</div>
         <div style="font-size:13px;color:#666;line-height:1.7;">Kant-en-klare prompts voor lesvoorbereiding, differentiatie, feedback en toetsvragen. Kopieer, vul de haakjes in en plak in Copilot M365.</div>
+        <div style="font-size:12px;font-weight:800;color:var(--blue);margin-top:12px;">Openen →</div>
+      </a>
+      <a href="slim-werken-met-ai.html" target="_blank" rel="noopener" style="display:block;background:white;border-radius:10px;padding:22px;text-decoration:none;box-shadow:0 1px 4px rgba(0,0,0,0.06);border:2px solid transparent;transition:all .2s;" onmouseover="this.style.borderColor='var(--green)'" onmouseout="this.style.borderColor='transparent'">
+        <div style="font-size:30px;margin-bottom:8px;">🧑‍✈️</div>
+        <div style="font-size:16px;font-weight:800;color:var(--blue);margin-bottom:6px;">Slim werken met AI</div>
+        <div style="font-size:13px;color:#666;line-height:1.7;">Prompts structureren, AI-slop vermijden, video omzetten naar lesmateriaal, onderzoek checken en AI-beelden goed gebruiken.</div>
         <div style="font-size:12px;font-weight:800;color:var(--blue);margin-top:12px;">Openen →</div>
       </a>
       <a href="ai-bestendige-taken.html" target="_blank" rel="noopener" style="display:block;background:white;border-radius:10px;padding:22px;text-decoration:none;box-shadow:0 1px 4px rgba(0,0,0,0.06);border:2px solid transparent;transition:all .2s;" onmouseover="this.style.borderColor='var(--green)'" onmouseout="this.style.borderColor='transparent'">
@@ -358,9 +307,6 @@
 <script>
 function goTeacher() {
   window.location.href = 'teacher.html';
-}
-function goStudent() {
-  window.location.href = 'leerlingen.html';
 }
 function sv(id) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
