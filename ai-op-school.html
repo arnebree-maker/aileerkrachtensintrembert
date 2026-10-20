@@ -130,6 +130,32 @@ footer a{color:var(--groen);font-weight:600}
 .vb-taak .kaart{padding:1.1rem 1.25rem}
 .vb-taak .lbl{display:inline-block;font-size:.78rem;font-weight:700;border-radius:999px;padding:.15rem .65rem;background:var(--blauw);color:var(--wit);margin-left:.4rem}
 .vb-taak p{margin:.35rem 0 0}
+
+/* Downloadpaneel */
+.dl-paneel{background:var(--wit);color:var(--blauw);border:6px solid var(--groen);border-radius:28px;padding:22px 24px;margin:18px 0 26px}
+.dl-ey{display:inline-block;background:var(--blauw);color:var(--wit);border-radius:999px;padding:4px 12px;font-weight:800;font-size:12px;text-transform:uppercase}
+.dl-kop h3{margin:10px 0 6px;font-weight:800;text-transform:uppercase;font-size:1.25rem;color:var(--blauw)}
+.dl-kop p{margin:0 0 14px;line-height:1.6}
+.dl-rij{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.dl-item{border:2px solid #D9D9D9;border-radius:20px;padding:14px 16px;display:flex;flex-direction:column}
+.dl-item b{font-weight:800}
+.dl-item p{margin:6px 0 12px;font-size:14.5px;line-height:1.5;flex:1}
+.dl-item div{display:flex;gap:8px;flex-wrap:wrap}
+.dl-knop{display:inline-block;border-radius:999px;padding:9px 18px;font-weight:800;text-decoration:none!important;border:2px solid var(--blauw);color:var(--blauw)!important;background:var(--wit)}
+.dl-knop.hoofd{background:var(--groen);border-color:var(--groen)}
+.dl-knop:hover{filter:brightness(1.05)}
+
+/* Teams-banner */
+.tm-banner{display:flex;align-items:center;gap:18px;flex-wrap:wrap;background:#06038D;color:#FFFFFF;border:3px solid #95D600;border-radius:28px;padding:20px 24px;margin:18px 0 26px}
+.tm-ico{width:56px;height:56px;flex:none}
+.tm-tekst{flex:1;min-width:240px}
+.tm-ey{display:inline-block;border:2px solid #95D600;color:#95D600;border-radius:999px;padding:3px 12px;font-weight:800;font-size:12px;text-transform:uppercase}
+.tm-banner h3{margin:8px 0 4px;font-weight:800;text-transform:uppercase;font-size:1.2rem;color:#FFFFFF}
+.tm-banner p{margin:0;line-height:1.55;color:#FFFFFF}
+.tm-knop{display:inline-block;background:#95D600;color:#06038D!important;font-weight:800;border-radius:999px;padding:12px 22px;text-decoration:none!important;white-space:nowrap}
+.tm-knop:hover{background:#A6F04A}
+.tm-banner.compact{padding:16px 18px}
+.tm-banner.compact p{font-size:14.5px}
 </style>
 </head>
 <body>
@@ -147,8 +173,13 @@ footer a{color:var(--groen);font-weight:600}
   <button role="tab" data-tab="prompts">3. Prompts</button>
   <button role="tab" data-tab="taken">4. Taken ontwerpen</button>
 </nav>
-<p class="route">Werk in deze volgorde: check eerst <b>of</b> je iets mag ingeven, kies dan <b>welke tool</b>, gebruik een sterke <b>prompt</b>, en ontwerp je <b>taken</b> zo dat het leren zichtbaar blijft. Staat je vraag er niet bij? Bespreek ze met je AI-aanspreekpunt of de ICT-coördinator van je school.</p>
+<p class="route">Werk in deze volgorde: check eerst <b>of</b> je iets mag ingeven, kies dan <b>welke tool</b>, gebruik een sterke <b>prompt</b>, en ontwerp je <b>taken</b> zo dat het leren zichtbaar blijft. Staat je vraag er niet bij? Stel ze in ons <a href="https://teams.microsoft.com/l/team/19%3AFEEiGXjf1jA5KxnDZ1ghViKFze_kGUtUXywPC6O7UBk1%40thread.tacv2/conversations?groupId=093de897-84d2-4e76-a2b8-5772bd925e26&amp;tenantId=e285dc48-b92b-4e97-9ea5-bdaed06bbb77" target="_blank" rel="noopener">Teams-kanaal REMBERT - AI</a> of bij je AI-aanspreekpunt.</p>
 
+<div style="max-width:1040px;margin:0 auto"><div class="tm-banner compact">
+  <svg viewBox="0 0 48 48" aria-hidden="true" class="tm-ico"><rect x="4" y="10" width="26" height="28" rx="7" fill="#FFFFFF"/><path d="M11 18h12M17 18v14" stroke="#06038D" stroke-width="4" stroke-linecap="round"/><circle cx="37" cy="16" r="6" fill="#95D600"/><rect x="31" y="24" width="14" height="14" rx="6" fill="#95D600"/></svg>
+  <div class="tm-tekst"><span class="tm-ey">Teams-kanaal · REMBERT - AI</span><h3>Doe mee in ons AI-kanaal</h3><p>Stel je vragen, deel wat werkt in je klas en blijf op de hoogte van nieuwe tools, afspraken en nascholingen. Alles rond AI op Sint-Rembert komt hier samen.</p></div>
+  <a class="tm-knop" href="https://teams.microsoft.com/l/team/19%3AFEEiGXjf1jA5KxnDZ1ghViKFze_kGUtUXywPC6O7UBk1%40thread.tacv2/conversations?groupId=093de897-84d2-4e76-a2b8-5772bd925e26&amp;tenantId=e285dc48-b92b-4e97-9ea5-bdaed06bbb77" target="_blank" rel="noopener">Open het Teams-kanaal →</a>
+</div></div>
 <!-- ================= BESLISBOOM ================= -->
 <section id="beslisboom" role="tabpanel" hidden>
   <div class="intro">
@@ -219,6 +250,15 @@ footer a{color:var(--groen);font-weight:600}
     <div><b>4. Toegestaan</b><p>AI mag ingezet worden; werken met AI kan zelfs de opdracht zijn, bv. AI-output verbeteren of beoordelen.</p></div>
   </div>
 
+  <div class="dl-paneel">
+  <div class="dl-kop"><span class="dl-ey">Downloads</span><h3>Het AI-sjabloon en de labels</h3><p>Zet bovenaan elke taak of toets welk AI-label geldt, hang de klasposter op en geef leerlingen het sjabloon voor hun AI-verantwoording.</p></div>
+  <div class="dl-rij">
+    <div class="dl-item"><b>Hoofding examen/taak met AI-label</b><p>Naam, klas, vak, datum en een vakje voor het label.</p><div><a class="dl-knop hoofd" href="Hoofding-examen-taak-AI-label.docx" download target="_blank" rel="noopener">Word</a><a class="dl-knop" href="Hoofding-examen-taak-AI-label.pdf" target="_blank" rel="noopener">PDF</a></div></div>
+    <div class="dl-item"><b>Klasposter AI-labels</b><p>De vier labels om op te hangen in de klas.</p><div><a class="dl-knop hoofd" href="AI-labels-poster%20(1).png" target="_blank" rel="noopener">Poster</a></div></div>
+    <div class="dl-item"><b>AI-verantwoording voor leerlingen</b><p>Korte vermelding (1e en 2e graad) en volledige verantwoording met APA (3e graad).</p><div><a class="dl-knop hoofd" href="AI-verantwoording-sjabloon.docx" download target="_blank" rel="noopener">Word</a></div></div>
+  </div>
+</div>
+
   <h2 class="sec">Uitgewerkt voorbeeld: een betoog in vier stappen</h2>
   <p style="margin:0;max-width:70ch">"Terug naar pen en papier" lost weinig op: thuis kan een leerling evengoed een AI-tekst overschrijven. Denk in doelen, niet in middelen: deel de taak op en kies per stap hoeveel AI mag. Voorbeeld voor Nederlands, 2de graad. Leerdoel: een standpunt onderbouwen met argumenten en tegenargumenten.</p>
   <div class="vb-taak">
@@ -227,6 +267,20 @@ footer a{color:var(--groen);font-weight:600}
     <div class="kaart"><b>Stap 3 · thuis</b><span class="lbl">3 · Als ondersteuning</span><p>De leerling schrijft de tekst zelf. AI mag feedback geven op taal en structuur, maar niet herschrijven (prompt "Voor leerlingen: feedback zonder de oplossing").</p></div>
     <div class="kaart groen"><b>Stap 4 · in de klas: procesgesprek</b><p>Twee minuten: "Waarom koos je dit argument? Wat veranderde je na de feedback?" Je beoordeelt kaart, tekst en gesprek met een rubric die je vooraf deelt. Geen AI-detector: bij twijfel volgt een pedagogisch gesprek.</p></div>
   </div>
+
+  <h2 class="sec">Huiswerk in tijden van AI: wanneer heeft het nog zin?</h2>
+  <p style="margin:0;max-width:72ch">Huiswerk werkt, maar niet elk huiswerk. Volgens de Teaching and Learning Toolkit van de Education Endowment Foundation levert huiswerk gemiddeld zo'n vijf maanden extra leerwinst op, met een groter effect in het secundair dan in het lager. Het effect is het grootst als leerlingen feedback krijgen en als het huiswerk echt deel is van wat in de les gebeurt; routinematig huiswerk levert minder op (<a href="https://educationendowmentfoundation.org.uk/education-evidence/teaching-learning-toolkit/homework" target="_blank" rel="noopener" style="color:var(--groen);font-weight:700">EEF</a>). Met AI erbij verandert vooral <em>wat</em> zinvol is om thuis te laten doen.</p>
+  <div class="grid" style="margin-top:1rem">
+    <div class="kaart niet"><h3>✗ Weinig zin</h3><ul>
+      <li><b>Een product dat punten oplevert</b> en dat AI kan maken: dan meet je wat AI kan, niet wat de leerling kan.</li>
+      <li><b>Huiswerk zonder feedback</b> of los van de les: daar is het effect het kleinst.</li>
+      <li><b>Iets nieuws dat leerlingen nog niet beheersen</b>, zonder begeleiding: de verleiding om het aan AI over te laten is groot.</li></ul></div>
+    <div class="kaart groen"><h3>✓ Wel zinvol</h3><ul>
+      <li><b>Oefenen en herhalen</b> met feedback, bv. met de Study and Learn-agent of zelfgemaakte flashcards.</li>
+      <li><b>Voorbereiden op de les</b> (flipped): een video of tekst die in de klas verwerkt wordt.</li>
+      <li><b>Het product maken in de klas</b>, waar je het proces ziet; thuis enkel de voorbereiding of het oefenwerk.</li></ul></div>
+  </div>
+  <div class="kaart twijfel" style="margin:1rem 0 2rem"><p style="margin:0"><b>Vuistregel:</b> thuis oefenen, in de klas tonen wat je kan. Geef bij elk huiswerk een AI-label, en controleer kort in de les wat leerlingen zelf beheersen, bv. met een mini-quiz of een vraag om het uit te leggen.</p></div>
 
   <h2 class="sec">Werkvorm: gevolgen van gevolgen (mens – machine – mens)</h2>
   <p style="margin:0;max-width:70ch">Een werkvorm uit toekomstdenken die perfect past bij AI-bestendig werken: het denkwerk gebeurt eerst door de leerlingen zelf, AI komt pas daarna als extra denkpartner. Bruikbaar in elk vak: geschiedenis, aardrijkskunde, economie, wetenschappen, PAV, godsdienst …</p>

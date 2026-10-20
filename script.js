@@ -2139,7 +2139,15 @@ function m2s4(c){
 
 <div style="background:rgba(149,214,0,0.1);border-left:4px solid var(--green);border-radius:8px;padding:14px 16px;margin:20px 0;">
   <div style="font-size:11px;font-weight:800;color:var(--blue);text-transform:uppercase;margin-bottom:4px;">Documenten</div>
-  <p style="font-size:13px;color:#06038D;line-height:1.7;margin:0;">De <strong>AI-labels</strong> (klasposter) en de <strong>hoofding voor examens en taken</strong> vind je bij Documenten op de startpagina van de site. <a href="index.html#docs" target="_blank" rel="noopener" style="color:var(--blue);font-weight:800;">Open Documenten →</a></p>
+  <p style="font-size:13px;color:#06038D;line-height:1.7;margin:0;">Download hier meteen de <strong>hoofding voor examens en taken</strong>, de <strong>klasposter</strong> en het <strong>sjabloon AI-verantwoording</strong> voor je leerlingen.</p>
+</div>
+<div class="dl-paneel">
+  <div class="dl-kop"><span class="dl-ey">Downloads</span><h3>Het AI-sjabloon en de labels</h3><p>Zet bovenaan elke taak of toets welk AI-label geldt, hang de klasposter op en geef leerlingen het sjabloon voor hun AI-verantwoording.</p></div>
+  <div class="dl-rij">
+    <div class="dl-item"><b>Hoofding examen/taak met AI-label</b><p>Naam, klas, vak, datum en een vakje voor het label.</p><div><a class="dl-knop hoofd" href="Hoofding-examen-taak-AI-label.docx" download target="_blank" rel="noopener">Word</a><a class="dl-knop" href="Hoofding-examen-taak-AI-label.pdf" target="_blank" rel="noopener">PDF</a></div></div>
+    <div class="dl-item"><b>Klasposter AI-labels</b><p>De vier labels om op te hangen in de klas.</p><div><a class="dl-knop hoofd" href="AI-labels-poster%20(1).png" target="_blank" rel="noopener">Poster</a></div></div>
+    <div class="dl-item"><b>AI-verantwoording voor leerlingen</b><p>Korte vermelding (1e en 2e graad) en volledige verantwoording met APA (3e graad).</p><div><a class="dl-knop hoofd" href="AI-verantwoording-sjabloon.docx" download target="_blank" rel="noopener">Word</a></div></div>
+  </div>
 </div>
 
 <div class="nw">
@@ -2638,6 +2646,11 @@ function m2s9(c){
 <p class="cp">Maak het concreet: kies één actiestap die je de komende maand effectief uitvoert.</p>
 <textarea class="sr-ta" id="r3" placeholder="Ik ga bij mijn lessen het AI-label communiceren door... Of herwerk taak..."></textarea>
 
+<div class="tm-banner compact">
+  <svg viewBox="0 0 48 48" aria-hidden="true" class="tm-ico"><rect x="4" y="10" width="26" height="28" rx="7" fill="#FFFFFF"/><path d="M11 18h12M17 18v14" stroke="#06038D" stroke-width="4" stroke-linecap="round"/><circle cx="37" cy="16" r="6" fill="#95D600"/><rect x="31" y="24" width="14" height="14" rx="6" fill="#95D600"/></svg>
+  <div class="tm-tekst"><span class="tm-ey">Teams-kanaal · REMBERT - AI</span><h3>Doe mee in ons AI-kanaal</h3><p>Stel je vragen, deel wat werkt in je klas en blijf op de hoogte van nieuwe tools, afspraken en nascholingen. Alles rond AI op Sint-Rembert komt hier samen.</p></div>
+  <a class="tm-knop" href="https://teams.microsoft.com/l/team/19%3AFEEiGXjf1jA5KxnDZ1ghViKFze_kGUtUXywPC6O7UBk1%40thread.tacv2/conversations?groupId=093de897-84d2-4e76-a2b8-5772bd925e26&amp;tenantId=e285dc48-b92b-4e97-9ea5-bdaed06bbb77" target="_blank" rel="noopener">Open het Teams-kanaal →</a>
+</div>
 <div class="nw">
   <button class="sr-btn b" onclick="p2()">← Vorige</button>
   <button class="sr-btn g" onclick="sR3()">Afronden & certificaat ontvangen →</button>
@@ -3308,6 +3321,11 @@ function m3s7(c){
 
 <p class="cp">Noteer hieronder wat voor jou het meest waardevol was, en welke stap je als eerste effectief gaat toepassen in je eigen lespraktijk.</p>
 <textarea class="sr-ta" id="r2" placeholder="Meest opgeleverd... Wat ik als eerste ga uitproberen..."></textarea>
+<div class="tm-banner compact">
+  <svg viewBox="0 0 48 48" aria-hidden="true" class="tm-ico"><rect x="4" y="10" width="26" height="28" rx="7" fill="#FFFFFF"/><path d="M11 18h12M17 18v14" stroke="#06038D" stroke-width="4" stroke-linecap="round"/><circle cx="37" cy="16" r="6" fill="#95D600"/><rect x="31" y="24" width="14" height="14" rx="6" fill="#95D600"/></svg>
+  <div class="tm-tekst"><span class="tm-ey">Teams-kanaal · REMBERT - AI</span><h3>Doe mee in ons AI-kanaal</h3><p>Stel je vragen, deel wat werkt in je klas en blijf op de hoogte van nieuwe tools, afspraken en nascholingen. Alles rond AI op Sint-Rembert komt hier samen.</p></div>
+  <a class="tm-knop" href="https://teams.microsoft.com/l/team/19%3AFEEiGXjf1jA5KxnDZ1ghViKFze_kGUtUXywPC6O7UBk1%40thread.tacv2/conversations?groupId=093de897-84d2-4e76-a2b8-5772bd925e26&amp;tenantId=e285dc48-b92b-4e97-9ea5-bdaed06bbb77" target="_blank" rel="noopener">Open het Teams-kanaal →</a>
+</div>
 <div class="nw">
   <button class="sr-btn b" onclick="p3()">← Vorige</button>
   <button class="sr-btn o" onclick="sR2()">✓ Optionele module afronden →</button>
@@ -4463,3 +4481,19 @@ setTimeout(function() {
     showRoleSelector();
   }
 }, 500);
+
+/* ---- Herhaal na de video: kernboodschap + denkvraag onder elke video ---- */
+const VIDEO_RECAP = {"sosmC2h4LLE": {"o": ["AI zit al in de apps die leerlingen elke dag gebruiken.", "AI leert patronen uit data; het begrijpt niet zoals een mens."], "v": "Waar komen jouw leerlingen dagelijks AI tegen zonder het te merken?"}, "UD0a-i2EBdE": {"o": ["AI kan stemmen en presentaties overtuigend nabootsen.", "Transparantie is een kernprincipe: vermeld AI waar het een betekenisvolle rol speelde."], "v": "Hoe maak jij AI-gebruik zichtbaar in je eigen lesmateriaal?"}, "-zmnRz81CNQ": {"o": ["Neurale netwerken leren door veel voorbeelden en voortdurende bijsturing.", "Daarom kunnen ze overtuigend klinken en toch fouten maken."], "v": "Hoe leg je dit eenvoudig uit aan je leerlingen?"}, "fZ_r7LXsMHs": {"o": ["AI heeft toepassingen in elk vakgebied.", "Kies AI enkel waar het meerwaarde heeft voor het leren."], "v": "Welke toepassing past bij jouw vak, en waar zou je ze niet inzetten?"}, "Yft4D4TdPxQ": {"o": ["AI neemt vooroordelen over uit de data waarmee het getraind is.", "Kritisch denken over bias is een leerdoel, ook voor leerlingen."], "v": "Hoe zou je bias zichtbaar maken in een les?"}, "YvbibGLIJzo": {"o": ["Ethische afwegingen kan je niet overlaten aan AI.", "Beslissingen over evaluatie en begeleiding blijven bij mensen."], "v": "Welke beslissing in jouw lespraktijk wil je nooit aan AI overlaten?"}, "Rswv6FuAZug": {"o": ["AI brengt kansen en risico's; regels zoals de EU AI Act helpen kaderen.", "AI-geletterdheid van leerkrachten is een voorwaarde voor verantwoord gebruik."], "v": "Welk risico wil je als eerste met je leerlingen bespreken?"}, "-WDdSiVjBhg": {"o": ["Over AI circuleren grote beloftes en grote angsten.", "Help leerlingen trend en hype van elkaar te onderscheiden."], "v": "Welk recent AI-bericht zou je in de klas bespreken?"}, "xpedFIZFmhc": {"o": ["AI dwingt ons om opdrachten en evaluatie te herdenken.", "Ontwerp opdrachten die het denken en het proces zichtbaar maken."], "v": "Welke opdracht van jou zou je als eerste herwerken?"}};
+function voegVideoRecapsToe(root){
+  (root||document).querySelectorAll('.yt-wrap iframe').forEach(fr=>{
+    const m=(fr.getAttribute('src')||'').match(/embed\/([A-Za-z0-9_-]+)/); if(!m) return;
+    const r=VIDEO_RECAP[m[1]]; const wrap=fr.closest('.yt-wrap');
+    if(!r||!wrap||wrap.dataset.recap) return; wrap.dataset.recap='1';
+    const d=document.createElement('div'); d.className='video-recap';
+    d.innerHTML='<b>Herhaal na de video</b><ul>'+r.o.map(x=>'<li>'+x+'</li>').join('')+'</ul><p><strong>Denkvraag:</strong> '+r.v+'</p>';
+    let na=wrap; const volg=wrap.nextElementSibling;
+    if(volg && /Video:|Waar gaat dit over/.test(volg.textContent||'') ) na=volg;
+    na.after(d);
+  });
+}
+(function(){ try{ const ob=new MutationObserver(()=>voegVideoRecapsToe(document)); ob.observe(document.documentElement,{childList:true,subtree:true}); }catch(e){} document.addEventListener('DOMContentLoaded',()=>voegVideoRecapsToe(document)); })();

@@ -365,3 +365,51 @@ body > div[style*="position: fixed"] h1,body > div[style*="position: fixed"] h2,
 .deel-overzicht{border-radius:20px!important;border:2px solid var(--grijs)!important}
 .deel-verder{border-radius:20px!important}
 .deel-verder button{background:var(--blauw)!important;border-radius:999px!important}
+
+/* Herhaal na de video */
+.video-recap{border:6px solid var(--groen);border-radius:24px;padding:14px 18px;margin:14px 0 22px;background:var(--wit);color:var(--blauw)}
+.video-recap b{display:block;font-weight:800;text-transform:uppercase;font-size:13.5px;margin-bottom:6px}
+.video-recap ul{margin:0 0 8px;padding-left:20px;line-height:1.65}
+.video-recap p{margin:0;font-size:15px}
+
+/* Downloadpaneel */
+.dl-paneel{background:var(--wit);color:var(--blauw);border:6px solid var(--groen);border-radius:28px;padding:22px 24px;margin:18px 0 26px}
+.dl-ey{display:inline-block;background:var(--blauw);color:var(--wit);border-radius:999px;padding:4px 12px;font-weight:800;font-size:12px;text-transform:uppercase}
+.dl-kop h3{margin:10px 0 6px;font-weight:800;text-transform:uppercase;font-size:1.25rem;color:var(--blauw)}
+.dl-kop p{margin:0 0 14px;line-height:1.6}
+.dl-rij{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.dl-item{border:2px solid var(--grijs);border-radius:20px;padding:14px 16px;display:flex;flex-direction:column}
+.dl-item b{font-weight:800}
+.dl-item p{margin:6px 0 12px;font-size:14.5px;line-height:1.5;flex:1}
+.dl-item div{display:flex;gap:8px;flex-wrap:wrap}
+.dl-knop{display:inline-block;border-radius:999px;padding:9px 18px;font-weight:800;text-decoration:none!important;border:2px solid var(--blauw);color:var(--blauw)!important;background:var(--wit)}
+.dl-knop.hoofd{background:var(--groen);border-color:var(--groen)}
+.dl-knop:hover{filter:brightness(1.05)}
+
+/* Teams-banner */
+.tm-banner{display:flex;align-items:center;gap:18px;flex-wrap:wrap;background:var(--blauw);color:var(--wit);border:3px solid var(--groen);border-radius:28px;padding:20px 24px;margin:18px 0 26px}
+.tm-ico{width:56px;height:56px;flex:none}
+.tm-tekst{flex:1;min-width:240px}
+.tm-ey{display:inline-block;border:2px solid var(--groen);color:var(--groen);border-radius:999px;padding:3px 12px;font-weight:800;font-size:12px;text-transform:uppercase}
+.tm-banner h3{margin:8px 0 4px;font-weight:800;text-transform:uppercase;font-size:1.2rem;color:var(--wit)}
+.tm-banner p{margin:0;line-height:1.55;color:var(--wit)}
+.tm-knop{display:inline-block;background:var(--groen);color:var(--blauw)!important;font-weight:800;border-radius:999px;padding:12px 22px;text-decoration:none!important;white-space:nowrap}
+.tm-knop:hover{background:#A6F04A}
+.tm-banner.compact{padding:16px 18px}
+.tm-banner.compact p{font-size:14.5px}
+
+/* Rolkeuze (eerste scherm leerkrachten) */
+.role-view{background:var(--blauw)!important}
+.role-badge{background:transparent!important;border:2px solid var(--groen)!important;color:var(--groen)!important;border-radius:999px!important;font-weight:800!important}
+.role-h1{color:var(--wit)!important;font-weight:800!important}
+.role-h1 em{color:var(--groen)!important;font-style:normal}
+.role-sub{color:var(--wit)!important;font-weight:500!important}
+.role-card{background:var(--wit)!important;border:3px solid var(--wit)!important;border-radius:28px!important;backdrop-filter:none!important;cursor:pointer}
+.role-card:hover{border-color:var(--groen)!important;transform:none!important}
+.role-card .role-title{color:var(--blauw)!important;font-weight:800!important;text-transform:uppercase}
+.role-card .role-desc{color:var(--blauw)!important}
+.role-includes{background:var(--groen)!important;border-radius:20px!important}
+.role-includes,.role-includes *{color:var(--blauw)!important}
+.role-icon{display:none}
+.role-view .role-note{background:transparent!important;border:2px solid rgba(255,255,255,.4)!important;border-radius:20px!important;color:var(--wit)!important}
+.role-note-text{color:var(--wit)!important;background:none!important;border:0!important}.role-note-icon{display:none}
