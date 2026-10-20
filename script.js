@@ -22,7 +22,7 @@ const CHANGELOG = [
 // (bv. na een testfase, of bij een fundamentele herstructurering). Bij een mismatch
 // wordt de lokale voortgang van elke bezoeker automatisch gewist bij hun volgende bezoek —
 // zij hoeven zelf niets te doen of te klikken.
-const FORCE_RESET_VERSION = 2;
+const FORCE_RESET_VERSION = 3;
 let forcedResetJustHappened = false;
 
 // Wist ALLE opgeslagen gegevens van de leerkrachtencursus (voortgang én ingevulde reflecties),
@@ -179,19 +179,25 @@ function showRoleSelector() {
   </div>
 
   <div class="role-grid">
-    <div class="role-card" onclick="setUserRole('teacher')">
+    <div class="role-card role-card-lk">
       <div class="role-icon"></div>
       <div class="role-title">Leerkracht</div>
       <div class="role-desc">Je werkt rechtstreeks met leerlingen en gebruikt AI in je lespraktijk.</div>
       <div class="role-includes">
         <div class="role-inc-title">Je krijgt:</div>
         ✓ Module 1: Volledige AI-basis<br>
-        ✓ Module 2: Alle spelregels + AI-labels<br>
+        ✓ Module 2: Alle spelregels, per onderwijsniveau<br>
+        ✓ AI-labels (secundair onderwijs)<br>
         ✓ Leerlingbegeleiding & evaluatie<br>
         ✓ Praktijkscenario's<br>
         ✓ <strong>Module 3: Copilot in de klas</strong><br>
         &nbsp;&nbsp;&nbsp;Hands-on prompting, lesmateriaal,<br>
         &nbsp;&nbsp;&nbsp;differentiatie & agents
+      </div>
+      <div class="role-niveau">
+        <div class="role-niveau-t">Ik geef les in het:</div>
+        <button type="button" onclick="event.stopPropagation();setUserRole('teacher','lager')">Lager onderwijs</button>
+        <button type="button" onclick="event.stopPropagation();setUserRole('teacher','secundair')">Secundair onderwijs</button>
       </div>
     </div>
 
@@ -240,10 +246,11 @@ function showRoleSelector() {
   appDiv.style.display = 'none';
 }
 
-function setUserRole(role) {
-  console.log('Rol gekozen:', role);
+function setUserRole(role, niveau) {
+  console.log('Rol gekozen:', role, niveau || '');
   userRole = role;
   S.userRole = role;
+  S.niveau = (role === 'teacher') ? (niveau || S.niveau || 'secundair') : null;
   ss();
   
   const roleView = document.getElementById('role-selector-view');
@@ -1660,7 +1667,7 @@ const m2_mgmt = [m2mg0, m2mg1, m2mg2, m2mg3, m2mg4];
 let m2 = [];
 
 function rm2(){
-  if(S.userRole === 'teacher') m2 = m2_teacher;
+  if(S.userRole === 'teacher') m2 = (S.niveau === 'lager') ? m2_teacher.filter(f => f !== m2s4) : m2_teacher;
   else if(S.userRole === 'admin') m2 = m2_admin;
   else if(S.userRole === 'management') m2 = m2_mgmt;
   else m2 = m2_teacher; // fallback
@@ -2047,7 +2054,7 @@ function m2s2(c){
     <div>→ Claude.ai</div>
     <div>→ Gamma.app</div>
     <div>→ Google Gemini</div>
-    <div>→ NotebookLM</div>
+    <div>→ Gemini Notebook</div>
   </div>
   <div class="pane-nok lijst-nok">
     <div class="lijst-h-nok">Niet-goedgekeurde tools</div>
@@ -2259,6 +2266,23 @@ Alle drie JA? → Goed beleid. Één NEE? → Aanpassing nodig voordat je de opd
   <button class="sr-btn g" onclick="n2()">Volgende: leerlingen begeleiden →</button>
   <span class="nh">Stap 6/11</span>
 </div>`;
+
+  // Opsplitsen volgens onderwijsniveau van de leerkracht
+  if(S.userRole === 'teacher' && S.niveau){
+    const blokken = [...c.querySelectorAll(':scope > div')].filter(d => /kleuteronderwijs|lager onderwijs|secundair onderwijs/i.test((d.firstElementChild||{}).textContent||''));
+    blokken.forEach(d => {
+      const kop = (d.firstElementChild.textContent||'').toLowerCase();
+      const isSec = kop.includes('secundair');
+      if((S.niveau === 'lager' && isSec) || (S.niveau === 'secundair' && !isSec)) d.remove();
+    });
+    const intro = c.querySelector('.cp');
+    if(intro) intro.insertAdjacentHTML('afterend', S.niveau === 'lager'
+      ? '<p class="cp"><strong>Jij geeft les in het lager onderwijs.</strong> Hieronder zie je de afspraken voor kleuters en lagere schoolkinderen. Copilot en de meeste AI-tools zijn er pas vanaf 13 jaar: AI gebeurt bij jou dus altijd samen met de leerkracht, als demonstratie of gezamenlijke verkenning.</p>'
+      : '<p class="cp"><strong>Jij geeft les in het secundair onderwijs.</strong> Hieronder zie je de afspraken voor 13 tot 18 jaar. In de volgende stappen vind je de AI-labels en voorbeelden voor je opdrachten.</p>');
+    if(S.niveau === 'lager'){
+      c.innerHTML = c.innerHTML.replace('Heb ik duidelijk aangegeven welk AI-label (1-4) voor deze taak geldt?', 'Gebeurt het AI-gebruik samen met mij, en heb ik vooraf gezegd wat de leerlingen wel en niet doen?');
+    }
+  }
 }
 
 function m2s_extra_casussen(c){
@@ -2603,7 +2627,7 @@ function m2s7(c){
 }
 
 function m2s8(c){
-  const quiz = [
+  let quiz = [
     {q: 'Een leerling gebruikt AI bij een taak met label 1 ("Verboden"). Wat doe je?', o: ['De situatie negeren noch de taak gewoon normaal verbeteren, aangezien bijna alle leerlingen AI gebruiken.','Dit behandelen als een onregelmatigheid conform het schoolreglement, net zoals bij klassiek afkijken of fraude.','Stilzwijgend en zonder communicatie een aantal punten aftrekken van het eindresultaat voor deze opdracht.','De leerling verplichten om vanaf nu alle toekomstige taken voor jouw vak verplicht met pen en papier in te dienen.'], a: 1, f: 'Label 1 = verboden. AI-gebruik is dan een onregelmatigheid conform het schoolreglement.' },
     {q: 'Welke AI-tool kiest Sint-Rembert als primaire generatieve AI-tool?', o: ['ChatGPT, omdat dit de meest bekende en gebruikte tool wereldwijd is.','Microsoft Copilot, omdat het binnen de beveiligde Microsoft 365-schoolomgeving werkt.','Google Gemini, omdat dit gratis is voor alle leerlingen en personeelsleden.','Geen enkele tool specifiek; elke leerkracht kiest volledig vrij zijn eigen voorkeurstool.'], a: 1, f: 'Copilot is de bewuste eerste keuze omdat het binnen het bestaande identiteits- en toegangsbeheer van de scholengroep blijft.' },
     {q: 'Waarom gebruikt Sint-Rembert bewust GEEN AI-detectietools om leerlingenwerk te controleren?', o: ['Omdat detectietools te duur zijn in licentiekosten voor de volledige scholengroep.','Omdat de betrouwbaarheid onvoldoende onderbouwd is, met een grote kans op fout-positieve resultaten.','Omdat het schoolreglement het gebruik van enige vorm van software tijdens verbeteren verbiedt.','Omdat leerlingen wettelijk recht hebben op een volledig AI-vrije onderwijsomgeving binnen Europa.'], a: 1, f: 'Detectietools zijn onvoldoende betrouwbaar; dit staat haaks op zorgvuldig en rechtvaardig evalueren.' },
@@ -2614,6 +2638,7 @@ function m2s8(c){
     {q: 'Ongeveer hoeveel meer energie verbruikt een zoekopdracht op ChatGPT, vergeleken met diezelfde zoekopdracht op Google?', o: ['Ongeveer 2 keer meer energie, een verwaarloosbaar klein verschil in de praktijk.','Ongeveer 25 keer meer energie, door de zware berekeningen in grote datacenters.','Exact evenveel energie, aangezien beide diensten op vergelijkbare servers draaien.','Ongeveer 100 keer minder energie, omdat ChatGPT efficiënter zou werken dan zoekmachines.'], a: 1, f: 'Een ChatGPT-zoekopdracht kost ongeveer 25 keer meer energie dan dezelfde zoekopdracht op Google — een reële afweging bij het kiezen van je tool.' },
     {q: 'Waarom is het beter om te zeggen "het model berekende..." in plaats van "de AI denkt dat..."?', o: ['Omdat "berekende" een korter en dus sneller uit te spreken woord is voor in de klas.','Omdat AI niet denkt zoals een mens; verkeerd taalgebruik geeft leerlingen een onjuist beeld.','Omdat het woord "denkt" wettelijk verboden is bij het bespreken van AI op school.','Er is eigenlijk geen enkel verschil; beide formuleringen zijn taalkundig exact gelijkwaardig.'], a: 1, f: 'AI "begrijpt" niet zoals een mens — bewust woordgebruik voorkomt dat leerlingen AI als een denkend wezen gaan beschouwen.' }
   ];
+  if(S.userRole === 'teacher' && S.niveau === 'lager') quiz = quiz.filter(q => !/label/i.test(q.q));
   rQuiz(c, quiz, 2, 'mod2', n2, 70);
 }
 

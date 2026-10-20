@@ -82,7 +82,7 @@ const PROMPTS = [
 
 const TOOLS = [
   {naam:"Copilot M365 (schoolaccount)",status:"ok",wat:"Chat en hulp in Word, PowerPoint, Outlook en Teams.",uitleg:"Aangemeld met je schoolaccount blijven je gegevens binnen de beveiligde schoolomgeving. Dit is de standaardtool voor lesvoorbereiding, feedback en het werken met schooldocumenten."},
-  {naam:"NotebookLM (Google)",status:"ok",wat:"Verwerkt je eigen documenten en lesnotities tot samenvattingen en antwoorden met bronvermelding.",uitleg:"Goedgekeurd voor eigen documenten en notities. Controleer de privacy-instellingen en upload geen documenten met persoonsgegevens van leerlingen."},
+  {naam:"Gemini Notebook (Google, vroeger NotebookLM)",status:"ok",wat:"Verwerkt je eigen documenten en lesnotities tot samenvattingen en antwoorden met bronvermelding.",uitleg:"Goedgekeurd voor eigen documenten en notities. Controleer de privacy-instellingen en upload geen documenten met persoonsgegevens van leerlingen."},
   {naam:"BookWidgets AI",status:"ok",wat:"AI-hulp binnen de BookWidgets-leeromgeving.",uitleg:"Goedgekeurd: pedagogisch omkaderd en geïntegreerd in onze leeromgeving, bv. voor oefeningen en feedback."},
   {naam:"Gamma.app",status:"ok",wat:"AI-gestuurde presentatietool.",uitleg:"Goedgekeurd voor presentaties en visuele inhoud. Voer geen persoonsgegevens in."},
   {naam:"ChatGPT (gratis versie)",status:"anoniem",wat:"Algemene AI-chatbot.",uitleg:"Enkel anonieme tekst die je zelf typt. Geen persoonsgegevens en geen schooldocumenten uploaden."},
