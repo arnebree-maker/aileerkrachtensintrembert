@@ -82,23 +82,9 @@ details.tip .inhoud{padding:0 1.25rem 1.1rem}
 details.tip .vb{background:var(--groen);border-radius:16px;padding:.8rem 1rem;margin-top:.6rem}
 h2.sec{font-weight:800;text-transform:uppercase;font-size:1.2rem;margin:2rem 0 .75rem}
 
-/* vragenbox */
-.vraagform textarea{width:100%;min-height:110px;border-radius:16px;border:2px solid var(--blauw);padding:.8rem;color:var(--blauw);resize:vertical}
-.vraagform .rij{display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;margin-top:.75rem}
-.vraagform select{border-radius:999px;border:2px solid var(--blauw);padding:.5rem .9rem;color:var(--blauw);background:var(--wit)}
-.hoofd{cursor:pointer;border-radius:999px;padding:.65rem 1.3rem;font-weight:700;border:2px solid var(--groen);background:var(--groen);color:var(--blauw)}
-.hoofd:disabled{opacity:.5;cursor:default}
-.melding{font-weight:600;font-size:.92rem}
-.faq{display:grid;gap:.75rem;margin-top:1rem}
-.faq .v{font-weight:700}
-.faq .a{margin-top:.4rem}
-.faq .datum{font-size:.8rem;opacity:.75;margin-top:.3rem}
-.beheer textarea{width:100%;min-height:80px;border-radius:14px;border:2px solid var(--blauw);padding:.6rem;margin-top:.6rem;color:var(--blauw)}
-.beheer .rij{display:flex;gap:.5rem;margin-top:.5rem;flex-wrap:wrap}
-.klein{cursor:pointer;border-radius:999px;padding:.4rem .9rem;font-weight:700;font-size:.9rem;border:2px solid var(--blauw);background:var(--wit);color:var(--blauw)}
+
 .klein.groen{background:var(--groen);border-color:var(--groen)}
 .leeg{opacity:.9;font-style:italic}
-
 footer{margin-top:3rem;display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 footer div{border:2px solid var(--wit);border-radius:20px;padding:1rem 1.1rem}
 footer strong{display:block;color:var(--groen);font-weight:800;text-transform:uppercase}
@@ -131,6 +117,8 @@ footer a{color:var(--groen);font-weight:600}
 #beslisboom .pad h4{margin:0 0 .4rem;font-size:.9rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em}
 #beslisboom .pad ol{margin:0;padding-left:1.2rem}
 #beslisboom .pad span{font-weight:600}
+#beslisboom .bb-link{display:inline-block;margin-top:.5rem;border-radius:999px;padding:.75rem 1.4rem;font-weight:700;text-decoration:none;background:var(--groen);color:var(--blauw);border:2px solid var(--groen)}
+#beslisboom .bb-link:hover{background:#A6F04A}
 #beslisboom .acties{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.25rem}
 #beslisboom .knop{font:inherit;font-weight:700;cursor:pointer;border-radius:999px;padding:.7rem 1.3rem;border:2px solid var(--wit);background:transparent;color:var(--wit)}
 #beslisboom .knop:disabled{opacity:.4;cursor:default}
@@ -158,14 +146,13 @@ footer a{color:var(--groen);font-weight:600}
   <button role="tab" data-tab="tools">2. Welke tool?</button>
   <button role="tab" data-tab="prompts">3. Prompts</button>
   <button role="tab" data-tab="taken">4. Taken ontwerpen</button>
-  <button role="tab" data-tab="vragen">Vragen</button>
 </nav>
-<p class="route">Werk in deze volgorde: check eerst <b>of</b> je iets mag ingeven, kies dan <b>welke tool</b>, gebruik een sterke <b>prompt</b>, en ontwerp je <b>taken</b> zo dat het leren zichtbaar blijft. Staat je vraag er niet bij? Stel ze bij <a href="#vragen">Vragen</a>.</p>
+<p class="route">Werk in deze volgorde: check eerst <b>of</b> je iets mag ingeven, kies dan <b>welke tool</b>, gebruik een sterke <b>prompt</b>, en ontwerp je <b>taken</b> zo dat het leren zichtbaar blijft. Staat je vraag er niet bij? Bespreek ze met je AI-aanspreekpunt of de ICT-coördinator van je school.</p>
 
 <!-- ================= BESLISBOOM ================= -->
 <section id="beslisboom" role="tabpanel" hidden>
   <div class="intro">
-    <div><h2>Mag ik dit met AI?</h2><p>Twijfel je of je iets mag ingeven, uploaden of gebruiken in een AI-tool? Beantwoord een paar korte vragen en je weet meteen waar je staat.</p></div>
+    <div><h2>Mag ik dit met AI?</h2><p>Twijfel je of je iets mag ingeven, uploaden of gebruiken in een AI-tool, of wil je zelf een app bouwen met AI? Beantwoord een paar korte vragen en je weet meteen waar je staat.</p></div>
     <svg viewBox="0 0 140 120" role="img" aria-label="Vriendelijke computer">
       <rect x="20" y="10" width="100" height="72" rx="14" fill="#fff"/>
       <rect x="30" y="20" width="80" height="52" rx="8" fill="#95D600"/>
@@ -241,30 +228,19 @@ footer a{color:var(--groen);font-weight:600}
     <div class="kaart groen"><b>Stap 4 · in de klas: procesgesprek</b><p>Twee minuten: "Waarom koos je dit argument? Wat veranderde je na de feedback?" Je beoordeelt kaart, tekst en gesprek met een rubric die je vooraf deelt. Geen AI-detector: bij twijfel volgt een pedagogisch gesprek.</p></div>
   </div>
 
+  <h2 class="sec">Werkvorm: gevolgen van gevolgen (mens – machine – mens)</h2>
+  <p style="margin:0;max-width:70ch">Een werkvorm uit toekomstdenken die perfect past bij AI-bestendig werken: het denkwerk gebeurt eerst door de leerlingen zelf, AI komt pas daarna als extra denkpartner. Bruikbaar in elk vak: geschiedenis, aardrijkskunde, economie, wetenschappen, PAV, godsdienst …</p>
+  <div class="vb-taak">
+    <div class="kaart"><b>Stap 1 · de verandering</b><span class="lbl">klassikaal</span><p>Geef één verandering uit je vak, bv. "Het regent in Vlaanderen de helft minder" of "Iedereen werkt nog maar vier dagen per week".</p></div>
+    <div class="kaart"><b>Stap 2 · zelf doordenken</b><span class="lbl">1 · Verboden</span><p>In groepjes op papier: twee gevolgen in de eerste lijn, voor elk een gevolg daarvan (tweede lijn) en daarvan weer een gevolg (derde lijn).</p></div>
+    <div class="kaart"><b>Stap 3 · AI als denkpartner</b><span class="lbl">2 · Als inspiratie</span><p>Pas dan vraagt de groep aan Copilot (schoolaccount) welke gevolgen ze vergaten. Ze duiden aan wat sterk, onrealistisch of nieuw is, en wat zij zagen dat AI níet zag.</p></div>
+    <div class="kaart groen"><b>Stap 4 · nieuws uit de toekomst</b><p>Elke groep schrijft een krantenkop over het meest verrassende gevolg en verdedigt die kort voor de klas. Zo toon je het denkproces, niet enkel het product. Enkel tekst: geen nagemaakte beelden of stemmen van echte personen.</p></div>
+  </div>
+  <details class="tip"><summary>Variant: trend of hype?</summary><div class="inhoud"><p>Laat leerlingen AI-nieuws sorteren: een trend komt steeds terug en blijft langer dan een paar maanden, een hype is een korte rage via sociale media of bekende mensen. Bespreek daarna dat een hype soms het begin van een trend is. Sterk als opwarmer voor een les over kritisch kijken naar toekomstbeelden van influencers en tech-bedrijven.</p><div class="vb">Voorbeeld: "Steeds meer apps krijgen een ingebouwde AI-assistent" (trend) tegenover "een AI-filter die een week viraal gaat" (hype).</div></div></details>
+  <p style="font-size:.85rem;opacity:.85;margin:.5rem 0 2rem">Werkvormen geïnspireerd op de EDUbox Toekomstgeletterdheid (VRT). Leerlingen maken beide werkvormen ook in module 6 van de leerlingencursus.</p>
+
   <h2 class="sec">Tips met voorbeelden</h2>
   <div id="tiplijst"></div>
-</section>
-
-<!-- ================= VRAGEN ================= -->
-<section id="vragen" role="tabpanel" hidden>
-  <div class="intro">
-    <div><h2>Vragenbox</h2><p>Snel een antwoord? Bekijk eerst de veelgestelde vragen. Staat je vraag er niet bij, dan mail je ze rechtstreeks naar de pedagogische ICT-dienst.</p></div>
-    <svg viewBox="0 0 140 120" role="img" aria-label="Illustratie: spreekwolk met vraagteken"><path d="M20 20 h90 a12 12 0 0 1 12 12 v44 a12 12 0 0 1 -12 12 h-54 l-20 18 v-18 h-16 a12 12 0 0 1 -12 -12 v-44 a12 12 0 0 1 12 -12z" fill="#fff"/><text x="65" y="72" text-anchor="middle" font-family="Poppins,sans-serif" font-weight="800" font-size="46" fill="#06038D">?</text><circle cx="120" cy="16" r="10" fill="#95D600"/></svg>
-  </div>
-  <h2 class="sec" style="margin-top:0">Veelgestelde vragen</h2>
-  <div class="faq" id="faqlijst"></div>
-  <div class="kaart vraagform" style="margin-top:2rem">
-    <h3>Stel je vraag</h3>
-    <label for="vraagtekst" style="font-size:.92rem">Je vraag wordt als e-mail verstuurd naar de pedagogische ICT-dienst (dus niet anoniem). Vermeld geen namen van leerlingen of collega's.</label>
-    <textarea id="vraagtekst" maxlength="800" placeholder="Bv. Mag ik Copilot gebruiken om feedback te geven op anonieme teksten van leerlingen?"></textarea>
-    <div class="rij">
-      <select id="vraagcat" aria-label="Onderwerp">
-        <option>Algemeen</option><option>Privacy</option><option>Tools</option><option>Lesgeven &amp; evaluatie</option><option>Leerlingen</option>
-      </select>
-      <button class="hoofd" id="verstuur">Mail je vraag</button>
-      <span class="melding" id="vraagmelding" role="status"></span>
-    </div>
-  </div>
 </section>
 
 <footer>
@@ -339,15 +315,6 @@ $('#toolzoek').addEventListener('input',renderTools);renderTools();
 /* ---------- tips ---------- */
 $('#tiplijst').innerHTML=TIPS.map(t=>`<details class="tip"><summary>${esc(t.titel)}</summary><div class="inhoud"><p style="margin:0">${esc(t.tekst)}</p><div class="vb"><b>Voorbeeld:</b> ${esc(t.vb)}</div></div></details>`).join('');
 
-/* ---------- vragenbox (FAQ + e-mail) ---------- */
-$('#faqlijst').innerHTML=FAQ.map(f=>`<div class="kaart"><span class="tag doel">${esc(f.cat)}</span><p class="v" style="margin:.5rem 0 0">${esc(f.v)}</p><div class="a">${esc(f.a)}</div></div>`).join('');
-function maakMailUrl(t,cat){return 'mailto:informaticadienst.pedagogisch@sint-rembert.be?subject='+encodeURIComponent('Vraag AI op school ('+cat+')')+'&body='+encodeURIComponent(t)}
-$('#verstuur').addEventListener('click',()=>{
-  const t=$('#vraagtekst').value.trim(), m=$('#vraagmelding');
-  if(!t){m.textContent='Typ eerst je vraag.';return}
-  location.href=maakMailUrl(t,$('#vraagcat').value);
-  m.textContent='Je mailprogramma opent met je vraag. Verstuur ze daar.';
-});
 </script>
 <script>
 (function(){
@@ -356,15 +323,17 @@ $('#verstuur').addEventListener('click',()=>{
 const CONFIG = {
   contact: "je AI-aanspreekpunt of de ICT-coördinator van je school",
   professionaliseringLink: "", // bv. link naar de nascholing; leeg = niet tonen
+  checklistApp: "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=SNyF4iu5l06epb2u0Gu7dw_W4KMXVNFFiRzem6bv9xNUMVRHRUdDTks0NzVVOEZGNE9aVkxLUTFGQi4u", // checklist vibe coding, EU AI Act en GDPR (Microsoft Forms)
 };
 
 const BOOM = {
   start: {
-    vraag: "Wat wil je aan de AI-tool geven?",
+    vraag: "Wat wil je doen met AI?",
     opties: [
-      { tekst: "Een vraag of tekst die ik zelf typ", naar: "persTekst" },
-      { tekst: "Een document of bestand (bv. toets, verslag, lesplan)", naar: "persDoc" },
-      { tekst: "Een foto of ander beeld", naar: "foto" },
+      { tekst: "Een vraag of tekst ingeven die ik zelf typ", naar: "persTekst" },
+      { tekst: "Een document of bestand uploaden (bv. toets, verslag, lesplan)", naar: "persDoc" },
+      { tekst: "Een foto of ander beeld gebruiken", naar: "foto" },
+      { tekst: "Zelf een app of tool bouwen met AI (vibecoding)", naar: "appData" },
     ],
   },
   foto: {
@@ -430,6 +399,29 @@ const BOOM = {
     ],
   },
 
+  appData: {
+    vraag: "Gaat je app persoonsgegevens gebruiken, opvragen of bewaren?",
+    hint: "Denk aan namen, e-mailadressen, punten, evaluaties, klaslijsten, of informatie over gezondheid, gedrag of thuissituatie van leerlingen, ouders of collega's.",
+    opties: [
+      { tekst: "Nee, de app werkt zonder persoonsgegevens", naar: "appBeslist" },
+      { tekst: "Ja, of ik weet het niet zeker", naar: "R_appPers" },
+    ],
+  },
+  appBeslist: {
+    vraag: "Beoordeelt, rangschikt of beslist de app iets over leerlingen of collega's?",
+    hint: "Bijvoorbeeld punten of feedback geven die meetelt, het niveau van een leerling bepalen, advies geven over oriëntering, toezicht houden tijdens toetsen of emoties herkennen.",
+    opties: [
+      { tekst: "Nee", naar: "appTool" },
+      { tekst: "Ja", naar: "R_appHoog" },
+    ],
+  },
+  appTool: {
+    vraag: "Met welke tool bouw je de app?",
+    opties: [
+      { tekst: "Een toegelaten tool (bv. Copilot, ChatGPT, Claude.ai of Gemini)", naar: "R_appCheck", tip: "Test niet met echte gegevens van leerlingen of collega's zolang de app niet is goedgekeurd." },
+      { tekst: "Een ander platform of een tool die niet op de lijst staat", naar: "R_appTool" },
+    ],
+  },
   /* ---------- UITKOMSTEN: soort = wel | niet | twijfel ---------- */
   R_ok: {
     soort: "wel", titel: "Dit mag",
@@ -466,6 +458,30 @@ const BOOM = {
     tekst: "AI-output neem je nooit kritiekloos over. Jij blijft verantwoordelijk voor het resultaat.",
     lijst: ["Controleer feiten, bronnen en taal.", "Pas de output aan aan je leerlingen en je vak."],
   },
+  R_appCheck: {
+    soort: "twijfel", titel: "Eerst de checklist",
+    tekst: "Zelfgebouwde tools leg je vooraf voor aan de IT-dienst, ook als ze met een toegelaten tool gemaakt zijn. Vul de checklist in vóór je de app test. Op basis van je antwoorden gaan we samen met je in gesprek.",
+    lijst: ["Vibe coding mag snel gaan; privacy, beveiliging en menselijke controle niet.", "Gebruikt je app zelf AI? Vermeld dat duidelijk voor wie de app gebruikt.", "Vragen? Bespreek het met " + CONFIG.contact + "."],
+    link: { tekst: "Open de checklist vibe coding", url: CONFIG.checklistApp },
+  },
+  R_appPers: {
+    soort: "twijfel", titel: "Eerst laten nakijken",
+    tekst: "Een app die persoonsgegevens gebruikt of bewaart, test je niet zonder voorafgaande controle. De DPO beoordeelt, samen met de IT-dienst, of en hoe het kan.",
+    lijst: ["Kan het zonder persoonsgegevens, bv. met een intern nummer of fictieve voorbeelden? Dat is altijd beter.", "Test nooit met echte gegevens van leerlingen, ouders of collega's.", "Vul de checklist in, zodat de DPO en de IT-dienst je app kunnen bekijken."],
+    link: { tekst: "Open de checklist vibe coding", url: CONFIG.checklistApp },
+  },
+  R_appHoog: {
+    soort: "niet", titel: "Niet zonder overleg",
+    tekst: "Een app die leerlingen of collega's beoordeelt, rangschikt of erover beslist, heeft grote gevolgen. Zulke toepassingen gelden als hoog risico of zijn zelfs verboden, en maak je niet zelf via vibe coding. Beslissingen over evaluatie en begeleiding blijven bij mensen.",
+    lijst: ["Overleg eerst met de DPO en de IT-dienst voor je verder bouwt.", "Laat de app hooguit ondersteunen: de leerkracht beslist altijd zelf."],
+    link: { tekst: "Open de checklist vibe coding", url: CONFIG.checklistApp },
+  },
+  R_appTool: {
+    soort: "twijfel", titel: "Eerst navragen",
+    tekst: "Een tool of platform dat niet op de lijst staat, is niet goedgekeurd. Ook low-code- en no-code-platformen met AI leg je eerst voor aan de IT-dienst.",
+    lijst: ["Bouw bij voorkeur met een toegelaten tool, zoals Copilot met je schoolaccount.", "Wil je toch dit platform gebruiken? Vul de checklist in en vermeld welk platform het is."],
+    link: { tekst: "Open de checklist vibe coding", url: CONFIG.checklistApp },
+  },
 };
 /* ==================================== */
 
@@ -500,6 +516,7 @@ function toon(){
         <div class="kop">${iconen[n.soort]}<h3>${esc(n.titel)}</h3></div>
         <p>${esc(n.tekst)}</p>
         ${n.lijst ? '<ul>'+n.lijst.map(l=>`<li>${esc(l)}</li>`).join('')+'</ul>' : ''}
+        ${n.link && n.link.url ? `<p><a class="bb-link" href="${esc(n.link.url)}" target="_blank" rel="noopener">${esc(n.link.tekst)} ↗</a></p>` : ''}
         ${tips.length ? '<div class="tips"><h4>Let op</h4><ul>'+tips.map(t=>`<li>${esc(t)}</li>`).join('')+'</ul></div>' : ''}
       </div>` + padHtml();
   } else {

@@ -1,33 +1,39 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>AI-Geletterdheid — Sint-Rembert</title>
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=20261015a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=20261020r">
+<link rel="stylesheet" href="huisstijl.css?v=20261020r">
 </head>
 <body>
 <div id="app">
 <aside id="sidebar">
   <div class="sb-logo">
-    <div class="sb-badge"><span>Sint-Rembert</span></div>
+    <div class="sb-kop"><img class="sb-logo-img" src="data:image/png;base64,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" alt="Logo Sint-Rembert scholengroep"><svg class="sb-chev" viewBox="0 0 120 60" aria-hidden="true"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="13"><polyline points="12,10 32,30 12,50" stroke="#CCFF99"/><polyline points="46,10 66,30 46,50" stroke="#A6F04A"/><polyline points="80,10 100,30 80,50" stroke="#95D600"/></g></svg></div>
     <div class="sb-title">AI-<em>Geletterdheid</em><br>Overzicht</div>
     <div class="sb-sub">Scholengroep Sint-Rembert · schooljaar 2026-2027</div>
   </div>
 
   <div class="nav-sec">
     <div class="nav-lbl">Navigatie</div>
-    <div class="ni active" onclick="sv('home')" id="nav-home"><div class="ni-icon">🏠</div><div class="ni-info"><div class="ni-title">Startpagina</div><div class="ni-sub">Welkom & routes</div></div></div>
-    <div class="ni available" onclick="goTeacher()"><div class="ni-icon">👨‍🏫</div><div class="ni-info"><div class="ni-title">Leerkrachten</div><div class="ni-sub">Professionalisering</div></div></div>
-    <div class="ni available" onclick="sv('docs')" id="nav-docs"><div class="ni-icon">📁</div><div class="ni-info"><div class="ni-title">Documenten</div><div class="ni-sub">Beleid & bronnen</div></div></div>
-    <div class="ni available" onclick="sv('news')" id="nav-news"><div class="ni-icon">📰</div><div class="ni-info"><div class="ni-title">Nieuws</div><div class="ni-sub">Teams-kanaal</div></div></div>
-    <div class="ni available" onclick="sv('hulp')" id="nav-hulp"><div class="ni-icon">🧰</div><div class="ni-info"><div class="ni-title">Praktijkhulp</div><div class="ni-sub">Prompts, tools & taken</div></div></div>
+    <div class="ni active" onclick="sv('home')" id="nav-home"><div class="ni-icon"></div><div class="ni-info"><div class="ni-title">Startpagina</div><div class="ni-sub">Welkom & routes</div></div></div>
+    <div class="ni available" onclick="goTeacher()"><div class="ni-icon"></div><div class="ni-info"><div class="ni-title">Leerkrachten</div><div class="ni-sub">Professionalisering</div></div></div>
+    <div class="ni available" onclick="sv('docs')" id="nav-docs"><div class="ni-icon"></div><div class="ni-info"><div class="ni-title">Documenten</div><div class="ni-sub">Beleid & bronnen</div></div></div>
+    <div class="ni available" onclick="sv('news')" id="nav-news"><div class="ni-icon"></div><div class="ni-info"><div class="ni-title">Nieuws</div><div class="ni-sub">Teams-kanaal</div></div></div>
+    <div class="ni available" onclick="sv('hulp')" id="nav-hulp"><div class="ni-icon"></div><div class="ni-info"><div class="ni-title">Praktijkhulp</div><div class="ni-sub">Prompts, tools & taken</div></div></div>
   </div>
 
   <div class="sb-bot">
-    <div style="padding: 12px; background: #f0f2f5; border-radius: 6px; font-size: 13px; line-height: 1.6; color: #666;">
-      <strong style="color: #1a1a1a;">💡 Welkom!</strong> Kies je route hiernaast.
+    <div style="padding: 12px; background: #FFFFFF; border-radius: 6px; font-size: 13px; line-height: 1.6; color:#06038D;">
+      <strong style="color:#06038D;">Welkom!</strong> Kies je route hiernaast.
     </div>
   </div>
 </aside>
@@ -37,14 +43,15 @@
 <!-- ════════ HOME ════════ -->
 <div class="view active" id="view-home">
   <div class="hero">
+    <svg class="hero-ill" viewBox="0 0 140 120" role="img" aria-label="Vriendelijke computer"><rect x="20" y="10" width="100" height="72" rx="14" fill="#fff"/><rect x="30" y="20" width="80" height="52" rx="8" fill="#95D600"/><circle cx="55" cy="42" r="6" fill="#06038D"/><circle cx="85" cy="42" r="6" fill="#06038D"/><circle cx="57" cy="40" r="2" fill="#fff"/><circle cx="87" cy="40" r="2" fill="#fff"/><path d="M58 56 Q70 66 82 56" stroke="#06038D" stroke-width="4" fill="none" stroke-linecap="round"/><rect x="60" y="82" width="20" height="12" fill="#fff"/><rect x="35" y="94" width="70" height="12" rx="6" fill="#fff"/><path d="M120 40 q14 -6 12 -22" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round"/><circle cx="132" cy="16" r="6" fill="#95D600"/></svg>
     <div class="hero-ey"><span>Scholengroep Sint-Rembert × Beleidskader AI</span></div>
     <h1 class="hero-h1">AI-Geletterdheid<br>voor <span class="g">iedereen</span></h1>
     <p class="hero-p">AI verandert onderwijs, werk en maatschappij. Sint-Rembert bereidt alle betrokken — leerkrachten ánd leerlingen — voor op deze toekomst. Met ons beleidskader en praktische training leer je AI niet alleen te begrijpen, maar ook verantwoord in te zetten.</p>
     <div class="hero-stats">
-      <div class="hs"><div class="hs-num">👨‍🏫</div><div class="hs-lbl">Leerkrachten · Professioneel</div></div>
-      <div class="hs"><div class="hs-num">👨‍🎓</div><div class="hs-lbl">Leerlingen · Praktisch</div></div>
-      <div class="hs"><div class="hs-num">📋</div><div class="hs-lbl">Beleidskader</div></div>
-      <div class="hs"><div class="hs-num">✅</div><div class="hs-lbl">EU AI Act Compliant</div></div>
+      <div class="hs"><div class="hs-num"></div><div class="hs-lbl">Leerkrachten · Professioneel</div></div>
+      <div class="hs"><div class="hs-num"></div><div class="hs-lbl">Leerlingen · Praktisch</div></div>
+      <div class="hs"><div class="hs-num"></div><div class="hs-lbl">Beleidskader</div></div>
+      <div class="hs"><div class="hs-num">✓</div><div class="hs-lbl">EU AI Act Compliant</div></div>
     </div>
   </div>
 
@@ -55,37 +62,37 @@
     
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 28px;">
       <div class="principle-box">
-        <div class="pb-icon">👤</div>
+        <div class="pb-icon"></div>
         <div class="pb-title">De mens blijft centraal</div>
         <div class="pb-text">AI is een ondersteuning, niet een vervanging. Leerkrachten en leerlingen bepalen en verantwoorden hun keuzes.</div>
       </div>
 
       <div class="principle-box">
-        <div class="pb-icon">⭐</div>
+        <div class="pb-icon"></div>
         <div class="pb-title">Meerwaarde is vereist</div>
         <div class="pb-text">We zetten AI in waar het echt bijdraagt aan beter onderwijs — niet voor de hype.</div>
       </div>
 
       <div class="principle-box">
-        <div class="pb-icon">🔍</div>
+        <div class="pb-icon"></div>
         <div class="pb-title">Transparantie & eigenaarschap</div>
         <div class="pb-text">Wie AI gebruikt, blijft eigenaar van het proces. Uitkomsten worden altijd zorgvuldig gecontroleerd.</div>
       </div>
 
       <div class="principle-box">
-        <div class="pb-icon">🎓</div>
+        <div class="pb-icon"></div>
         <div class="pb-title">Leeftijdsgeschikt</div>
         <div class="pb-text">AI-gebruik is altijd afgestemd op de maturiteit en ontwikkelingsfase van leerlingen.</div>
       </div>
 
       <div class="principle-box">
-        <div class="pb-icon">⚖️</div>
+        <div class="pb-icon"></div>
         <div class="pb-title">Deskundigheid</div>
         <div class="pb-text">Alle medewerkers en leerlingen die AI gebruiken, hebben het basisniveau AI-geletterdheid.</div>
       </div>
 
       <div class="principle-box">
-        <div class="pb-icon">🛡️</div>
+        <div class="pb-icon"></div>
         <div class="pb-title">Wet- & regelgeving</div>
         <div class="pb-text">We houden ons aan de AVG, EU AI Act en alle relevante regelgeving.</div>
       </div>
@@ -98,7 +105,7 @@
     <div class="routes-grid">
       <div class="route-card teacher-route">
         <div class="rc-header">
-          <div class="rc-icon">👨‍🏫</div>
+          <div class="rc-icon"></div>
           <div class="rc-title">Ik ben LEERKRACHT</div>
         </div>
         <div class="rc-body">
@@ -119,22 +126,22 @@
 
     <div style="background:white;border:1px solid #e0e4f5;border-left:4px solid var(--green);border-radius:8px;padding:18px 20px;margin-top:28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;">
       <div style="flex:1;min-width:240px;">
-        <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;margin-bottom:4px;">🧰 Voor leerkrachten</div>
+        <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;margin-bottom:4px;">Voor leerkrachten</div>
         <div style="font-size:15px;font-weight:800;color:var(--blue);margin-bottom:4px;">Praktijkhulp: beslisboom, toolchecker, prompts en AI-bestendige taken</div>
-        <div style="font-size:13px;color:#666;line-height:1.6;">Kant-en-klare hulpmiddelen om morgen al mee aan de slag te gaan in je klas.</div>
+        <div style="font-size:13px;color:#06038D;line-height:1.6;">Kant-en-klare hulpmiddelen om morgen al mee aan de slag te gaan in je klas.</div>
       </div>
       <button class="route-btn teacher" style="width:auto;padding:12px 22px;" onclick="sv('hulp')">Bekijk praktijkhulp →</button>
     </div>
 
     <div style="background:white;border:1px solid #e0e4f5;border-left:4px solid var(--blue);border-radius:8px;padding:16px 20px;margin-top:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;">
-      <div style="flex:1;min-width:240px;font-size:13px;color:#3d4f8a;line-height:1.7;"><strong>📁 AI-labels en hoofding examen/taak:</strong> de AI-labels (met klasposter) en de hoofding voor examens en taken vind je bij <strong>Documenten</strong>.</div>
+      <div style="flex:1;min-width:240px;font-size:13px;color:#06038D;line-height:1.7;"><strong>AI-labels en hoofding examen/taak:</strong> de AI-labels (met klasposter) en de hoofding voor examens en taken vind je bij <strong>Documenten</strong>.</div>
       <button class="route-btn teacher" style="width:auto;padding:12px 22px;" onclick="sv('docs')">Naar Documenten →</button>
     </div>
 
     <!-- CONTEXT -->
-    <div style="background: #f9f9f9; border-left: 4px solid var(--blue); padding: 20px; border-radius: 4px; margin-top: 28px;">
-      <div style="font-weight: 700; color: var(--blue); margin-bottom: 8px;">📋 Dit is onderdeel van...</div>
-      <p style="margin: 0; font-size: 14px; color: #666; line-height: 1.6;">
+    <div style="background: #FFFFFF; border-left: 4px solid var(--blue); padding: 20px; border-radius: 4px; margin-top: 28px;">
+      <div style="font-weight: 700; color: var(--blue); margin-bottom: 8px;">Dit is onderdeel van...</div>
+      <p style="margin: 0; font-size: 14px; color:#06038D; line-height: 1.6;">
         <strong>Beleidskader Artificiële Intelligentie van Sint-Rembert</strong> — het centrale referentiedocument voor verantwoord AI-gebruik in onze scholengroep. Dit traject helpt iedereen die framework te begrijpen en toe te passen. Aansluitend op het Digisprong-beleid van de Vlaamse overheid en artikel 4 van de EU AI Act.
       </p>
     </div>
@@ -145,73 +152,73 @@
 <!-- ════════ DOCUMENTEN ════════ -->
 <div class="view" id="view-docs">
   <div class="sw" style="margin-top: 40px;">
-    <div class="sw-title">📁 <em>Documenten</em> & Beleid</div>
+    <div class="sw-title"><em>Documenten</em> & Beleid</div>
     <div class="sw-sub">Het centrale referentiemateriaal van Sint-Rembert rond AI, en de bronnen waarop onze trainingen gebaseerd zijn.</div>
 
-    <div class="sw-title" style="margin-top:20px;font-size:20px">📋 Beleidskader <em>Artificiële Intelligentie</em></div>
+    <div class="sw-title" style="margin-top:20px;font-size:20px">Beleidskader <em>Artificiële Intelligentie</em></div>
     <div style="background: white; border: 1px solid #e0e4f5; border-radius: 10px; padding: 22px; margin: 16px 0 32px 0;">
-      <p style="font-size: 13px; color: #666; margin: 0 0 14px 0;">Het centrale referentiedocument voor verantwoord AI-gebruik binnen Scholengroep Sint-Rembert (versie 1.0, goedgekeurd door het Bestuursorgaan). De 4 niet-onderhandelbare principes:</p>
-      <ul style="font-size: 13px; color: #666; line-height: 2; padding-left: 20px; margin: 0 0 14px 0;">
+      <p style="font-size: 13px; color:#06038D; margin: 0 0 14px 0;">Het centrale referentiedocument voor verantwoord AI-gebruik binnen Scholengroep Sint-Rembert (versie 1.0, goedgekeurd door het Bestuursorgaan). De 4 niet-onderhandelbare principes:</p>
+      <ul style="font-size: 13px; color:#06038D; line-height: 2; padding-left: 20px; margin: 0 0 14px 0;">
         <li><strong>De mens blijft centraal</strong> — het mens-machine-mens-principe: AI ondersteunt, maar elke inzet vertrekt vanuit een menselijke vraag en eindigt met menselijke controle</li>
         <li><strong>Meerwaarde is vereist</strong> — AI wordt enkel ingezet bij aantoonbare pedagogische of organisatorische meerwaarde</li>
         <li><strong>Transparantie en eigenaarschap</strong> — wie AI gebruikt, blijft eindverantwoordelijk voor het resultaat</li>
         <li><strong>Leeftijds- en ontwikkelingsgeschikt</strong> — afgestemd op maturiteit: kleuters geen zelfstandig gebruik, lager onderwijs enkel begeleid, secundair kritisch en met verantwoording</li>
       </ul>
-      <p style="font-size: 13px; color: #666; margin: 0 0 8px 0;"><strong>Toegelaten AI-toepassingen:</strong> Bookwidgets AI, ChatGPT, Claude.ai, Microsoft Copilot Chat, Microsoft Copilot for M365, Gamma.app, Google Gemini, NotebookLM.</p>
-      <p style="font-size: 13px; color: #666; margin: 0 0 18px 0;"><strong>Bij evaluaties</strong> geldt: AI is niet toegestaan, tenzij de leerkracht dit expliciet toelaat. De school gebruikt bewust géén AI-detectietools — evaluatie vertrekt vanuit vertrouwen en gesprek.</p>
-      <a href="Beleidskader-AI-Sint-Rembert.pdf" target="_blank" style="display:inline-block; background: var(--blue); color: white; font-weight: 700; font-size: 13px; padding: 10px 18px; border-radius: 6px; text-decoration: none;">📄 Download volledig document (PDF)</a>
+      <p style="font-size: 13px; color:#06038D; margin: 0 0 8px 0;"><strong>Toegelaten AI-toepassingen:</strong> Bookwidgets AI, ChatGPT, Claude.ai, Microsoft Copilot Chat, Microsoft Copilot for M365, Gamma.app, Google Gemini, NotebookLM.</p>
+      <p style="font-size: 13px; color:#06038D; margin: 0 0 18px 0;"><strong>Bij evaluaties</strong> geldt: AI is niet toegestaan, tenzij de leerkracht dit expliciet toelaat. De school gebruikt bewust géén AI-detectietools — evaluatie vertrekt vanuit vertrouwen en gesprek.</p>
+      <a href="Beleidskader-AI-Sint-Rembert.pdf" target="_blank" style="display:inline-block; background: var(--blue); color: white; font-weight: 700; font-size: 13px; padding: 10px 18px; border-radius: 6px; text-decoration: none;">Download volledig document (PDF)</a>
     </div>
 
     <div class="sw-title" style="margin-top:32px;font-size:20px">Voorbeeld<em>documenten</em></div>
-    <p style="font-size: 14px; color: #666; margin-bottom: 16px;">Klik op een document om het voorbeeld uit te vouwen.</p>
+    <p style="font-size: 14px; color:#06038D; margin-bottom: 16px;">Klik op een document om het voorbeeld uit te vouwen.</p>
 
     <details style="background: white; border: 1px solid #e0e4f5; border-radius: 8px; margin: 12px 0; overflow: hidden;">
       <summary style="cursor: pointer; padding: 16px; font-weight: 700; color: var(--blue); list-style: none; display: flex; align-items: center; justify-content: space-between;">
-        <span>🏷️ AI-labels — voorbeelddocument</span>
-        <span style="font-size: 12px; color: #999; font-weight: 400;">uitvouwen ▾</span>
+        <span>AI-labels — voorbeelddocument</span>
+        <span style="font-size: 12px; color:#06038D; font-weight: 400;">uitvouwen ▾</span>
       </summary>
       <div style="padding: 0 16px 20px 16px; border-top: 1px solid #eee;">
-        <p style="font-size: 13px; color: #666; margin: 14px 0;">De 4 AI-labels die Sint-Rembert gebruikt om per opdracht duidelijk te maken wat wel en niet mag:</p>
+        <p style="font-size: 13px; color:#06038D; margin: 14px 0;">De 4 AI-labels die Sint-Rembert gebruikt om per opdracht duidelijk te maken wat wel en niet mag:</p>
         <table style="width:100%; border-collapse: collapse; font-size: 13px;">
-          <tr style="background:#f0f2f5;"><td style="padding:8px 10px; font-weight:700; width:36px;">1</td><td style="padding:8px 10px; font-weight:700;">Verboden</td><td style="padding:8px 10px; color:#666;">Geen AI. Je maakt alles zelf (toetsen, examens)</td></tr>
-          <tr><td style="padding:8px 10px; font-weight:700;">2</td><td style="padding:8px 10px; font-weight:700;">Als inspiratie</td><td style="padding:8px 10px; color:#666;">AI enkel om ideeën op te doen; het werk maak je zelf</td></tr>
-          <tr style="background:#f0f2f5;"><td style="padding:8px 10px; font-weight:700;">3</td><td style="padding:8px 10px; font-weight:700;">Als ondersteuning</td><td style="padding:8px 10px; color:#666;">AI mag helpen tijdens het proces, met transparantie</td></tr>
-          <tr><td style="padding:8px 10px; font-weight:700;">4</td><td style="padding:8px 10px; font-weight:700;">Toegestaan</td><td style="padding:8px 10px; color:#666;">AI mag volop, zolang je eerlijk bent over je gebruik</td></tr>
+          <tr style="background:#FFFFFF;"><td style="padding:8px 10px; font-weight:700; width:36px;">1</td><td style="padding:8px 10px; font-weight:700;">Verboden</td><td style="padding:8px 10px; color:#06038D;">Geen AI. Je maakt alles zelf (toetsen, examens)</td></tr>
+          <tr><td style="padding:8px 10px; font-weight:700;">2</td><td style="padding:8px 10px; font-weight:700;">Als inspiratie</td><td style="padding:8px 10px; color:#06038D;">AI enkel om ideeën op te doen; het werk maak je zelf</td></tr>
+          <tr style="background:#FFFFFF;"><td style="padding:8px 10px; font-weight:700;">3</td><td style="padding:8px 10px; font-weight:700;">Als ondersteuning</td><td style="padding:8px 10px; color:#06038D;">AI mag helpen tijdens het proces, met transparantie</td></tr>
+          <tr><td style="padding:8px 10px; font-weight:700;">4</td><td style="padding:8px 10px; font-weight:700;">Toegestaan</td><td style="padding:8px 10px; color:#06038D;">AI mag volop, zolang je eerlijk bent over je gebruik</td></tr>
         </table>
-        <p style="font-size: 11px; color: #999; font-style: italic; margin: 14px 0 10px 0;">De vier AI-labels van Lut De Jaegher · Sint-Jozefscollege Torhout</p>
-        <a href="AI-labels-poster%20(1).png" target="_blank" style="display:inline-block; background: white; color: var(--blue); border: 2px solid var(--blue); font-weight: 700; font-size: 13px; padding: 8px 18px; border-radius: 6px; text-decoration: none;">🖼️ Bekijk/download klasposter</a>
+        <p style="font-size: 11px; color:#06038D; font-style: italic; margin: 14px 0 10px 0;">De vier AI-labels van Lut De Jaegher · Sint-Jozefscollege Torhout</p>
+        <a href="AI-labels-poster%20(1).png" target="_blank" style="display:inline-block; background: white; color: var(--blue); border: 2px solid var(--blue); font-weight: 700; font-size: 13px; padding: 8px 18px; border-radius: 6px; text-decoration: none;">Bekijk/download klasposter</a>
       </div>
     </details>
 
     <details style="background: white; border: 1px solid #e0e4f5; border-radius: 8px; margin: 12px 0; overflow: hidden;">
       <summary style="cursor: pointer; padding: 16px; font-weight: 700; color: var(--blue); list-style: none; display: flex; align-items: center; justify-content: space-between;">
-        <span>📝 Hoofding examen/taak met AI-label — sjabloon</span>
-        <span style="font-size: 12px; color: #999; font-weight: 400;">uitvouwen ▾</span>
+        <span>Hoofding examen/taak met AI-label — sjabloon</span>
+        <span style="font-size: 12px; color:#06038D; font-weight: 400;">uitvouwen ▾</span>
       </summary>
       <div style="padding: 0 16px 20px 16px; border-top: 1px solid #eee;">
-        <p style="font-size: 13px; color: #666; margin: 14px 0;">Standaard hoofding om bovenaan een examen of taak te plaatsen (naam, klas, vak, datum, punten), met een aankruisvakje voor het geldende AI-label. Zo weten leerlingen in één oogopslag wat mag.</p>
+        <p style="font-size: 13px; color:#06038D; margin: 14px 0;">Standaard hoofding om bovenaan een examen of taak te plaatsen (naam, klas, vak, datum, punten), met een aankruisvakje voor het geldende AI-label. Zo weten leerlingen in één oogopslag wat mag.</p>
         <table style="width:100%; border-collapse: collapse; font-size: 12px; margin-bottom: 14px;">
-          <tr style="background:#f0f2f5;"><td style="padding:6px 10px; border:1px solid #ddd;">☐ Verboden</td><td style="padding:6px 10px; border:1px solid #ddd;">☐ Als inspiratie</td><td style="padding:6px 10px; border:1px solid #ddd;">☐ Als ondersteuning</td><td style="padding:6px 10px; border:1px solid #ddd;">☐ Toegestaan</td></tr>
+          <tr style="background:#FFFFFF;"><td style="padding:6px 10px; border:1px solid #ddd;">Verboden</td><td style="padding:6px 10px; border:1px solid #ddd;">Als inspiratie</td><td style="padding:6px 10px; border:1px solid #ddd;">Als ondersteuning</td><td style="padding:6px 10px; border:1px solid #ddd;">Toegestaan</td></tr>
         </table>
         <div style="display:flex; gap:10px; flex-wrap:wrap;">
-          <a href="Hoofding-examen-taak-AI-label.pdf" target="_blank" style="background: var(--blue); color: white; font-weight: 700; font-size: 13px; padding: 10px 18px; border-radius: 6px; text-decoration: none;">📄 Download als PDF</a>
-          <a href="Hoofding-examen-taak-AI-label.docx" target="_blank" style="background: white; color: var(--blue); border: 2px solid var(--blue); font-weight: 700; font-size: 13px; padding: 8px 18px; border-radius: 6px; text-decoration: none;">📝 Download als Word (invulbaar)</a>
+          <a href="Hoofding-examen-taak-AI-label.pdf" target="_blank" style="background: var(--blue); color: white; font-weight: 700; font-size: 13px; padding: 10px 18px; border-radius: 6px; text-decoration: none;">Download als PDF</a>
+          <a href="Hoofding-examen-taak-AI-label.docx" target="_blank" style="background: white; color: var(--blue); border: 2px solid var(--blue); font-weight: 700; font-size: 13px; padding: 8px 18px; border-radius: 6px; text-decoration: none;">Download als Word (invulbaar)</a>
         </div>
       </div>
     </details>
 
     <div class="sw-title" style="margin-top:32px;font-size:20px">Uit de <em>nascholing</em></div>
     <div style="background: white; border-left: 4px solid var(--blue); border-radius: 8px; padding: 16px; margin: 16px 0;">
-      <strong style="color: var(--blue);">🎓 AI-openers voor onderwijs — Howest EdHub (12/10/2026)</strong>
-      <p style="margin: 8px 0 0 0; font-size: 14px; color: #666; line-height: 1.6;">Handout van de inspiratiesessie van Thomas Vliebergh (Howest EdHub): prompts structureren, AI-slop vermijden, leren in plaats van delegeren, AI-zoekfuncties, AI-beelden, evalueren en AI-labels.</p>
-      <p style="margin: 10px 0 0 0; font-size: 13px; color: #3d4f8a; line-height: 1.6; background:#f0f2f5; padding:10px 12px; border-radius:6px;"><strong>Let op:</strong> in de presentatie komen ook tools aan bod die niet op onze lijst van toegelaten AI-toepassingen staan (bv. Perplexity en Consensus). Niet op de lijst = niet goedgekeurd: gebruik ze niet in je lessen zonder voorafgaande goedkeuring. Zelf apps bouwen met AI (vibecoden) leg je eerst voor aan de IT-dienst.</p>
-      <p style="margin: 10px 0 0 0; font-size: 14px; color: #666; line-height: 1.6;">De bruikbare tips uit deze sessie zijn verwerkt in de leerkrachtencursus (modules 2 en 3) en in de promptbibliotheek.</p>
-      <a href="Howest-EdHub-handout-AI-openers-12-10-2026.pdf" target="_blank" style="display:inline-block; margin-top:12px; background: var(--blue); color: white; font-weight: 700; font-size: 13px; padding: 10px 18px; border-radius: 6px; text-decoration: none;">📄 Bekijk de handout (PDF)</a>
-      <p style="margin: 10px 0 0 0; font-size: 11px; color: #999; font-style: italic;">© Thomas Vliebergh, Howest EdHub · CC BY-NC-ND · ongewijzigd gedeeld</p>
+      <strong style="color: var(--blue);">AI-openers voor onderwijs — Howest EdHub (12/10/2026)</strong>
+      <p style="margin: 8px 0 0 0; font-size: 14px; color:#06038D; line-height: 1.6;">Handout van de inspiratiesessie van Thomas Vliebergh (Howest EdHub): prompts structureren, AI-slop vermijden, leren in plaats van delegeren, AI-zoekfuncties, AI-beelden, evalueren en AI-labels.</p>
+      <p style="margin: 10px 0 0 0; font-size: 13px; color: #06038D; line-height: 1.6; background:#FFFFFF; padding:10px 12px; border-radius:6px;"><strong>Let op:</strong> in de presentatie komen ook tools aan bod die niet op onze lijst van toegelaten AI-toepassingen staan (bv. Perplexity en Consensus). Niet op de lijst = niet goedgekeurd: gebruik ze niet in je lessen zonder voorafgaande goedkeuring. Zelf apps bouwen met AI (vibecoden) leg je eerst voor aan de IT-dienst.</p>
+      <p style="margin: 10px 0 0 0; font-size: 14px; color:#06038D; line-height: 1.6;">De bruikbare tips uit deze sessie zijn verwerkt in de leerkrachtencursus (modules 2 en 3) en in de promptbibliotheek.</p>
+      <a href="Howest-EdHub-handout-AI-openers-12-10-2026.pdf" target="_blank" style="display:inline-block; margin-top:12px; background: var(--blue); color: white; font-weight: 700; font-size: 13px; padding: 10px 18px; border-radius: 6px; text-decoration: none;">Bekijk de handout (PDF)</a>
+      <p style="margin: 10px 0 0 0; font-size: 11px; color:#06038D; font-style: italic;">© Thomas Vliebergh, Howest EdHub · CC BY-NC-ND · ongewijzigd gedeeld</p>
     </div>
 
     <div class="sw-title" style="margin-top:32px;font-size:20px">Externe <em>bronnen</em></div>
-    <ul style="font-size: 14px; color: #666; line-height: 2.2; padding-left: 22px;">
+    <ul style="font-size: 14px; color:#06038D; line-height: 2.2; padding-left: 22px;">
       <li><strong>EDUbox Artificiële Intelligentie</strong> — VRT, imec, Mediawijs, Kenniscentrum Data & Maatschappij, Brightlab, am/ai, BENEDMO</li>
       <li><a href="https://www.elementsofai.com/" target="_blank">Elements of AI</a> — gratis online cursus (Universiteit van Helsinki, TU Delft)</li>
       <li><a href="https://www.vrt.be/vrtnws/nl/2024/03/15/klaar-artificiele-intelligentie/" target="_blank">KLAAR — Artificiële Intelligentie</a> — VRT NWS project voor jongeren</li>
@@ -226,13 +233,13 @@
 <!-- ════════ NIEUWS ════════ -->
 <div class="view" id="view-news">
   <div class="sw" style="margin-top: 40px;">
-    <div class="sw-title">📰 AI in de <em>Actualiteit</em></div>
+    <div class="sw-title">AI in de <em>Actualiteit</em></div>
     <div class="sw-sub">Het AI-nieuws en de vragen van collega's verzamelen we in ons Teams-kanaal.</div>
 
     <!-- TEAMS-LINK: plak hieronder de link van het Teams-kanaal tussen de aanhalingstekens. Leeg = knop toont "Binnenkort". -->
     <div style="background: linear-gradient(135deg, #4B53BC 0%, #6264A7 100%); border-radius: 8px; padding: 20px; margin: 20px 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
       <div style="flex: 1; min-width: 240px;">
-        <div style="font-size:11px;font-weight:700;color:#D6D8F5;text-transform:uppercase;margin-bottom:6px;">💬 Blijf verbonden</div>
+        <div style="font-size:11px;font-weight:700;color:#D6D8F5;text-transform:uppercase;margin-bottom:6px;">Blijf verbonden</div>
         <h3 style="margin:0 0 6px 0; font-size:17px; color: white;">Word lid van ons Teams-kanaal</h3>
         <p style="font-size:13px;color:#E4E5F7;line-height:1.6;margin:0;">Stel vragen, deel interessante AI-vondsten en blijf op de hoogte tussen collega's — alles rond AI op Sint-Rembert komt hier samen.</p>
       </div>
@@ -243,50 +250,50 @@
 <script>
 (function(){
   var a=document.getElementById('teams-link');
-  if(!a.getAttribute('href')){a.removeAttribute('href');a.textContent='⏳ Binnenkort';a.style.background='rgba(255,255,255,0.18)';a.style.color='white';}
+  if(!a.getAttribute('href')){a.removeAttribute('href');a.textContent='Binnenkort';a.style.background='rgba(255,255,255,0.18)';a.style.color='white';}
 })();
 </script>
 
 <!-- ════════ PRAKTIJKHULP ════════ -->
 <div class="view" id="view-hulp">
   <div class="sw" style="margin-top: 40px;">
-    <div class="sw-title">🧰 <em>Praktijkhulp</em> voor leerkrachten</div>
+    <div class="sw-title"><em>Praktijkhulp</em> voor leerkrachten</div>
     <div class="sw-sub">Hulpmiddelen om AI meteen bruikbaar te maken in je lespraktijk, in de huisstijl van Sint-Rembert.</div>
 
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:24px 0;">
       <a href="ai-op-school.html#beslisboom" target="_blank" rel="noopener" style="display:block;background:white;border-radius:10px;padding:22px;text-decoration:none;box-shadow:0 1px 4px rgba(0,0,0,0.06);border:2px solid transparent;transition:all .2s;" onmouseover="this.style.borderColor='var(--green)'" onmouseout="this.style.borderColor='transparent'">
-        <div style="font-size:30px;margin-bottom:8px;">🚦</div>
+        <div style="font-size:30px;margin-bottom:8px;"></div>
         <div style="font-size:16px;font-weight:800;color:var(--blue);margin-bottom:6px;">Mag ik dit met AI?</div>
-        <div style="font-size:13px;color:#666;line-height:1.7;">Beslisboom: beantwoord een paar korte vragen en weet meteen of je iets mag ingeven, uploaden of gebruiken in een AI-tool.</div>
+        <div style="font-size:13px;color:#06038D;line-height:1.7;">Beslisboom: beantwoord een paar korte vragen en weet meteen of je iets mag ingeven, uploaden of gebruiken in een AI-tool.</div>
         <div style="font-size:12px;font-weight:800;color:var(--blue);margin-top:12px;">Openen →</div>
       </a>
       <a href="ai-op-school.html#tools" target="_blank" rel="noopener" style="display:block;background:white;border-radius:10px;padding:22px;text-decoration:none;box-shadow:0 1px 4px rgba(0,0,0,0.06);border:2px solid transparent;transition:all .2s;" onmouseover="this.style.borderColor='var(--green)'" onmouseout="this.style.borderColor='transparent'">
-        <div style="font-size:30px;margin-bottom:8px;">🧭</div>
+        <div style="font-size:30px;margin-bottom:8px;"></div>
         <div style="font-size:16px;font-weight:800;color:var(--blue);margin-bottom:6px;">Toolchecker</div>
-        <div style="font-size:13px;color:#666;line-height:1.7;">Welke AI-tools mag je gebruiken, en hoe? Goedgekeurd, enkel anoniem of niet toegelaten.</div>
+        <div style="font-size:13px;color:#06038D;line-height:1.7;">Welke AI-tools mag je gebruiken, en hoe? Goedgekeurd, enkel anoniem of niet toegelaten.</div>
         <div style="font-size:12px;font-weight:800;color:var(--blue);margin-top:12px;">Openen →</div>
       </a>
       <a href="ai-op-school.html#prompts" target="_blank" rel="noopener" style="display:block;background:white;border-radius:10px;padding:22px;text-decoration:none;box-shadow:0 1px 4px rgba(0,0,0,0.06);border:2px solid transparent;transition:all .2s;" onmouseover="this.style.borderColor='var(--green)'" onmouseout="this.style.borderColor='transparent'">
-        <div style="font-size:30px;margin-bottom:8px;">📚</div>
+        <div style="font-size:30px;margin-bottom:8px;"></div>
         <div style="font-size:16px;font-weight:800;color:var(--blue);margin-bottom:6px;">Promptbibliotheek</div>
-        <div style="font-size:13px;color:#666;line-height:1.7;">Kant-en-klare prompts voor lesvoorbereiding, differentiatie, feedback en toetsvragen. Kopieer, vul de haakjes in en plak in Copilot M365.</div>
+        <div style="font-size:13px;color:#06038D;line-height:1.7;">Kant-en-klare prompts voor lesvoorbereiding, differentiatie, feedback en toetsvragen. Kopieer, vul de haakjes in en plak in Copilot M365.</div>
         <div style="font-size:12px;font-weight:800;color:var(--blue);margin-top:12px;">Openen →</div>
       </a>
       <a href="ai-op-school.html#taken" target="_blank" rel="noopener" style="display:block;background:white;border-radius:10px;padding:22px;text-decoration:none;box-shadow:0 1px 4px rgba(0,0,0,0.06);border:2px solid transparent;transition:all .2s;" onmouseover="this.style.borderColor='var(--green)'" onmouseout="this.style.borderColor='transparent'">
-        <div style="font-size:30px;margin-bottom:8px;">📝</div>
+        <div style="font-size:30px;margin-bottom:8px;"></div>
         <div style="font-size:16px;font-weight:800;color:var(--blue);margin-bottom:6px;">AI-bestendige taken</div>
-        <div style="font-size:13px;color:#666;line-height:1.7;">Opdrachten waarbij het leren zichtbaar blijft: de vier AI-labels en tips met voorbeelden.</div>
+        <div style="font-size:13px;color:#06038D;line-height:1.7;">Opdrachten waarbij het leren zichtbaar blijft: de vier AI-labels en tips met voorbeelden.</div>
         <div style="font-size:12px;font-weight:800;color:var(--blue);margin-top:12px;">Openen →</div>
       </a>
     </div>
 
-    <div style="background:#f5f6fb;border-radius:10px;padding:16px 20px;font-size:13px;color:#3d4f8a;line-height:1.7;">
-      Alles samen op één plek: <a href="ai-op-school.html" target="_blank" rel="noopener" style="color:var(--blue);font-weight:800;">AI op school &ndash; voor leerkrachten</a>.<br>📁 De <strong>AI-labels</strong> (klasposter) en de <strong>hoofding voor examens en taken</strong> vind je bij <a href="#" onclick="sv('docs'); return false;" style="color:var(--blue);font-weight:800;">Documenten</a>.
+    <div style="background:#FFFFFF;border-radius:10px;padding:16px 20px;font-size:13px;color:#06038D;line-height:1.7;">
+      Alles samen op één plek: <a href="ai-op-school.html" target="_blank" rel="noopener" style="color:var(--blue);font-weight:800;">AI op school &ndash; voor leerkrachten</a>.<br>De <strong>AI-labels</strong> (klasposter) en de <strong>hoofding voor examens en taken</strong> vind je bij <a href="#" onclick="sv('docs'); return false;" style="color:var(--blue);font-weight:800;">Documenten</a>.
     </div>
   </div>
 </div>
 
-<footer style="font-size: 11px; color: #666; margin-top: 60px; padding: 30px 20px; border-top: 1px solid #ddd; background: #f9f9f9; line-height: 1.8;">
+<footer style="font-size: 11px; color:#06038D; margin-top: 60px; padding: 30px 20px; border-top: 1px solid #ddd; background: #FFFFFF; line-height: 1.8;">
   <div style="max-width: 1200px; margin: 0 auto;">
     <p style="margin: 0 0 12px 0;"><strong>Over dit platform</strong></p>
     <p style="margin: 0;">
@@ -323,10 +330,10 @@ window.addEventListener('hashchange', routeHash);
 <a href="mailto:informaticadienst.pedagogisch@sint-rembert.be?subject=Vraag%20over%20de%20AI-cursus" 
    id="helpdesk-btn" 
    title="Vragen? Mail de pedagogische ICT-dienst"
-   style="position:fixed; bottom:24px; right:24px; z-index:9998; background:var(--blue); color:white; height:52px; min-width:52px; border-radius:26px; display:flex; align-items:center; justify-content:center; text-decoration:none; box-shadow:0 4px 16px rgba(10,31,168,0.35); transition:all 0.25s ease; overflow:hidden; padding:0;"
+   style="position:fixed; bottom:24px; right:24px; z-index:9998; background:var(--blue); color:white; height:52px; min-width:52px; border-radius:26px; display:flex; align-items:center; justify-content:center; text-decoration:none; box-shadow:0 4px 16px rgba(6,3,141,0.35); transition:all 0.25s ease; overflow:hidden; padding:0;"
    onmouseover="this.style.minWidth='250px'; this.style.paddingLeft='18px'; this.style.paddingRight='20px'; this.style.justifyContent='flex-start'; document.getElementById('helpdesk-text').style.maxWidth='200px'; document.getElementById('helpdesk-text').style.marginLeft='10px';"
    onmouseout="this.style.minWidth='52px'; this.style.paddingLeft='0'; this.style.paddingRight='0'; this.style.justifyContent='center'; document.getElementById('helpdesk-text').style.maxWidth='0'; document.getElementById('helpdesk-text').style.marginLeft='0';">
-  <span style="font-size:22px; flex-shrink:0; line-height:1;">💬</span>
+  <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" style="flex-shrink:0"><path d="M4 5h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H10l-4 3v-3H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z" fill="none" stroke="#06038D" stroke-width="2.4" stroke-linejoin="round"/></svg>
   <span id="helpdesk-text" style="font-size:13px; font-weight:700; white-space:nowrap; overflow:hidden; max-width:0; transition:max-width 0.25s ease, margin-left 0.25s ease; display:inline-block;">Vragen? Mail ons</span>
 </a>
 

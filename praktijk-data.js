@@ -74,6 +74,10 @@ const PROMPTS = [
    tekst:"Je bent de lesassistent van de vakgroep [vak] van een Vlaamse secundaire school. Je helpt leerkrachten met lesmateriaal voor [graden/richtingen]. Werk altijd vanuit het leerplandoel dat de leerkracht geeft. Gebruik Vlaamse vaktermen en eenvoudige, toegankelijke taal. Vraag eerst naar doel, doelgroep en context als die ontbreken. Verzin geen cijfers of bronnen en markeer wat de leerkracht moet controleren. Vraag nooit naar namen of andere persoonsgegevens van leerlingen."},
   {vak:"Alle vakken",doel:"Lesvoorbereiding",titel:"Cursustekst schrijven in een canvas",
    tekst:"Open een canvas (document naast de chat). Schrijf een cursushoofdstuk over [onderwerp] voor [graad/jaar/finaliteit], leerplandoel: [doel]. Opbouw: korte inleiding met een herkenbaar voorbeeld, [3] paragrafen met tussentitels, na elke paragraaf 2 controlevragen, onderaan een samenvatting en een woordenlijst als tabel. Eenvoudige taal, maximaal [150] woorden per paragraaf. Daarna werk ik de tekst stap voor stap met je verder uit."},
+  {vak:"Alle vakken",doel:"Lesvoorbereiding",titel:"Gevolgen van gevolgen: startveranderingen voor mijn vak",
+   tekst:"Ik geef [vak] aan [graad/jaar/finaliteit]. Stel 5 veranderingen voor waarmee leerlingen de werkvorm 'gevolgen van gevolgen' kunnen doen (eerste, tweede en derde lijn). Elke verandering sluit aan bij dit leerplandoel: [doel]. Ze moet uitdagend maar haalbaar zijn, en ruimte laten voor positieve én negatieve gevolgen. Geef per verandering 2 vragen die de leerlingen helpen verder te denken, maar geef zelf geen gevolgen."},
+  {vak:"Alle vakken",doel:"Feedback",titel:"Voor leerlingen: AI als tweede denkpartner (na eigen werk)",
+   tekst:"Wij bedachten in groep dit schema met gevolgen van gevolgen bij de verandering: [verandering]. Ons schema: [plak schema]. Welke belangrijke gevolgen zijn wij vergeten? Geef er maximaal 3 en zeg bij elk waarom het belangrijk is. Verbeter ons schema niet en herschrijf niets: wij beslissen zelf wat we overnemen."},
 ];
 
 const TOOLS = [
