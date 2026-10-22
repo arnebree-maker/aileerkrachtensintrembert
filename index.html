@@ -10,8 +10,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=20261020w">
-<link rel="stylesheet" href="huisstijl.css?v=20261020w">
+<link rel="stylesheet" href="style.css?v=20261020x">
+<link rel="stylesheet" href="huisstijl.css?v=20261020x">
 </head>
 <body>
 <div id="app">
@@ -26,7 +26,7 @@
     <div class="nav-lbl">Navigatie</div>
     <div class="ni active" onclick="sv('home')" id="nav-home"><div class="ni-icon"></div><div class="ni-info"><div class="ni-title">Startpagina</div><div class="ni-sub">Welkom & routes</div></div></div>
     <div class="ni available" onclick="goTeacher()"><div class="ni-icon"></div><div class="ni-info"><div class="ni-title">Leerkrachten</div><div class="ni-sub">Professionalisering</div></div></div>
-    <div class="ni available" onclick="sv('docs')" id="nav-docs"><div class="ni-icon"></div><div class="ni-info"><div class="ni-title">Documenten</div><div class="ni-sub">Beleid & bronnen</div></div></div>
+    <div class="ni available" onclick="sv('docs')" id="nav-docs"><div class="ni-icon"></div><div class="ni-info"><div class="ni-title">Documenten</div><div class="ni-sub">Hoofding, sjablonen & bronnen</div></div></div>
     <div class="ni available" onclick="sv('news')" id="nav-news"><div class="ni-icon"></div><div class="ni-info"><div class="ni-title">Teams-kanaal AI</div><div class="ni-sub">Vragen & delen</div></div></div>
     <div class="ni available" onclick="sv('hulp')" id="nav-hulp"><div class="ni-icon"></div><div class="ni-info"><div class="ni-title">Praktijkhulp</div><div class="ni-sub">Prompts, tools & taken</div></div></div>
   </div>
@@ -165,8 +165,8 @@
 <!-- ════════ DOCUMENTEN ════════ -->
 <div class="view" id="view-docs">
   <div class="sw" style="margin-top: 40px;">
-    <div class="sw-title"><em>Documenten</em> & Beleid</div>
-    <div class="sw-sub">Het centrale referentiemateriaal van Sint-Rembert rond AI, en de bronnen waarop onze trainingen gebaseerd zijn.</div>
+    <div class="sw-title"><em>Documenten</em> & sjablonen</div>
+    <div class="sw-sub">De hoofding voor examens en taken, de klasposter en het sjabloon AI-verantwoording, plus voorbeelden en bronnen.</div>
 <div class="dl-paneel">
   <div class="dl-kop"><span class="dl-ey">Downloads</span><h3>Het AI-sjabloon en de labels</h3><p>Zet bovenaan elke taak of toets welk AI-label geldt, hang de klasposter op en geef leerlingen het sjabloon voor hun AI-verantwoording.</p></div>
   <div class="dl-rij">
@@ -175,23 +175,12 @@
     <div class="dl-item"><b>AI-verantwoording voor leerlingen</b><p>Korte vermelding (1e en 2e graad) en volledige verantwoording met APA (3e graad).</p><div><a class="dl-knop hoofd" href="AI-verantwoording-sjabloon.docx" download target="_blank" rel="noopener">Word</a></div></div>
   </div>
 </div>
-<div class="dl-paneel" style="border-color:#06038D">
-  <div class="dl-kop"><span class="dl-ey">Zelf een app bouwen</span><h3>App-normen voor vibe coding</h3><p>Bouw je zelf een tool met AI? Vibecoden doe je met ChatGPT, Claude.ai of Gemini (niet in Copilot). Geef dit bestand mee bij de start van je gesprek: <em>"Lees dit bestand en volg het bij alles wat je voor mij bouwt."</em> De AI stelt je dan eerst een paar vragen over wat je app moet doen, en helpt je daarna stap voor stap met de code, volgens ons AI-beleid en onze huisstijl. Komen er persoonsgegevens in je app? Dan dien je eerst een aanvraag in via het formulier.</p></div>
-  <div class="dl-rij"><div class="dl-item"><b>SINT-REMBERT-APP-NORMEN.md</b><p>Regels voor privacy, menselijke controle, transparantie, huisstijl, toegankelijkheid en testen.</p><div><a class="dl-knop hoofd" href="SINT-REMBERT-APP-NORMEN.md" download>Download (.md)</a><a class="dl-knop" href="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=SNyF4iu5l06epb2u0Gu7dw_W4KMXVNFFiRzem6bv9xNUMVRHRUdDTks0NzVVOEZGNE9aVkxLUTFGQi4u" target="_blank" rel="noopener">Aanvraag bij persoonsgegevens</a></div></div></div>
-</div>
 
-    <div class="sw-title" style="margin-top:20px;font-size:20px">Beleidskader <em>Artificiële Intelligentie</em></div>
-    <div style="background: white; border: 1px solid #e0e4f5; border-radius: 10px; padding: 22px; margin: 16px 0 32px 0;">
-      <p style="font-size: 13px; color:#06038D; margin: 0 0 14px 0;">Het centrale referentiedocument voor verantwoord AI-gebruik binnen Scholengroep Sint-Rembert (versie 1.0, goedgekeurd door het Bestuursorgaan). De 4 niet-onderhandelbare principes:</p>
-      <ul style="font-size: 13px; color:#06038D; line-height: 2; padding-left: 20px; margin: 0 0 14px 0;">
-        <li><strong>De mens blijft centraal</strong> — het mens-machine-mens-principe: AI ondersteunt, maar elke inzet vertrekt vanuit een menselijke vraag en eindigt met menselijke controle</li>
-        <li><strong>Meerwaarde is vereist</strong> — AI wordt enkel ingezet bij aantoonbare pedagogische of organisatorische meerwaarde</li>
-        <li><strong>Transparantie en eigenaarschap</strong> — wie AI gebruikt, blijft eindverantwoordelijk voor het resultaat</li>
-        <li><strong>Leeftijds- en ontwikkelingsgeschikt</strong> — afgestemd op maturiteit: kleuters geen zelfstandig gebruik, lager onderwijs enkel begeleid, secundair kritisch en met verantwoording</li>
-      </ul>
-      <p style="font-size: 13px; color:#06038D; margin: 0 0 8px 0;"><strong>Toegelaten AI-toepassingen:</strong> Bookwidgets AI, ChatGPT, Claude.ai, Microsoft Copilot Chat, Microsoft Copilot for M365, Gamma.app, Google Gemini, Gemini Notebook (vroeger NotebookLM).</p>
-      <p style="font-size: 13px; color:#06038D; margin: 0 0 18px 0;"><strong>Bij evaluaties</strong> geldt: AI is niet toegestaan, tenzij de leerkracht dit expliciet toelaat. De school gebruikt bewust géén AI-detectietools — evaluatie vertrekt vanuit vertrouwen en gesprek.</p>
-      <a href="Beleidskader-AI-Sint-Rembert.pdf" target="_blank" style="display:inline-block; background: var(--blue); color: white; font-weight: 700; font-size: 13px; padding: 10px 18px; border-radius: 6px; text-decoration: none;">Download volledig document (PDF)</a>
+
+    <div class="tm-banner compact">
+      <svg viewBox="0 0 48 48" aria-hidden="true" class="tm-ico"><rect x="4" y="10" width="26" height="28" rx="7" fill="#FFFFFF"/><path d="M11 18h12M17 18v14" stroke="#06038D" stroke-width="4" stroke-linecap="round"/><circle cx="37" cy="16" r="6" fill="#95D600"/><rect x="31" y="24" width="14" height="14" rx="6" fill="#95D600"/></svg>
+      <div class="tm-tekst"><span class="tm-ey">Beleidskader AI</span><h3>Het volledige beleidskader vind je in Teams</h3><p>Het Beleidskader Artificiële Intelligentie van de scholengroep staat in ons Teams-kanaal REMBERT - AI, samen met de nieuwste versie en de afspraken van je school.</p></div>
+      <a class="tm-knop" href="https://teams.microsoft.com/l/team/19%3AFEEiGXjf1jA5KxnDZ1ghViKFze_kGUtUXywPC6O7UBk1%40thread.tacv2/conversations?groupId=093de897-84d2-4e76-a2b8-5772bd925e26&amp;tenantId=e285dc48-b92b-4e97-9ea5-bdaed06bbb77" target="_blank" rel="noopener">Naar het beleidskader in Teams →</a>
     </div>
 
     <div class="sw-title" style="margin-top:32px;font-size:20px">Voorbeeld<em>documenten</em></div>

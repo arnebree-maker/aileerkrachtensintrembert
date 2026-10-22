@@ -1047,6 +1047,23 @@ function chunkSlide(c){
   }catch(e){ console.warn('chunkSlide', e); }
 }
 
+/* ---- Terugkerende tips: hoofding bij Documenten & AI-verantwoording voor leerlingen ---- */
+function hoofdingTip(){
+  if(S.userRole === 'teacher' && S.niveau === 'lager') return '';
+  return `<div class="tip-doc"><b>Tip · Hoofding examen/taak</b><p>Zet bovenaan elke taak of toets welk AI-label geldt. De <strong>hoofding examen/taak met AI-label</strong> vind je altijd bij <a href="index.html#docs" target="_blank" rel="noopener">Documenten</a>.</p><div><a class="dl-knop hoofd" href="Hoofding-examen-taak-AI-label.docx" download>Hoofding (Word)</a><a class="dl-knop" href="index.html#docs" target="_blank" rel="noopener">Naar Documenten</a></div></div>`;
+}
+function verantwoordingTip(){
+  if(S.userRole === 'teacher' && S.niveau === 'lager') return '';
+  return `<div class="tip-doc groen"><b>Zo gebruik je de AI-verantwoording van je leerlingen</b>
+<ul>
+<li><strong>Bij elke taak met label 2, 3 of 4</strong> vraag je leerlingen hun AI-gebruik te vermelden: in de 1e graad één zin, in de 2e graad een korte vermelding, in de 3e graad een volledige AI-verantwoording met bewijs en APA.</li>
+<li><strong>Leerlingen kennen het sjabloon al:</strong> ze leren het in hun eigen AI-cursus (module 5, "Zeg hoe je AI gebruikte") en vinden er een invulhulp per graad en het Word-sjabloon bij Documenten.</li>
+<li><strong>Gebruik het als start van het procesgesprek:</strong> vraag door op "Wat deed je zelf?" en "Hoe controleerde je de output?". Zo toets je eigenaarschap zonder AI-detector.</li>
+<li><strong>Beoordeel het proces mee:</strong> een eerlijke en volledige verantwoording hoort bij goed werk, en bereidt leerlingen voor op het hoger onderwijs.</li>
+</ul>
+<div><a class="dl-knop hoofd" href="AI-verantwoording-sjabloon.docx" download>Sjabloon AI-verantwoording (Word)</a><a class="dl-knop" href="index.html#docs" target="_blank" rel="noopener">Alles bij Documenten</a></div></div>`;
+}
+
 function rm1(){ const c=document.getElementById('m1c'); c.innerHTML=''; rDots(1,m1.length,S.mod1.step); m1[S.mod1.step](c); fixNav(c, m1, S.mod1.step); lockNextButtons(c); }
 function n1(){ S.mod1.step++; ss(); S.mod1.step>=m1.length ? d1() : rm1(); document.getElementById('main').scrollTo({top:0, behavior:'smooth'}); }
 
@@ -2392,6 +2409,8 @@ function m2s5(c){
 </div>
 <p class="cp">Deze vaardigheid — AI-uitkomsten <strong>begrijpelijk kunnen uitleggen, afgestemd op wie voor je zit</strong> — is minstens even belangrijk als zelf goed kunnen prompten.</p>
 
+${verantwoordingTip()}
+${hoofdingTip()}
 <div class="nw">
   <button class="sr-btn b" onclick="p2()">← Vorige</button>
   <button class="sr-btn g" onclick="n2()">Volgende: AI-bestendig ontwerpen →</button>
@@ -2418,6 +2437,7 @@ function m2s_leren(c){
 <p style="font-size:12.5px;color:#06038D;margin:8px 0 0;line-height:1.6;">De AI legt uit welke regel speelt (bv. welk werkwoord je gebruikt om je leeftijd te zeggen) en laat de leerling zelf verbeteren.</p></div>
 <div class="ib warn"><div class="ib-t">Spreek het af per opdracht</div><div class="ib-b">Leerlingen gebruiken AI enkel binnen de afspraken van de opdracht (AI-label), met Copilot via hun schoolaccount. Geen naam of andere persoonsgegevens op de foto of in de tekst. De leerling kan altijd uitleggen hoe AI gebruikt werd en wat de eigen inbreng was. Beide leerlingprompts vind je in de <a href="ai-op-school.html#prompts" target="_blank" rel="noopener">promptbibliotheek</a>.</div></div>
 <p class="cp">De kern: in het AI-tijdperk hebben leerlingen hun leraren <strong>méér</strong> nodig, niet minder. Voor begeleiding, goede instructies en zinvolle taken.</p>
+${verantwoordingTip()}
 <div class="nw">
   <button class="sr-btn b" onclick="p2()">← Vorige</button>
   <button class="sr-btn g" onclick="n2()">Volgende →</button>
@@ -2570,6 +2590,7 @@ Een zoekopdracht op ChatGPT verbruikt ongeveer <strong>25 keer meer energie</str
   <p style="font-size:13px;color:#06038D;line-height:1.7;margin:0;">Wil je meteen aan de slag met je eigen opdrachten? In "AI-bestendige taken" vind je de vier AI-labels en tips met concrete voorbeelden. De klasposter met de AI-labels en de hoofding voor je examen of taak vind je bij <a href="index.html#docs" target="_blank" rel="noopener" style="color:var(--blue);font-weight:800;">Documenten</a>. <a href="ai-op-school.html#taken" target="_blank" rel="noopener" style="color:var(--blue);font-weight:800;">Open AI-bestendige taken →</a></p>
 </div>
 
+${hoofdingTip()}
 <div class="nw">
   <button class="sr-btn b" onclick="p2()">← Vorige</button>
   <button class="sr-btn g" onclick="n2()">Volgende: mag het wel/niet? →</button>
@@ -2595,6 +2616,7 @@ function m2s_taakvoorbeeld(c){
 <div style="background:rgba(6,3,141,0.06);border-left:4px solid var(--red);border-radius:8px;padding:14px;"><strong style="color:var(--red);font-size:11px;font-weight:800;text-transform:uppercase;">✗ Wat je niet doet</strong><p style="font-size:12.5px;color:#06038D;margin:8px 0 0;line-height:1.6;">De tekst door een AI-detector halen. Dat is onbetrouwbaar en ons beleid gebruikt het niet. Bij twijfel volgt een pedagogisch gesprek over het leerproces.</p></div>
 </div>
 <div class="ib warn"><div class="ib-t">Zelf aan de slag</div><div class="ib-b">De vier AI-labels, de klasposter, de hoofding voor taken en meer tips met voorbeelden vind je bij <a href="ai-op-school.html#taken" target="_blank" rel="noopener">AI-bestendige taken</a>.</div></div>
+${verantwoordingTip()}
 <div class="nw">
   <button class="sr-btn b" onclick="p2()">← Vorige</button>
   <button class="sr-btn g" onclick="n2()">Volgende →</button>
@@ -2618,6 +2640,7 @@ function m2s7(c){
   <p style="font-size:13px;color:#06038D;line-height:1.7;margin:0;">Twijfel je in de praktijk over een tool? De Toolchecker toont per tool of hij goedgekeurd is, enkel anoniem mag of niet toegelaten is. Twijfel je of je iets mag ingeven of uploaden? Doorloop dan de beslisboom. <a href="ai-op-school.html#tools" target="_blank" rel="noopener" style="color:var(--blue);font-weight:800;">Open de Toolchecker →</a> &nbsp;·&nbsp; <a href="ai-op-school.html#beslisboom" target="_blank" rel="noopener" style="color:var(--blue);font-weight:800;">Mag ik dit met AI? →</a></p>
 </div>
 
+${hoofdingTip()}
 <div class="nw">
   <button class="sr-btn b" onclick="p2()">← Vorige</button>
   <button class="sr-btn g" onclick="n2()">Volgende: kennischeck →</button>
@@ -2676,6 +2699,7 @@ function m2s9(c){
   <div class="tm-tekst"><span class="tm-ey">Teams-kanaal · REMBERT - AI</span><h3>Doe mee in ons AI-kanaal</h3><p>Stel je vragen, deel wat werkt in je klas en blijf op de hoogte van nieuwe tools, afspraken en nascholingen. Alles rond AI op Sint-Rembert komt hier samen.</p></div>
   <a class="tm-knop" href="https://teams.microsoft.com/l/team/19%3AFEEiGXjf1jA5KxnDZ1ghViKFze_kGUtUXywPC6O7UBk1%40thread.tacv2/conversations?groupId=093de897-84d2-4e76-a2b8-5772bd925e26&amp;tenantId=e285dc48-b92b-4e97-9ea5-bdaed06bbb77" target="_blank" rel="noopener">Open het Teams-kanaal →</a>
 </div>
+${hoofdingTip()}
 <div class="nw">
   <button class="sr-btn b" onclick="p2()">← Vorige</button>
   <button class="sr-btn g" onclick="sR3()">Afronden & certificaat ontvangen →</button>
@@ -2773,6 +2797,7 @@ function m3s0(c){
 <p class="cp">Via <strong>Instellingen → Personalisation → Custom instructions</strong> kan je Copilot vragen om voortaan rekening te houden met jouw stijl of voorkeuren — bijvoorbeeld: "Schrijf aangepaste instructies voor Copilot zodat die helder mijn manier van communiceren omschrijft, gebaseerd op onze eerdere gesprekken" of gebaseerd op een bijgevoegd document met teksten die je zelf schreef. Eén keer instellen, en elk volgend gesprek sluit daar automatisch op aan.</p>
 <img src="img/copilot-personalisatie.png" alt="Copilot personalisatie-instellingen" style="width:100%;max-width:600px;display:block;margin:16px auto;border-radius:10px;border:1px solid #e0e4f5;box-shadow:0 2px 10px rgba(6,3,141,0.08);">
 
+${hoofdingTip()}
 <div class="nw">
   <button class="sr-btn g" onclick="n3()">Volgende: prompts schrijven →</button>
 </div>`;
@@ -3095,6 +3120,7 @@ function m3s4(c){
 <p class="cp">Ook binnen de Teach-module kan Copilot een eerste versie van een quiz of een beoordelingsrubriek genereren op basis van een tekst of leerdoel die je aanlevert. Vraag bijvoorbeeld: "Maak 8 meerkeuzevragen over dit hoofdstuk, met telkens 4 antwoordopties en een korte uitleg bij het juiste antwoord."</p>
 <p class="cp">Behandel dit altijd als een <strong>eerste ontwerp, niet als eindproduct</strong>. Lees elke vraag, elk antwoord én elke uitleg zelf grondig na: AI-tools maken bij quizvragen soms subtiele fouten (bijvoorbeeld twee antwoorden die beide kloppen, of een uitleg die net niet aansluit bij de vraag). Dezelfde voorzichtigheid geldt voor rubrics: controleer of de criteria écht meten wat je wil evalueren, en pas de formulering aan naar jouw eigen vak en niveau.</p>
 
+${hoofdingTip()}
 <div class="nw">
   <button class="sr-btn b" onclick="p3()">← Vorige</button>
   <button class="sr-btn g" onclick="n3()">Volgende: je eigen agent →</button>
@@ -3351,6 +3377,7 @@ function m3s7(c){
   <div class="tm-tekst"><span class="tm-ey">Teams-kanaal · REMBERT - AI</span><h3>Doe mee in ons AI-kanaal</h3><p>Stel je vragen, deel wat werkt in je klas en blijf op de hoogte van nieuwe tools, afspraken en nascholingen. Alles rond AI op Sint-Rembert komt hier samen.</p></div>
   <a class="tm-knop" href="https://teams.microsoft.com/l/team/19%3AFEEiGXjf1jA5KxnDZ1ghViKFze_kGUtUXywPC6O7UBk1%40thread.tacv2/conversations?groupId=093de897-84d2-4e76-a2b8-5772bd925e26&amp;tenantId=e285dc48-b92b-4e97-9ea5-bdaed06bbb77" target="_blank" rel="noopener">Open het Teams-kanaal →</a>
 </div>
+${hoofdingTip()}
 <div class="nw">
   <button class="sr-btn b" onclick="p3()">← Vorige</button>
   <button class="sr-btn o" onclick="sR2()">✓ Optionele module afronden →</button>
