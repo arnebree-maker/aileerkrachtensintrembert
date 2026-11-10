@@ -81,13 +81,12 @@ const PROMPTS = [
 ];
 
 const TOOLS = [
-  {naam:"Copilot M365 (schoolaccount)",status:"ok",wat:"Chat en hulp in Word, PowerPoint, Outlook en Teams.",uitleg:"Aangemeld met je schoolaccount blijven je gegevens binnen de beveiligde schoolomgeving. Dit is de standaardtool voor lesvoorbereiding, feedback en het werken met schooldocumenten."},
-  {naam:"Gemini Notebook (Google, vroeger NotebookLM)",status:"ok",wat:"Verwerkt je eigen documenten en lesnotities tot samenvattingen en antwoorden met bronvermelding.",uitleg:"Goedgekeurd voor eigen documenten en notities. Controleer de privacy-instellingen en upload geen documenten met persoonsgegevens van leerlingen."},
+  {naam:"Copilot Chat (schoolaccount)",status:"ok",wat:"Chat en hulp bij tekst, documenten en beelden, met je schoolaccount.",uitleg:"Aangemeld met je schoolaccount blijven je gegevens binnen de beveiligde schoolomgeving. Dit is de tool die we aanraden voor lesvoorbereiding, feedback en het werken met (anonieme) documenten. Ook hier geef je geen persoonsgegevens of vertrouwelijke informatie in."},
+  {naam:"Copilot Notebook (schoolaccount)",status:"ok",wat:"Verzamel je eigen documenten en notities in een notebook; Copilot antwoordt op basis van jouw bronnen.",uitleg:"Werkt met je schoolaccount, binnen de beveiligde schoolomgeving. Handig om lesmateriaal te bundelen en samen te vatten. Upload geen documenten met persoonsgegevens van leerlingen."},
   {naam:"BookWidgets AI",status:"ok",wat:"AI-hulp binnen de BookWidgets-leeromgeving.",uitleg:"Goedgekeurd: pedagogisch omkaderd en geïntegreerd in onze leeromgeving, bv. voor oefeningen en feedback."},
-  {naam:"Gamma.app",status:"ok",wat:"AI-gestuurde presentatietool.",uitleg:"Goedgekeurd voor presentaties en visuele inhoud. Voer geen persoonsgegevens in."},
-  {naam:"ChatGPT (gratis versie)",status:"anoniem",wat:"Algemene AI-chatbot.",uitleg:"Enkel anonieme tekst die je zelf typt. Geen persoonsgegevens en geen schooldocumenten uploaden."},
-  {naam:"Gemini (gratis versie)",status:"anoniem",wat:"Algemene AI-chatbot van Google.",uitleg:"Enkel anonieme tekst die je zelf typt. Geen persoonsgegevens en geen schooldocumenten uploaden."},
-  {naam:"Claude (gratis versie)",status:"anoniem",wat:"Algemene AI-chatbot.",uitleg:"Enkel anonieme tekst die je zelf typt. Geen persoonsgegevens en geen schooldocumenten uploaden."},
+  {naam:"Gamma.app",status:"anoniem",wat:"AI-gestuurde presentatietool.",uitleg:"Enkel met anonieme inhoud. Geen persoonsgegevens en geen vertrouwelijke informatie."},
+  {naam:"ChatGPT (gratis versie)",status:"anoniem",wat:"Algemene AI-chatbot.",uitleg:"Enkel anonieme tekst of anonieme bestanden. Geen persoonsgegevens en geen vertrouwelijke informatie. We raden Copilot Chat met je schoolaccount aan."},
+  {naam:"Claude (gratis versie)",status:"anoniem",wat:"Algemene AI-chatbot.",uitleg:"Enkel anonieme tekst of anonieme bestanden. Geen persoonsgegevens en geen vertrouwelijke informatie. We raden Copilot Chat met je schoolaccount aan."},
   {naam:"Canva (Magic Studio)",status:"anoniem",wat:"AI-functies om beelden en ontwerpen te maken.",uitleg:"Handig voor affiches en lesmateriaal. Upload geen foto's van leerlingen en geen documenten met persoonsgegevens."},
   {naam:"Apps die gezichten bewerken of 'deepfakes' maken",status:"niet",wat:"Face swap, avatars op basis van foto's, stemklonen.",uitleg:"Niet toegelaten met beelden of stemmen van leerlingen of collega's. Foto's van leerlingen upload je nooit naar AI-tools."},
   {naam:"AI-detectietools",status:"niet",wat:"Tools die beweren te herkennen of een tekst door AI geschreven is.",uitleg:"Niet gebruiken om leerlingen te beoordelen: de uitslag is onbetrouwbaar en je zou leerlingenteksten naar een externe dienst sturen. Spreek liever met de leerling over het proces."},
@@ -108,8 +107,8 @@ const TIPS = [
 ];
 
 const FAQ = [
-  {cat:"Tools",v:"Welke AI-tool gebruik ik best?",a:"Copilot M365 met je schoolaccount: je gegevens blijven binnen de beveiligde schoolomgeving en worden niet gebruikt om modellen te trainen."},
-  {cat:"Privacy",v:"Mag ik een schooldocument uploaden naar ChatGPT, Gemini of Claude?",a:"Niet in de gratis versies. Daar typ je enkel anonieme tekst. Schooldocumenten werk je uit in Copilot M365 met je schoolaccount."},
+  {cat:"Tools",v:"Welke AI-tool gebruik ik best?",a:"Copilot Chat met je schoolaccount: je gegevens blijven binnen de beveiligde schoolomgeving en worden niet gebruikt om modellen te trainen."},
+  {cat:"Privacy",v:"Mag ik een document uploaden naar ChatGPT of Claude?",a:"Een anoniem document, zonder persoonsgegevens of vertrouwelijke informatie, mag. We raden wel Copilot Chat met je schoolaccount aan. Documenten met persoonsgegevens of vertrouwelijke informatie geef je in geen enkele AI-tool in, ook niet in Copilot Chat."},
   {cat:"Privacy",v:"Mag ik foto's van leerlingen of een rapport met namen in een AI-tool steken?",a:"Nee, nooit. Foto's van leerlingen en documenten met persoonsgegevens horen niet thuis in AI-tools."},
   {cat:"Lesgeven & evaluatie",v:"Mag ik een AI-detectietool gebruiken om leerlingenwerk te controleren?",a:"Nee. De school gebruikt bewust geen AI-detectietools: de uitslag is onbetrouwbaar. Spreek liever met de leerling over het proces."},
   {cat:"Lesgeven & evaluatie",v:"Hoeveel AI mag een leerling bij een opdracht gebruiken?",a:"Dat bepaal jij vooraf met een van de vier AI-labels: Verboden, Als inspiratie, Als ondersteuning of Toegestaan. Zie 'AI-bestendige taken'."},

@@ -156,6 +156,24 @@ footer a{color:var(--groen);font-weight:600}
 .tm-knop:hover{background:#A6F04A}
 .tm-banner.compact{padding:16px 18px}
 .tm-banner.compact p{font-size:14.5px}
+
+/* ritme, verificatietabel, rollen en ontwerpcheck */
+.fasen{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.75rem;margin:1rem 0 2rem}
+.fasen div{background:var(--wit);color:var(--blauw);border-radius:20px;padding:1rem}
+.fasen span{display:inline-flex;width:34px;height:34px;border-radius:50%;align-items:center;justify-content:center;background:var(--groen);font-weight:800}
+.fasen b{display:block;margin:.5rem 0 .25rem;font-weight:800;text-transform:uppercase}
+.fasen p{margin:0 0 .5rem;font-size:.92rem}
+.fasen i{font-style:normal;font-weight:700;font-size:.8rem;background:var(--blauw);color:var(--wit);border-radius:999px;padding:.15rem .65rem}
+.verif{overflow-x:auto;background:var(--wit);border-radius:20px}
+.verif table{width:100%;border-collapse:collapse;color:var(--blauw);min-width:560px}
+.verif th{background:var(--groen);text-align:left;padding:.6rem .8rem;font-weight:800}
+.verif td{padding:.6rem .8rem;border-top:2px solid var(--grijs)}
+.rollen{margin-bottom:2rem}
+.ocheck label{display:flex;gap:.6rem;align-items:flex-start;padding:.45rem 0;cursor:pointer}
+.ocheck input{accent-color:#06038D;width:20px;height:20px;flex:none;margin-top:.15rem}
+.ocheck a{color:var(--blauw);font-weight:700}
+.ocheck-uit{margin:.6rem 0 0;font-weight:700}
+.ocheck-uit:empty{display:none}
 </style>
 </head>
 <body>
@@ -183,7 +201,7 @@ footer a{color:var(--groen);font-weight:600}
 <!-- ================= BESLISBOOM ================= -->
 <section id="beslisboom" role="tabpanel" hidden>
   <div class="intro">
-    <div><h2>Mag ik dit met AI?</h2><p>Twijfel je of je iets mag ingeven, uploaden of gebruiken in een AI-tool, of wil je zelf een app bouwen met AI? Beantwoord een paar korte vragen en je weet meteen waar je staat.</p></div>
+    <div><h2>Mag ik dit met AI?</h2><p>Twijfel je of je iets mag ingeven, uploaden of gebruiken in een AI-tool? Beantwoord een paar korte vragen en je weet meteen waar je staat.</p></div>
     <svg viewBox="0 0 140 120" role="img" aria-label="Vriendelijke computer">
       <rect x="20" y="10" width="100" height="72" rx="14" fill="#fff"/>
       <rect x="30" y="20" width="80" height="52" rx="8" fill="#95D600"/>
@@ -207,7 +225,7 @@ footer a{color:var(--groen);font-weight:600}
 <!-- ================= PROMPTS ================= -->
 <section id="prompts" role="tabpanel" hidden>
   <div class="intro">
-    <div><h2>Promptbibliotheek</h2><p>Kant-en-klare prompts voor je lesvoorbereiding, differentiatie, feedback en toetsvragen. Kopieer, vul de stukken tussen [haakjes] in en plak in Copilot M365.</p></div>
+    <div><h2>Promptbibliotheek</h2><p>Kant-en-klare prompts voor je lesvoorbereiding, differentiatie, feedback en toetsvragen. Kopieer, vul de stukken tussen [haakjes] in en plak in Copilot Chat.</p></div>
     <svg viewBox="0 0 140 120" role="img" aria-label="Illustratie: boek met sterren"><rect x="18" y="26" width="104" height="72" rx="12" fill="#fff"/><path d="M70 30 V94" stroke="#06038D" stroke-width="4"/><rect x="28" y="40" width="32" height="6" rx="3" fill="#06038D"/><rect x="28" y="54" width="26" height="6" rx="3" fill="#06038D"/><rect x="28" y="68" width="30" height="6" rx="3" fill="#06038D"/><rect x="80" y="40" width="30" height="6" rx="3" fill="#95D600"/><rect x="80" y="54" width="24" height="6" rx="3" fill="#95D600"/><rect x="80" y="68" width="28" height="6" rx="3" fill="#95D600"/><path d="M112 8 l4 9 9 1 -7 6 2 9 -8 -5 -8 5 2 -9 -7 -6 9 -1z" fill="#95D600"/><circle cx="22" cy="14" r="5" fill="#fff"/></svg>
   </div>
   <div class="filters">
@@ -241,6 +259,43 @@ footer a{color:var(--groen);font-weight:600}
     <svg viewBox="0 0 140 120" role="img" aria-label="Illustratie: taakblad met potlood"><rect x="24" y="10" width="76" height="100" rx="12" fill="#fff"/><rect x="36" y="26" width="52" height="6" rx="3" fill="#06038D"/><rect x="36" y="42" width="40" height="6" rx="3" fill="#06038D"/><rect x="36" y="58" width="46" height="6" rx="3" fill="#06038D"/><circle cx="44" cy="84" r="8" fill="#95D600"/><rect x="58" y="80" width="28" height="6" rx="3" fill="#06038D"/><g transform="rotate(35 110 60)"><rect x="104" y="20" width="14" height="70" rx="4" fill="#95D600"/><path d="M104 90 L111 104 L118 90z" fill="#fff"/></g></svg>
   </div>
 
+  <h2 class="sec">Ontwerp in vier fases: zelf denken, AI, controleren, reflecteren</h2>
+  <p style="margin:0;max-width:72ch">Een betere prestatie met AI is nog geen beter leren. Laat leerlingen daarom eerst zelf denken, en pas daarna AI gebruiken. Herhaal dit ritme doorheen je lessenreeks, en zet bij elke fase welk AI-label geldt.</p>
+  <div class="fasen">
+    <div><span>1</span><b>Zelf denken</b><p>Zonder AI, alleen of in groep: voorspellen, plannen, een eerste versie maken, oplossen. Leg het vast als vergelijkingspunt.</p><i>Label 1</i></div>
+    <div><span>2</span><b>Confronteren met AI</b><p>Vergelijk met wat AI geeft, stel kritische vragen, vraag alternatieven. In groep: vergelijk de antwoorden op verschillende prompts.</p><i>Label 2 of 3</i></div>
+    <div><span>3</span><b>Controleren en beslissen</b><p>Zonder AI: bronnen nakijken met de verificatietabel, en aanvaarden, aanpassen of verwerpen, met een reden.</p><i>Label 1</i></div>
+    <div><span>4</span><b>Reflecteren</b><p>Wat voegde AI toe? Wat heb ik zelf geleerd? Wat zou ik anders doen? Dit hoort ook in de AI-verantwoording.</p><i>Procesgesprek</i></div>
+  </div>
+
+  <h2 class="sec">Verificatietabel voor fase 3</h2>
+  <p style="margin:0 0 .75rem;max-width:72ch">Laat leerlingen elke belangrijke bewering uit de AI-output controleren. Zo wordt het controleren zichtbaar en beoordeelbaar.</p>
+  <div class="verif"><table>
+    <thead><tr><th>Bewering van AI</th><th>Bron waarmee ik controleerde</th><th>Mijn oordeel</th><th>Wat ik aanpaste</th></tr></thead>
+    <tbody><tr><td>De Eerste Wereldoorlog begon in 1914.</td><td>Cursus geschiedenis, p. 12</td><td>Klopt</td><td>Niets</td></tr>
+    <tr><td>Er vielen 2 miljoen doden.</td><td>Cursus en een betrouwbare website</td><td>Klopt niet</td><td>Aantal verbeterd volgens de bron</td></tr></tbody>
+  </table></div>
+  <p style="font-size:.85rem;opacity:.9;margin:.4rem 0 0">De tabel zit ook in het sjabloon AI-verantwoording (3e graad). De voorbeelden zijn verzonnen.</p>
+
+  <h2 class="sec">Welke rol krijgt AI in je opdracht?</h2>
+  <div class="schaal rollen">
+    <div><b>Studieobject</b><p>Leerlingen leren over AI: hoe het werkt, waar het fout gaat, welke bias erin zit. Bv. hallucinaties opsporen in een AI-tekst.</p></div>
+    <div><b>Kritische gesprekspartner</b><p>AI daagt uit, stelt vragen en geeft feedback, maar de leerling denkt zelf. Bv. "geef hints, niet het antwoord".</p></div>
+    <div><b>Productietool</b><p>AI helpt iets maken: een beeld, een structuur, een eerste versie. De leerling controleert en beslist.</p></div>
+  </div>
+
+  <h2 class="sec">Ontwerpcheck: zes vragen voor je AI inzet</h2>
+  <p style="margin:0 0 .75rem;max-width:72ch">De vraag is niet alleen of een tool mag. Vink aan wat je al beantwoord hebt.</p>
+  <div class="kaart ocheck" id="ocheck">
+    <label><input type="checkbox"> <span><b>Doel:</b> welke competentie wil ik ontwikkelen?</span></label>
+    <label><input type="checkbox"> <span><b>Meerwaarde:</b> voegt AI iets toe tegenover een activiteit zonder AI? Zo niet, kies de activiteit zonder AI.</span></label>
+    <label><input type="checkbox"> <span><b>Gegevens:</b> welke gegevens gaan erin? Geen persoonsgegevens, schooldocumenten enkel in Copilot Chat (zie <a href="#beslisboom">Mag ik dit?</a>).</span></label>
+    <label><input type="checkbox"> <span><b>Autonomie:</b> hoeveel denkt de leerling nog zelf? Welke fase doet hij zonder AI?</span></label>
+    <label><input type="checkbox"> <span><b>Zichtbaar proces:</b> hoe zie ik het leerproces? Prompts, verificatietabel, AI-verantwoording of procesgesprek.</span></label>
+    <label><input type="checkbox"> <span><b>Toegankelijk en veilig:</b> kan elke leerling meedoen, ook zonder betalende tool of zonder account? Is er een gelijkwaardig alternatief?</span></label>
+    <p class="ocheck-uit" id="ocheck-uit" aria-live="polite"></p>
+  </div>
+
   <h2 class="sec">Maak vooraf duidelijk hoeveel AI mag</h2>
   <p style="margin:0;max-width:70ch">Zet bij elke taak één van deze niveaus. Leerlingen weten dan waar ze aan toe zijn, en jij kunt eerlijk beoordelen.</p>
   <div class="schaal">
@@ -251,7 +306,7 @@ footer a{color:var(--groen);font-weight:600}
   </div>
 
   <div class="dl-paneel">
-  <div class="dl-kop"><span class="dl-ey">Downloads</span><h3>Het AI-sjabloon en de labels</h3><p>Zet bovenaan elke taak of toets welk AI-label geldt, hang de klasposter op en geef leerlingen het sjabloon voor hun AI-verantwoording.</p></div>
+  <div class="dl-kop"><span class="dl-ey">Downloads</span><h3>Het AI-sjabloon en de labels</h3><p>Zet bovenaan elke taak of toets welk AI-label geldt, hang de klasposter op en geef leerlingen het sjabloon voor hun AI-verantwoording. De labels zetten we voluit in vanaf 2027–2028, maar je mag er nu al mee starten.</p></div>
   <div class="dl-rij">
     <div class="dl-item"><b>Hoofding examen/taak met AI-label</b><p>Naam, klas, vak, datum en een vakje voor het label.</p><div><a class="dl-knop hoofd" href="Hoofding-examen-taak-AI-label.docx" download target="_blank" rel="noopener">Word</a><a class="dl-knop" href="Hoofding-examen-taak-AI-label.pdf" target="_blank" rel="noopener">PDF</a></div></div>
     <div class="dl-item"><b>Klasposter AI-labels</b><p>De vier labels om op te hangen in de klas.</p><div><a class="dl-knop hoofd" href="AI-labels-poster%20(1).png" target="_blank" rel="noopener">Poster</a></div></div>
@@ -387,21 +442,20 @@ const BOOM = {
       { tekst: "Een vraag of tekst ingeven die ik zelf typ", naar: "persTekst" },
       { tekst: "Een document of bestand uploaden (bv. toets, verslag, lesplan)", naar: "persDoc" },
       { tekst: "Een foto of ander beeld gebruiken", naar: "foto" },
-      { tekst: "Zelf een app of tool bouwen met AI (vibecoding)", naar: "appData" },
     ],
   },
   foto: {
-    vraag: "Staan er leerlingen of andere herkenbare personen op het beeld?",
+    vraag: "Staan er leerlingen op de foto of het beeld?",
     opties: [
-      { tekst: "Ja", naar: "R_foto" },
-      { tekst: "Nee, er staan geen personen op", naar: "tool" },
+      { tekst: "Ja, er staan leerlingen op", naar: "R_foto" },
+      { tekst: "Nee, er staan geen leerlingen op", naar: "output", tip: "Een beeld zonder leerlingen mag je in elke toegelaten tool gebruiken. We raden Copilot Chat met je schoolaccount aan." },
     ],
   },
   persTekst: {
-    vraag: "Staan er persoonsgegevens in je tekst?",
+    vraag: "Staan er persoonsgegevens of vertrouwelijke informatie in je tekst?",
     hint: "Denk aan namen, punten, adressen, e-mailadressen, of informatie over gezondheid, gedrag of thuissituatie van leerlingen, ouders of collega's.",
     opties: [
-      { tekst: "Nee, alles is anoniem", naar: "output" },
+      { tekst: "Nee, alles is anoniem", naar: "output", tip: "Anonieme tekst mag je in elke toegelaten tool ingeven. We raden Copilot Chat met je schoolaccount aan." },
       { tekst: "Ja", naar: "anonTekst" },
     ],
   },
@@ -409,32 +463,23 @@ const BOOM = {
     vraag: "Kun je die gegevens eerst weglaten of vervangen?",
     hint: "Bijvoorbeeld 'leerling A' in plaats van een naam, en zonder details waaruit je iemand kunt herkennen.",
     opties: [
-      { tekst: "Ja, ik maak het eerst anoniem", naar: "output", tip: "Maak je tekst eerst volledig anoniem voor je hem ingeeft." },
+      { tekst: "Ja, ik maak het eerst anoniem", naar: "output", tip: "Maak je tekst eerst volledig anoniem voor je hem ingeeft. We raden Copilot Chat met je schoolaccount aan." },
       { tekst: "Nee, de gegevens zijn nodig", naar: "R_pers" },
     ],
   },
   persDoc: {
-    vraag: "Staan er persoonsgegevens in het document?",
+    vraag: "Staan er persoonsgegevens of vertrouwelijke informatie in het document?",
     hint: "Denk aan namen, punten, adressen, e-mailadressen, of informatie over gezondheid, gedrag of thuissituatie van leerlingen, ouders of collega's.",
     opties: [
-      { tekst: "Nee, het document is anoniem", naar: "tool" },
+      { tekst: "Nee, het document is anoniem", naar: "output", tip: "Een anoniem document mag je in elke toegelaten tool gebruiken. We raden Copilot Chat met je schoolaccount aan." },
       { tekst: "Ja", naar: "anonDoc" },
     ],
   },
   anonDoc: {
     vraag: "Kun je die gegevens eerst uit het document halen?",
     opties: [
-      { tekst: "Ja, ik maak een anonieme versie", naar: "tool", tip: "Upload alleen de anonieme versie van je document." },
+      { tekst: "Ja, ik maak een anonieme versie", naar: "output", tip: "Upload alleen de anonieme versie van je document. We raden Copilot Chat met je schoolaccount aan." },
       { tekst: "Nee, de gegevens zijn nodig", naar: "R_pers" },
-    ],
-  },
-  tool: {
-    vraag: "In welke AI-tool wil je het bestand gebruiken?",
-    opties: [
-      { tekst: "Copilot M365 met mijn schoolaccount", naar: "output" },
-      { tekst: "Een andere tool die de school goedkeurde", naar: "output" },
-      { tekst: "Een gratis tool (bv. gratis ChatGPT of Gemini)", naar: "R_gratis" },
-      { tekst: "Ik weet niet of de tool goedgekeurd is", naar: "R_toolTwijfel" },
     ],
   },
   output: {
@@ -452,89 +497,31 @@ const BOOM = {
       { tekst: "Ik twijfel", naar: "R_meerwaarde" },
     ],
   },
-
-  appData: {
-    vraag: "Gaat je app persoonsgegevens gebruiken, opvragen of bewaren?",
-    hint: "Denk aan namen, e-mailadressen, punten, evaluaties, klaslijsten, of informatie over gezondheid, gedrag of thuissituatie van leerlingen, ouders of collega's.",
-    opties: [
-      { tekst: "Nee, de app werkt zonder persoonsgegevens", naar: "appBeslist" },
-      { tekst: "Ja, of ik weet het niet zeker", naar: "R_appPers" },
-    ],
-  },
-  appBeslist: {
-    vraag: "Beoordeelt, rangschikt of beslist de app iets over leerlingen of collega's?",
-    hint: "Bijvoorbeeld punten of feedback geven die meetelt, het niveau van een leerling bepalen, advies geven over oriëntering, toezicht houden tijdens toetsen of emoties herkennen.",
-    opties: [
-      { tekst: "Nee", naar: "appTool" },
-      { tekst: "Ja", naar: "R_appHoog" },
-    ],
-  },
-  appTool: {
-    vraag: "Met welke tool bouw je de app?",
-    opties: [
-      { tekst: "Een toegelaten tool die code maakt (bv. ChatGPT, Claude.ai of Gemini)", naar: "R_appCheck", tip: "Test niet met echte gegevens van leerlingen of collega's zolang de app niet is goedgekeurd." },
-      { tekst: "Een ander platform of een tool die niet op de lijst staat", naar: "R_appTool" },
-    ],
-  },
   /* ---------- UITKOMSTEN: soort = wel | niet | twijfel ---------- */
   R_ok: {
     soort: "wel", titel: "Dit mag",
     tekst: "Je gebruikt AI veilig en met meerwaarde. Goed bezig!",
-    lijst: ["Blijf zelf verantwoordelijk voor het eindresultaat.", "Wees open over je AI-gebruik als dat relevant is, bv. naar leerlingen of collega's."],
+    lijst: ["We raden Copilot Chat met je schoolaccount aan. Gebruik je een andere tool, kies er dan een uit de lijst bij 'Welke tool?'.", "Blijf zelf verantwoordelijk voor het eindresultaat.", "Wees open over je AI-gebruik als dat relevant is, bv. naar leerlingen of collega's."],
   },
   R_meerwaarde: {
     soort: "twijfel", titel: "Mag, maar denk even na",
     tekst: "Je gebruik is veilig, maar de meerwaarde is nog niet duidelijk. Gebruik AI enkel als het echt bijdraagt aan goed onderwijs.",
     lijst: ["Vraag je af wat AI toevoegt ten opzichte van zelf doen.", "Twijfel je nog? Bespreek het met " + CONFIG.contact + "."],
   },
-  R_toolTwijfel: {
-    soort: "twijfel", titel: "Eerst navragen",
-    tekst: "Gebruik de tool pas als je zeker weet dat ze goedgekeurd is. Tot dan kun je Copilot M365 met je schoolaccount gebruiken.",
-    lijst: ["Vraag na bij " + CONFIG.contact + "."],
-  },
   R_foto: {
     soort: "niet", titel: "Dit mag niet",
-    tekst: "Foto's van leerlingen (of andere herkenbare personen) upload je niet naar AI-tools.",
-    lijst: ["Gebruik beelden zonder herkenbare personen.", "Laat AI een afbeelding maken in plaats van een echte foto te uploaden."],
+    tekst: "Foto's en beelden van leerlingen gebruik je in geen enkele AI-tool, ook niet in Copilot Chat.",
+    lijst: ["Gebruik beelden zonder leerlingen.", "Laat AI een afbeelding maken in plaats van een echte foto te uploaden."],
   },
   R_pers: {
     soort: "niet", titel: "Dit mag niet",
-    tekst: "Persoonsgegevens geef je niet in AI-tools in.",
+    tekst: "Persoonsgegevens en vertrouwelijke informatie geef je in geen enkele AI-tool in, ook niet in Copilot Chat.",
     lijst: ["Vervang namen door 'leerling A', 'leerling B' …", "Laat details weg waaruit je iemand kunt herkennen.", "Lukt anonimiseren niet? Doe deze taak dan zonder AI."],
-  },
-  R_gratis: {
-    soort: "niet", titel: "Dit mag niet",
-    tekst: "Schooldocumenten upload je niet naar gratis AI-tools.",
-    lijst: ["Gebruik Copilot M365 met je schoolaccount of een andere goedgekeurde tool."],
   },
   R_kritiekloos: {
     soort: "niet", titel: "Dit mag niet",
     tekst: "AI-output neem je nooit kritiekloos over. Jij blijft verantwoordelijk voor het resultaat.",
     lijst: ["Controleer feiten, bronnen en taal.", "Pas de output aan aan je leerlingen en je vak."],
-  },
-  R_appCheck: {
-    soort: "wel", titel: "Aan de slag, met de normen",
-    tekst: "Geen persoonsgegevens en geen beslissingen over leerlingen: dan mag je aan de slag. Test enkel met fictieve gegevens, en bespreek met de IT-dienst of je PICT voor je de app deelt. Komen er later toch persoonsgegevens in, dan dien je eerst een aanvraag in via het formulier.",
-    lijst: ["Vibe coding mag snel gaan; privacy, beveiliging en menselijke controle niet.", "Gebruikt je app zelf AI? Vermeld dat duidelijk voor wie de app gebruikt.", "Vragen? Bespreek het met " + CONFIG.contact + "."],
-    link: { tekst: "Aanvraagformulier (bij persoonsgegevens)", url: CONFIG.checklistApp },
-  },
-  R_appPers: {
-    soort: "twijfel", titel: "Eerst laten nakijken",
-    tekst: "Een app die persoonsgegevens gebruikt of bewaart, test je niet zonder voorafgaande controle. De DPO beoordeelt, samen met de IT-dienst, of en hoe het kan.",
-    lijst: ["Kan het zonder persoonsgegevens, bv. met een intern nummer of fictieve voorbeelden? Dat is altijd beter.", "Test nooit met echte gegevens van leerlingen, ouders of collega's.", "Dien je aanvraag in via het formulier, zodat de DPO en de IT-dienst je app kunnen bekijken."],
-    link: { tekst: "Dien je aanvraag in (Forms)", url: CONFIG.checklistApp },
-  },
-  R_appHoog: {
-    soort: "niet", titel: "Niet zonder overleg",
-    tekst: "Een app die leerlingen of collega's beoordeelt, rangschikt of erover beslist, heeft grote gevolgen. Zulke toepassingen gelden als hoog risico of zijn zelfs verboden, en maak je niet zelf via vibe coding. Beslissingen over evaluatie en begeleiding blijven bij mensen.",
-    lijst: ["Overleg eerst met de DPO en de IT-dienst voor je verder bouwt.", "Laat de app hooguit ondersteunen: de leerkracht beslist altijd zelf."],
-    link: { tekst: "Open de checklist vibe coding", url: CONFIG.checklistApp },
-  },
-  R_appTool: {
-    soort: "twijfel", titel: "Eerst navragen",
-    tekst: "Een tool of platform dat niet op de lijst staat, is niet goedgekeurd. Ook low-code- en no-code-platformen met AI leg je eerst voor aan de IT-dienst.",
-    lijst: ["Bouw met een toegelaten tool die code kan maken, zoals ChatGPT, Claude.ai of Gemini. In Copilot kan je niet vibecoden.", "Wil je toch dit platform gebruiken? Vul de checklist in en vermeld welk platform het is."],
-    link: { tekst: "Open de checklist vibe coding", url: CONFIG.checklistApp },
   },
 };
 /* ==================================== */
@@ -599,6 +586,16 @@ document.getElementById('opnieuw').addEventListener('click',()=>{ geschiedenis=[
 
 toon();
 
+})();
+</script>
+<script>
+(function(){
+  var box=document.getElementById('ocheck'); if(!box) return;
+  var uit=document.getElementById('ocheck-uit');
+  box.addEventListener('change',function(){
+    var v=box.querySelectorAll('input:checked').length;
+    uit.textContent = v===6 ? '✓ Klaar om te starten. Kies nu per fase het AI-label.' : (v ? v+' van de 6 beantwoord.' : '');
+  });
 })();
 </script>
 </body>

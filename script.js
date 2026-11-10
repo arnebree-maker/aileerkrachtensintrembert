@@ -466,10 +466,10 @@ function showRegistrationGate(){
     <div style="background: white; border-radius: 16px; padding: 36px; max-width: 560px; width: 100%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.35); margin: auto;">
       <div style="font-size: 44px; margin-bottom: 12px;"></div>
       <h2 style="font-family: 'Archivo Black', sans-serif; font-size: 22px; color: var(--blue); margin-bottom: 8px; text-transform: uppercase;">Eerst inschrijven</h2>
-      <p style="color: var(--muted); font-weight: 600; margin-bottom: 20px; line-height: 1.5;">Voor je start, schrijf je je in voor deze sessie via <strong>Rembert Academy</strong> — zo telt dit mee als bijscholing.</p>
+      <p style="color: var(--muted); font-weight: 600; margin-bottom: 20px; line-height: 1.5;">Voor je start, schrijf je je in voor deze sessie via <strong>Rembert Academie</strong> — zo telt dit mee als bijscholing.</p>
 
       <a href="https://apps.powerapps.com/play/e5697d3c-e21d-49b4-9ecc-4c58a225704f?tenantId=e285dc48-b92b-4e97-9ea5-bdaed06bbb77&hidenavbar=true&Screen=VormingInfo&VormingId=6aac06da-93e8-4308-a4e8-b8770bdf643d&SessieId=f59c5d25-8708-4a62-9619-fcd4c0ee1cb3" target="_blank" style="display:block; background: var(--green); color: var(--blue); font-weight: 800; padding: 14px; border-radius: 8px; text-decoration: none; margin-bottom: 8px;">
-        Inschrijven via Rembert Academy →
+        Inschrijven via Rembert Academie →
       </a>
       <p style="font-size: 11px; color: var(--muted); margin-bottom: 20px; line-height: 1.5;">${hintText}</p>
 
@@ -662,6 +662,27 @@ function rc(){
   // Certificaat kan altijd opnieuw gedownload worden
 }
 
+function tipsHtml(){
+  const tips = (typeof TIPS!=='undefined') ? TIPS : [];
+  let h = '<div style="page-break-before:always;font-family:Poppins,Arial,sans-serif;color:#06038D;padding:20px 28px;">';
+  h += '<h2 style="font-size:20px;text-transform:uppercase;border-bottom:3px solid #95D600;padding-bottom:6px;">Tips om mee te nemen</h2>';
+  h += '<h3 style="font-size:14px;margin:14px 0 6px;">4 gouden regels voor AI-bestendige opdrachten</h3><ol style="font-size:12px;line-height:1.6;margin:0 0 10px 18px;padding:0;">'+
+       '<li><b>Voeg context toe:</b> koppel de opdracht aan een eigen situatie, bv. je eigen stad of klas.</li>'+
+       '<li><b>Maak het persoonlijk:</b> vraag naar de eigen ervaring of mening van de leerling.</li>'+
+       '<li><b>Vraag het proces in, niet alleen het resultaat:</b> brainstorm, eerste versie, eindversie en wat er veranderde.</li>'+
+       '<li><b>Bouw reflectie in:</b> laat leerlingen nadenken over wat AI anders zou doen.</li></ol>';
+  if(tips.length){ h += '<h3 style="font-size:14px;margin:14px 0 6px;">Tips uit de praktijkhulp</h3>'; tips.forEach(x=>{ h += '<p style="font-size:12px;line-height:1.55;margin:0 0 8px;"><b>'+x.titel+'.</b> '+x.tekst+(x.vb?' <i>Voorbeeld: '+x.vb+'</i>':'')+'</p>'; }); }
+  h += '<h3 style="font-size:14px;margin:14px 0 6px;">De AI-labels</h3><p style="font-size:12px;line-height:1.55;margin:0;">1 · Verboden: geen AI. 2 · Als inspiratie: AI enkel voor ideeën. 3 · Als ondersteuning: AI mag helpen tijdens het proces, met transparantie. 4 · Toegestaan: AI mag volop, met eerlijke vermelding. Geen label op de taak? Dan is AI niet toegestaan.</p>';
+  h += '<p style="font-size:11px;margin-top:14px;">De hoofding examen/taak, de klasposter en het sjabloon AI-verantwoording vind je bij Documenten op de AI-website. Vragen? Stel ze in het Teams-kanaal REMBERT - AI.</p></div>';
+  return h;
+}
+function doTipsPrint(){
+  const w = window.open('', '_blank');
+  if(!w){ alert('Sta pop-ups toe om de tips af te drukken.'); return; }
+  w.document.write('<!DOCTYPE html><html lang="nl"><head><meta charset="utf-8"><title>Tips AI-cursus Sint-Rembert</title><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;800&display=swap" rel="stylesheet"></head><body style="margin:0">'+tipsHtml().replace('page-break-before:always;','')+'<script>setTimeout(function(){window.print();},600);<\/script></body></html>');
+  w.document.close();
+}
+
 function doCertPrint(){
   if(!S.name || !S.name.trim()){
     if(!confirm('Je naam is nog niet ingevuld (links onderaan in de zijbalk). Het certificaat vermeldt dan "Leerkracht".\n\nToch doorgaan?')) return;
@@ -776,6 +797,7 @@ function buildAnswersReportTeacher(){
     </div>`;
   }
 
+  html += tipsHtml();
   html += `<p style="font-size:10px; color:#06038D; margin-top:20px; border-top:1px solid #ddd; padding-top:10px;">Sint-Rembert AI-Cursus · Automatisch gegenereerd reflectierapport · ${new Date().toLocaleString('nl-BE')}</p>`;
   html += `</div>`;
 
@@ -1252,7 +1274,7 @@ function m1s2(c){
   c.innerHTML = `
 <div class="s-badge">Stap 3 van 14 · Doe-opdracht</div>
 <h2 class="ch2">AI of <em>geen AI</em>?</h2>
-<p class="cp">Klik op elke kaart en denk eerst zelf na: gebruikt deze toepassing AI, of werkt ze met vaste, vooraf geprogrammeerde regels?</p>
+<p class="cp">Hieronder staan toepassingen die je wellicht kent. Niet alles wat “slim” lijkt, is AI. <strong>AI</strong> leert uit voorbeelden en voorspelt zelf; een gewoon programma volgt <strong>vaste regels</strong> die iemand vooraf heeft ingesteld (bv. een rekenmachine of een wekker). Denk bij elke toepassing eerst zelf na: AI of vaste regels? Klik daarna op de kaart om het antwoord te zien.</p>
 <div id="aig"></div>
 
 <div class="nw">
@@ -1366,7 +1388,7 @@ function m1s5(c){
   c.innerHTML = `
 <div class="s-badge">Stap 6 van 14 · Doe-opdracht</div>
 <h2 class="ch2">Spot de <em>hallucinatie</em></h2>
-<p class="cp">Hieronder staan 4 uitspraken zoals een AI-chatbot ze zou kunnen formuleren — stuk voor stuk even zelfverzekerd. Klik op elke kaart: welke bevat een hallucinatie (verzonnen feit, bron of cijfer), en welke klopt gewoon?</p>
+<p class="cp">Hieronder staan 4 uitspraken zoals een AI-chatbot ze zou kunnen formuleren — stuk voor stuk even zelfverzekerd. Klik op elke onderstaande stelling en ontdek of het een hallucinatie (een verzonnen feit, bron of cijfer) of een feit is.</p>
 <div id="hallu"></div>
 
 <div class="nw">
@@ -1539,7 +1561,7 @@ function m1s_ai_agents(c){
   c.innerHTML = `
 <div class="s-badge">Stap 11 van 14 · AI-Agents</div>
 <h2 class="ch2">AI-Agents: AI die <em>zelf denkt</em> in stappen</h2>
-<p class="cp">Tot nu toe heb je ChatGPT/Copilot gebruikt: jij vraag, AI antwoord direct. Maar er komt iets nieuws: <strong>agents</strong> — AI systemen die zelf stappen nemen, fouten checken, en terugkomen als iets niet klopt.</p>
+<p class="cp">Tot nu toe heb je ChatGPT/Copilot gebruikt: jij vraagt, AI antwoordt meteen. Maar er komt iets nieuws: <strong>agents</strong> — AI systemen die zelf stappen nemen, fouten checken, en terugkomen als iets niet klopt.</p>
 
 <h3 class="ch3">Hoe werkt een agent?</h3>
 <div style="background: rgba(6,3,141,0.08); border-radius: 8px; padding: 16px; margin: 16px 0;">
@@ -1630,6 +1652,8 @@ function m1s11(c){
     {q: 'Een AI-tekst vermeldt een wetenschappelijke studie met auteur en jaartal. Wat is de juiste reflex?', o: ['De bron blindelings overnemen in je lesmateriaal, want een vermelding met jaartal en auteur is betrouwbaar.','De genoemde bron zelfstandig opzoeken via betrouwbare kanalen om te controleren of deze daadwerkelijk bestaat.','Enkel controleren of het jaartal logisch is binnen de historische context van de rest van de tekst.','In dezelfde chat aan de AI-tool vragen of de zojuist gegenereerde bronvermelding wel echt helemaal klopt.'], a: 1, f: 'Verzonnen bronvermeldingen zijn een klassieke hallucinatie. Zelf controleren is noodzakelijk.' }
   ];
   rQuiz(c, quiz, 1, 'mod1', n1, 60);
+  const kop=c.querySelector('h2'); const uitleg='<div class="ib warn"><div class="ib-t">Waarom dezelfde vragen als in de startest?</div><div class="ib-b">Een deel van de vragen ken je al uit de startest. Dat is bewust: zo zie je zelf wat je nu beter weet dan bij de start, en waar je nog twijfelt.</div></div>';
+  if(kop) kop.insertAdjacentHTML('afterend', uitleg); else c.insertAdjacentHTML('afterbegin', uitleg);
 }
 
 function m1s12(c){
@@ -1639,7 +1663,7 @@ function m1s12(c){
 <p class="cp">Je kent nu de basis: hoe AI werkt, wat generatieve AI bijzonder maakt, en welke kansen én gevaren erbij horen (hallucinaties, bias, deepfakes, privacy). Tijd om dit concreet te maken voor jouw eigen vak en klaspraktijk.</p>
 
 <h3 class="ch3">Wat zegt de wetenschap?</h3>
-<p class="cp">Rani Van Schoors, postdoctoraal onderzoeker AI in onderwijs aan KU Leuven, nuanceert de vraag of leerlingen door AI nog wel zelf leren schrijven of denken. Volgens haar blijft <strong>jij als leerkracht onmisbaar</strong>: leerlingen kijken vaak te weinig kritisch naar online bronnen, en datzelfde geldt voor AI-output, die altijd nog een check verdient, want taalmodellen kunnen hallucineren. Ze illustreert dit met een treffend voorbeeld: Google Bard (nu Gemini) vertelde ooit onterecht dat de James Webb-ruimtetelescoop als eerste beelden van buiten ons zonnestelsel had kunnen maken.</p>
+<p class="cp">Rani Van Schoors, postdoctoraal onderzoeker AI in onderwijs aan KU Leuven, nuanceert de vraag of leerlingen door AI nog wel zelf leren schrijven of denken. Volgens haar blijf <strong>jij als leerkracht onmisbaar</strong>: leerlingen kijken vaak te weinig kritisch naar online bronnen, en datzelfde geldt voor AI-output, die altijd nog een check verdient, want taalmodellen kunnen hallucineren. Ze illustreert dit met een treffend voorbeeld: Google Bard (nu Gemini) vertelde ooit onterecht dat de James Webb-ruimtetelescoop als eerste beelden van buiten ons zonnestelsel had kunnen maken.</p>
 <p class="cp">Van Schoors wijst er ook op dat de kwaliteit van een AI-systeem volledig afhangt van de data waarmee het getraind werd: als je een dataset met enkel honden in een mand en katten in het gras gebruikt, zal het systeem een hond in het gras verkeerd als kat herkennen. Dat is precies hoe bias ontstaat — een mooie brug naar wat je eerder in deze module al zag.</p>
 
 <div class="ib warn">
@@ -2117,6 +2141,7 @@ function m2s4(c){
   c.innerHTML = `
 <div class="s-badge">Stap 5 van 11 · Spelregels & AI-labels</div>
 <h2 class="ch2">Het AI-beleid van <em>Sint-Rembert</em></h2>
+<div class="ib warn"><div class="ib-t">Voluit vanaf schooljaar 2027–2028</div><div class="ib-b">De AI-labels zetten we <strong>voluit in vanaf volgend schooljaar (2027–2028)</strong>, samen met de leerlijn voor alle leerlingen. Maar je mag er <strong>nu al mee starten</strong>: zet het label bovenaan je taak of toets met de hoofding bij Documenten.</div></div>
 <p class="cp">Niet elke opdracht leent zich tot AI-gebruik, en niet elke leerling zal vanzelf aanvoelen waar de grens ligt. Daarom werkt Sint-Rembert met <strong>4 duidelijke AI-labels</strong> die je aan een taak of opdracht koppelt, zodat voor leerlingen meteen helder is wat wel en niet mag.</p>
 <div class="labels-grid">
   <div class="label-card l1"><div class="lc-num">1</div><div class="lc-name">Verboden</div></div>
@@ -2124,7 +2149,7 @@ function m2s4(c){
   <div class="label-card l3"><div class="lc-num">3</div><div class="lc-name">Als ondersteuning</div></div>
   <div class="label-card l4"><div class="lc-num">4</div><div class="lc-name">Toegestaan</div></div>
 </div>
-<p class="cp">De labels lopen op van geen AI (label 1) tot volledig toegestaan AI-gebruik (label 4), met daartussen geleidelijk meer ruimte. Deze schaal is <strong>De vier AI-labels van Lut De Jaegher (Sint-Jozefscollege Torhout)</strong>, en sluit aan bij het beleidskader: <em>"als uitgangspunt geldt dat AI-gebruik niet is toegestaan, tenzij de leerkracht expliciet aangeeft dat AI geheel of gedeeltelijk gebruikt mag worden."</em></p>
+<p class="cp">De labels lopen op van geen AI (label 1) tot volledig toegestaan AI-gebruik (label 4), met daartussen geleidelijk meer ruimte. Deze schaal bevat vier AI-labels, aangereikt door AI-docent <strong>Lut De Jaegher (Arteveldehogeschool Gent)</strong>. Ze sluit aan bij het beleidskader: <em>"als uitgangspunt geldt dat AI-gebruik niet is toegestaan, tenzij de leerkracht expliciet aangeeft dat AI geheel of gedeeltelijk gebruikt mag worden."</em></p>
 
 <h3 class="ch3">De labels uitgelegd</h3>
 <div class="grid2">
@@ -2166,7 +2191,7 @@ function m2s4(c){
   <p style="font-size:13px;color:#06038D;line-height:1.7;margin:0;">Download hier meteen de <strong>hoofding voor examens en taken</strong>, de <strong>klasposter</strong> en het <strong>sjabloon AI-verantwoording</strong> voor je leerlingen.</p>
 </div>
 <div class="dl-paneel">
-  <div class="dl-kop"><span class="dl-ey">Downloads</span><h3>Het AI-sjabloon en de labels</h3><p>Zet bovenaan elke taak of toets welk AI-label geldt, hang de klasposter op en geef leerlingen het sjabloon voor hun AI-verantwoording.</p></div>
+  <div class="dl-kop"><span class="dl-ey">Downloads</span><h3>Het AI-sjabloon en de labels</h3><p>Zet bovenaan elke taak of toets welk AI-label geldt, hang de klasposter op en geef leerlingen het sjabloon voor hun AI-verantwoording. De labels zetten we voluit in vanaf 2027–2028, maar je mag er nu al mee starten.</p></div>
   <div class="dl-rij">
     <div class="dl-item"><b>Hoofding examen/taak met AI-label</b><p>Naam, klas, vak, datum en een vakje voor het label.</p><div><a class="dl-knop hoofd" href="Hoofding-examen-taak-AI-label.docx" download target="_blank" rel="noopener">Word</a><a class="dl-knop" href="Hoofding-examen-taak-AI-label.pdf" target="_blank" rel="noopener">PDF</a></div></div>
     <div class="dl-item"><b>Klasposter AI-labels</b><p>De vier labels om op te hangen in de klas.</p><div><a class="dl-knop hoofd" href="AI-labels-poster%20(1).png" target="_blank" rel="noopener">Poster</a></div></div>
@@ -2186,7 +2211,7 @@ function m2s_leeftijd(c){
   c.innerHTML = `
 <div class="s-badge">Stap 6 van 12 · AI per leeftijdsfase</div>
 <h2 class="ch2">AI-gebruik per <em>leeftijdsgroep</em></h2>
-<p class="cp">AI-gebruik door leerlingen hangt sterk af van hun leeftijd en rijpheid. Sint-Rembert volgt daarom duidelijke richtlijnen per leeftijdsfase. Dit beschermt jongere leerlingen én geeft grotere leerlingen de ruimte om verantwoord te experimenteren.</p>
+<p class="cp">AI-gebruik door leerlingen hangt sterk af van hun leeftijd en rijpheid. Sint-Rembert volgt daarom duidelijke richtlijnen per leeftijdsfase. Dit beschermt jongere leerlingen én geeft oudere leerlingen de ruimte om verantwoord te experimenteren.</p>
 
 <div style="background: white; border-left: 4px solid var(--blue); border-radius: 12px; padding: 20px; margin: 20px 0;">
   <div style="font-family: 'Archivo Black', sans-serif; font-size: 14px; color: var(--blue); text-transform: uppercase; margin-bottom: 12px;">2,5 tot 6 jaar (kleuteronderwijs)</div>
@@ -2306,7 +2331,7 @@ function m2s_extra_casussen(c){
   c.innerHTML = `
 <div class="s-badge">Stap 7 van 12 · Meer dilemma's</div>
 <h2 class="ch2">6 Praktische <em>dilemma's</em> met oplossing</h2>
-<p class="cp">Hier zijn zes extra scenario's uit het echte lespraktijk. Bij elke vraag staat: welk AI-label zou jij kiezen, en waarom?</p>
+<p class="cp">Hier zijn zes extra scenario's uit de concrete lespraktijk. Bij elke vraag staat: welk AI-label zou jij kiezen, en waarom?</p>
 
 <div style="background: white; border-left: 4px solid var(--blue); border-radius: 8px; padding: 16px; margin: 16px 0;">
 <strong style="color: var(--blue); font-size: 12px; text-transform: uppercase;">Dilemma 1: Poster met AI-afbeeldingen</strong>
@@ -2331,23 +2356,23 @@ function m2s_extra_casussen(c){
 
 <div style="background: white; border-left: 4px solid var(--blue); border-radius: 8px; padding: 16px; margin: 16px 0;">
 <strong style="color: var(--blue); font-size: 12px; text-transform: uppercase;">Dilemma 4: Leerling merkt hallucinatie op</strong>
-<p style="font-size: 12px; color: #06038D; line-height: 1.6; margin-top: 8px;"><strong>Situatie:</strong> Leerling gebruikte ChatGPT voor onderzoekswerk en merkt dat AI factish incorrecte informatie geeft (bijv. beweert dat Einstein 1930 overleden is — niet waar). Wat te doen?</p>
-<p style="font-size: 12px; color: #06038D; line-height: 1.6;"><strong>Juiste reactie:</strong> PRIMA TEKEN! Dit is het moment om kritisch denken in te trainen. Oefen samen: hoe controleer je wat AI zegt? (bronnenzoeken, cross-referencing)</p>
+<p style="font-size: 12px; color: #06038D; line-height: 1.6; margin-top: 8px;"><strong>Situatie:</strong> Een leerling gebruikt ChatGPT voor onderzoekswerk en merkt dat AI feitelijk onjuiste informatie geeft: het beweert dat Einstein in 1930 overleden is (dat klopt niet). Wat doe je?</p>
+<p style="font-size: 12px; color: #06038D; line-height: 1.6;"><strong>Juiste reactie:</strong> Goed opgemerkt! Dit is het moment om kritisch denken te trainen. Oefen samen: hoe controleer je wat AI zegt? (bronnenzoeken, cross-referencing)</p>
 <p style="font-size: 12px; color: var(--muted); margin-top: 8px;"><strong>Waarom:</strong> Dit is EXACT waarom we leerlingen AI-geletterdheid aanleren — niet om blindelings te vertrouwen, maar om kritisch te checken.</p>
 </div>
 
 <div style="background: white; border-left: 4px solid var(--blue); border-radius: 8px; padding: 16px; margin: 16px 0;">
 <strong style="color: var(--blue); font-size: 12px; text-transform: uppercase;">Dilemma 5: "Iedereen doet het"</strong>
 <p style="font-size: 12px; color: #06038D; line-height: 1.6; margin-top: 8px;"><strong>Situatie:</strong> Leerling zegt: "Alle andere leerlingen gebruiken ChatGPT voor hun verslag. Mag ik ook?" Jij hebt Label 2 aangegeven (als inspiratie).</p>
-<p style="font-size: 12px; color: #06038D; line-height: 1.6;"><strong>Juiste reactie:</strong> "Dat mag niet. Wat jij doet, zeg je tegen de klas — geen geheimen. Brainstorm met AI is OK, het verslag schrijven niet."</p>
+<p style="font-size: 12px; color: #06038D; line-height: 1.6;"><strong>Juiste reactie:</strong> "Dat mag niet. Je mag brainstormen met AI, maar niet het volledige verslag laten schrijven door AI. Het moeten je eigen woorden zijn."</p>
 <p style="font-size: 12px; color: var(--muted); margin-top: 8px;"><strong>Waarom:</strong> Eerlijkheid en transparantie zijn de kern van vertrouwen op school.</p>
 </div>
 
 <div style="background: white; border-left: 4px solid var(--blue); border-radius: 8px; padding: 16px; margin: 16px 0;">
 <strong style="color: var(--blue); font-size: 12px; text-transform: uppercase;">Dilemma 6: Ouders vragen</strong>
-<p style="font-size: 12px; color: #06038D; line-height: 1.6; margin-top: 8px;"><strong>Situatie:</strong> Ouders mailen: "Waarom laat de school AI in de klas? Dit is toch onveilig?" Hoe antwoord je?</p>
+<p style="font-size: 12px; color: #06038D; line-height: 1.6; margin-top: 8px;"><strong>Situatie:</strong> Ouders mailen: "Waarom laat de school AI toe in de klas? Dit is toch onveilig?" Hoe antwoord je?</p>
 <p style="font-size: 12px; color: #06038D; line-height: 1.6;"><strong>Juiste reactie:</strong> Transparantie. Leg uit wat jullie doen (labels, richtlijnen), waarom (voorbereiding op toekomst), en welke veiligheidsmaatregelen gelden. Sterker: nodig ouders uit op een info-avond.</p>
-<p style="font-size: 12px; color: var(--muted); margin-top: 8px;"><strong>Waarom:</strong> Ouders zijn partners in goed beleid. Communicatie bouwt vertrouwen op.</p>
+<p style="font-size: 12px; color: var(--muted); margin-top: 8px;"><strong>Waarom:</strong> Ouders zijn partners in een goed beleid. Communicatie bouwt vertrouwen op.</p>
 </div>
 
 <div class="nw">
@@ -2485,7 +2510,7 @@ Vraag: "Je hebt dit experiment gedaan. Wat observeerde je? Waarom is dit ANDERS 
 <p style="font-size: 12px; color: #06038D; margin-top: 8px; line-height: 1.6;">
 "Structureer mijn lab-rapport: introductie, hypothese, methode, resultaten, discussie."
 <br><br>
-<strong>Waarom:</strong> AI helpt de structuur, maar jij interpreteert de resultaten.
+<strong>Waarom:</strong> AI helpt met de structuur, maar jij interpreteert de resultaten.
 </p>
 </div>
 </div>
@@ -2655,7 +2680,7 @@ function m2s8(c){
     {q: 'Welke AI-tool kiest Sint-Rembert als primaire generatieve AI-tool?', o: ['ChatGPT, omdat dit de meest bekende en gebruikte tool wereldwijd is.','Microsoft Copilot, omdat het binnen de beveiligde Microsoft 365-schoolomgeving werkt.','Google Gemini, omdat dit gratis is voor alle leerlingen en personeelsleden.','Geen enkele tool specifiek; elke leerkracht kiest volledig vrij zijn eigen voorkeurstool.'], a: 1, f: 'Copilot is de bewuste eerste keuze omdat het binnen het bestaande identiteits- en toegangsbeheer van de scholengroep blijft.' },
     {q: 'Waarom gebruikt Sint-Rembert bewust GEEN AI-detectietools om leerlingenwerk te controleren?', o: ['Omdat detectietools te duur zijn in licentiekosten voor de volledige scholengroep.','Omdat de betrouwbaarheid onvoldoende onderbouwd is, met een grote kans op fout-positieve resultaten.','Omdat het schoolreglement het gebruik van enige vorm van software tijdens verbeteren verbiedt.','Omdat leerlingen wettelijk recht hebben op een volledig AI-vrije onderwijsomgeving binnen Europa.'], a: 1, f: 'Detectietools zijn onvoldoende betrouwbaar; dit staat haaks op zorgvuldig en rechtvaardig evalueren.' },
     {q: 'Wat is het "mens-machine-mens-principe" uit het beleidskader?', o: ['AI-output wordt automatisch goedgekeurd zodra een mens de oorspronkelijke prompt heeft ingetypt.','De inzet van AI vertrekt altijd vanuit een menselijke vraag en eindigt steeds met menselijke controle.','Twee personeelsleden moeten elke AI-output afzonderlijk goedkeuren voor ze gebruikt mag worden.','Machines nemen voortaan de eerste beoordeling op zich, waarna een mens enkel nog de eindscore zet.'], a: 1, f: 'AI kan input leveren of suggereren, maar het traject start en eindigt altijd bij menselijke verantwoordelijkheid.' },
-    {q: 'Een schooldocument mag enkel naar een betalende AI-tool als aan welke voorwaarden voldaan is?', o: ['Enkel dat de tool een mooie gebruiksvriendelijke interface heeft voor leerkrachten en leerlingen.','Geen modeltraining met de data, opslag binnen de EU, én een betalende contractuele relatie met verwerkersovereenkomst.','Enkel dat de tool gratis beschikbaar is voor alle leerlingen, ongeacht waar de servers staan.','Enkel dat de IT-dienst de tool ooit al een keer heeft gebruikt voor een ander, niet-gerelateerd doel.'], a: 1, f: 'Alle drie voorwaarden moeten gelden: geen modeltraining, opslag binnen de EU, en een betalende relatie met verwerkersovereenkomst.' },
+    {q: 'Een schooldocument mag enkel naar een betalende AI-tool als aan welke voorwaarden voldaan is?', o: ['Enkel als de tool een mooie, gebruiksvriendelijke interface heeft voor leerkrachten en leerlingen.','Enkel als er geen modeltraining gebeurt met de data, als de opslag binnen de EU blijft en er een betalende contractuele relatie met verwerkersovereenkomst is.','Enkel als de tool gratis beschikbaar is voor alle leerlingen, ongeacht waar de servers staan.','Enkel als de IT-dienst de tool ooit al eens gebruikte voor een ander, niet-gerelateerd doel.'], a: 1, f: 'Alle drie voorwaarden moeten gelden: geen modeltraining, opslag binnen de EU, en een betalende relatie met verwerkersovereenkomst.' },
     {q: 'Wat gebeurt er met een AI-toepassing die niet op de goedgekeurde lijst staat?', o: ['Die mag gewoon gebruikt worden zolang de leerkracht dat zelf verantwoord vindt voor zijn vak.','Die wordt beschouwd als "shadow AI" en is niet toegestaan zonder voorafgaande goedkeuring.','Die mag enkel gebruikt worden bij leerlingen vanaf het vierde middelbaar, niet bij jongere leerlingen.','Die moet eerst minstens 100 keer succesvol getest zijn door andere Vlaamse scholengroepen.'], a: 1, f: 'Niet-goedgekeurde tools zijn "shadow AI" en vereisen voorafgaande goedkeuring via de IT-dienst.' },
     {q: 'Waar staat het beleidskader m.b.t. evalueren en toetsen met AI?', o: ['AI-gebruik is bij evaluaties altijd toegestaan, tenzij de leerkracht dit uitdrukkelijk verbiedt.','AI-gebruik is bij evaluaties niet toegestaan, tenzij de leerkracht dit uitdrukkelijk toelaat.','AI-gebruik bij evaluaties is een individuele keuze van elke leerling, zonder tussenkomst van de leerkracht.','Evaluaties met AI zijn überhaupt verboden binnen de volledige scholengroep, in elke vorm of context.'], a: 1, f: 'Het uitgangspunt is een verbod, tenzij de leerkracht expliciet en met duidelijke voorwaarden AI toelaat.' },
     {q: 'Ongeveer hoeveel meer energie verbruikt een zoekopdracht op ChatGPT, vergeleken met diezelfde zoekopdracht op Google?', o: ['Ongeveer 2 keer meer energie, een verwaarloosbaar klein verschil in de praktijk.','Ongeveer 25 keer meer energie, door de zware berekeningen in grote datacenters.','Exact evenveel energie, aangezien beide diensten op vergelijkbare servers draaien.','Ongeveer 100 keer minder energie, omdat ChatGPT efficiënter zou werken dan zoekmachines.'], a: 1, f: 'Een ChatGPT-zoekopdracht kost ongeveer 25 keer meer energie dan dezelfde zoekopdracht op Google — een reële afweging bij het kiezen van je tool.' },
@@ -4227,20 +4252,20 @@ function renderCasusScenario(containerId){
         {
           text: '"Zet die laptop onmiddellijk uit, dit mag niet!"',
           label: 'A: Zero tolerance',
-          feedback: '✗ Escalatief en onrechtvaardig. Label 2 staat AI toe. Nu maak je de leerling boos en ondergraa je je eigen regels.',
+          feedback: '✗ Escalatief en onrechtvaardig. Label 2 staat AI toe. Nu maak je de leerling boos en ondergraaf je je eigen regels.',
           type: 'wrong'
         },
         {
-          text: '"Even checken: Label 2 is voor ideeën. Wat voor ideeën haul je eruit, en hoe bouw je daarop voort in je eigen werk?"',
+          text: '"Even checken: Label 2 is voor ideeën. Wat voor ideeën haal je eruit, en hoe bouw je daarop voort in je eigen werk?"',
           label: 'B: Clarify & steer',
-          feedback: '✓ Juist! Je hebt de leerling op het label teruggepakt. Je zorgt dat ze zich bewust zijn van de grens, zonder te verschullen achter "maar je mag het niet".',
+          feedback: '✓ Juist! Je maakt de leerling ervan bewust dat AI hier voor meer gebruikt wordt dan enkel voor een brainstorm. Zo wordt de leerling zich bewust van de grens.',
           type: 'correct'
         }
       ]
     },
     {
       title: 'Situatie 3: De opdrachtherformulering',
-      desc: 'Je realiseren je na drie jaar dat je standaard huiswerkopdracht "Schrijf een betoog van 500 woorden over [onderwerp]" voor AI-tools praktisch een open uitnodiging is. Wat doe je?',
+      desc: 'Je realiseert je na drie jaar dat je standaard huiswerkopdracht "Schrijf een betoog van 500 woorden over [onderwerp]" voor AI-tools praktisch een open uitnodiging is. Wat doe je?',
       choices: [
         {
           text: '"Voortaan alle huiswerk met pen en papier, inleveren in foto-vorm. Hacker-proof!"',
@@ -4249,7 +4274,7 @@ function renderCasusScenario(containerId){
           type: 'wrong'
         },
         {
-          text: '"Herformuleer: Leerlingen reflecteren eerst mondeling op 2 minuten, schrijven hun eigen stelling, geven deze daarna aan AI voor taalcorrectie (Label 3), en zetten hun prompt erbij als bijlage."',
+          text: '"Herformuleer: leerlingen reflecteren 2 minuten mondeling, noteren hun eigen stelling met argumenten, geven die daarna aan AI voor taalcorrectie (label 3) en voegen hun prompt toe als bijlage."',
           label: 'B: Redesign the task',
           feedback: '✓ Excellent! Je: 1) Maakt het proces zichtbaar (mondeling), 2) Beperkt AI tot waar het zinvol is (taal, niet inhoud), 3) Vraagt transparantie (prompt erbij). Dit is AI-bestendig ontwerp.',
           type: 'correct'
