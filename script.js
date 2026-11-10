@@ -865,7 +865,7 @@ const ST_Q = [
   { q:'Welke AI-tool is binnen Sint-Rembert volledig ondersteund en dataproof voor schoolgebruik?',
     o:['De gratis consumentenversie van ChatGPT via een persoonlijk account.',
        'Google Gemini Advanced met een geverifieerd privé-account.',
-       'Copilot M365, aangemeld met je officiële schoolaccount van de scholengroep.',
+       'Copilot Chat, aangemeld met je officiële schoolaccount van de scholengroep.',
        'Midjourney Commercial Edition, apart aangekocht door een vakgroep.'],
     a:2, f:'Copilot via je schoolaccount valt onder de overeenkomst met de scholengroep met gegarandeerde gegevensbescherming.' },
   { q:'Wat is bias in een AI-systeem?',
@@ -887,7 +887,7 @@ const ST_Q = [
        'Administratieve lasten verlagen met AI-ondersteuning.'],
     a:2, f:'De leerkracht blijft altijd eindverantwoordelijk. AI-output ongecontroleerd laten beslissen over een beoordeling is niet toegestaan.' },
   { q:'Wat is het grootste privacyrisico bij AI-gebruik op school?',
-    o:['Een test maken via Copilot M365 met je schoolaccount.',
+    o:['Een test maken via Copilot Chat met je schoolaccount.',
        'Persoonsgegevens van leerlingen invoeren in een niet-goedgekeurde of gratis AI-tool.',
        'Een anonieme oefentekst intypen in een toegelaten tool.',
        'Een afbeelding genereren voor een les zonder personen erop.'],
@@ -1646,7 +1646,7 @@ function m1s10(c){
 function m1s11(c){
   const quiz = [
     {q: 'Wat is een hallucinatie bij generatieve AI?', o: ['Wanneer een AI-model weigert antwoord te geven op een ongepaste of onveilige vraag van een gebruiker.','Wanneer een AI-model met grote stelligheid feitelijk onjuiste of verzonnen informatie genereert.','Wanneer een AI-model tijdelijk trager werkt door een overbelasting van de servers of slechte internetverbinding.','Wanneer een AI-model letterlijke tekstblokken overneemt uit de auteursrechtelijk beschermde trainingsdata.'], a: 1, f: 'Hallucinaties zijn plausibel klinkende maar foutieve output — een direct gevolg van voorspellen op kansberekening.' },
-    {q: 'Welke AI-tool is binnen Sint-Rembert volledig ondersteund en dataproof?', o: ['De gratis consumentenversie van ChatGPT via een persoonlijk Google- of e-mailaccount.','Google Gemini Advanced mits er ingelogd wordt met een geverifieerd privé-account.','Copilot M365 wanneer je bent aangemeld met je officiële schoolaccount van de scholengroep.','Midjourney Commercial Edition die door de vakgroep esthetica apart wordt aangekocht.'], a: 2, f: 'Copilot via je schoolaccount valt onder de schoolovereenkomst met gegarandeerde gegevensbescherming.' },
+    {q: 'Welke AI-tool is binnen Sint-Rembert volledig ondersteund en dataproof?', o: ['De gratis consumentenversie van ChatGPT via een persoonlijk Google- of e-mailaccount.','Google Gemini Advanced mits er ingelogd wordt met een geverifieerd privé-account.','Copilot Chat wanneer je bent aangemeld met je officiële schoolaccount van de scholengroep.','Midjourney Commercial Edition die door de vakgroep esthetica apart wordt aangekocht.'], a: 2, f: 'Copilot via je schoolaccount valt onder de schoolovereenkomst met gegarandeerde gegevensbescherming.' },
     {q: 'Wat is de grote sprong van generatieve AI t.o.v. eerdere AI-vormen?', o: ['Generatieve AI kan volledig nieuwe content creëren zoals vloeiende teksten, afbeeldingen, audio en programmeercode.','Generatieve AI werkt aanzienlijk sneller en vereist veel minder rekenkracht en servercapaciteit om te draaien.','Generatieve AI maakt dankzij de nieuwste taalmodellen nooit meer inhoudelijke fouten of logische misvattingen.','Generatieve AI is uitsluitend geprogrammeerd op basis van door mensen handmatig ingevoerde als-dan-regels.'], a: 0, f: 'Vroegere AI classificeerde en voorspelde; GenAI creëert nieuwe content.' },
     {q: 'Waarom is bias in AI relevant voor jouw dagelijkse lespraktijk?', o: ['Omdat AI-modellen hiermee trager worden in het verwerken van complexe opdrachten van leerlingen.','Omdat AI hiermee stereotypen uit trainingsdata reproduceert, wat een belangrijk mediawijsheidsthema is.','Omdat bias er onbedoeld voor zorgt dat gratis tools minder functies hebben dan betaalde licenties.','Omdat AI hierdoor automatisch een voorkeur ontwikkelt voor Engelstalige bronnen boven Nederlandstalige.'], a: 1, f: 'AI leert van data vol menselijke vooroordelen. Dit bespreken met leerlingen trainen hun mediawijsheid.' },
     {q: 'Een AI-tekst vermeldt een wetenschappelijke studie met auteur en jaartal. Wat is de juiste reflex?', o: ['De bron blindelings overnemen in je lesmateriaal, want een vermelding met jaartal en auteur is betrouwbaar.','De genoemde bron zelfstandig opzoeken via betrouwbare kanalen om te controleren of deze daadwerkelijk bestaat.','Enkel controleren of het jaartal logisch is binnen de historische context van de rest van de tekst.','In dezelfde chat aan de AI-tool vragen of de zojuist gegenereerde bronvermelding wel echt helemaal klopt.'], a: 1, f: 'Verzonnen bronvermeldingen zijn een klassieke hallucinatie. Zelf controleren is noodzakelijk.' }
@@ -1748,7 +1748,7 @@ function m2a0(c){
   <div class="ib-b">AI wordt ingezet ter ondersteuning — <strong>nooit</strong> als vervanging van menselijke verantwoordelijkheid. Alles wat je met AI maakt of verwerkt, blijft jouw verantwoordelijkheid om te controleren.</div>
 </div>
 
-<p class="cp">Concreet voor jouw functie: gebruik Copilot M365 (met schild-icoon = schoolaccount) gerust voor mails, verslagen en documenten. Waar het om draait, is <strong>hoe je omgaat met gegevens</strong> — daar gaat de rest van deze korte module over.</p>
+<p class="cp">Concreet voor jouw functie: gebruik Copilot Chat (met schild-icoon = schoolaccount) gerust voor mails, verslagen en documenten. Waar het om draait, is <strong>hoe je omgaat met gegevens</strong> — daar gaat de rest van deze korte module over.</p>
 
 <div class="nw">
   <button class="sr-btn g" onclick="n2()">Volgende: privacy in je dagelijkse werk →</button>
@@ -1791,7 +1791,7 @@ function m2a2(c){
     <div class="sr-box-title">✓ Mag wel</div>
     <p style="font-size: 13px; color: #06038D; font-weight: 600; line-height: 1.8; margin:0;">
       → Mailsjablonen genereren (zonder échte namen)<br>
-      → Verslagen en rapporten samenvatten binnen Copilot M365<br>
+      → Verslagen en rapporten samenvatten binnen Copilot Chat<br>
       → Nieuwsbrieven en aankondigingen schrijven<br>
       → Formulieren en checklists opstellen<br>
       → Spelling en grammatica controleren
@@ -1803,7 +1803,7 @@ function m2a2(c){
       → Leerlingdossiers of -foto's in gratis, publieke AI-tools<br>
       → Excel met namen/adressen naar ChatGPT uploaden<br>
       → Echte namen in prompts ("mail aan Jan uit 3A")<br>
-      → Gevoelige data buiten Copilot M365 (geen schild = niet veilig)
+      → Schooldocumenten buiten Copilot Chat (geen schild = niet veilig)
     </p>
   </div>
 </div>
@@ -1828,7 +1828,7 @@ function m2a3(c){
 <p style="font-size: 14px; color: #06038D; line-height: 1.9; margin: 0;">
 ✓ AI ondersteunt, het vervangt jouw verantwoordelijkheid niet<br>
 ✓ Doelbinding & dataminimalisatie — enkel gebruiken waarvoor het bedoeld is<br>
-✓ Gebruik altijd Copilot M365 met schild-icoon voor gevoelige data<br>
+✓ Schooldocumenten enkel in Copilot Chat met schild-icoon, persoonsgegevens nooit<br>
 ✓ Nooit echte namen of dossiers in gratis, publieke AI-tools
 </p>
 </div>
@@ -1917,7 +1917,7 @@ function m2mg2(c){
 <div style="background: rgba(149,214,0,0.1); border-left: 4px solid var(--green); border-radius: 12px; padding: 20px; margin: 16px 0;">
   <div style="font-family: 'Archivo Black', sans-serif; font-size: 13px; color: var(--green); text-transform: uppercase; margin-bottom: 10px;">Beperkt risico — de meeste dagelijkse tools</div>
   <p style="font-size: 13px; color: #06038D; font-weight: 600; line-height: 1.7;">
-    Copilot M365 voor mails, samenvattingen, lesvoorbereiding — dit valt onder beperkt risico. Wel nodig: transparantie (personeel weet dat ze AI gebruiken) en de AI-geletterdheid uit artikel 4.
+    Copilot Chat voor mails, samenvattingen, lesvoorbereiding — dit valt onder beperkt risico. Wel nodig: transparantie (personeel weet dat ze AI gebruiken) en de AI-geletterdheid uit artikel 4.
   </p>
 </div>
 
@@ -2082,29 +2082,39 @@ function m2s2(c){
   c.innerHTML = `
 <div class="s-badge">Stap 3 van 11 · Goedgekeurde AI-tools</div>
 <h2 class="ch2">Welke tools mag je <em>gebruiken</em>?</h2>
-<p class="cp">Sint-Rembert kiest bewust voor <strong>Microsoft Copilot</strong> als primaire generatieve AI-tool. Copilot is geïntegreerd in de bestaande Microsoft 365-omgeving en wordt gebruikt met je persoonlijke Sint-Rembert-account, waardoor het gebruik volledig binnen de beveiligde schoolomgeving blijft. Ingevoerde gegevens, prompts en gegenereerde output worden <strong>niet</strong> gebruikt om de onderliggende AI-modellen te trainen.</p>
-<p class="cp">Daarnaast staat de scholengroep ook deze toepassingen toe, mits je je houdt aan de principes en schoolafspraken:</p>
+<p class="cp"><strong>Copilot Chat</strong> is de basisvoorziening van de scholengroep. Het zit zonder meerprijs in onze Microsoft 365-licenties (A3 en A5) en is er voor alle personeelsleden, via copilot.microsoft.com, altijd met je persoonlijke Sint-Rembert-account. Zo blijft het gebruik binnen de beveiligde schoolomgeving: prompts en output worden <strong>niet</strong> gebruikt om de onderliggende modellen te trainen. Werk je met je eigen bronnen? Gebruik dan <strong>Notebooks in Copilot</strong>.</p>
+<p class="cp">Het beleidskader deelt AI-toepassingen in drie niveaus in:</p>
 
 <div class="grid2">
   <div class="pane-ok lijst-ok">
-    <div class="lijst-h-ok">✓ Toegestane AI-toepassingen</div>
-    <div>→ Microsoft Copilot for M365 (eerste keuze)</div>
-    <div>→ Microsoft Copilot Chat</div>
-    <div>→ Bookwidgets AI</div>
-    <div>→ ChatGPT</div>
-    <div>→ Claude.ai</div>
-    <div>→ Gamma.app</div>
-    <div>→ Google Gemini</div>
-    <div>→ Gemini Notebook</div>
+    <div class="lijst-h-ok">✓ Volledig ondersteund</div>
+    <div>→ Copilot Chat (basis, voor iedereen)</div>
+    <div>→ Microsoft 365 Copilot (betalend, op aanvraag)</div>
+    <div>→ ChatGPT en Claude.ai (teamplan van de scholengroep)</div>
+    <div>→ BookWidgets AI en Canva AI</div>
+    <div style="margin-top:8px;font-weight:600">Met je Sint-Rembert-account. Schooldocumenten mogen, zonder persoonsgegevens of na anonimisering.</div>
   </div>
-  <div class="pane-nok lijst-nok">
-    <div class="lijst-h-nok">Niet-goedgekeurde tools</div>
-    <div>→ Elke AI-toepassing die niet op de goedgekeurde lijst staat, wordt beschouwd als <strong>"shadow AI"</strong> en is niet toegelaten zonder voorafgaande goedkeuring</div>
-    <div>→ Ook tools gemaakt via "vibecoding" of low-code/no-code AI-platformen moeten eerst aan de IT-dienst worden voorgelegd</div>
+  <div class="pane-ok lijst-ok" style="background:#FFFFFF!important;border:6px solid #95D600!important">
+    <div class="lijst-h-ok">Toegestaan met aandacht</div>
+    <div>→ Gratis of persoonlijke versies van ChatGPT en Claude.ai</div>
+    <div>→ Gamma.app</div>
+    <div style="margin-top:8px;font-weight:600">Enkel anonieme, niet-vertrouwelijke input. Geen schooldocumenten, geen persoonsgegevens, geen ondersteuning.</div>
+  </div>
+</div>
+<div class="grid2">
+  <div class="pane-nok lijst-nok" style="grid-column: span 2;">
+    <div class="lijst-h-nok">Niet goedgekeurd</div>
+    <div>→ Alle andere AI-toepassingen zijn <strong>"shadow AI"</strong>: niet toegestaan in een professionele of onderwijscontext zonder voorafgaande goedkeuring. Ook persoonlijke betalende accounts buiten de teamplannen vallen hieronder.</div>
+    <div>→ Een nieuwe tool, ook een app die je zelf bouwt met vibecoding of een low-code/no-code-platform, leg je eerst voor aan de <strong>IT-commissie</strong>. De DPO beslist, met advies van de IT-dienst en de PICT's.</div>
   </div>
 </div>
 
-<p class="cp">Waarom geen vrije keuze? Bij externe, gratis platformen is vaak onduidelijk wat er met de data gebeurt en of die gebruikt wordt om AI-modellen te trainen. Door te kiezen voor Copilot vermijdt de scholengroep dat school- of persoonsgegevens ongecontroleerd bij dergelijke platformen terechtkomen.</p>
+<div class="ib warn">
+  <div class="ib-t">Belangrijk voor je opdrachten</div>
+  <div class="ib-b">Opdrachten en evaluaties voor leerlingen gaan enkel uit van <strong>Copilot Chat</strong>, zodat elke leerling gelijke kansen heeft. Een opdracht mag nooit afhangen van een betalende tool die sommige leerlingen thuis wel hebben.</div>
+</div>
+
+<p class="cp">Waarom geen vrije keuze? Bij gratis platformen is vaak onduidelijk wat er met de data gebeurt en of die gebruikt wordt om AI-modellen te trainen. Schooldocumenten upload je daarom enkel naar tools die aan drie voorwaarden voldoen: geen modeltraining, opslag binnen de EU en een betalende, contractuele relatie met een verwerkersovereenkomst. In de praktijk zijn dat de volledig ondersteunde toepassingen, gebruikt met je Sint-Rembert-account. Een betalend account vraag je aan bij je directie.</p>
 
 <div class="nw">
   <button class="sr-btn b" onclick="p2()">← Vorige</button>
@@ -2681,7 +2691,7 @@ function m2s8(c){
     {q: 'Waarom gebruikt Sint-Rembert bewust GEEN AI-detectietools om leerlingenwerk te controleren?', o: ['Omdat detectietools te duur zijn in licentiekosten voor de volledige scholengroep.','Omdat de betrouwbaarheid onvoldoende onderbouwd is, met een grote kans op fout-positieve resultaten.','Omdat het schoolreglement het gebruik van enige vorm van software tijdens verbeteren verbiedt.','Omdat leerlingen wettelijk recht hebben op een volledig AI-vrije onderwijsomgeving binnen Europa.'], a: 1, f: 'Detectietools zijn onvoldoende betrouwbaar; dit staat haaks op zorgvuldig en rechtvaardig evalueren.' },
     {q: 'Wat is het "mens-machine-mens-principe" uit het beleidskader?', o: ['AI-output wordt automatisch goedgekeurd zodra een mens de oorspronkelijke prompt heeft ingetypt.','De inzet van AI vertrekt altijd vanuit een menselijke vraag en eindigt steeds met menselijke controle.','Twee personeelsleden moeten elke AI-output afzonderlijk goedkeuren voor ze gebruikt mag worden.','Machines nemen voortaan de eerste beoordeling op zich, waarna een mens enkel nog de eindscore zet.'], a: 1, f: 'AI kan input leveren of suggereren, maar het traject start en eindigt altijd bij menselijke verantwoordelijkheid.' },
     {q: 'Een schooldocument mag enkel naar een betalende AI-tool als aan welke voorwaarden voldaan is?', o: ['Enkel als de tool een mooie, gebruiksvriendelijke interface heeft voor leerkrachten en leerlingen.','Enkel als er geen modeltraining gebeurt met de data, als de opslag binnen de EU blijft en er een betalende contractuele relatie met verwerkersovereenkomst is.','Enkel als de tool gratis beschikbaar is voor alle leerlingen, ongeacht waar de servers staan.','Enkel als de IT-dienst de tool ooit al eens gebruikte voor een ander, niet-gerelateerd doel.'], a: 1, f: 'Alle drie voorwaarden moeten gelden: geen modeltraining, opslag binnen de EU, en een betalende relatie met verwerkersovereenkomst.' },
-    {q: 'Wat gebeurt er met een AI-toepassing die niet op de goedgekeurde lijst staat?', o: ['Die mag gewoon gebruikt worden zolang de leerkracht dat zelf verantwoord vindt voor zijn vak.','Die wordt beschouwd als "shadow AI" en is niet toegestaan zonder voorafgaande goedkeuring.','Die mag enkel gebruikt worden bij leerlingen vanaf het vierde middelbaar, niet bij jongere leerlingen.','Die moet eerst minstens 100 keer succesvol getest zijn door andere Vlaamse scholengroepen.'], a: 1, f: 'Niet-goedgekeurde tools zijn "shadow AI" en vereisen voorafgaande goedkeuring via de IT-dienst.' },
+    {q: 'Wat gebeurt er met een AI-toepassing die niet op de goedgekeurde lijst staat?', o: ['Die mag gewoon gebruikt worden zolang de leerkracht dat zelf verantwoord vindt voor zijn vak.','Die wordt beschouwd als "shadow AI" en is niet toegestaan zonder voorafgaande goedkeuring.','Die mag enkel gebruikt worden bij leerlingen vanaf het vierde middelbaar, niet bij jongere leerlingen.','Die moet eerst minstens 100 keer succesvol getest zijn door andere Vlaamse scholengroepen.'], a: 1, f: 'Niet-goedgekeurde tools zijn "shadow AI" en vereisen voorafgaande goedkeuring: de IT-dienst legt ze voor aan de IT-commissie, de DPO beslist.' },
     {q: 'Waar staat het beleidskader m.b.t. evalueren en toetsen met AI?', o: ['AI-gebruik is bij evaluaties altijd toegestaan, tenzij de leerkracht dit uitdrukkelijk verbiedt.','AI-gebruik is bij evaluaties niet toegestaan, tenzij de leerkracht dit uitdrukkelijk toelaat.','AI-gebruik bij evaluaties is een individuele keuze van elke leerling, zonder tussenkomst van de leerkracht.','Evaluaties met AI zijn überhaupt verboden binnen de volledige scholengroep, in elke vorm of context.'], a: 1, f: 'Het uitgangspunt is een verbod, tenzij de leerkracht expliciet en met duidelijke voorwaarden AI toelaat.' },
     {q: 'Ongeveer hoeveel meer energie verbruikt een zoekopdracht op ChatGPT, vergeleken met diezelfde zoekopdracht op Google?', o: ['Ongeveer 2 keer meer energie, een verwaarloosbaar klein verschil in de praktijk.','Ongeveer 25 keer meer energie, door de zware berekeningen in grote datacenters.','Exact evenveel energie, aangezien beide diensten op vergelijkbare servers draaien.','Ongeveer 100 keer minder energie, omdat ChatGPT efficiënter zou werken dan zoekmachines.'], a: 1, f: 'Een ChatGPT-zoekopdracht kost ongeveer 25 keer meer energie dan dezelfde zoekopdracht op Google — een reële afweging bij het kiezen van je tool.' },
     {q: 'Waarom is het beter om te zeggen "het model berekende..." in plaats van "de AI denkt dat..."?', o: ['Omdat "berekende" een korter en dus sneller uit te spreken woord is voor in de klas.','Omdat AI niet denkt zoals een mens; verkeerd taalgebruik geeft leerlingen een onjuist beeld.','Omdat het woord "denkt" wettelijk verboden is bij het bespreken van AI op school.','Er is eigenlijk geen enkel verschil; beide formuleringen zijn taalkundig exact gelijkwaardig.'], a: 1, f: 'AI "begrijpt" niet zoals een mens — bewust woordgebruik voorkomt dat leerlingen AI als een denkend wezen gaan beschouwen.' }
@@ -2798,7 +2808,7 @@ function d3(){ S.mod3.done=true; S.mod3.step=0; ss(); up(); rmc(); sv('home'); s
 function m3s0(c){
   c.innerHTML = `
 <div><span class="opt-badge">Optioneel</span><span class="s-badge">Stap 1 van 8 · Aan de slag</span></div>
-<h2 class="ch2">Copilot M365 — <em>jouw assistent</em></h2>
+<h2 class="ch2">Copilot Chat — <em>jouw assistent</em></h2>
 <svg viewBox="0 0 700 100" style="width:100%;height:auto;display:block;margin-bottom:16px;border-radius:var(--rsm);background:var(--blue)" xmlns="http://www.w3.org/2000/svg">
   <circle cx="80" cy="55" r="34" fill="rgba(149,214,0,.18)"/>
   <text x="80" y="65" font-size="36" text-anchor="middle"></text>
@@ -2810,7 +2820,7 @@ function m3s0(c){
   <text x="600" y="60" font-family="Nunito, sans-serif" font-size="11" fill="rgba(255,255,255,.7)" font-weight="700">Opnieuw aanmelden met je</text>
   <text x="600" y="75" font-family="Nunito, sans-serif" font-size="11" fill="rgba(255,255,255,.7)" font-weight="700">officiële schoolaccount.</text>
 </svg>
-<p class="cp">Copilot M365 is de AI-assistent die geïntegreerd is in je Microsoft-omgeving (Word, Outlook, Teams, en een eigen chatvenster). Je vindt hem via de Microsoft 365-portal (office.com) of als icoon in de werkbalk van je Office-apps. Meld je altijd aan met je <strong>officiële schoolaccount</strong> van de scholengroep — niet met een privéaccount.</p>
+<p class="cp">Copilot Chat is de AI-assistent van je schoolaccount: een eigen chatvenster en een zijpaneel in je Microsoft-apps. Met een betalende licentie (Microsoft 365 Copilot) werkt Copilot ook met je eigen mails, bestanden en vergaderingen. Je vindt hem via de Microsoft 365-portal (office.com) of als icoon in de werkbalk van je Office-apps. Meld je altijd aan met je <strong>officiële schoolaccount</strong> van de scholengroep — niet met een privéaccount.</p>
 <p class="cp">Bovenaan het Copilot-venster zie je een klein <strong>schild-icoon (Protected)</strong>, zoals in de illustratie hierboven. Dat schild is je belangrijkste controlepunt: het betekent dat je gesprekken binnen de beveiligde schoolomgeving blijven en niet gebruikt worden om het onderliggende AI-model te trainen. Zonder dat schild ben je niet zeker dat je gegevens beschermd zijn.</p>
 
 <div class="ib warn">
@@ -3156,7 +3166,7 @@ function m3s5(c){
   c.innerHTML = `
 <div><span class="opt-badge">Optioneel</span><span class="s-badge">Stap 6 van 8 · Agents</span></div>
 <h2 class="ch2">Bouw je eigen <em>agent</em></h2>
-<p class="cp">Een <strong>agent</strong> in Copilot M365 is een aangepaste, afgebakende assistent: je geeft hem specifieke instructies en eventueel eigen documenten of bronnen, en hij gedraagt zich vervolgens enkel binnen die afgesproken grenzen. Denk aan een "studiebuddy" die leerlingen enkel binnen jouw lesmateriaal helpt oefenen, zonder af te dwalen naar andere onderwerpen of het antwoord meteen weg te geven.</p>
+<p class="cp">Een <strong>agent</strong> in Copilot Chat is een aangepaste, afgebakende assistent: je geeft hem specifieke instructies en eventueel eigen documenten of bronnen, en hij gedraagt zich vervolgens enkel binnen die afgesproken grenzen. Denk aan een "studiebuddy" die leerlingen enkel binnen jouw lesmateriaal helpt oefenen, zonder af te dwalen naar andere onderwerpen of het antwoord meteen weg te geven.</p>
 <p class="cp">Je maakt een agent aan via "Agents → New agent": beschrijf in gewone taal wat je nodig hebt, en Copilot bouwt de basis voor je op. Je geeft hem een naam, een duidelijke taakomschrijving ("Help leerlingen oefenen op onregelmatige werkwoorden, geef hints, geen volledige antwoorden"), en eventueel relevante documenten als kennisbasis.</p>
 <img src="img/copilot-agent-builder.png" alt="Copilot Agent Builder" style="width:100%;max-width:600px;display:block;margin:16px auto;border-radius:10px;border:1px solid #e0e4f5;box-shadow:0 2px 10px rgba(6,3,141,0.08);">
 <div class="ib warn">
@@ -3374,7 +3384,7 @@ function m3s7(c){
   c.innerHTML = `
 <div><span class="opt-badge">Optioneel</span><span class="s-badge">Stap 12 van 12 · Slotreflectie</span></div>
 <h2 class="ch2">Slotreflectie</h2>
-<p class="cp">Je hebt nu kennisgemaakt met Copilot M365: het schild-icoon en dataveiligheid, gestructureerd prompten (R-D-C-B-V), de Maakmodule voor visueel materiaal, differentiëren op leesniveau, quizzen/rubrics genereren, en het opzetten van een eigen agent.</p>
+<p class="cp">Je hebt nu kennisgemaakt met Copilot Chat: het schild-icoon en dataveiligheid, gestructureerd prompten (R-D-C-B-V), de Maakmodule voor visueel materiaal, differentiëren op leesniveau, quizzen/rubrics genereren, en het opzetten van een eigen agent.</p>
 
 <h3 class="ch3">3x tijd besparen met AI in de klas</h3>
 <p class="cp">Leraar Frans en pedagogisch ICT-coördinator Line Vanhauwere (RHIZO Zorgkrachtschool) deelt drie concrete tijdsbespaarders. Voor differentiatie: maak meerdere versies van eenzelfde leesoefening op maat van elk niveau, en geef in je prompt de gekende niveaus mee zoals de ERK-niveaus (A2, B1...) of AVI-leesniveaus. Voor toetsvragen: gebruik <strong>few-shot prompting</strong> — geef minstens 2 voorbeelden van een goede vraag mee in je prompt, samen met de gewenste criteria of schrijfstijl. Weet je niet zeker hoe je moet prompten? Vraag het AI-model zelf wat een goede prompt zou zijn (reverse prompting), of geef expliciet aan wat het juist <strong>niet</strong> mag doen (negative prompt). Voor rubrics: laad je document met leerdoelen mee in je prompt, zodat de gegenereerde beoordelingscriteria daar automatisch op aansluiten.</p>
@@ -3426,7 +3436,7 @@ function m3a0(c){
   c.innerHTML = `
 <div><span class="opt-badge">Optioneel</span><span class="s-badge">Stap 1 van 4 · Aan de slag</span></div>
 <h2 class="ch2">Copilot voor <em>Administratie</em></h2>
-<p class="cp">Als administratief medewerker ben je de kracht achter de schermen. Copilot M365 kan je helpen om het dagelijkse papierkraam sneller, slimmer en minder foutgevoelig in te pakken. Geen complexe prompts nodig — gewone Nederlands is genoeg.</p>
+<p class="cp">Als administratief medewerker ben je de kracht achter de schermen. Copilot Chat kan je helpen om het dagelijkse papierkraam sneller, slimmer en minder foutgevoelig in te pakken. Geen complexe prompts nodig — gewone Nederlands is genoeg.</p>
 
 <h3 class="ch3">Top 5 use cases voor administratie</h3>
 <div class="sr-row">
@@ -3663,7 +3673,7 @@ function m3a3(c){
   <div style="margin-bottom: 16px;">
     <div style="font-weight: 700; color: var(--red); font-size: 13px; text-transform: uppercase; margin-bottom: 8px;">2. Bestanden of documenten met leerlinggegevens online zetten</div>
     <p style="font-size: 13px; color: #06038D; font-weight: 600; line-height: 1.7;">
-      Een Excel met leerlingnamen/scores/adressen uploaden naar ChatGPT of een gratis AI-tool = GDPR-schending. Alle leerlinggegevens blijven in M365 (met schild-icoon).
+      Een Excel met leerlingnamen/scores/adressen uploaden naar ChatGPT of een gratis AI-tool = GDPR-schending. Leerlinggegevens horen in geen enkele AI-tool, ook niet in Copilot Chat.
     </p>
   </div>
 
@@ -3677,7 +3687,7 @@ function m3a3(c){
   <div>
     <div style="font-weight: 700; color: var(--red); font-size: 13px; text-transform: uppercase; margin-bottom: 8px;">4. Gevoelige schoolgegevens zonder beveiligde tool</div>
     <p style="font-size: 13px; color: #06038D; font-weight: 600; line-height: 1.7;">
-      Leerlinggegevens, beleidsteksten, evaluatierapporten → alleen in Copilot M365 (het schild-icoon zichtbaar). Nooit gratis tools.
+      Beleidsteksten en documenten zonder persoonsgegevens → enkel in Copilot Chat (het schild-icoon zichtbaar). Leerlinggegevens en evaluatierapporten nooit, in geen enkele tool.
     </p>
   </div>
 </div>
@@ -3686,7 +3696,7 @@ function m3a3(c){
   <div style="font-family: 'Archivo Black', sans-serif; font-size: 14px; color: var(--blue); text-transform: uppercase; margin-bottom: 12px;">✓ Dit mag wel</div>
   <ul style="font-size: 13px; color: #06038D; font-weight: 600; line-height: 1.8; margin: 0; padding-left: 20px;">
     <li>Emailsjablonen genereren (zonder echte namen)</li>
-    <li>Rapporten samenvatten (in M365)</li>
+    <li>Rapporten zonder persoonsgegevens samenvatten (in Copilot Chat)</li>
     <li>Efficiëncytips zoeken (proces-verbeteringen)</li>
     <li>Standaarddocumenten schrijven (beleid, info)</li>
     <li>Formulieren optimaliseren (structuur, workflow)</li>
@@ -3912,14 +3922,14 @@ function m3m3(c){
   <div style="margin-bottom: 16px;">
     <div style="font-weight: 700; color: var(--red); font-size: 13px; text-transform: uppercase; margin-bottom: 8px;">2. Leerling- of personeelsgegevens naar gratis tools</div>
     <p style="font-size: 13px; color: #06038D; font-weight: 600; line-height: 1.7;">
-      Excel met namen, evaluaties, adressen → ChatGPT/Gemini = GDPR-schending. Data blijft in M365 (met schild-icoon). Geen uitzonderingen.
+      Excel met namen, evaluaties, adressen → een gratis AI-tool = GDPR-schending. Zulke gegevens horen in geen enkele AI-tool, ook niet in Copilot Chat. Geen uitzonderingen.
     </p>
   </div>
 
   <div style="margin-bottom: 16px;">
     <div style="font-weight: 700; color: var(--red); font-size: 13px; text-transform: uppercase; margin-bottom: 8px;">3. Gevoelige bestanden online plaatsen</div>
     <p style="font-size: 13px; color: #06038D; font-weight: 600; line-height: 1.7;">
-      Beleidsteksten met schoolinterne info, evaluatierapporten, personeelsgegevens → nooit naar publieke platforms. Enkel M365 of beveiligde tools met verwerkersovereenkomst.
+      Beleidsteksten met schoolinterne info, evaluatierapporten, personeelsgegevens → nooit naar publieke platforms. Enkel in Copilot Chat of de teamplannen van de scholengroep, en enkel zonder persoonsgegevens.
     </p>
   </div>
 
@@ -4048,7 +4058,7 @@ function renderAiCards(){
     {n:'Spamfilter e-mail', ai:true, w:'Machine learning'},
     {n:'Rekenmachine', ai:false, w:'Vaste regels'},
     {n:'TikTok-feed', ai:true, w:'Algoritme leert'},
-    {n:'Copilot M365', ai:true, w:'LLM taalmodel'}
+    {n:'Copilot Chat', ai:true, w:'LLM taalmodel'}
   ];
   const g = document.getElementById('aig');
   if(!g) return;
@@ -4137,7 +4147,7 @@ function renderMagWel(){
     { 
       t:'Casus 1: De snelle rapportcommentaren — Excel met namen/scores uploaden naar ChatGPT voor gepersonaliseerde rapportteksten.', 
       ok:false, 
-      e:'Mag NIET — GDPR-inbreuk. Je deelt persoonsgegevens (namen gekoppeld aan evaluaties) met extern commercieel platform dat data mogelijk voor modeltraining gebruikt. Enkel met anonimisering óf afgeschermde bedrijfsomgeving (Copilot M365).' 
+      e:'Mag NIET — GDPR-inbreuk. Je deelt persoonsgegevens (namen gekoppeld aan evaluaties) met extern commercieel platform dat data mogelijk voor modeltraining gebruikt. Een rapport met leerlingnamen upload je nergens; werk enkel met geanonimiseerde gegevens, en dan in Copilot Chat.' 
     },
     { 
       t:'Casus 2: De gedifferentieerde leestekst — Complex krantenartikel in Copilot kopiëren, herschrijven naar B1 en uitdagend niveau, beide versies in de les gebruiken.', 

@@ -244,9 +244,9 @@ footer a{color:var(--groen);font-weight:600}
     <svg viewBox="0 0 140 120" role="img" aria-label="Illustratie: vergrootglas over een scherm"><rect x="14" y="16" width="92" height="66" rx="12" fill="#fff"/><rect x="24" y="26" width="72" height="46" rx="6" fill="#06038D"/><polyline points="38,50 48,60 70,38" fill="none" stroke="#95D600" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="100" cy="78" r="20" fill="none" stroke="#95D600" stroke-width="8"/><path d="M114 92 L130 108" stroke="#95D600" stroke-width="10" stroke-linecap="round"/></svg>
   </div>
   <div class="legenda">
-    <span><i class="dot" style="background:var(--groen)"></i>Goedgekeurd</span>
-    <span><i class="dot" style="background:var(--wit);box-shadow:inset 0 0 0 4px var(--groen)"></i>Enkel anoniem gebruiken</span>
-    <span><i class="dot" style="background:var(--blauw);box-shadow:inset 0 0 0 2px var(--wit)"></i>Niet toegelaten</span>
+    <span><i class="dot" style="background:var(--groen)"></i>Volledig ondersteund (met je schoolaccount)</span>
+    <span><i class="dot" style="background:var(--wit);box-shadow:inset 0 0 0 4px var(--groen)"></i>Toegestaan met aandacht (enkel anonieme input)</span>
+    <span><i class="dot" style="background:var(--blauw);box-shadow:inset 0 0 0 2px var(--wit)"></i>Niet goedgekeurd</span>
   </div>
   <div class="filters"><input id="toolzoek" type="search" placeholder="Zoek een tool" aria-label="Zoek een tool"></div>
   <div class="grid" id="toollijst"></div>
@@ -411,7 +411,7 @@ $('#promptlijst').addEventListener('click',async e=>{
 renderPrompts();
 
 /* ---------- tools ---------- */
-const STATUS={ok:{k:'groen',l:'Goedgekeurd'},anoniem:{k:'twijfel',l:'Enkel anoniem'},niet:{k:'niet',l:'Niet toegelaten'}};
+const STATUS={ok:{k:'groen',l:'Volledig ondersteund'},anoniem:{k:'twijfel',l:'Toegestaan met aandacht'},niet:{k:'niet',l:'Niet goedgekeurd'}};
 function renderTools(){
   const q=$('#toolzoek').value.toLowerCase().trim();
   const l=TOOLS.filter(t=>!q||(t.naam+' '+t.wat).toLowerCase().includes(q));
@@ -471,15 +471,25 @@ const BOOM = {
     vraag: "Staan er persoonsgegevens of vertrouwelijke informatie in het document?",
     hint: "Denk aan namen, punten, adressen, e-mailadressen, of informatie over gezondheid, gedrag of thuissituatie van leerlingen, ouders of collega's.",
     opties: [
-      { tekst: "Nee, het document is anoniem", naar: "output", tip: "Een anoniem document mag je in elke toegelaten tool gebruiken. We raden Copilot Chat met je schoolaccount aan." },
+      { tekst: "Nee, het document is anoniem", naar: "tool" },
       { tekst: "Ja", naar: "anonDoc" },
     ],
   },
   anonDoc: {
     vraag: "Kun je die gegevens eerst uit het document halen?",
     opties: [
-      { tekst: "Ja, ik maak een anonieme versie", naar: "output", tip: "Upload alleen de anonieme versie van je document. We raden Copilot Chat met je schoolaccount aan." },
+      { tekst: "Ja, ik maak een anonieme versie", naar: "tool", tip: "Upload alleen de anonieme versie van je document." },
       { tekst: "Nee, de gegevens zijn nodig", naar: "R_pers" },
+    ],
+  },
+  tool: {
+    vraag: "In welke tool wil je het document gebruiken?",
+    hint: "Schooldocumenten upload je enkel in een volledig ondersteunde tool, met je Sint-Rembert-account.",
+    opties: [
+      { tekst: "Copilot Chat met mijn schoolaccount", naar: "output" },
+      { tekst: "Het teamplan van ChatGPT of Claude van de scholengroep, BookWidgets AI of Canva AI", naar: "output" },
+      { tekst: "Een gratis of persoonlijke versie (bv. gratis ChatGPT)", naar: "R_gratis" },
+      { tekst: "Een andere tool", naar: "R_andere" },
     ],
   },
   output: {
@@ -517,6 +527,16 @@ const BOOM = {
     soort: "niet", titel: "Dit mag niet",
     tekst: "Persoonsgegevens en vertrouwelijke informatie geef je in geen enkele AI-tool in, ook niet in Copilot Chat.",
     lijst: ["Vervang namen door 'leerling A', 'leerling B' …", "Laat details weg waaruit je iemand kunt herkennen.", "Lukt anonimiseren niet? Doe deze taak dan zonder AI."],
+  },
+  R_gratis: {
+    soort: "niet", titel: "Dit mag niet",
+    tekst: "Schooldocumenten upload je niet in een gratis of persoonlijke tool, ook niet als ze anoniem zijn. Een bestand bevat vaak meer dan je ziet (auteur, opmerkingen, oude versies), en gratis tools kunnen je gegevens gebruiken voor training.",
+    lijst: ["Gebruik Copilot Chat met je schoolaccount.", "Anonieme tekst die je zelf typt, mag je wel in een gratis tool ingeven."],
+  },
+  R_andere: {
+    soort: "twijfel", titel: "Eerst laten goedkeuren",
+    tekst: "Tools die niet op de lijst staan, gebruik je niet zonder voorafgaande goedkeuring. Gebruik intussen Copilot Chat met je schoolaccount.",
+    lijst: ["Bespreek het met de PICT van je school; de IT-commissie beoordeelt nieuwe tools en de DPO beslist.", "Bekijk de lijst bij 'Welke tool?'."],
   },
   R_kritiekloos: {
     soort: "niet", titel: "Dit mag niet",
