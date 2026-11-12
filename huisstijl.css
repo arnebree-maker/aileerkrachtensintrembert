@@ -482,3 +482,16 @@ details.disc-card .disc-a{margin-top:12px}
 .inschrijf-film{border-radius:14px;overflow:hidden}
 .inschrijf-status{margin:12px 0 0;font-weight:700}
 .inschrijf-status:empty{display:none}
+
+/* Agents in module 3 */
+.agent-voordelen{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:6px 0 20px}
+.agent-voordelen div{border:3px solid #06038D;border-radius:20px;padding:14px 16px}
+.agent-voordelen b{display:block;font-weight:800;text-transform:uppercase;font-size:14px;margin-bottom:4px;color:#06038D}
+.agent-voordelen p{margin:0;font-size:14.5px;line-height:1.55;color:#06038D}
+.agent-stap{display:flex;gap:14px;align-items:flex-start;margin:22px 0 10px}
+.agent-stap > span{flex:none;width:40px;height:40px;border-radius:50%;background:#95D600;color:#06038D;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:18px}
+.agent-stap b{display:block;font-weight:800;text-transform:uppercase;color:#06038D;margin-bottom:2px}
+.agent-stap p{margin:0;line-height:1.6;color:#06038D}
+.agent-img{width:calc(100% - 54px);max-width:760px;display:block;margin:6px 0 8px 54px;border-radius:14px;border:2px solid #D9D9D9}
+@media(max-width:700px){.agent-img{margin-left:0;width:100%}}
+.agent-prompt{white-space:pre-wrap;font-family:Poppins,system-ui,sans-serif;font-size:13.5px;line-height:1.6;background:#F2F2F2;border-radius:14px;padding:14px 16px;margin:0 0 12px;color:#06038D;max-height:340px;overflow:auto}

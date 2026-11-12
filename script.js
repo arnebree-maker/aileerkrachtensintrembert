@@ -1032,10 +1032,10 @@ function renderStartTestQuiz(c){
    MODULE 1 — WAT IS AI? (13 stappen)
    ════════════════════════════════════════════ */
 
-const m1 = [m1s0, m1s1, m1s2, m1s3, m1s4, m1s5, m1s6, m1s7, m1s8, m1s9, m1s_hallucinations_bias, m1s_ai_agents, m1s10, m1s11, m1s12];
+const m1 = [m1s0, m1s1, m1s2, m1s3, m1s4, m1s5, m1s6, m1s7, m1s8, m1s9, m1s_hallucinations_bias, m1s10, m1s11, m1s12];
 
 /* ---- Navigatie: stapnummer en 'Volgende'-knop automatisch juist zetten ---- */
-const SLIDE_LABELS = {"renderStartTestQuiz": "Verplicht · 1 kans", "m1s0": "AI overal", "m1s1": "Introvideo", "m1s2": "Doe-opdracht", "m1s3": "Geschiedenis & GenAI", "m1s4": "Hallucinaties", "m1s5": "Doe-opdracht", "m1s6": "Kansen & gevaren", "m1s7": "Bias", "m1s8": "Deepfakes", "m1s9": "Hype of realiteit?", "m1s_hallucinations_bias": "Valkuilen", "m1s_ai_agents": "AI-Agents", "m1s10": "Reflectievragen", "m1s12": "Vertaalslag naar jouw vak", "m2a0": "De kern in 1 minuut", "m2a1": "Privacy in je dagelijkse werk", "m2a2": "Concreet voor jou", "m2a3": "Afronden", "m2mg0": "Jouw rol", "m2mg1": "EU AI Act artikel 4", "m2mg2": "Risicoclassificatie", "m2mg3": "Doe-opdracht", "m2mg4": "Afronden", "m2s0": "Het Beleidskader AI", "m2s1": "4 niet-onderhandelbare principes", "m2s2": "Goedgekeurde AI-tools", "m2s_casus": "Praktijkscenario's", "m2s4": "Spelregels & AI-labels", "m2s_leeftijd": "AI per leeftijdsfase", "m2s_extra_casussen": "Meer dilemma's", "m2s5": "Leerlingen begeleiden & evalueren", "m2s_leren": "Leren in plaats van delegeren", "m2s6": "AI-bestendig ontwerpen", "m2s_taakvoorbeeld": "Een AI-bestendige taak, uitgewerkt", "m2s7": "Mag het wel of niet?", "m2s9": "Praktijkscenario's & afronding", "m3s0": "Aan de slag", "m3s1": "Prompting", "m3s2": "Maakmodule", "m3s_praktijkprompts_teacher": "praktische prompts", "m3s3": "Differentiëren", "m3s_canvas": "Cursussen schrijven", "m3s4": "Quizzen & rubrics", "m3s5": "Agents", "m3s_casestudies_teacher": "case studies per vak", "m3s_onderzoek": "Onderzoek checken", "m3s_nascholingsideen_teacher": "Wat volgt?", "m3s7": "Slotreflectie", "m3a0": "Aan de slag", "m3a1": "Mails & Rapportages", "m3a_prompts_admin": "Praktische Prompts", "m3a2": "Efficiëncy & Automatisering", "m3a3": "GDPR & Afronding", "m3m0": "Strategisch", "m3m1": "Beleidsdocumenten", "m3m_prompts_mgmt": "Praktische Prompts", "m3m2": "Compliance & Implementatie", "m3m3": "GDPR & Afronding", "m2s8": "kennischeck", "m3s6": "praktijkvoorbeelden per vak"};
+const SLIDE_LABELS = {"renderStartTestQuiz": "Verplicht · 1 kans", "m1s0": "AI overal", "m1s1": "Introvideo", "m1s2": "Doe-opdracht", "m1s3": "Geschiedenis & GenAI", "m1s4": "Hallucinaties", "m1s5": "Doe-opdracht", "m1s6": "Kansen & gevaren", "m1s7": "Bias", "m1s8": "Deepfakes", "m1s9": "Hype of realiteit?", "m1s_hallucinations_bias": "Valkuilen", "m1s_ai_agents": "AI-Agents", "m1s10": "Reflectievragen", "m1s12": "Vertaalslag naar jouw vak", "m2a0": "De kern in 1 minuut", "m2a1": "Privacy in je dagelijkse werk", "m2a2": "Concreet voor jou", "m2a3": "Afronden", "m2mg0": "Jouw rol", "m2mg1": "EU AI Act artikel 4", "m2mg2": "Risicoclassificatie", "m2mg3": "Doe-opdracht", "m2mg4": "Afronden", "m2s0": "Het Beleidskader AI", "m2s1": "4 niet-onderhandelbare principes", "m2s2": "Goedgekeurde AI-tools", "m2s_casus": "Praktijkscenario's", "m2s4": "Spelregels & AI-labels", "m2s_leeftijd": "AI per leeftijdsfase", "m2s_extra_casussen": "Meer dilemma's", "m2s5": "Leerlingen begeleiden & evalueren", "m2s_leren": "Leren in plaats van delegeren", "m2s6": "AI-bestendig ontwerpen", "m2s_taakvoorbeeld": "Een AI-bestendige taak, uitgewerkt", "m2s7": "Mag het wel of niet?", "m2s9": "Praktijkscenario's & afronding", "m3s0": "Aan de slag", "m3s1": "Prompting", "m3s2": "Maakmodule", "m3s_praktijkprompts_teacher": "praktische prompts", "m3s3": "Differentiëren", "m3s_canvas": "Cursussen schrijven", "m3s4": "Quizzen & rubrics", "m3s5": "Waarom een agent?", "m3s_agent_bouwen": "Agent bouwen", "m3s_casestudies_teacher": "case studies per vak", "m3s_onderzoek": "Onderzoek checken", "m3s_nascholingsideen_teacher": "Wat volgt?", "m3s7": "Slotreflectie", "m3a0": "Aan de slag", "m3a1": "Mails & Rapportages", "m3a_prompts_admin": "Praktische Prompts", "m3a2": "Efficiëncy & Automatisering", "m3a3": "GDPR & Afronding", "m3m0": "Strategisch", "m3m1": "Beleidsdocumenten", "m3m_prompts_mgmt": "Praktische Prompts", "m3m2": "Compliance & Implementatie", "m3m3": "GDPR & Afronding", "m2s8": "kennischeck", "m3s6": "praktijkvoorbeelden per vak"};
 function fixNav(c, arr, step){
   try{
     const tot = arr.length, nr = step + 1;
@@ -1718,7 +1718,7 @@ function m1s11(c){
     {q: 'Welke toepassing werkt met vaste regels, en dus niet met AI?', o: ['Een rekenmachine die een som uitrekent.','De spamfilter in je mailbox.','De aanbevelingen in je TikTok- of YouTube-feed.','Een chatbot zoals Copilot Chat.'], a: 0, f: 'Een rekenmachine volgt vaste, vooraf ingestelde regels. De andere drie leren uit voorbeelden en voorspellen zelf.' },
     {q: 'Je vraagt een beeldgenerator om "een CEO" en krijgt bijna altijd een man van middelbare leeftijd. Wat toont dit?', o: ['Dat de tool stuk is en opnieuw opgestart moet worden.','Dat stereotypen uit de trainingsdata terugkomen in de output.','Dat je prompt te kort was om een goed beeld te krijgen.','Dat beeldgeneratoren enkel mannen kunnen tekenen.'], a: 1, f: 'Het systeem herhaalt stereotypen die in de trainingsdata sterk vertegenwoordigd zijn. Een goed voorbeeld om in de klas te bespreken.' },
     {q: 'Een leerling maakt met AI een nepfoto van een klasgenoot en deelt die in de klasgroep. Wat klopt?', o: ['Dit is onschuldig, zolang het als grap bedoeld is.','Dit mag, als duidelijk is dat de foto bewerkt werd.','Dit raakt aan de privacy van de klasgenoot en kan pesten zijn: je treedt kordaat op.','Dit is enkel een probleem als het tijdens de les gebeurt.'], a: 2, f: 'Beelden van klasgenoten manipuleren valt onder de privacywetgeving en kan leiden tot pesterijen. Maak dit vooraf duidelijk en treed op als het toch gebeurt.' },
-    {q: 'Wat is het verschil tussen een AI-agent en een gewone chatbot?', o: ['Een agent werkt altijd zonder internet.','Een agent plant zelf stappen, voert ze uit en controleert het resultaat.','Een agent maakt nooit fouten en verzint niets.','Een agent is een andere naam voor een zoekmachine.'], a: 1, f: 'Een chatbot antwoordt op je vraag. Een agent bedenkt een plan, voert stappen uit en stuurt bij. Ook een agent kan fouten maken.' },
+    {q: 'Waarom geef je AI best zoveel mogelijk context mee (doel, doelgroep, niveau, voorbeelden)?', o: ['Omdat AI anders weigert te antwoorden.','Omdat AI dan beter weet wat jij bedoelt, zodat het antwoord gerichter is en je minder moet bijsturen.','Omdat AI die informatie gebruikt om leerlingen te herkennen.','Omdat het antwoord dan altijd foutloos is.'], a: 1, f: 'Hoe meer relevante context, hoe gerichter het antwoord. Controleren blijft wel nodig: ook met goede context kan AI fouten maken.' },
     {q: 'Leerlingen komen met wilde doemverhalen over AI van sociale media. Wat is de beste aanpak?', o: ['De verhalen weglachen: het is toch allemaal overdreven.','Het onderwerp vermijden om geen onrust te veroorzaken.','Samen nagaan waar het verhaal vandaan komt en het vergelijken met wat AI vandaag echt kan.','Bevestigen dat AI binnenkort alles zal overnemen.'], a: 2, f: 'Neem de zorgen ernstig en ontleed ze samen: wie zegt dit, met welk doel, en wat kan AI vandaag echt?' }
   ];
   rQuiz(c, quiz, 1, 'mod1', n1, 60);
@@ -1737,6 +1737,11 @@ function m1s12(c){
 <div class="ib warn">
   <div class="ib-t">Bron</div>
   <div class="ib-b">Klasse, "AI in het onderwijs: nuttige helper of vervangleraar?" — interview met Rani Van Schoors (KU Leuven). <a href="https://www.klasse.be/722771/ai-in-het-onderwijs-expert-rani-schoors/" target="_blank">klasse.be/722771</a></div>
+</div>
+
+<div class="ib ok">
+  <div class="ib-t">Smaakt dit naar meer? Ontdek module 3</div>
+  <div class="ib-b">In de optionele module 3 "Copilot in de praktijk" leer je stap voor stap je <strong>eigen agent</strong> bouwen: een assistent die jouw vak, je leerlingen en je werkwijze al kent. Zo hoef je niet elke keer opnieuw alles uit te leggen, en krijg je sneller bruikbaar materiaal.</div>
 </div>
 
 <h3 class="ch3">Wat denk jij?</h3>
@@ -2833,7 +2838,7 @@ function sR3(){
 
 // TEACHER VERSION (huidige)
 // TEACHER VERSION — 10 stappen (incl praktische prompts + nascholingsideeën)
-const m3_teacher = [m3s0, m3s1, m3s2, m3s_praktijkprompts_teacher, m3s3, m3s_canvas, m3s4, m3s5, m3s6, m3s_casestudies_teacher, m3s_onderzoek, m3s_nascholingsideen_teacher, m3s7];
+const m3_teacher = [m3s0, m3s1, m3s2, m3s_praktijkprompts_teacher, m3s3, m3s_canvas, m3s4, m3s5, m3s_agent_bouwen, m3s6, m3s_casestudies_teacher, m3s_nascholingsideen_teacher, m3s7];
 
 // ADMIN VERSION (5 stappen: intro + 3 use cases + prompts + reflectie)
 const m3_admin = [m3a0, m3a1, m3a_prompts_admin, m3a2, m3a3];
@@ -3239,18 +3244,113 @@ ${hoofdingTip()}
 function m3s5(c){
   c.innerHTML = `
 <div><span class="opt-badge">Optioneel</span><span class="s-badge">Stap 6 van 8 · Agents</span></div>
-<h2 class="ch2">Bouw je eigen <em>agent</em></h2>
-<p class="cp">Een <strong>agent</strong> in Copilot Chat is een aangepaste, afgebakende assistent: je geeft hem specifieke instructies en eventueel eigen documenten of bronnen, en hij gedraagt zich vervolgens enkel binnen die afgesproken grenzen. Denk aan een "studiebuddy" die leerlingen enkel binnen jouw lesmateriaal helpt oefenen, zonder af te dwalen naar andere onderwerpen of het antwoord meteen weg te geven.</p>
-<p class="cp">Je maakt een agent aan via "Agents → New agent": beschrijf in gewone taal wat je nodig hebt, en Copilot bouwt de basis voor je op. Je geeft hem een naam, een duidelijke taakomschrijving ("Help leerlingen oefenen op onregelmatige werkwoorden, geef hints, geen volledige antwoorden"), en eventueel relevante documenten als kennisbasis.</p>
-<img src="img/copilot-agent-builder.png" alt="Copilot Agent Builder" style="width:100%;max-width:600px;display:block;margin:16px auto;border-radius:10px;border:1px solid #e0e4f5;box-shadow:0 2px 10px rgba(6,3,141,0.08);">
-<div class="ib warn">
-  <div class="ib-t">Voorzichtig met agents die leerlingen zelf gebruiken</div>
-  <div class="ib-b">Test een agent altijd grondig zelf vóór je hem aan leerlingen voorstelt: probeer hem "uit te lokken" buiten zijn bedoeld gebruik, en controleer of hij binnen de schoolomgeving (met het schild-icoon) blijft werken. Bij twijfel overleg je met je pedagogisch ICT-coördinator vóór je een agent klasbreed inzet.</div>
+<h2 class="ch2">Werk slimmer met je eigen <em>agent</em></h2>
+<p class="cp">Werk je telkens in een nieuwe chat, dan begint Copilot elke keer van nul. Je moet opnieuw uitleggen welk vak je geeft, voor welke klas, op welk niveau en hoe je het wil. Dat kost tijd, en wie iets vergeet te vermelden, krijgt een minder goed antwoord.</p>
+<p class="cp">Met een <strong>agent</strong> bouw je één keer een eigen omgeving: je legt vast wie je bent, wat je wil en hoe de agent moet werken, en je voegt eventueel je eigen documenten toe. Daarna werk je <strong>binnen die agent</strong>. Hij kent je context al, dus hij werkt gerichter en maakt minder fouten.</p>
+
+<h3 class="ch3">De voordelen</h3>
+<div class="agent-voordelen">
+  <div><b>Eén keer uitleggen</b><p>Je vak, je klas, je niveau en je afspraken zitten in de agent. Je hoeft ze niet elke keer te herhalen.</p></div>
+  <div><b>Gerichter en minder fouten</b><p>Hoe meer goede input, hoe beter de agent begrijpt wat je bedoelt.</p></div>
+  <div><b>Hij stelt zelf de vragen</b><p>Een goede agent begint met een intake en vraagt wat hij nog moet weten, voor hij iets maakt.</p></div>
+  <div><b>Jij stuurt bij</b><p>Laat hem eerst een voorproefje tonen. Pas na jouw akkoord werkt hij alles uit.</p></div>
+  <div><b>Herbruikbaar en deelbaar</b><p>Je gebruikt hem elke week opnieuw en kan hem delen met je vakgroep.</p></div>
 </div>
 
+<div class="ib ok">
+  <div class="ib-t">Tip: geef zoveel mogelijk input</div>
+  <div class="ib-b">Een agent is zo goed als wat je erin stopt. Beschrijf je vak, je doelgroep, je werkwijze en de vorm die je wil, en voeg bv. je leerplandoelen of een eigen cursustekst toe als kennisbron. Persoonsgegevens van leerlingen zet je er nooit in.</div>
+</div>
+
+<div class="nw">
+  <button class="sr-btn b" onclick="p3()">← Vorige</button>
+  <button class="sr-btn g" onclick="n3()">Volgende: bouw je agent →</button>
+</div>`;
+}
+
+const AGENT_VOORBEELDEN = [
+  {naam:'De interactieve les-architect', wat:'Bouwt pas een lesplan van 50 minuten nadat hij via vier gerichte vragen alle nodige informatie verzameld heeft.', prompt:`Jij bent een interactieve lesontwerper en klankbord voor leerkrachten in het secundair onderwijs. Je doel is een lesvoorbereiding van 50 minuten te maken, maar je werkt altijd in twee stappen. Je begint NOOIT meteen met het schrijven van de les: je start met een intake.
+
+STAP 1: De intake
+Begroet de leerkracht en stel exact deze vier vragen in een overzichtelijk lijstje:
+1. Wat is het precieze leerplandoel of het onderwerp van de les?
+2. Voor welke doelgroep (welk jaar, welke richting) is deze les?
+3. Wat wil je zelf zeker meegeven, of welke werkvorm wil je absoluut gebruiken?
+4. Zijn er extra noden in de klas (bv. nood aan differentiatie of leerlingen met specifieke onderwijsbehoeften)?
+Stop hier en wacht tot de leerkracht deze vragen beantwoord heeft.
+
+STAP 2: De les
+Maak op basis van de antwoorden een lesplan van 50 minuten in deze structuur:
+- 0-5 min: instap (een prikkelende startvraag of casus)
+- 5-20 min: kerninstructie (de theorie in drie heldere punten)
+- 20-40 min: actieve verwerking (een concrete werkvorm, afgestemd op de wensen van de leerkracht)
+- 40-45 min: differentiatie op maat (concrete tips op basis van het antwoord op vraag 4)
+- 45-50 min: exitticket (een korte check of het leerplandoel bereikt is)
+
+Vraag nooit naar namen of andere persoonsgegevens van leerlingen.`},
+  {naam:'De oefeningengenerator met voorproefje', wat:'Vraagt je doelen op en toont eerst twee proefoefeningen. Je kan nog bijsturen ("maak het moeilijker", "meer praktijkgericht") voor hij de volledige set maakt. Dat scheelt veel frustratie achteraf.', prompt:`Jij bent een didactisch assistent die levensechte oefeningen en casussen bedenkt voor het secundair onderwijs. Je werkt stap voor stap: je vraagt input, geeft een klein voorproefje ter controle en werkt pas daarna alles uit.
+
+STAP 1: De intake
+Begin het gesprek met deze vragen:
+1. Welke leerplandoelen of welk stuk theorie wil je laten inoefenen?
+2. Wat is het niveau van de leerlingen (graad en onderwijsvorm)?
+3. In welke context of leefwereld wil je de oefeningen plaatsen (bv. sport, sociale media, gaming, een lokale kmo)?
+Wacht op het antwoord van de leerkracht.
+
+STAP 2: Het voorproefje
+Maak nog GEEN volledige reeks. Bedenk eerst twee korte, concrete voorbeeldoefeningen. Stel daarna altijd deze vraag: "Zijn deze oefeningen de juiste richting? Wil je ze makkelijker of moeilijker, of mag ik de volledige set uitwerken?"
+Wacht op de feedback van de leerkracht.
+
+STAP 3: De volledige set
+Na goedkeuring of bijsturing maak je de volledige set in dit formaat:
+- Levensechte casus: een kort scenario (maximaal vijf zinnen) dat past bij de gekozen context.
+- Drie basisoefeningen: rechtstreekse toepassing van de theorie.
+- Eén verdiepingsvraag: voor snelle leerlingen (argumenteren of ontwerpen).
+- Antwoordsleutel: korte antwoorden voor de leerkracht.
+
+Vraag nooit naar namen of andere persoonsgegevens van leerlingen.`}
+];
+function kopieerAgent(i,btn){
+  const tekst = AGENT_VOORBEELDEN[i].prompt.replace(/&lt;/g,'<').replace(/&gt;/g,'>');
+  const klaar = ()=>{ const o=btn.textContent; btn.textContent='✓ Gekopieerd'; setTimeout(()=>btn.textContent=o,1800); };
+  if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(tekst).then(klaar).catch(()=>fallbackKopie(tekst,klaar)); }
+  else fallbackKopie(tekst,klaar);
+}
+function fallbackKopie(tekst,klaar){
+  const ta=document.createElement('textarea'); ta.value=tekst; ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select();
+  try{ document.execCommand('copy'); klaar(); }catch(e){} ta.remove();
+}
+
+function m3s_agent_bouwen(c){
+  const vb = AGENT_VOORBEELDEN.map((a,i)=>`
+  <div class="disc-card agent-vb">
+    <div class="disc-q">Voorbeeld ${i+1}: ${a.naam}</div>
+    <div class="disc-a"><p style="margin:0 0 10px">${a.wat}</p><pre class="agent-prompt">${a.prompt}</pre><button type="button" class="sr-btn g" onclick="kopieerAgent(${i},this)">Kopieer deze instructies</button></div>
+  </div>`).join('');
+  c.innerHTML = `
+<div><span class="opt-badge">Optioneel</span><span class="s-badge">Stap 7 van 8 · Agent bouwen</span></div>
+<h2 class="ch2">Bouw je agent <em>stap voor stap</em></h2>
+<p class="cp">Volg de drie stappen hieronder in Copilot Chat, met je schoolaccount. Gebruik voor je eerste agent gerust een van de twee voorbeelden onderaan: kopieer de instructies en pas ze aan je eigen vak aan.</p>
+
+<div class="agent-stap"><span>1</span><div><b>Open "Nieuwe agent"</b><p>Ga in Copilot links naar <strong>Agents</strong> en kies <strong>Nieuwe agent</strong>.</p></div></div>
+<img src="img/agent-stap1-nieuwe-agent.png" alt="In Copilot: Agents, en dan Nieuwe agent" class="agent-img">
+
+<div class="agent-stap"><span>2</span><div><b>Beschrijf je agent</b><p>Plak de instructies (de "systeemprompt") in het venster "Je eigen specialistische agent ontwikkelen", of beschrijf in gewone taal wat je agent moet doen. Hoe meer input, hoe beter: je vak, je doelgroep, de vragen die hij eerst moet stellen en de vorm van het resultaat.</p></div></div>
+<img src="img/agent-stap2-instructies.png" alt="Het venster om je eigen agent te ontwikkelen, met de instructies erin geplakt" class="agent-img">
+
+<div class="agent-stap"><span>3</span><div><b>Kijk na en klik op "Maken"</b><p>Copilot zet je beschrijving om in een agent met een naam, een omschrijving en instructies. Lees alles na, pas aan waar nodig (bij <strong>Configureren</strong> kan je ook kennisbronnen toevoegen) en klik rechtsboven op <strong>Maken</strong>. Je agent staat daarna in de lijst bij Agents.</p></div></div>
+<img src="img/agent-stap3-maken.png" alt="De Agent Builder met de knop Maken rechtsboven" class="agent-img">
+
+<div class="ib warn">
+  <div class="ib-t">Test eerst zelf</div>
+  <div class="ib-b">Probeer je agent eerst grondig uit: stelt hij de juiste vragen, en blijft hij binnen zijn opdracht? Zet geen persoonsgegevens of vertrouwelijke informatie in de instructies of kennisbronnen. Wil je een agent laten gebruiken door leerlingen, overleg dan eerst met je PICT.</div>
+</div>
+
+<h3 class="ch3">Twee voorbeelden om mee te starten</h3>
+${vb}
+
 <h3 class="ch3">Deel je agent met je vakgroep</h3>
-<p class="cp">Een goede prompt schrijf je één keer en gebruik je daarna samen. Bouw een agent met de vaste afspraken van je vakgroep (leerplan, doelgroep, taal en opmaak) en deel hem met je collega's. Zo bouwt de vakgroep een eigen databank op, en krijgt iedereen materiaal van dezelfde kwaliteit. Startinstructies vind je in de <a href="ai-op-school.html#prompts" target="_blank" rel="noopener">promptbibliotheek</a> ("Instructies voor een vakgroep-agent").</p>
-<div class="ib warn"><div class="ib-t">Let op bij het delen</div><div class="ib-b">Zet geen persoonsgegevens of vertrouwelijke info in de instructies of in gedeelde gesprekken. Wat je deelt, kunnen je collega's lezen.</div></div>
+<p class="cp">Een goede agent bouw je één keer en gebruik je daarna samen. Bouw er een met de vaste afspraken van je vakgroep (leerplan, doelgroep, taal en opmaak) en deel hem met je collega's. Zo krijgt iedereen materiaal van dezelfde kwaliteit. Wat je deelt, kunnen je collega's lezen: zet er dus nooit persoonsgegevens in.</p>
 
 <div class="nw">
   <button class="sr-btn b" onclick="p3()">← Vorige</button>
