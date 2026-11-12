@@ -430,3 +430,55 @@ body > div[style*="position: fixed"] h1,body > div[style*="position: fixed"] h2,
 .tip-doc li{margin:4px 0}
 .tip-doc a{color:var(--blauw);font-weight:800}
 .tip-doc > div{display:flex;gap:8px;flex-wrap:wrap}
+
+/* ===================== RUSTIGE STARTPAGINA (nov 2026) ===================== */
+.start-rij{display:flex;flex-wrap:wrap;align-items:center;gap:14px 18px;margin-top:8px;clear:both}
+.start-knop{cursor:pointer;border:0;border-radius:999px;background:var(--groen);color:var(--blauw);font-weight:800;font-size:1.3rem;padding:18px 36px;font-family:Poppins,system-ui,sans-serif}
+.start-knop:hover{background:var(--groen-mid)}
+.start-info{color:var(--wit);font-weight:600;font-size:.95rem}
+.snel{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:0 24px 32px}
+.snel > *{cursor:pointer;text-align:left;border:2px solid var(--wit);border-radius:24px;background:transparent;color:var(--wit)!important;padding:16px 20px;text-decoration:none!important;display:flex;flex-direction:column;gap:2px;font-family:Poppins,system-ui,sans-serif;font-size:1rem}
+.snel > *:hover{background:rgba(255,255,255,.12)}
+.snel b{font-weight:800;text-transform:uppercase}
+.snel span{font-size:.92rem;font-weight:500}
+.uitvouw-blok{margin:0 24px 28px}
+.uitvouw-kop{color:var(--wit);font-weight:800;text-transform:uppercase;font-size:1.2rem;margin:0 0 12px}
+details.uitvouw{background:var(--wit);color:var(--blauw);border-radius:24px;margin-bottom:10px}
+details.uitvouw > summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:12px;padding:16px 22px;font-weight:800;text-transform:uppercase;font-size:1rem;color:var(--blauw)}
+details.uitvouw > summary::-webkit-details-marker{display:none}
+details.uitvouw > summary::after{content:"+";margin-left:auto;font-size:1.5rem;font-weight:800;line-height:1}
+details.uitvouw[open] > summary::after{content:"–"}
+details.uitvouw .uitvouw-in{padding:0 22px 22px;line-height:1.6}
+details.uitvouw .uitvouw-in > p:first-child{margin-top:0}
+details.uitvouw .sw-sub{margin-bottom:14px}
+details.uitvouw .promo-box{margin:0}
+.start-voet{margin:0 24px 40px;color:var(--wit);font-size:13.5px;line-height:1.6;opacity:.9}
+
+/* Vragen uitvouwen en 'Volgende' vrijgeven */
+details.disc-card{display:block}
+details.disc-card > summary{cursor:pointer;list-style:none;display:flex;gap:12px;align-items:flex-start;margin:0}
+details.disc-card > summary::-webkit-details-marker{display:none}
+details.disc-card > summary::after{content:"+";margin-left:auto;font-weight:800;font-size:1.4rem;line-height:1.1}
+details.disc-card[open] > summary::after{content:"–"}
+details.disc-card .disc-a{margin-top:12px}
+.gate-hint{margin:20px 0 0;padding:12px 16px;border:3px solid var(--groen);border-radius:16px;font-weight:700;color:var(--blauw);font-size:15px}
+.sr-btn[disabled]{opacity:.45!important;cursor:not-allowed}
+
+/* Enquete aan het begin en inschrijving bij het certificaat */
+.gate-kaart{background:#FFFFFF;color:#06038D;border-radius:28px;padding:34px 32px;max-width:560px;width:100%;margin:auto;text-align:left}
+.gate-kaart h2{margin:6px 0 12px;font-weight:800;text-transform:uppercase;font-size:1.45rem;line-height:1.2;color:#06038D}
+.gate-kaart p{margin:0 0 12px;line-height:1.6;font-size:15.5px;color:#06038D}
+.gate-stap{display:inline-block;background:#95D600;color:#06038D;border-radius:999px;padding:4px 14px;font-weight:800;font-size:12.5px;text-transform:uppercase}
+.gate-groot{display:block;text-align:center;background:#95D600;color:#06038D!important;border-radius:999px;padding:16px 20px;margin:18px 0 10px;font-weight:800;font-size:16px;text-decoration:none!important}
+.gate-groot:hover{background:#A6F04A}
+.gate-klein{font-size:13.5px!important;text-align:center}
+.inschrijf-blok{border:6px solid #95D600;border-radius:28px;padding:26px 28px;margin:0 0 24px;background:#FFFFFF;color:#06038D;text-align:left}
+.inschrijf-kop{display:flex;gap:16px;align-items:center;margin-bottom:14px}
+.inschrijf-kop span{flex:none;width:54px;height:54px;border-radius:50%;background:#06038D;color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:28px}
+.inschrijf-kop h3{margin:0;font-weight:800;text-transform:uppercase;font-size:1.35rem;line-height:1.2}
+.inschrijf-kop p{margin:4px 0 0;font-size:15.5px}
+.inschrijf-stappen{margin:0 0 6px;padding-left:22px;line-height:1.8;font-size:16px}
+.inschrijf-hulp{border:2px solid #D9D9D9;margin-top:14px}
+.inschrijf-film{border-radius:14px;overflow:hidden}
+.inschrijf-status{margin:12px 0 0;font-weight:700}
+.inschrijf-status:empty{display:none}
