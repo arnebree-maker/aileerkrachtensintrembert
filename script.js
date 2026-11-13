@@ -156,7 +156,7 @@ function ss(){
 ld();
 
 document.getElementById('un').value = S.name || '';
-function ua(){ const n = (document.getElementById('un').value||'').trim(); document.getElementById('av').textContent = n ? n.charAt(0).toUpperCase() : '?'; const disp=document.getElementById('un-display'); if(disp) disp.textContent = n || 'Naam bij startest ingevuld'; }
+function ua(){ const n = (document.getElementById('un').value||'').trim(); const av=document.getElementById('av'); if(av) av.textContent = n ? n.charAt(0).toUpperCase() : '?'; const disp=document.getElementById('un-display'); if(disp) disp.textContent = n || 'Naam bij startest ingevuld'; }
 function sn(){ S.name = document.getElementById('un').value.trim(); ss(); ua(); }
 // ua(); up(); rmc(); — Worden aangeroepen in DOMContentLoaded
 
@@ -724,7 +724,10 @@ function doTipsPrint(){
 
 function doCertPrint(){
   if(!S.name || !S.name.trim()){
-    if(!confirm('Je naam is nog niet ingevuld (links onderaan in de zijbalk). Het certificaat vermeldt dan "Leerkracht".\n\nToch doorgaan?')) return;
+    const naam = prompt('Welke naam moet er op je certificaat staan?');
+    if(naam === null) return;
+    if(naam.trim()){ S.name = naam.trim(); document.getElementById('un').value = S.name; ss(); ua(); }
+    else if(!confirm('Je hebt geen naam ingevuld. Het certificaat vermeldt dan "Leerkracht".\n\nToch doorgaan?')) return;
   } else {
     if(!confirm('Certificaat + reflecties downloaden?\n\nNaam op certificaat: ' + S.name + '\n\nKies in het afdrukvenster "Opslaan als PDF" en bewaar het bestand. Je kan dit altijd opnieuw doen.')) return;
   }
